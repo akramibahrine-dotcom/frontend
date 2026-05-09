@@ -1,0 +1,208 @@
+@import "tailwindcss";
+
+@theme {
+  /* ─── Dark Green Luxury Palette ─── */
+  --color-forest:        #071C12;   /* hero deep bg */
+  --color-forest-mid:    #0D2B1D;   /* section backgrounds */
+  --color-primary:       #155235;   /* main brand green */
+  --color-primary-hover: #1B6B45;   /* button hover */
+  --color-primary-deep:  #0A3622;   /* deep accents */
+  --color-sage:          #2E7D5A;   /* secondary green */
+  --color-mint:          #C99A45;   /* Replaced with gold */
+  --color-mint-soft:     #FFFFFF;   /* Replaced with white */
+  --color-leaf:          #C99A45;   /* vivid accent replaced with gold */
+
+  /* ─── Neutral / Warmth ─── */
+  --color-cream:         #F5F3EE;   /* off-white bg */
+  --color-sand:          #E8E2D8;   /* light divider */
+  --color-white:         #FFFFFF;
+  --color-gold:          #C99A45;   /* premium accent */
+  --color-gold-light:    #E5C072;
+
+  /* ─── Type ─── */
+  --color-ink:           #0F1A14;
+  --color-muted:         #567063;
+  --color-muted-light:   #8BA898;
+
+  /* ─── Semantic ─── */
+  --color-success:       #16A34A;
+  --color-error:         #B42318;
+
+  --font-arabic: "IBM Plex Sans Arabic", "Tajawal", "Noto Kufi Arabic", sans-serif;
+  --font-sans:   "IBM Plex Sans Arabic", "Tajawal", "Inter", sans-serif;
+
+  --radius-sm:   0.375rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.75rem;
+  --radius-xl:   1rem;
+  --radius-2xl:  1.5rem;
+  --radius-full: 9999px;
+}
+
+html {
+  font-family: var(--font-arabic);
+  direction: rtl;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-cream);
+  color: var(--color-ink);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+* { box-sizing: border-box; }
+
+:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+/* ─── Luxury Hero Gradient ─── */
+.hero-gradient {
+  background: linear-gradient(
+    135deg,
+    var(--color-forest) 0%,
+    var(--color-primary-deep) 40%,
+    var(--color-primary) 80%,
+    var(--color-sage) 100%
+  );
+}
+
+/* ─── Premium CTA Button ─── */
+.btn-luxury {
+  background: var(--color-primary);
+  color: var(--color-white);
+  font-weight: 700;
+  box-shadow: 0 4px 15px rgba(21,82,53,0.4);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-luxury:hover {
+  background: var(--color-primary-hover);
+  box-shadow: 0 6px 20px rgba(21,82,53,0.5);
+  transform: translateY(-1px);
+}
+
+/* ─── Gold Accent Button ─── */
+.btn-gold {
+  background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
+  color: var(--color-forest);
+  font-weight: 700;
+  box-shadow: 0 4px 20px rgba(201,154,69,0.3);
+  transition: box-shadow 0.3s ease, transform 0.2s ease;
+}
+.btn-gold:hover {
+  box-shadow: 0 6px 28px rgba(201,154,69,0.45);
+  transform: translateY(-1px);
+}
+
+/* ─── Glass card effect on dark bg ─── */
+.glass-card {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(110,231,183,0.15);
+  backdrop-filter: blur(12px);
+}
+
+/* ─── Glowing border on product cards ─── */
+.card-glow:hover {
+  box-shadow: 0 0 0 2px var(--color-gold), 0 8px 32px rgba(21,82,53,0.25);
+}
+
+/* ─── Section divider line ─── */
+.divider-mint {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* ─── Drawer / Modal overlay ─── */
+.cart-drawer-overlay {
+  backdrop-filter: blur(4px);
+  background: rgba(7,28,18,0.7);
+}
+
+/* ─── Leaf decorative pattern ─── */
+.leaf-pattern {
+  background-image: radial-gradient(circle at 20% 80%, rgba(110,231,183,0.08) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(74,222,128,0.06) 0%, transparent 50%);
+}
+
+/* ─── Scrollbar ─── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--color-forest-mid); }
+::-webkit-scrollbar-thumb { background: var(--color-sage); border-radius: 3px; }
+
+/* ─── Animations ─── */
+@keyframes slide-in-right {
+  from { transform: translateX(-100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes slide-in-left {
+  from { transform: translateX(100%); }
+  to   { transform: translateX(0); }
+}
+@keyframes fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes scale-in {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+@keyframes float-up {
+  0%   { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(201,154,69,0.3); }
+  50%       { box-shadow: 0 0 22px 6px rgba(201,154,69,0.55); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(50%); }
+}
+
+@keyframes marquee-reviews {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes marquee-brand {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-slide-in-right { animation: slide-in-right 0.3s ease-out; }
+.animate-slide-in-left  { animation: slide-in-left  0.3s ease-out; }
+.animate-fade-in        { animation: fade-in   0.25s ease-out; }
+.animate-scale-in       { animation: scale-in  0.2s  ease-out; }
+.animate-float-up       { animation: float-up  0.5s  ease-out both; }
+.animate-pulse-glow     { animation: pulse-glow 2.5s ease-in-out infinite; }
+.animate-marquee        { animation: marquee 15s linear infinite; }
+.animate-marquee-reviews {
+  width: max-content;
+  animation: marquee-reviews 75s linear infinite;
+}
+.animate-marquee-brand {
+  width: max-content;
+  animation: marquee-brand 55s linear infinite;
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    var(--color-gold) 0%,
+    var(--color-white) 40%,
+    var(--color-gold-light) 60%,
+    var(--color-gold) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer 3s linear infinite;
+}

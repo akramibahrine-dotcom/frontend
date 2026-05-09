@@ -1,0 +1,113 @@
+import { create } from "zustand";
+import { BUNDLE_OFFERS } from "@/content/products";
+import { getPayableBundlePriceSar } from "@/lib/pricing";
+
+export type CartItemSource = "product_page" | "cart_cross_sell" | "checkout_upsell";
+
+export type CartItem = {
+  lineId: string;
+  productId: string;
+  slug: string;
+  nameAr: string;
+  quantity: 1 | 2 | 3;
+  bundlePriceSar: number;
+  imageTheme: string;
+  source: CartItemSource;
+};
+
+type CartState = {
+  items: CartItem[];
+  isOpen: boolean;
+  isCheckoutOpen: boolean;
+
+  addBundle: (
+    productId: string,
+    slug: string,
+    nameAr: string,
+    quantity: 1 | 2 | 3,
+    imageTheme: string,
+    source?: CartItemSource
+  ) => void;
+  removeLine: (lineId: string) => void;
+  updateBundle: (lineId: string, quantity: 1 | 2 | 3) => void;
+  clearCart: () => void;
+  openCart: () => void;
+  closeCart: () => void;
+  openCheckout: () => void;
+  closeCheckout: () => void;
+
+  getTotal: () => number;
+  getItemCount: () => number;
+};
+
+function getBundlePrice(quantity: 1 | 2 | 3): number {
+  return BUNDLE_OFFERS.find((o) => o.quantity === quantity)?.priceSar ?? 199;
+}
+
+export const useCartStore = create<CartState>((set, get) => ({
+  items: [],
+  isOpen: false,
+  isCheckoutOpen: false,
+
+  addBundle: (productId, slug, nameAr, quantity, imageTheme, source = "product_page") => {
+    const existing = get().items.find(
+      (item) => item.productId === productId && item.source !== "checkout_upsell"
+    );
+    if (existing) {
+      set((state) => ({
+        items: state.items.map((item) =>
+          item.lineId === existing.lineId
+            ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity) }
+            : item
+        ),
+      }));
+    } else {
+      const lineId = `${productId}-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+      set((state) => ({
+        items: [
+          ...state.items,
+          {
+            lineId,
+            productId,
+            slug,
+            nameAr,
+            quantity,
+            bundlePriceSar: getBundlePrice(quantity),
+            imageTheme,
+            source,
+          },
+        ],
+      }));
+    }
+  },
+
+  removeLine: (lineId) => {
+    set((state) => ({ items: state.items.filter((item) => item.lineId !== lineId) }));
+  },
+
+  updateBundle: (lineId, quantity) => {
+    set((state) => ({
+      items: state.items.map((item) =>
+        item.lineId === lineId
+          ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity) }
+          : item
+      ),
+    }));
+  },
+
+  clearCart: () => set({ items: [], isOpen: false, isCheckoutOpen: false }),
+
+  openCart: () => set({ isOpen: true }),
+  closeCart: () => set({ isOpen: false }),
+  openCheckout: () => set({ isCheckoutOpen: true }),
+  closeCheckout: () => set({ isCheckoutOpen: false }),
+
+  getTotal: () => {
+    return get().items.reduce(
+      (sum, item) => sum + getPayableBundlePriceSar(item.quantity),
+      0
+    );
+  },
+
+  getItemCount: () => get().items.reduce((sum, item) => sum + item.quantity, 0),
+}));
