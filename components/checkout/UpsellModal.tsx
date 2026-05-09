@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { useRouter } from "next/navigation";
 import { useCartStore, type CartItem } from "@/store/cart-store";
 import { useCurrencyStore } from "@/store/currency-store";
 import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
@@ -27,7 +26,6 @@ type Props = {
 };
 
 export function UpsellModal({ customer, cartItems }: Props) {
-  const router = useRouter();
   const { clearCart } = useCartStore();
   const format = useCurrencyStore((s) => s.format);
   const welcomePromo = useWelcomePromoStore((s) => s.active);
@@ -137,8 +135,29 @@ export function UpsellModal({ customer, cartItems }: Props) {
       ];
 
       trackPurchase(response.order_id, totalSar, contents, purchaseEventId);
+
+      // Save order summary for the thank-you page
+      try {
+        const orderSummary = {
+          orderId: response.order_id,
+          publicOrderNumber: response.public_order_number,
+          customerName: customer.name,
+          totalSar,
+          items: finalItems.map((item) => ({
+            productId: item.productId,
+            quantity: item.quantity,
+            priceSar: item.bundlePriceSar,
+          })),
+          upsell: withUpsell && upsellProduct
+            ? { productId: upsellProduct.id, priceSar: upsellPrice }
+            : null,
+          createdAt: new Date().toISOString(),
+        };
+        localStorage.setItem("baytseha_last_order", JSON.stringify(orderSummary));
+      } catch { /* ignore storage errors */ }
+
       clearCart();
-      router.push(`/thank-you/${response.order_id}`);
+      window.location.href = `/thank-you/${response.order_id}`;
     } catch (err) {
       orderSubmittedRef.current = false;
       const e = err as Error & { code?: string };
