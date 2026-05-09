@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { COPY } from "@/content/copy";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, type ImageTheme } from "@/content/products";
 import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
 
 type OrderItem = {
@@ -26,7 +26,7 @@ function getProductName(productId: string): string {
   return PRODUCTS.find((p) => p.id === productId)?.shortNameAr ?? productId;
 }
 
-function getProductTheme(productId: string): string {
+function getProductTheme(productId: string): ImageTheme {
   return PRODUCTS.find((p) => p.id === productId)?.imageTheme ?? "weight";
 }
 
