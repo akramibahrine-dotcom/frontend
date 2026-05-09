@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { COPY } from "@/content/copy";
 import { PRODUCTS } from "@/content/products";
 import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
 
 export const metadata: Metadata = {
-  title: "تم استلام طلبك",
+  title: "تم استلام طلبك — بيت الصحة",
   robots: { index: false, follow: false },
 };
 
@@ -12,99 +13,154 @@ type Props = { params: Promise<{ orderId: string }> };
 
 export default async function ThankYouPage({ params }: Props) {
   const { orderId } = await params;
+  const shortId = orderId.slice(-8).toUpperCase();
 
-  // Custom selected cross-sells for the Thank You page with a special discounted price
-  // Example: 2 specific products, you can change their IDs or logic later
-  const customCrossSells = PRODUCTS.slice(0, 2).map((p) => ({
-    ...p,
-    specialPrice: 149 // discounted price instead of 199
-  }));
+  const crossSellProducts = PRODUCTS.slice(0, 2);
 
   return (
-    <div className="max-w-[1200px] mx-auto px-4 py-12 md:py-16">
-      <div className="max-w-2xl mx-auto text-center mb-12">
-        {/* Thank You Image Placeholder */}
-        <div className="w-full aspect-[21/9] md:aspect-[21/6] bg-[#071C12] rounded-3xl mb-8 flex flex-col items-center justify-center border-4 border-[#C99A45]/20 shadow-2xl relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-r from-[#155235]/20 to-transparent"></div>
-          <span className="text-5xl md:text-7xl mb-2 relative z-10">🎉</span>
-          <span className="text-[#C99A45] font-bold text-sm md:text-base relative z-10">شعار صورة — يُستبدل لاحقًا</span>
-        </div>
+    <div className="min-h-screen bg-gradient-to-b from-[#F5F3EE] to-white" dir="rtl">
+      <div className="max-w-3xl mx-auto px-4 py-12 md:py-20">
 
-        <h1 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-3">
-          {COPY.thankYou.headlineAr}
-        </h1>
-        <p className="text-[#567063] text-lg mb-8">
-          {COPY.thankYou.subAr}
-        </p>
-
-        {/* Order Resume */}
-        <div className="bg-white border border-[#E8D8C3] shadow-sm rounded-3xl p-6 md:p-8 mb-8 text-right">
-          <h2 className="font-extrabold text-[#0F1A14] text-xl mb-6 border-b border-[#E8D8C3] pb-4">
-            ملخص طلبك #{orderId.slice(-8).toUpperCase()}
-          </h2>
-          
-          <div className="space-y-4 mb-6">
-            <div className="flex justify-between items-center bg-[#F5F3EE] p-4 rounded-xl">
-              <span className="font-bold text-[#0F1A14]">المنتجات المختارة</span>
-              <span className="text-[#155235] font-bold text-sm">ستصلك مع الطلب</span>
-            </div>
+        {/* Success Header */}
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#155235]/10 mb-6">
+            <svg className="w-10 h-10 text-[#155235]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
           </div>
 
-          <div className="space-y-3 border-t border-[#E8D8C3] pt-6">
-            <div className="flex items-center gap-3 text-[#567063]">
-              <span className="text-[#155235] text-xl">🚚</span>
-              <span className="font-bold">التوصيل داخل المملكة بعد تأكيد عنوانك معنا</span>
-            </div>
-            <div className="flex items-center gap-3 text-[#567063]">
-              <span className="text-[#C99A45] text-xl">📋</span>
-              <span className="font-bold">سياسات الإرجاع مذكورة بوضوح — بلا وعودٍ شفهيةٍ لا نستطيع إثباتها</span>
-            </div>
-            <div className="flex items-center gap-3 text-[#567063]">
-              <span className="text-[#155235] text-xl">💬</span>
-              <span className="font-bold">نجيبك قبل وبعد الطلب — اسمٌ واحدٌ: بيت الصحة</span>
-            </div>
-            <div className="flex items-center gap-3 text-[#567063]">
-              <span className="text-[#155235] text-xl">💳</span>
-              <span className="font-bold">{COPY.thankYou.codBadgeAr}</span>
-            </div>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-3 leading-tight">
+            {COPY.thankYou.headlineAr}
+          </h1>
+          <p className="text-[#567063] text-lg leading-relaxed max-w-xl mx-auto">
+            {COPY.thankYou.subAr}
+          </p>
+        </div>
+
+        {/* Order Card */}
+        <div className="bg-white border border-[#E8D8C3]/80 shadow-lg rounded-3xl p-6 md:p-8 mb-8">
+          <div className="flex items-center justify-between border-b border-[#E8D8C3] pb-4 mb-6">
+            <span className="text-sm text-[#567063]">{COPY.thankYou.orderNumberPrefixAr}</span>
+            <span className="font-mono font-bold text-[#155235] text-lg tracking-wide">
+              #{shortId}
+            </span>
           </div>
-        </div>
 
-        <div className="flex items-center justify-center gap-2 text-sm font-bold text-[#C99A45] bg-[#C99A45]/10 p-4 rounded-xl mb-10">
-          <span>⚡</span>
-          <span>{COPY.thankYou.deliveryNoteAr}</span>
-        </div>
-      </div>
-
-      {/* Special Offer Cross Sells */}
-      <div className="border-t-2 border-dashed border-[#E8D8C3] pt-12 max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <span className="inline-block bg-[#B42318]/10 text-[#B42318] text-xs font-bold px-4 py-1.5 rounded-full mb-3">
-            عرض خاص لعملائنا فقط
-          </span>
-          <h2 className="text-2xl md:text-3xl font-extrabold text-[#0F1A14]">
-            رُفوفٌ أخرى في بيت الصحة قد تُكمل يومك
-          </h2>
-        </div>
-        
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-          {customCrossSells.map((product) => (
-            <div key={product.id} className="bg-white rounded-3xl border border-[#E8D8C3] p-4 flex gap-4 items-center shadow-sm hover:shadow-md transition-shadow group">
-              <div className="w-24 h-24 shrink-0 rounded-2xl overflow-hidden">
-                <ProductPlaceholderImage theme={product.imageTheme} aspectRatio="square" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
+          {/* Steps */}
+          <div className="space-y-5">
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#155235] flex items-center justify-center text-white font-bold text-sm shadow-md">
+                1
               </div>
-              <div className="flex-1 text-right">
-                <h3 className="font-bold text-[#0F1A14] text-sm mb-1">{product.nameAr}</h3>
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="font-extrabold text-[#C99A45]">{product.specialPrice} ريال</span>
-                  <span className="text-xs text-[#567063] line-through">199 ريال</span>
+              <div className="pt-1.5">
+                <h3 className="font-bold text-[#0F1A14] text-base">تأكيد الطلب</h3>
+                <p className="text-[#567063] text-sm mt-0.5">
+                  سيتواصل معك فريق بيت الصحة خلال ساعات قليلة لتأكيد عنوانك
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#C99A45]/20 flex items-center justify-center text-[#C99A45] font-bold text-sm border-2 border-[#C99A45]/40">
+                2
+              </div>
+              <div className="pt-1.5">
+                <h3 className="font-bold text-[#0F1A14] text-base">التجهيز والشحن</h3>
+                <p className="text-[#567063] text-sm mt-0.5">
+                  نجهّز طلبك بعناية ونشحنه إلى عنوانك داخل المملكة
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-start gap-4">
+              <div className="flex-shrink-0 w-10 h-10 rounded-full bg-[#E8D8C3]/50 flex items-center justify-center text-[#567063] font-bold text-sm border-2 border-[#E8D8C3]">
+                3
+              </div>
+              <div className="pt-1.5">
+                <h3 className="font-bold text-[#0F1A14] text-base">الاستلام والدفع</h3>
+                <p className="text-[#567063] text-sm mt-0.5">
+                  {COPY.thankYou.codBadgeAr} — ادفع فقط عند استلام الطرد
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Urgency Note */}
+        <div className="flex items-center justify-center gap-3 bg-[#C99A45]/10 border border-[#C99A45]/20 p-4 rounded-2xl mb-10">
+          <span className="text-[#C99A45] text-xl">⚡</span>
+          <span className="text-sm font-bold text-[#0F1A14]">{COPY.thankYou.deliveryNoteAr}</span>
+        </div>
+
+        {/* Trust Signals */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
+          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
+            <span className="text-2xl mb-2 block">🚚</span>
+            <span className="text-xs font-bold text-[#0F1A14]">توصيل داخل المملكة</span>
+          </div>
+          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
+            <span className="text-2xl mb-2 block">🛡️</span>
+            <span className="text-xs font-bold text-[#0F1A14]">ضمان استرجاع 30 يوم</span>
+          </div>
+          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
+            <span className="text-2xl mb-2 block">💬</span>
+            <span className="text-xs font-bold text-[#0F1A14]">فريق يجيبك بالعربي</span>
+          </div>
+        </div>
+
+        {/* Cross-Sell Section */}
+        <div className="border-t-2 border-dashed border-[#E8D8C3] pt-12">
+          <div className="text-center mb-8">
+            <span className="inline-block bg-[#155235]/10 text-[#155235] text-xs font-bold px-4 py-1.5 rounded-full mb-3">
+              أكمل روتينك
+            </span>
+            <h2 className="text-2xl md:text-3xl font-extrabold text-[#0F1A14]">
+              رُفوفٌ أخرى في بيت الصحة قد تُكمل يومك
+            </h2>
+            <p className="text-[#567063] text-sm mt-2">
+              اختر ما يناسبك — لا إلزام ولا ضغط
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {crossSellProducts.map((product) => (
+              <Link
+                key={product.id}
+                href={`/products/${product.slug}`}
+                className="bg-white rounded-3xl border border-[#E8D8C3] p-5 flex gap-4 items-center shadow-sm hover:shadow-lg hover:border-[#C99A45]/40 transition-all duration-200 group"
+              >
+                <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden">
+                  <ProductPlaceholderImage
+                    theme={product.imageTheme}
+                    aspectRatio="square"
+                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <button className="w-full py-2 bg-[#155235] text-white text-xs font-bold rounded-full hover:bg-[#0A3622] transition-colors">
-                  أضف للطلب
-                </button>
-              </div>
-            </div>
-          ))}
+                <div className="flex-1">
+                  <h3 className="font-bold text-[#0F1A14] text-sm mb-1 leading-snug">
+                    {product.shortNameAr}
+                  </h3>
+                  <p className="text-xs text-[#567063] mb-2 line-clamp-2">
+                    {product.headlineAr}
+                  </p>
+                  <span className="inline-block text-xs font-bold text-[#155235] bg-[#155235]/10 px-3 py-1 rounded-full">
+                    تصفّح المنتج ←
+                  </span>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+
+        {/* Back to Shop */}
+        <div className="text-center mt-12">
+          <Link
+            href="/"
+            className="inline-flex items-center gap-2 px-8 py-3 bg-[#155235] text-white font-bold rounded-full hover:bg-[#0A3622] transition-colors shadow-md"
+          >
+            <span>{COPY.thankYou.continueCTAAr}</span>
+            <span className="text-lg">→</span>
+          </Link>
         </div>
       </div>
     </div>
