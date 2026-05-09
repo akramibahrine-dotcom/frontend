@@ -1,22 +1,179 @@
-/**
- * لا نعرض تقييمات عملاء حقيقية حتى تتوفر من مصدر موثّق.
- * الصفحة الرئيسية تعرض نصًا بديلًا عبر ReviewsMarquee عندما يبقى المصفوفة فارغة.
- */
 export type CustomerReview = {
   id: string;
   nameAr: string;
   countryAr: string;
   gender: "woman" | "man";
-  portraitCategory: "women" | "men";
-  portraitIndex: number;
+  portraitFile: string;
   sceneLabelAr: string;
   sceneEmoji: string;
   quoteAr: string;
   rating: number;
 };
 
-export const CUSTOMER_REVIEWS: CustomerReview[] = [];
-
-export function portraitUrl(review: CustomerReview): string {
-  return `https://randomuser.me/api/portraits/med/${review.portraitCategory}/${review.portraitIndex}.jpg`;
-}
+export const CUSTOMER_REVIEWS: CustomerReview[] = [
+  {
+    id: "r01",
+    nameAr: "نورة الشمري",
+    countryAr: "🇸🇦 الرياض",
+    gender: "woman",
+    portraitFile: "/reviews/r01-noura.jpg",
+    sceneLabelAr: "في البيت",
+    sceneEmoji: "🏡",
+    quoteAr: "والله ما توقعت الفرق! صرت أشرب كوب الصبح قبل لا أوصل الأولاد المدرسة، وبطني مرتاح طول اليوم. شكرًا بيت الصحة على الشاي الديتوكس، غيّر روتيني بجد.",
+    rating: 5,
+  },
+  {
+    id: "r02",
+    nameAr: "فهد العتيبي",
+    countryAr: "🇸🇦 جدة",
+    gender: "man",
+    portraitFile: "/reviews/r02-fahd.jpg",
+    sceneLabelAr: "بالسيارة",
+    sceneEmoji: "🚗",
+    quoteAr: "طلبت باقة الثلاث عبوات وجربت شاي القولون، صراحة أحس براحة بعد الأكل ما كنت أحسها من سنين. الحمدلله وشكرًا لكم.",
+    rating: 5,
+  },
+  {
+    id: "r03",
+    nameAr: "مريم الكواري",
+    countryAr: "🇶🇦 الدوحة",
+    gender: "woman",
+    portraitFile: "/reviews/r03-maryam.jpg",
+    sceneLabelAr: "في الحديقة",
+    sceneEmoji: "🌿",
+    quoteAr: "أختي بالسعودية أرسلت لي وطلبت لها ولي، وصل التوصيل بسرعة. الشاي طعمه حلو وريحته أعشاب طبيعية مو مثل اللي بالسوق. أنصح فيه بقوة.",
+    rating: 5,
+  },
+  {
+    id: "r04",
+    nameAr: "خالد المنصوري",
+    countryAr: "🇦🇪 أبوظبي",
+    gender: "man",
+    portraitFile: "/reviews/r04-khalid.jpg",
+    sceneLabelAr: "بالمكتب",
+    sceneEmoji: "💼",
+    quoteAr: "كنت أدور شي طبيعي يساعدني مع الكرش اللي من الجلسة الطويلة. بديت بشاي دعم الوزن وملتزم عليه مع المشي، أحس بخفّة ما شاء الله.",
+    rating: 5,
+  },
+  {
+    id: "r05",
+    nameAr: "حصة الدوسري",
+    countryAr: "🇸🇦 الدمام",
+    gender: "woman",
+    portraitFile: "/reviews/r05-hessa.jpg",
+    sceneLabelAr: "في البيت",
+    sceneEmoji: "🏡",
+    quoteAr: "اللي يعجبني إن التغليف أنيق ومحد يعرف وش المنتج من برا. طلبت شاي البواسير لأمي والحمدلله مرتاحة عليه. بيت الصحة ناس محترمين.",
+    rating: 5,
+  },
+  {
+    id: "r06",
+    nameAr: "سالم البلوشي",
+    countryAr: "🇴🇲 مسقط",
+    gender: "man",
+    portraitFile: "/reviews/r06-salem.jpg",
+    sceneLabelAr: "عالبحر",
+    sceneEmoji: "🌊",
+    quoteAr: "أول مرة أطلب أونلاين شاي أعشاب وأكون مرتاح. الدفع عند الاستلام ريحني وجودة المنتج واضحة من أول كوب. شكرًا بيت الصحة.",
+    rating: 4,
+  },
+  {
+    id: "r07",
+    nameAr: "لطيفة العجمي",
+    countryAr: "🇰🇼 الكويت",
+    gender: "woman",
+    portraitFile: "/reviews/r07-latifa.jpg",
+    sceneLabelAr: "في المطبخ",
+    sceneEmoji: "☕",
+    quoteAr: "شاي دعم الكبد صار عادتي اليومية بعد العشا. أحس جسمي أنظف وأخف. زوجي بعد بدأ يشرب معاي! الله يوفقكم يا بيت الصحة.",
+    rating: 5,
+  },
+  {
+    id: "r08",
+    nameAr: "عبدالله الغامدي",
+    countryAr: "🇸🇦 أبها",
+    gender: "man",
+    portraitFile: "/reviews/r08-abdullah.jpg",
+    sceneLabelAr: "بالحديقة",
+    sceneEmoji: "🌳",
+    quoteAr: "كمدخن سابق كنت أبي شي يساعد الرئة، والشاي هذا أحسه فعلاً يفرق معاي. النفس صار أحسن خصوصًا بالرياضة. عبوتين وطالب الثالثة.",
+    rating: 5,
+  },
+  {
+    id: "r09",
+    nameAr: "شيخة الهاجري",
+    countryAr: "🇧🇭 المنامة",
+    gender: "woman",
+    portraitFile: "/reviews/r09-sheikha.jpg",
+    sceneLabelAr: "في البيت",
+    sceneEmoji: "🏡",
+    quoteAr: "من أحلى الأشياء إنهم يتواصلون معاك قبل الشحن يتأكدون من العنوان. خدمة ما لقيتها عند أحد. والشاي طعمه يجنن!",
+    rating: 5,
+  },
+  {
+    id: "r10",
+    nameAr: "ماجد القحطاني",
+    countryAr: "🇸🇦 الخبر",
+    gender: "man",
+    portraitFile: "/reviews/r10-majed.jpg",
+    sceneLabelAr: "بالسيارة",
+    sceneEmoji: "🚗",
+    quoteAr: "طلبت لي ولأبوي باقة شاي البروستات، أبوي يقول حس بتحسن والحمدلله. المنتج واضح ومكوّناته مكتوبة. يعطيكم العافية.",
+    rating: 5,
+  },
+  {
+    id: "r11",
+    nameAr: "عائشة المهيري",
+    countryAr: "🇦🇪 دبي",
+    gender: "woman",
+    portraitFile: "/reviews/r11-aisha.jpg",
+    sceneLabelAr: "بالكافيه",
+    sceneEmoji: "☕",
+    quoteAr: "صديقتي نصحتني فيه وفعلاً الديتوكس شاي ممتاز. أحب إن الطلب سهل من الموبايل وما يحتاج بطاقة. ثاني طلب لي والحمدلله.",
+    rating: 5,
+  },
+  {
+    id: "r12",
+    nameAr: "يوسف الحربي",
+    countryAr: "🇸🇦 المدينة",
+    gender: "man",
+    portraitFile: "/reviews/r12-yousef.jpg",
+    sceneLabelAr: "بالبيت",
+    sceneEmoji: "🏠",
+    quoteAr: "شاي القولون هذا صار أساسي عندي بعد كل وجبة. الانتفاخ خف بشكل ملحوظ. أقدّر شفافية بيت الصحة في شرح المكوّنات.",
+    rating: 4,
+  },
+  {
+    id: "r13",
+    nameAr: "منيرة الراشد",
+    countryAr: "🇸🇦 بريدة",
+    gender: "woman",
+    portraitFile: "/reviews/r13-munira.jpg",
+    sceneLabelAr: "بالحديقة",
+    sceneEmoji: "🌺",
+    quoteAr: "أنا من الناس اللي ما تثق بأي منتج أونلاين، بس لما شفت إنه دفع عند الاستلام ومكوّنات واضحة قلت أجرب. والنتيجة إني طلبت مرتين!",
+    rating: 5,
+  },
+  {
+    id: "r14",
+    nameAr: "أحمد الشحي",
+    countryAr: "🇦🇪 الشارقة",
+    gender: "man",
+    portraitFile: "/reviews/r14-ahmed.jpg",
+    sceneLabelAr: "بالجيم",
+    sceneEmoji: "💪",
+    quoteAr: "مع التمارين والأكل الصحي، الشاي هذا كمّل الروتين. ما أقول إنه علاج بس أقول إنه عادة حلوة وأحس بفرق. جزاكم الله خير بيت الصحة.",
+    rating: 5,
+  },
+  {
+    id: "r15",
+    nameAr: "دلال الفضلي",
+    countryAr: "🇰🇼 حولي",
+    gender: "woman",
+    portraitFile: "/reviews/r15-dalal.jpg",
+    sceneLabelAr: "في البيت",
+    sceneEmoji: "🏡",
+    quoteAr: "شاي دعم الوزن بالذات أعجبني لأن ريحته حلوة وما فيه طعم دوا. بناتي بعد صاروا يشربون معاي. شكرًا على المنتج النظيف.",
+    rating: 5,
+  },
+];

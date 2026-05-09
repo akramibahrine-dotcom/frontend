@@ -6,7 +6,6 @@ import { PRODUCTS } from "@/content/products";
 import { COPY } from "@/content/copy";
 import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
 import { BrandGalleryMarquee } from "@/components/home/BrandGalleryMarquee";
-import { TrustAntiFraudStrip } from "@/components/home/TrustAntiFraudStrip";
 
 export const metadata: Metadata = {
   title: "بيت الصحة — أعشاب تليق ببيتك، والدفع عند بابك",
@@ -116,8 +115,6 @@ export default function HomePage() {
       </div>
 
       <ReviewsMarquee />
-
-      <TrustAntiFraudStrip />
 
       <BrandGalleryMarquee />
 

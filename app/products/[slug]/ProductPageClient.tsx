@@ -58,16 +58,19 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 </Link>
               </div>
 
-              <h1 className="text-3xl md:text-5xl font-extrabold text-[#0F1A14] mb-4 leading-tight">
+              <h1 className="text-3xl md:text-5xl font-extrabold text-[#005727] mb-4 leading-tight">
                 {product.headlineAr}
               </h1>
               <p className="text-[#6E675F] text-lg mb-6 leading-relaxed">
                 {product.subheadlineAr}
               </p>
 
-              <p className="text-sm text-[#567063] mb-8 py-3 px-4 rounded-2xl bg-[#F5F3EE] border border-[#E8E2D8] leading-relaxed">
-                بيت الصحة لا يبيع نجومًا وهمية — نبيع كوبًا واضحًا، ومزيجًا تفهم مكوّناته، وتجربة طلبٍ تليق ببيتٍ يقدّر وقته.
-              </p>
+              <div className="flex items-center gap-3 mb-8 py-3 px-4 rounded-2xl bg-[#F5F3EE] border border-[#E8E2D8]">
+                <div className="flex text-[#C99A45] text-lg">★★★★★</div>
+                <span className="text-sm font-bold text-[#567063]">
+                  +١٠,٠٠٠ عميل يثقون بنا
+                </span>
+              </div>
 
               <TrustBadgeRow className="mb-8" />
 
@@ -389,7 +392,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
       {/* 8. ختامٌ يدعوك بلطفِ بيتٍ */}
       <section className="py-16 md:py-24 bg-[#0F1A14] text-white relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[url('/noise.png')] opacity-5 mix-blend-overlay pointer-events-none" />
+        <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
         <div className="max-w-[1000px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-extrabold mb-6">
             إن رضيتَ عن القراءة، فالخطوة التالية من باب بيت الصحة

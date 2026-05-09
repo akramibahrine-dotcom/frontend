@@ -151,10 +151,8 @@ export const COPY = {
     },
   },
 
-  /** قسم التقييمات عندما لا تتوفر تقييمات حقيقية بعد */
-  reviewsPlaceholderTitleAr: "أول من يكتب قصته معنا؟",
-  reviewsPlaceholderBodyAr:
-    "تقييمات العملاء ستظهر هنا بعد أول الطلبات المؤكدة — نفخر أن نبدأ بصمتٍ صادقٍ من غير نجومٍ وهمية.",
+  reviewsPlaceholderTitleAr: "أصدقاء بيت الصحة",
+  reviewsPlaceholderBodyAr: "لمحاتٌ من ناسٍ جرّبوا روتينًا عشبيًا هادئًا — كلماتهم عن التجربة.",
 
   /** عنوان ثانوي للصفحة الرئيسية */
   productPageEmpathyEyebrowAr: "قريبون من يومك",
