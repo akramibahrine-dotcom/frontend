@@ -9,14 +9,14 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { UpsellModal } from "./UpsellModal";
 import { COPY } from "@/content/copy";
-import { isValidKsaPhone } from "@/lib/phone";
+import { isValidPhone } from "@/lib/phone";
 import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
   name: z.string().min(2, COPY.checkout.nameErrorAr).max(80, COPY.checkout.nameErrorAr),
-  phone: z.string().refine(isValidKsaPhone, { message: COPY.checkout.phoneErrorAr }),
+  phone: z.string().refine(isValidPhone, { message: COPY.checkout.phoneErrorAr }),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -145,7 +145,7 @@ export function CheckoutModal({ onClose }: Props) {
 
           <div>
             <label htmlFor="checkout-phone" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
-              رقم الجوال السعودي
+              رقم الجوال
             </label>
             <input
               id="checkout-phone"
