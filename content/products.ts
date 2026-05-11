@@ -23,6 +23,7 @@ export type FAQItem = {
 export type Product = {
   id: string;
   slug: string;
+  sku: string;
   nameAr: string;
   shortNameAr: string;
   headlineAr: string;
@@ -41,6 +42,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "weight-support-tea",
     slug: "weight-support-tea",
+    sku: "BAYT-WST-001",
     nameAr: "شاي عشبي من بيت الصحة لمرافقة يومك في إدارة الوزن",
     shortNameAr: "شاي مرافقة الوزن",
     headlineAr: "كوبٌ يوميٌّ يلطّف بداية يومك في مسارٍ أخف",
@@ -85,6 +87,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "colon-comfort-tea",
     slug: "colon-comfort-tea",
+    sku: "BAYT-CCT-002",
     nameAr: "شاي عشبي من بيت الصحة لأيامٍ أهدأ مع البطن والغازات",
     shortNameAr: "شاي راحة البطن",
     headlineAr: "بعد الأكل… كوبٌ يلطّف معدتك ويعيدك لهدوءك",
@@ -123,6 +126,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "hemorrhoid-comfort-tea",
     slug: "hemorrhoid-comfort-tea",
+    sku: "BAYT-HCT-003",
     nameAr: "شاي عشبي من بيت الصحة لمرافقة الراحة اليومية مع البواسير",
     shortNameAr: "شاي مرافقة البواسير",
     headlineAr: "للمواضيع الحسّاسة — طلبٌ بهدوء وطردٌ بلا إحراج",
@@ -158,6 +162,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "liver-wellness-tea",
     slug: "liver-wellness-tea",
+    sku: "BAYT-LWT-004",
     nameAr: "شاي عشبي من بيت الصحة لمرافقة صحة الكبد في يومك",
     shortNameAr: "شاي مرافقة الكبد",
     headlineAr: "كوبٌ صباحيٌّ ينسّق يومك مع حركتك ومائك",
@@ -192,6 +197,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "lung-smoking-support-tea",
     slug: "lung-smoking-support-tea",
+    sku: "BAYT-LST-005",
     nameAr: "شاي عشبي من بيت الصحة لمرافقة الصدر والنفس في أيام التقليل عن التدخين",
     shortNameAr: "شاي مرافقة الصدر",
     headlineAr: "خطوة عطريةٌ بجانب قرارٍ أكبر عن تدخينك",
@@ -227,6 +233,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "prostate-wellness-tea",
     slug: "prostate-wellness-tea",
+    sku: "BAYT-PWT-006",
     nameAr: "شاي عشبي من بيت الصحة لمرافقة رجلٍ يهتمّ بصحّته اليومية",
     shortNameAr: "شاي مرافقة البروستات",
     headlineAr: "هدوءُ روتينٍ يوميٍّ للرجل الذي يتابع نفسه",

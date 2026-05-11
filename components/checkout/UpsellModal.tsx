@@ -20,7 +20,7 @@ import { trackPurchase } from "@/lib/tracking";
 const UPSELL_DURATION_SECONDS = 12;
 
 type Props = {
-  customer: { name: string; phone: string };
+  customer: { name: string; phone: string; address: string };
   cartItems: CartItem[];
   onClose: () => void;
 };
@@ -97,7 +97,11 @@ export function UpsellModal({ customer, cartItems }: Props) {
 
     try {
       const response = await createOrder({
-        customer,
+        customer: {
+          name: customer.name,
+          phone: customer.phone,
+          address: customer.address,
+        },
         promo_code: welcomePromo ? WELCOME_PROMO_CODE : null,
         items: finalItems,
         upsell,

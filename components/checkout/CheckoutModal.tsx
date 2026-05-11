@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 const schema = z.object({
   name: z.string().min(2, COPY.checkout.nameErrorAr).max(80, COPY.checkout.nameErrorAr),
   phone: z.string().refine(isValidPhone, { message: COPY.checkout.phoneErrorAr }),
+  address: z.string().min(5, "أدخلي العنوان كاملاً (حي، شارع، مدينة)").max(500),
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -38,7 +39,7 @@ export function CheckoutModal({ onClose }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", phone: "" },
+    defaultValues: { name: "", phone: "", address: "" },
   });
 
   const total = getTotal();
@@ -53,7 +54,7 @@ export function CheckoutModal({ onClose }: Props) {
   if (showUpsell && formData) {
     return (
       <UpsellModal
-        customer={formData}
+        customer={{ name: formData.name, phone: formData.phone, address: formData.address }}
         onClose={onClose}
         cartItems={items}
       />
@@ -168,6 +169,33 @@ export function CheckoutModal({ onClose }: Props) {
             {errors.phone && (
               <p id="phone-error" className="text-[#B42318] text-xs mt-1">
                 {errors.phone.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="checkout-address" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
+              العنوان الكامل (حي، شارع، مدينة)
+            </label>
+            <input
+              id="checkout-address"
+              type="text"
+              autoComplete="street-address"
+              placeholder="مثال: حي النزهة، شارع الأمير محمد، الرياض"
+              className={cn(
+                "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
+                "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
+                errors.address
+                  ? "border-[#B42318] focus:border-[#B42318]"
+                  : "border-[#155235] focus:border-[#C99A45]"
+              )}
+              {...register("address")}
+              aria-invalid={!!errors.address}
+              aria-describedby={errors.address ? "address-error" : undefined}
+            />
+            {errors.address && (
+              <p id="address-error" className="text-[#B42318] text-xs mt-1">
+                {errors.address.message}
               </p>
             )}
           </div>

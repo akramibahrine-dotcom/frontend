@@ -27,7 +27,7 @@ export type UpsellInput = {
 };
 
 export type CreateOrderPayload = {
-  customer: { name: string; phone: string };
+  customer: { name: string; phone: string; address: string };
   promo_code?: string | null;
   items: Array<{
     productId: string;
@@ -89,7 +89,11 @@ async function apiPost<T>(path: string, body: unknown): Promise<T> {
 
 export async function createOrder(payload: CreateOrderPayload): Promise<CreateOrderResponse> {
   return apiPost<CreateOrderResponse>("/api/v1/orders", {
-    customer: payload.customer,
+    customer: {
+      name: payload.customer.name,
+      phone: payload.customer.phone,
+      address: payload.customer.address,
+    },
     promo_code: payload.promo_code ?? null,
     items: payload.items.map((item) => ({
       product_id: item.productId,
