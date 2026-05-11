@@ -4,30 +4,84 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
 
-type MetricBlock = {
-  visitors: number;
-  clicks: number;
-  orders: number;
-  revenue_sar: number;
-  average_order_value_sar: number;
-  conversion_rate: number;
-};
+const ALL_COUNTRIES: Array<{ code: string; name: string }> = [
+  { code: "AF", name: "Afghanistan" }, { code: "AL", name: "Albania" }, { code: "DZ", name: "Algeria" },
+  { code: "AD", name: "Andorra" }, { code: "AO", name: "Angola" }, { code: "AG", name: "Antigua & Barbuda" },
+  { code: "AR", name: "Argentina" }, { code: "AM", name: "Armenia" }, { code: "AU", name: "Australia" },
+  { code: "AT", name: "Austria" }, { code: "AZ", name: "Azerbaijan" }, { code: "BS", name: "Bahamas" },
+  { code: "BH", name: "Bahrain" }, { code: "BD", name: "Bangladesh" }, { code: "BB", name: "Barbados" },
+  { code: "BY", name: "Belarus" }, { code: "BE", name: "Belgium" }, { code: "BZ", name: "Belize" },
+  { code: "BJ", name: "Benin" }, { code: "BT", name: "Bhutan" }, { code: "BO", name: "Bolivia" },
+  { code: "BA", name: "Bosnia & Herzegovina" }, { code: "BW", name: "Botswana" }, { code: "BR", name: "Brazil" },
+  { code: "BN", name: "Brunei" }, { code: "BG", name: "Bulgaria" }, { code: "BF", name: "Burkina Faso" },
+  { code: "BI", name: "Burundi" }, { code: "KH", name: "Cambodia" }, { code: "CM", name: "Cameroon" },
+  { code: "CA", name: "Canada" }, { code: "CV", name: "Cape Verde" }, { code: "CF", name: "Central African Republic" },
+  { code: "TD", name: "Chad" }, { code: "CL", name: "Chile" }, { code: "CN", name: "China" },
+  { code: "CO", name: "Colombia" }, { code: "KM", name: "Comoros" }, { code: "CG", name: "Congo" },
+  { code: "CD", name: "Congo (DRC)" }, { code: "CR", name: "Costa Rica" }, { code: "CI", name: "Côte d'Ivoire" },
+  { code: "HR", name: "Croatia" }, { code: "CU", name: "Cuba" }, { code: "CY", name: "Cyprus" },
+  { code: "CZ", name: "Czech Republic" }, { code: "DK", name: "Denmark" }, { code: "DJ", name: "Djibouti" },
+  { code: "DM", name: "Dominica" }, { code: "DO", name: "Dominican Republic" }, { code: "EC", name: "Ecuador" },
+  { code: "EG", name: "Egypt" }, { code: "SV", name: "El Salvador" }, { code: "GQ", name: "Equatorial Guinea" },
+  { code: "ER", name: "Eritrea" }, { code: "EE", name: "Estonia" }, { code: "SZ", name: "Eswatini" },
+  { code: "ET", name: "Ethiopia" }, { code: "FJ", name: "Fiji" }, { code: "FI", name: "Finland" },
+  { code: "FR", name: "France" }, { code: "GA", name: "Gabon" }, { code: "GM", name: "Gambia" },
+  { code: "GE", name: "Georgia" }, { code: "DE", name: "Germany" }, { code: "GH", name: "Ghana" },
+  { code: "GR", name: "Greece" }, { code: "GD", name: "Grenada" }, { code: "GT", name: "Guatemala" },
+  { code: "GN", name: "Guinea" }, { code: "GW", name: "Guinea-Bissau" }, { code: "GY", name: "Guyana" },
+  { code: "HT", name: "Haiti" }, { code: "HN", name: "Honduras" }, { code: "HU", name: "Hungary" },
+  { code: "IS", name: "Iceland" }, { code: "IN", name: "India" }, { code: "ID", name: "Indonesia" },
+  { code: "IR", name: "Iran" }, { code: "IQ", name: "Iraq" }, { code: "IE", name: "Ireland" },
+  { code: "IL", name: "Israel" }, { code: "IT", name: "Italy" }, { code: "JM", name: "Jamaica" },
+  { code: "JP", name: "Japan" }, { code: "JO", name: "Jordan" }, { code: "KZ", name: "Kazakhstan" },
+  { code: "KE", name: "Kenya" }, { code: "KI", name: "Kiribati" }, { code: "KP", name: "North Korea" },
+  { code: "KR", name: "South Korea" }, { code: "KW", name: "Kuwait" }, { code: "KG", name: "Kyrgyzstan" },
+  { code: "LA", name: "Laos" }, { code: "LV", name: "Latvia" }, { code: "LB", name: "Lebanon" },
+  { code: "LS", name: "Lesotho" }, { code: "LR", name: "Liberia" }, { code: "LY", name: "Libya" },
+  { code: "LI", name: "Liechtenstein" }, { code: "LT", name: "Lithuania" }, { code: "LU", name: "Luxembourg" },
+  { code: "MG", name: "Madagascar" }, { code: "MW", name: "Malawi" }, { code: "MY", name: "Malaysia" },
+  { code: "MV", name: "Maldives" }, { code: "ML", name: "Mali" }, { code: "MT", name: "Malta" },
+  { code: "MH", name: "Marshall Islands" }, { code: "MR", name: "Mauritania" }, { code: "MU", name: "Mauritius" },
+  { code: "MX", name: "Mexico" }, { code: "FM", name: "Micronesia" }, { code: "MD", name: "Moldova" },
+  { code: "MC", name: "Monaco" }, { code: "MN", name: "Mongolia" }, { code: "ME", name: "Montenegro" },
+  { code: "MA", name: "Morocco" }, { code: "MZ", name: "Mozambique" }, { code: "MM", name: "Myanmar" },
+  { code: "NA", name: "Namibia" }, { code: "NR", name: "Nauru" }, { code: "NP", name: "Nepal" },
+  { code: "NL", name: "Netherlands" }, { code: "NZ", name: "New Zealand" }, { code: "NI", name: "Nicaragua" },
+  { code: "NE", name: "Niger" }, { code: "NG", name: "Nigeria" }, { code: "MK", name: "North Macedonia" },
+  { code: "NO", name: "Norway" }, { code: "OM", name: "Oman" }, { code: "PK", name: "Pakistan" },
+  { code: "PW", name: "Palau" }, { code: "PS", name: "Palestine" }, { code: "PA", name: "Panama" },
+  { code: "PG", name: "Papua New Guinea" }, { code: "PY", name: "Paraguay" }, { code: "PE", name: "Peru" },
+  { code: "PH", name: "Philippines" }, { code: "PL", name: "Poland" }, { code: "PT", name: "Portugal" },
+  { code: "QA", name: "Qatar" }, { code: "RO", name: "Romania" }, { code: "RU", name: "Russia" },
+  { code: "RW", name: "Rwanda" }, { code: "KN", name: "Saint Kitts & Nevis" }, { code: "LC", name: "Saint Lucia" },
+  { code: "VC", name: "Saint Vincent" }, { code: "WS", name: "Samoa" }, { code: "SM", name: "San Marino" },
+  { code: "ST", name: "São Tomé & Príncipe" }, { code: "SA", name: "Saudi Arabia" }, { code: "SN", name: "Senegal" },
+  { code: "RS", name: "Serbia" }, { code: "SC", name: "Seychelles" }, { code: "SL", name: "Sierra Leone" },
+  { code: "SG", name: "Singapore" }, { code: "SK", name: "Slovakia" }, { code: "SI", name: "Slovenia" },
+  { code: "SB", name: "Solomon Islands" }, { code: "SO", name: "Somalia" }, { code: "ZA", name: "South Africa" },
+  { code: "SS", name: "South Sudan" }, { code: "ES", name: "Spain" }, { code: "LK", name: "Sri Lanka" },
+  { code: "SD", name: "Sudan" }, { code: "SR", name: "Suriname" }, { code: "SE", name: "Sweden" },
+  { code: "CH", name: "Switzerland" }, { code: "SY", name: "Syria" }, { code: "TW", name: "Taiwan" },
+  { code: "TJ", name: "Tajikistan" }, { code: "TZ", name: "Tanzania" }, { code: "TH", name: "Thailand" },
+  { code: "TL", name: "Timor-Leste" }, { code: "TG", name: "Togo" }, { code: "TO", name: "Tonga" },
+  { code: "TT", name: "Trinidad & Tobago" }, { code: "TN", name: "Tunisia" }, { code: "TR", name: "Turkey" },
+  { code: "TM", name: "Turkmenistan" }, { code: "TV", name: "Tuvalu" }, { code: "UG", name: "Uganda" },
+  { code: "UA", name: "Ukraine" }, { code: "AE", name: "United Arab Emirates" }, { code: "GB", name: "United Kingdom" },
+  { code: "US", name: "United States" }, { code: "UY", name: "Uruguay" }, { code: "UZ", name: "Uzbekistan" },
+  { code: "VU", name: "Vanuatu" }, { code: "VA", name: "Vatican City" }, { code: "VE", name: "Venezuela" },
+  { code: "VN", name: "Vietnam" }, { code: "YE", name: "Yemen" }, { code: "ZM", name: "Zambia" },
+  { code: "ZW", name: "Zimbabwe" },
+];
+
+const DEVICE_OPTIONS = ["mobile", "desktop", "tablet", "tv"] as const;
+
+type MetricBlock = { visitors: number; clicks: number; orders: number; revenue_sar: number; average_order_value_sar: number; conversion_rate: number };
 
 type Metrics = {
-  clicks: number;
-  unique_sessions: number;
-  orders: number;
-  revenue_sar: number;
-  average_order_value_sar: number;
-  conversion_rate: number;
-  rejected_attempts: number;
-  today: MetricBlock;
-  all_time: MetricBlock;
-  live_visitors: number;
-  new_customers: number;
-  cross_sell_rate: number;
-  upsell_rate: number;
-  products: ProductMetric[];
+  clicks: number; unique_sessions: number; orders: number; revenue_sar: number;
+  average_order_value_sar: number; conversion_rate: number; rejected_attempts: number;
+  today: MetricBlock; all_time: MetricBlock; live_visitors: number; new_customers: number;
+  cross_sell_rate: number; upsell_rate: number; products: ProductMetric[];
   daily: Array<{ date: string; clicks: number; orders: number; revenue_sar: number }>;
   campaign_breakdown: Array<{ campaign: string; orders: number; revenue_sar: number }>;
   traffic_sources: Array<{ source: string; clicks: number }>;
@@ -36,92 +90,44 @@ type Metrics = {
 };
 
 type ProductMetric = {
-  id: string;
-  slug: string;
-  sku: string;
-  name_ar: string;
-  concern_ar: string;
-  bundle_prices_sar: Record<string, number>;
-  upsell_price_sar: number;
-  upsell_product_id: string;
-  cross_sell_product_ids: string[];
-  views: number;
-  add_to_cart: number;
-  orders: number;
-  units: number;
-  revenue_sar: number;
-  conversion_rate: number;
-  cross_sell_units: number;
-  upsell_units: number;
+  id: string; slug: string; sku: string; name_ar: string; concern_ar: string;
+  bundle_prices_sar: Record<string, number>; upsell_price_sar: number;
+  upsell_product_id: string; cross_sell_product_ids: string[];
+  views: number; add_to_cart: number; orders: number; units: number;
+  revenue_sar: number; conversion_rate: number; cross_sell_units: number; upsell_units: number;
 };
 
 type OrderListItem = {
-  id: string;
-  public_order_number: string;
-  status: string;
-  customer_name: string;
-  customer_phone_local: string;
-  total_sar: number;
-  created_at: string;
-  utm_source: string | null;
-  utm_campaign: string | null;
-  country_iso_code: string | null;
-  fraud_reason: string | null;
+  id: string; public_order_number: string; status: string; customer_name: string;
+  customer_phone_local: string; total_sar: number; created_at: string;
+  utm_source: string | null; utm_campaign: string | null;
+  country_iso_code: string | null; fraud_reason: string | null;
 };
 
 type LoginEvent = {
-  id: string;
-  username: string;
-  ip_address: string | null;
-  country_iso_code: string | null;
-  device_type: string | null;
-  browser: string | null;
-  os: string | null;
-  created_at: string;
-  last_seen_at: string;
+  id: string; username: string; ip_address: string | null; country_iso_code: string | null;
+  device_type: string | null; browser: string | null; os: string | null;
+  created_at: string; last_seen_at: string;
 };
 
 type AccessRule = {
-  id: string;
-  name: string;
-  rule_type: "country" | "device" | "ip";
-  value: string;
-  action: "allow" | "block";
-  enabled: boolean;
-  notes: string | null;
-  created_at: string;
-  updated_at: string;
+  id: string; name: string; rule_type: "country" | "device" | "ip";
+  value: string; action: "allow" | "block"; enabled: boolean;
+  notes: string | null; created_at: string; updated_at: string;
 };
 
 type TranslationOverride = {
-  id: string;
-  locale: string;
-  translation_key: string;
-  value: string;
-  enabled: boolean;
-  created_at: string;
-  updated_at: string;
+  id: string; locale: string; translation_key: string; value: string;
+  enabled: boolean; created_at: string; updated_at: string;
 };
 
 type Tab = "command" | "products" | "orders" | "visitors" | "controls" | "translations" | "logins";
 
-function dateDaysAgo(days: number) {
-  const date = new Date();
-  date.setDate(date.getDate() - days);
-  return date.toISOString().slice(0, 10);
-}
-
-function sar(value: number) {
-  return new Intl.NumberFormat("ar-SA", { style: "currency", currency: "SAR", maximumFractionDigits: 0 }).format(value);
-}
-
-function shortDate(value: string) {
-  return new Intl.DateTimeFormat("ar-SA", { dateStyle: "medium", timeStyle: "short" }).format(new Date(value));
-}
-
-function percent(value: number) {
-  return `${value.toFixed(2)}%`;
-}
+function dateDaysAgo(days: number) { const d = new Date(); d.setDate(d.getDate() - days); return d.toISOString().slice(0, 10); }
+function sar(v: number) { return new Intl.NumberFormat("ar-SA", { style: "currency", currency: "SAR", maximumFractionDigits: 0 }).format(v); }
+function shortDate(v: string) { return new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date(v)); }
+function pct(v: number) { return `${v.toFixed(1)}%`; }
+function countryName(code: string) { return ALL_COUNTRIES.find((c) => c.code === code)?.name ?? code; }
 
 export function AdminDashboardClient() {
   const [username, setUsername] = useState("");
@@ -142,92 +148,50 @@ export function AdminDashboardClient() {
   const headers = useMemo(() => (auth ? { Authorization: `Basic ${auth}`, "Content-Type": "application/json" } : undefined), [auth]);
 
   const adminFetch = useCallback(async function adminFetch<T>(path: string, init: RequestInit = {}, token = auth): Promise<T> {
-    const res = await fetch(`${API_BASE}${path}`, {
-      ...init,
-      headers: {
-        ...(init.headers || {}),
-        Authorization: `Basic ${token}`,
-        "Content-Type": "application/json",
-      },
-      cache: "no-store",
-    });
-    if (res.status === 401) throw new Error("بيانات الدخول غير صحيحة.");
-    if (!res.ok) throw new Error("تعذر تحميل بيانات لوحة التحكم.");
+    const res = await fetch(`${API_BASE}${path}`, { ...init, headers: { ...(init.headers || {}), Authorization: `Basic ${token}`, "Content-Type": "application/json" }, cache: "no-store" });
+    if (res.status === 401) throw new Error("Invalid credentials.");
+    if (!res.ok) throw new Error("Failed to load dashboard data.");
     return res.json() as Promise<T>;
   }, [auth]);
 
-  async function loadData(token = auth) {
+  const loadData = useCallback(async (token = auth) => {
     if (!token) return;
     setLoading(true);
     setError(null);
     const params = new URLSearchParams({ start: `${start}T00:00:00.000Z`, end: `${end}T23:59:59.999Z` });
     try {
-      const [metricsData, ordersData, loginsData, rulesData, translationsData] = await Promise.all([
-        adminFetch<Metrics>(`/api/v1/admin/metrics?${params.toString()}`, {}, token),
-        adminFetch<{ orders: OrderListItem[] }>(`/api/v1/admin/orders?${params.toString()}&limit=200`, {}, token),
+      const [m, o, l, r, t] = await Promise.all([
+        adminFetch<Metrics>(`/api/v1/admin/metrics?${params}`, {}, token),
+        adminFetch<{ orders: OrderListItem[] }>(`/api/v1/admin/orders?${params}&limit=200`, {}, token),
         adminFetch<{ logins: LoginEvent[]; live: LoginEvent[] }>("/api/v1/admin/logins", {}, token),
         adminFetch<{ rules: AccessRule[] }>("/api/v1/admin/access-rules", {}, token),
         adminFetch<{ translations: TranslationOverride[] }>("/api/v1/admin/translations", {}, token),
       ]);
-      setMetrics(metricsData);
-      setOrders(ordersData.orders);
-      setLogins(loginsData.logins);
-      setLiveLogins(loginsData.live);
-      setRules(rulesData.rules);
-      setTranslations(translationsData.translations);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "صار خطأ غير متوقع.");
-    } finally {
-      setLoading(false);
-    }
-  }
+      setMetrics(m); setOrders(o.orders); setLogins(l.logins); setLiveLogins(l.live); setRules(r.rules); setTranslations(t.translations);
+    } catch (err) { setError(err instanceof Error ? err.message : "Unexpected error."); }
+    finally { setLoading(false); }
+  }, [adminFetch, auth, end, start]);
 
   async function login(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const token = btoa(`${username}:${password}`);
     setAuth(token);
-    try {
-      await adminFetch("/api/v1/admin/session", { method: "POST" }, token);
-    } catch {
-      // loadData will surface the auth error in the UI.
-    }
+    try { await adminFetch("/api/v1/admin/session", { method: "POST" }, token); } catch { /* loadData handles it */ }
     void loadData(token);
   }
 
-  useEffect(() => {
-    if (!auth) return;
-    const params = new URLSearchParams({ start: `${start}T00:00:00.000Z`, end: `${end}T23:59:59.999Z` });
-    setLoading(true);
-    setError(null);
-    Promise.all([
-      adminFetch<Metrics>(`/api/v1/admin/metrics?${params.toString()}`, {}, auth),
-      adminFetch<{ orders: OrderListItem[] }>(`/api/v1/admin/orders?${params.toString()}&limit=200`, {}, auth),
-      adminFetch<{ logins: LoginEvent[]; live: LoginEvent[] }>("/api/v1/admin/logins", {}, auth),
-      adminFetch<{ rules: AccessRule[] }>("/api/v1/admin/access-rules", {}, auth),
-      adminFetch<{ translations: TranslationOverride[] }>("/api/v1/admin/translations", {}, auth),
-    ])
-      .then(([metricsData, ordersData, loginsData, rulesData, translationsData]) => {
-        setMetrics(metricsData);
-        setOrders(ordersData.orders);
-        setLogins(loginsData.logins);
-        setLiveLogins(loginsData.live);
-        setRules(rulesData.rules);
-        setTranslations(translationsData.translations);
-      })
-      .catch((err) => setError(err instanceof Error ? err.message : "صار خطأ غير متوقع."))
-      .finally(() => setLoading(false));
-  }, [adminFetch, auth, end, start]);
+  useEffect(() => { if (auth) void loadData(); }, [auth, loadData]);
 
   if (!auth) {
     return (
       <section className="min-h-[70vh] bg-[#071C12] px-4 py-16 text-white">
         <div className="mx-auto max-w-md rounded-[2rem] border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur">
           <p className="mb-2 text-sm font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha Admin</p>
-          <h1 className="mb-6 text-3xl font-black">دخول مركز التحكم</h1>
+          <h1 className="mb-6 text-3xl font-black">Admin Login</h1>
           <form onSubmit={login} className="space-y-4">
-            <input className="w-full rounded-2xl bg-white px-4 py-3 text-[#071C12]" placeholder="اسم المستخدم" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input className="w-full rounded-2xl bg-white px-4 py-3 text-[#071C12]" placeholder="كلمة المرور" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className="w-full rounded-2xl bg-[#C99A45] py-3 font-black text-[#071C12]" type="submit">دخول</button>
+            <input className="w-full rounded-2xl bg-white px-4 py-3 text-[#071C12]" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input className="w-full rounded-2xl bg-white px-4 py-3 text-[#071C12]" placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button className="w-full rounded-2xl bg-[#C99A45] py-3 font-black text-[#071C12]" type="submit">Login</button>
           </form>
           {error && <p className="mt-4 rounded-xl bg-red-500/15 p-3 text-sm text-red-100">{error}</p>}
         </div>
@@ -238,240 +202,489 @@ export function AdminDashboardClient() {
   return (
     <section className="min-h-screen bg-[#F5F3EE] px-4 py-8 text-[#0F1A14]">
       <div className="mx-auto max-w-7xl">
-        <Hero start={start} end={end} setStart={setStart} setEnd={setEnd} refresh={() => void loadData()} loading={loading} />
+        <HeroBar start={start} end={end} setStart={setStart} setEnd={setEnd} refresh={() => void loadData()} loading={loading} />
         {error && <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-700">{error}</div>}
         <nav className="mb-6 flex flex-wrap gap-2">
-          {[
-            ["command", "Command"],
-            ["products", "Products"],
-            ["orders", "Orders"],
-            ["visitors", "Visitors"],
-            ["controls", "Access Control"],
-            ["translations", "Translation"],
-            ["logins", "Logins"],
-          ].map(([id, label]) => (
-            <button key={id} onClick={() => setTab(id as Tab)} className={`rounded-full px-4 py-2 text-sm font-black ${tab === id ? "bg-[#155235] text-white" : "bg-white text-[#155235]"}`}>
-              {label}
-            </button>
+          {([["command", "Dashboard"], ["products", "Products"], ["orders", "Orders"], ["visitors", "Visitors"], ["controls", "Access Control"], ["translations", "Translation"], ["logins", "Logins"]] as const).map(([id, label]) => (
+            <button key={id} onClick={() => setTab(id)} className={`rounded-full px-5 py-2 text-sm font-black transition ${tab === id ? "bg-[#155235] text-white shadow-md" : "bg-white text-[#155235] hover:bg-[#155235]/10"}`}>{label}</button>
           ))}
         </nav>
 
-        {metrics && tab === "command" && <Command metrics={metrics} />}
-        {metrics && tab === "products" && <Products products={metrics.products} />}
-        {tab === "orders" && <Orders orders={orders} />}
-        {metrics && tab === "visitors" && <Visitors metrics={metrics} />}
-        {tab === "controls" && headers && <AccessControls headers={headers} rules={rules} reload={() => void loadData()} />}
-        {tab === "translations" && headers && <Translations headers={headers} translations={translations} reload={() => void loadData()} />}
-        {tab === "logins" && <Logins logins={logins} live={liveLogins} />}
+        {metrics && tab === "command" && <CommandTab metrics={metrics} />}
+        {metrics && tab === "products" && <ProductsTab products={metrics.products} />}
+        {tab === "orders" && metrics && <OrdersTab orders={orders} products={metrics.products} />}
+        {metrics && tab === "visitors" && <VisitorsTab metrics={metrics} />}
+        {tab === "controls" && headers && <AccessControlTab headers={headers} rules={rules} reload={() => void loadData()} />}
+        {tab === "translations" && headers && <TranslationsTab headers={headers} translations={translations} reload={() => void loadData()} />}
+        {tab === "logins" && <LoginsTab logins={logins} live={liveLogins} />}
       </div>
     </section>
   );
 }
 
-function Hero(props: { start: string; end: string; setStart: (v: string) => void; setEnd: (v: string) => void; refresh: () => void; loading: boolean }) {
+/* ─── Hero Bar ─── */
+function HeroBar(props: { start: string; end: string; setStart: (v: string) => void; setEnd: (v: string) => void; refresh: () => void; loading: boolean }) {
   return (
     <div className="mb-6 rounded-[2rem] bg-[#071C12] p-6 text-white shadow-xl">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="mb-2 text-sm font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha command center</p>
-          <h1 className="text-3xl font-black">كل بيانات المتجر في مكان واحد</h1>
-          <p className="mt-2 text-sm text-white/70">زوار مباشرون، مبيعات، منتجات، تحكم بالدخول، ترجمة، وسجل دخول الأدمن.</p>
+          <p className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha Command Center</p>
+          <h1 className="text-2xl font-black">Store Analytics & Control Panel</h1>
         </div>
         <div className="flex flex-wrap items-end gap-3">
-          <label className="text-sm text-white/80">من<input className="mt-1 block rounded-xl px-3 py-2 text-[#071C12]" type="date" value={props.start} onChange={(e) => props.setStart(e.target.value)} /></label>
-          <label className="text-sm text-white/80">إلى<input className="mt-1 block rounded-xl px-3 py-2 text-[#071C12]" type="date" value={props.end} onChange={(e) => props.setEnd(e.target.value)} /></label>
-          <button onClick={props.refresh} className="rounded-xl bg-[#C99A45] px-5 py-2.5 font-black text-[#071C12]">{props.loading ? "..." : "تحديث"}</button>
+          <label className="text-xs text-white/80">From<input className="mt-1 block rounded-xl px-3 py-2 text-sm text-[#071C12]" type="date" value={props.start} onChange={(e) => props.setStart(e.target.value)} /></label>
+          <label className="text-xs text-white/80">To<input className="mt-1 block rounded-xl px-3 py-2 text-sm text-[#071C12]" type="date" value={props.end} onChange={(e) => props.setEnd(e.target.value)} /></label>
+          <button onClick={props.refresh} className="rounded-xl bg-[#C99A45] px-5 py-2.5 text-sm font-black text-[#071C12]">{props.loading ? "Loading..." : "Refresh"}</button>
         </div>
       </div>
     </div>
   );
 }
 
-function Command({ metrics }: { metrics: Metrics }) {
+/* ─── Dashboard / Command ─── */
+function CommandTab({ metrics: m }: { metrics: Metrics }) {
   return (
     <div className="space-y-6">
-      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-6">
-        <Kpi title="Live visitors" value={String(metrics.live_visitors)} dark />
-        <Kpi title="Visitors today" value={String(metrics.today.visitors)} />
-        <Kpi title="All visitors" value={String(metrics.all_time.visitors)} />
-        <Kpi title="Orders" value={String(metrics.orders)} />
-        <Kpi title="Revenue" value={sar(metrics.revenue_sar)} dark />
-        <Kpi title="AOV" value={sar(metrics.average_order_value_sar)} />
-        <Kpi title="Conversion" value={percent(metrics.conversion_rate)} />
-        <Kpi title="Cross-sell rate" value={percent(metrics.cross_sell_rate)} />
-        <Kpi title="Upsell rate" value={percent(metrics.upsell_rate)} />
-        <Kpi title="New customers" value={String(metrics.new_customers)} />
-        <Kpi title="Rejected attempts" value={String(metrics.rejected_attempts)} />
-        <Kpi title="Today revenue" value={sar(metrics.today.revenue_sar)} />
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
+        <Kpi label="Live Visitors" value={m.live_visitors} accent />
+        <Kpi label="Visitors Today" value={m.today.visitors} />
+        <Kpi label="All Time Visitors" value={m.all_time.visitors} />
+        <Kpi label="Total Orders" value={m.orders} />
+        <Kpi label="Revenue" value={sar(m.revenue_sar)} accent />
+        <Kpi label="AOV" value={sar(m.average_order_value_sar)} />
+        <Kpi label="Conversion" value={pct(m.conversion_rate)} />
+        <Kpi label="Cross-sell" value={pct(m.cross_sell_rate)} />
+        <Kpi label="Upsell" value={pct(m.upsell_rate)} />
+        <Kpi label="New Customers" value={m.new_customers} />
+        <Kpi label="Rejected" value={m.rejected_attempts} />
+        <Kpi label="Today Revenue" value={sar(m.today.revenue_sar)} />
       </div>
       <div className="grid gap-6 xl:grid-cols-3">
-        <Panel title="Orders by Day">
-          <Table rows={metrics.daily} cols={[["date", "Day"], ["clicks", "Clicks"], ["orders", "Orders"], ["revenue_sar", "Revenue"]]} moneyCols={["revenue_sar"]} />
-        </Panel>
-        <Panel title="Campaigns">
-          <Stack items={metrics.campaign_breakdown.map((c) => ({ label: c.campaign, meta: `${c.orders} orders`, value: sar(c.revenue_sar) }))} />
-        </Panel>
-        <Panel title="Traffic Sources">
-          <Stack items={metrics.traffic_sources.map((s) => ({ label: s.source, meta: "clicks", value: String(s.clicks) }))} />
-        </Panel>
+        <Card title="Daily Performance">
+          <DataTable rows={m.daily} cols={[["date", "Day"], ["clicks", "Clicks"], ["orders", "Orders"], ["revenue_sar", "Revenue"]]} money={["revenue_sar"]} />
+        </Card>
+        <Card title="Campaign Performance">
+          <StackList items={m.campaign_breakdown.map((c) => ({ label: c.campaign, sub: `${c.orders} orders`, value: sar(c.revenue_sar) }))} />
+        </Card>
+        <Card title="Traffic Sources">
+          <StackList items={m.traffic_sources.map((s) => ({ label: s.source, sub: "clicks", value: String(s.clicks) }))} />
+        </Card>
       </div>
     </div>
   );
 }
 
-function Products({ products }: { products: ProductMetric[] }) {
+/* ─── Products Tab ─── */
+function ProductsTab({ products }: { products: ProductMetric[] }) {
   return (
-    <div className="grid gap-4 lg:grid-cols-2">
-      {products.map((p) => (
-        <Panel key={p.id} title={p.name_ar}>
-          <div className="grid gap-3 text-sm md:grid-cols-2">
-            <Info label="SKU" value={p.sku} />
-            <Info label="Slug" value={p.slug} />
-            <Info label="Concern" value={p.concern_ar} />
-            <Info label="Prices" value={`1=${p.bundle_prices_sar[1]} / 2=${p.bundle_prices_sar[2]} / 3=${p.bundle_prices_sar[3]} SAR`} />
-            <Info label="Upsell" value={`${p.upsell_product_id} (${p.upsell_price_sar} SAR)`} />
-            <Info label="Cross sells" value={p.cross_sell_product_ids.join(", ")} />
-            <Info label="Views" value={String(p.views)} />
-            <Info label="Add to cart" value={String(p.add_to_cart)} />
-            <Info label="Orders" value={String(p.orders)} />
-            <Info label="Units" value={String(p.units)} />
-            <Info label="Revenue" value={sar(p.revenue_sar)} />
-            <Info label="Conversion" value={percent(p.conversion_rate)} />
-            <Info label="Cross-sell units" value={String(p.cross_sell_units)} />
-            <Info label="Upsell units" value={String(p.upsell_units)} />
+    <div className="space-y-4">
+      <Card title="All Products Overview">
+        <div className="overflow-auto">
+          <table className="w-full min-w-[900px] text-sm">
+            <thead>
+              <tr className="border-b border-[#E8E2D8] text-left text-xs font-bold uppercase text-[#567063]">
+                <th className="px-3 py-3">Product</th>
+                <th className="px-3 py-3">SKU</th>
+                <th className="px-3 py-3 text-center">1 pc</th>
+                <th className="px-3 py-3 text-center">2 pcs</th>
+                <th className="px-3 py-3 text-center">3 pcs</th>
+                <th className="px-3 py-3 text-center">Views</th>
+                <th className="px-3 py-3 text-center">Cart</th>
+                <th className="px-3 py-3 text-center">Orders</th>
+                <th className="px-3 py-3 text-center">Units</th>
+                <th className="px-3 py-3 text-right">Revenue</th>
+                <th className="px-3 py-3 text-center">Conv.</th>
+                <th className="px-3 py-3 text-center">Cross</th>
+                <th className="px-3 py-3 text-center">Upsell</th>
+              </tr>
+            </thead>
+            <tbody>
+              {products.map((p) => (
+                <tr key={p.id} className="border-b border-[#E8E2D8] hover:bg-[#F5F3EE]/60">
+                  <td className="px-3 py-3">
+                    <p className="font-bold">{p.name_ar}</p>
+                    <p className="text-xs text-[#567063]">{p.concern_ar}</p>
+                  </td>
+                  <td className="px-3 py-3 font-mono text-xs">{p.sku}</td>
+                  <td className="px-3 py-3 text-center">{p.bundle_prices_sar[1]} SAR</td>
+                  <td className="px-3 py-3 text-center">{p.bundle_prices_sar[2]} SAR</td>
+                  <td className="px-3 py-3 text-center">{p.bundle_prices_sar[3]} SAR</td>
+                  <td className="px-3 py-3 text-center">{p.views}</td>
+                  <td className="px-3 py-3 text-center">{p.add_to_cart}</td>
+                  <td className="px-3 py-3 text-center font-bold">{p.orders}</td>
+                  <td className="px-3 py-3 text-center">{p.units}</td>
+                  <td className="px-3 py-3 text-right font-bold text-[#155235]">{sar(p.revenue_sar)}</td>
+                  <td className="px-3 py-3 text-center"><Badge value={pct(p.conversion_rate)} good={p.conversion_rate > 2} /></td>
+                  <td className="px-3 py-3 text-center">{p.cross_sell_units}</td>
+                  <td className="px-3 py-3 text-center">{p.upsell_units}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+/* ─── Orders Tab ─── */
+function OrdersTab({ orders, products }: { orders: OrderListItem[]; products: ProductMetric[] }) {
+  const [period, setPeriod] = useState<"all" | "month" | "today">("all");
+
+  const filteredOrders = useMemo(() => {
+    if (period === "all") return orders;
+    const now = new Date();
+    const cutoff = new Date();
+    if (period === "today") cutoff.setHours(0, 0, 0, 0);
+    else { cutoff.setDate(1); cutoff.setHours(0, 0, 0, 0); }
+    return orders.filter((o) => { const d = new Date(o.created_at); return d >= cutoff && d <= now; });
+  }, [orders, period]);
+
+  return (
+    <div className="space-y-6">
+      <div className="flex gap-2">
+        {(["all", "month", "today"] as const).map((p) => (
+          <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-1.5 text-xs font-black ${period === p ? "bg-[#155235] text-white" : "bg-white text-[#155235]"}`}>
+            {p === "all" ? "All Time" : p === "month" ? "This Month" : "Today"}
+          </button>
+        ))}
+      </div>
+
+      <Card title={`Orders by Product (${period === "all" ? "All Time" : period === "month" ? "This Month" : "Today"})`}>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {products.map((p) => (
+            <div key={p.id} className="rounded-2xl border border-[#E8E2D8] p-4">
+              <p className="font-bold">{p.name_ar}</p>
+              <div className="mt-2 flex items-baseline gap-3">
+                <span className="text-3xl font-black text-[#155235]">{p.orders}</span>
+                <span className="text-sm text-[#567063]">orders</span>
+                <span className="ml-auto text-sm font-bold">{sar(p.revenue_sar)}</span>
+              </div>
+              <div className="mt-1 text-xs text-[#567063]">{p.units} units sold &middot; {pct(p.conversion_rate)} conv.</div>
+            </div>
+          ))}
+        </div>
+      </Card>
+
+      <Card title={`Order List (${filteredOrders.length})`}>
+        <DataTable rows={filteredOrders} cols={[["public_order_number", "Order #"], ["customer_name", "Customer"], ["customer_phone_local", "Phone"], ["total_sar", "Total"], ["created_at", "Date"], ["utm_campaign", "Campaign"], ["country_iso_code", "Country"], ["fraud_reason", "Fraud"]]} money={["total_sar"]} dates={["created_at"]} />
+      </Card>
+    </div>
+  );
+}
+
+/* ─── Visitors Tab ─── */
+function VisitorsTab({ metrics: m }: { metrics: Metrics }) {
+  const thisMonthVisitors = useMemo(() => {
+    const now = new Date();
+    const monthStart = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}-01`;
+    return m.daily.filter((d) => d.date >= monthStart).reduce((sum, d) => sum + d.clicks, 0);
+  }, [m.daily]);
+
+  return (
+    <div className="space-y-6">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Kpi label="Live Now" value={m.live_visitors} accent />
+        <Kpi label="Today" value={m.today.visitors} />
+        <Kpi label="This Month" value={thisMonthVisitors} />
+        <Kpi label="All Time" value={m.all_time.visitors} />
+      </div>
+
+      <div className="grid gap-6 xl:grid-cols-3">
+        <Card title="Daily Visitors">
+          <DataTable rows={m.daily} cols={[["date", "Day"], ["clicks", "Visits"]]} />
+        </Card>
+        <Card title="By Device">
+          <DataTable rows={m.device_breakdown} cols={[["device", "Device"], ["visitors", "Visitors"], ["clicks", "Page Views"]]} />
+        </Card>
+        <Card title="By Country">
+          <DataTable rows={m.country_breakdown} cols={[["country", "Country"], ["visitors", "Visitors"], ["clicks", "Page Views"]]} />
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Access Control Tab ─── */
+function AccessControlTab({ headers, rules, reload }: { headers: Record<string, string>; rules: AccessRule[]; reload: () => void }) {
+  const [ruleType, setRuleType] = useState<"device" | "country">("device");
+  const [action, setAction] = useState<"block" | "allow">("block");
+  const [selectedDevices, setSelectedDevices] = useState<string[]>([]);
+  const [selectedCountries, setSelectedCountries] = useState<string[]>([]);
+  const [countrySearch, setCountrySearch] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState<string | null>(null);
+
+  const filteredCountries = useMemo(() => {
+    const q = countrySearch.toLowerCase();
+    if (!q) return ALL_COUNTRIES;
+    return ALL_COUNTRIES.filter((c) => c.name.toLowerCase().includes(q) || c.code.toLowerCase().includes(q));
+  }, [countrySearch]);
+
+  function toggleDevice(d: string) {
+    setSelectedDevices((prev) => prev.includes(d) ? prev.filter((x) => x !== d) : [...prev, d]);
+  }
+
+  function toggleCountry(code: string) {
+    setSelectedCountries((prev) => prev.includes(code) ? prev.filter((x) => x !== code) : [...prev, code]);
+  }
+
+  async function saveRules() {
+    setSaving(true);
+    const items = ruleType === "device" ? selectedDevices : selectedCountries;
+    try {
+      for (const value of items) {
+        const name = ruleType === "device"
+          ? `${action === "block" ? "Block" : "Allow"} ${value}`
+          : `${action === "block" ? "Block" : "Allow"} ${countryName(value)}`;
+        await fetch(`${API_BASE}/api/v1/admin/access-rules`, {
+          method: "POST", headers,
+          body: JSON.stringify({ name, rule_type: ruleType, value, action, enabled: true, notes: null }),
+        });
+      }
+      setSelectedDevices([]); setSelectedCountries([]); setCountrySearch("");
+      reload();
+    } finally { setSaving(false); }
+  }
+
+  async function deleteRule(id: string) {
+    setDeleting(id);
+    try {
+      await fetch(`${API_BASE}/api/v1/admin/access-rules/${id}`, {
+        method: "PUT", headers,
+        body: JSON.stringify({ name: "deleted", rule_type: "ip", value: "0.0.0.0", action: "block", enabled: false, notes: "disabled" }),
+      });
+      reload();
+    } finally { setDeleting(null); }
+  }
+
+  return (
+    <div className="space-y-6">
+      <Card title="Add Access Rule">
+        <div className="space-y-4">
+          <div className="flex gap-2">
+            <button onClick={() => setRuleType("device")} className={`rounded-full px-4 py-2 text-sm font-black ${ruleType === "device" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>Devices</button>
+            <button onClick={() => setRuleType("country")} className={`rounded-full px-4 py-2 text-sm font-black ${ruleType === "country" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>Countries</button>
           </div>
-        </Panel>
+
+          <div className="flex gap-2">
+            <button onClick={() => setAction("block")} className={`rounded-full px-4 py-2 text-sm font-black ${action === "block" ? "bg-red-600 text-white" : "bg-[#F5F3EE] text-red-600"}`}>Block</button>
+            <button onClick={() => setAction("allow")} className={`rounded-full px-4 py-2 text-sm font-black ${action === "allow" ? "bg-emerald-600 text-white" : "bg-[#F5F3EE] text-emerald-600"}`}>Allow (Whitelist)</button>
+          </div>
+
+          {ruleType === "device" && (
+            <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+              {DEVICE_OPTIONS.map((d) => (
+                <button key={d} onClick={() => toggleDevice(d)} className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition ${selectedDevices.includes(d) ? "border-[#155235] bg-[#155235]/5" : "border-[#E8E2D8] hover:border-[#155235]/30"}`}>
+                  <span className="text-2xl">{d === "mobile" ? "📱" : d === "desktop" ? "💻" : d === "tablet" ? "📋" : "📺"}</span>
+                  <span className="text-sm font-bold capitalize">{d}</span>
+                </button>
+              ))}
+            </div>
+          )}
+
+          {ruleType === "country" && (
+            <div>
+              <input className="mb-3 w-full rounded-xl border border-[#E8E2D8] px-4 py-2.5 text-sm" placeholder="Search countries..." value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} />
+              {selectedCountries.length > 0 && (
+                <div className="mb-3 flex flex-wrap gap-1.5">
+                  {selectedCountries.map((code) => (
+                    <span key={code} className="inline-flex items-center gap-1 rounded-full bg-[#155235] px-3 py-1 text-xs font-bold text-white">
+                      {countryName(code)}
+                      <button onClick={() => toggleCountry(code)} className="ml-1 text-white/70 hover:text-white">&times;</button>
+                    </span>
+                  ))}
+                </div>
+              )}
+              <div className="max-h-[280px] overflow-auto rounded-xl border border-[#E8E2D8]">
+                {filteredCountries.map((c) => (
+                  <button key={c.code} onClick={() => toggleCountry(c.code)} className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-[#F5F3EE] ${selectedCountries.includes(c.code) ? "bg-[#155235]/5 font-bold" : ""}`}>
+                    <span className={`inline-flex h-5 w-5 items-center justify-center rounded border text-xs ${selectedCountries.includes(c.code) ? "border-[#155235] bg-[#155235] text-white" : "border-[#E8E2D8]"}`}>
+                      {selectedCountries.includes(c.code) ? "✓" : ""}
+                    </span>
+                    <span className="font-mono text-xs text-[#567063]">{c.code}</span>
+                    <span>{c.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <button onClick={saveRules} disabled={saving || (ruleType === "device" ? !selectedDevices.length : !selectedCountries.length)} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
+            {saving ? "Saving..." : `${action === "block" ? "Block" : "Whitelist"} ${ruleType === "device" ? selectedDevices.length : selectedCountries.length} selected`}
+          </button>
+        </div>
+      </Card>
+
+      <Card title="Active Rules">
+        {rules.filter((r) => r.enabled).length === 0 ? (
+          <p className="text-sm text-[#567063]">No active rules. All visitors can access the store.</p>
+        ) : (
+          <div className="space-y-2">
+            {rules.filter((r) => r.enabled).map((r) => (
+              <div key={r.id} className={`flex items-center justify-between rounded-2xl border p-4 ${r.action === "block" ? "border-red-200 bg-red-50" : "border-emerald-200 bg-emerald-50"}`}>
+                <div>
+                  <span className={`mr-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-black ${r.action === "block" ? "bg-red-600 text-white" : "bg-emerald-600 text-white"}`}>{r.action.toUpperCase()}</span>
+                  <span className="mr-2 rounded-full bg-white px-2.5 py-0.5 text-xs font-bold text-[#567063]">{r.rule_type}</span>
+                  <span className="font-bold">{r.rule_type === "country" ? countryName(r.value) : r.value}</span>
+                </div>
+                <button onClick={() => deleteRule(r.id)} disabled={deleting === r.id} className="rounded-lg px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 disabled:opacity-40">
+                  {deleting === r.id ? "..." : "Disable"}
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
+      </Card>
+    </div>
+  );
+}
+
+/* ─── Translations Tab ─── */
+function TranslationsTab({ headers, translations, reload }: { headers: Record<string, string>; translations: TranslationOverride[]; reload: () => void }) {
+  const [locale, setLocale] = useState<"ar" | "en">("ar");
+  const [key, setKey] = useState("");
+  const [value, setValue] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function save() {
+    if (!key.trim() || !value.trim()) return;
+    setSaving(true);
+    try {
+      await fetch(`${API_BASE}/api/v1/admin/translations`, {
+        method: "POST", headers,
+        body: JSON.stringify({ locale, translation_key: key.trim(), value: value.trim(), enabled: true }),
+      });
+      setKey(""); setValue(""); reload();
+    } finally { setSaving(false); }
+  }
+
+  const arTranslations = translations.filter((t) => t.locale === "ar" && t.enabled);
+  const enTranslations = translations.filter((t) => t.locale === "en" && t.enabled);
+
+  return (
+    <div className="space-y-6">
+      <Card title="Site Translation">
+        <p className="mb-4 text-sm text-[#567063]">
+          Change any visible text on the store. Use the exact current text as the &quot;Original text&quot; key, and write the replacement in &quot;New text&quot;. Choose the language you want to modify.
+        </p>
+
+        <div className="mb-4 flex gap-2">
+          <button onClick={() => setLocale("ar")} className={`rounded-full px-5 py-2 text-sm font-black ${locale === "ar" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>🇸🇦 Arabic</button>
+          <button onClick={() => setLocale("en")} className={`rounded-full px-5 py-2 text-sm font-black ${locale === "en" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>🇬🇧 English</button>
+        </div>
+
+        <div className="space-y-3">
+          <div>
+            <label className="mb-1 block text-xs font-bold text-[#567063]">Original text (find on website)</label>
+            <input className="w-full rounded-xl border border-[#E8E2D8] px-4 py-2.5 text-sm" placeholder={locale === "ar" ? "الدفع عند الاستلام" : "Cash on Delivery"} value={key} onChange={(e) => setKey(e.target.value)} />
+          </div>
+          <div>
+            <label className="mb-1 block text-xs font-bold text-[#567063]">Replace with</label>
+            <textarea className="min-h-[80px] w-full rounded-xl border border-[#E8E2D8] px-4 py-2.5 text-sm" placeholder="New text..." value={value} onChange={(e) => setValue(e.target.value)} />
+          </div>
+          <button onClick={save} disabled={saving || !key.trim() || !value.trim()} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
+            {saving ? "Saving..." : "Save Translation"}
+          </button>
+        </div>
+      </Card>
+
+      <div className="grid gap-6 xl:grid-cols-2">
+        <Card title={`Arabic Overrides (${arTranslations.length})`}>
+          {arTranslations.length === 0 ? <p className="text-sm text-[#567063]">No Arabic overrides yet.</p> : (
+            <div className="space-y-2">{arTranslations.map((t) => (
+              <div key={t.id} className="rounded-xl border border-[#E8E2D8] p-3">
+                <p className="text-xs text-[#567063]">Original:</p>
+                <p className="mb-1 font-bold">{t.translation_key}</p>
+                <p className="text-xs text-[#567063]">Replaced with:</p>
+                <p className="text-[#155235]">{t.value}</p>
+              </div>
+            ))}</div>
+          )}
+        </Card>
+        <Card title={`English Overrides (${enTranslations.length})`}>
+          {enTranslations.length === 0 ? <p className="text-sm text-[#567063]">No English overrides yet.</p> : (
+            <div className="space-y-2">{enTranslations.map((t) => (
+              <div key={t.id} className="rounded-xl border border-[#E8E2D8] p-3">
+                <p className="text-xs text-[#567063]">Original:</p>
+                <p className="mb-1 font-bold">{t.translation_key}</p>
+                <p className="text-xs text-[#567063]">Replaced with:</p>
+                <p className="text-[#155235]">{t.value}</p>
+              </div>
+            ))}</div>
+          )}
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Logins Tab ─── */
+function LoginsTab({ logins, live }: { logins: LoginEvent[]; live: LoginEvent[] }) {
+  return (
+    <div className="grid gap-6 xl:grid-cols-2">
+      <Card title={`Live Sessions (${live.length})`}>
+        <DataTable rows={live} cols={[["username", "User"], ["ip_address", "IP"], ["country_iso_code", "Country"], ["device_type", "Device"], ["browser", "Browser"], ["last_seen_at", "Last Seen"]]} dates={["last_seen_at"]} />
+      </Card>
+      <Card title="Login History">
+        <DataTable rows={logins} cols={[["username", "User"], ["ip_address", "IP"], ["country_iso_code", "Country"], ["device_type", "Device"], ["browser", "Browser"], ["os", "OS"], ["created_at", "Time"]]} dates={["created_at"]} />
+      </Card>
+    </div>
+  );
+}
+
+/* ─── Shared Components ─── */
+function Kpi({ label, value, accent = false }: { label: string; value: string | number; accent?: boolean }) {
+  return (
+    <div className={`rounded-[1.5rem] p-5 shadow-sm ${accent ? "bg-[#071C12] text-white" : "bg-white"}`}>
+      <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-[#C99A45]" : "text-[#8BA898]"}`}>{label}</p>
+      <p className="mt-2 text-2xl font-black">{typeof value === "number" ? value.toLocaleString() : value}</p>
+    </div>
+  );
+}
+
+function Card({ title, children }: { title: string; children: React.ReactNode }) {
+  return <div className="overflow-hidden rounded-[1.75rem] bg-white p-5 shadow-sm"><h2 className="mb-4 text-lg font-black">{title}</h2>{children}</div>;
+}
+
+function Badge({ value, good }: { value: string; good: boolean }) {
+  return <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-bold ${good ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>{value}</span>;
+}
+
+function StackList({ items }: { items: Array<{ label: string; sub: string; value: string }> }) {
+  if (!items.length) return <p className="text-sm text-[#567063]">No data yet.</p>;
+  return (
+    <div className="space-y-2">
+      {items.map((item, i) => (
+        <div key={`${item.label}-${i}`} className="flex items-center justify-between gap-4 rounded-2xl bg-[#F5F3EE] p-3">
+          <div><p className="font-bold">{item.label}</p><p className="text-xs text-[#567063]">{item.sub}</p></div>
+          <p className="font-black text-[#155235]">{item.value}</p>
+        </div>
       ))}
     </div>
   );
 }
 
-function Orders({ orders }: { orders: OrderListItem[] }) {
-  return (
-    <Panel title="All Orders">
-      <Table rows={orders} cols={[["public_order_number", "Order"], ["customer_name", "Customer"], ["customer_phone_local", "Phone"], ["total_sar", "Total"], ["created_at", "Date"], ["utm_campaign", "Campaign"], ["country_iso_code", "Country"], ["fraud_reason", "Fraud"]]} moneyCols={["total_sar"]} dateCols={["created_at"]} />
-    </Panel>
-  );
-}
-
-function Visitors({ metrics }: { metrics: Metrics }) {
-  return (
-    <div className="grid gap-6 xl:grid-cols-2">
-      <Panel title="By Device">
-        <Table rows={metrics.device_breakdown} cols={[["device", "Device"], ["visitors", "Visitors"], ["clicks", "Clicks"]]} />
-      </Panel>
-      <Panel title="By Country">
-        <Table rows={metrics.country_breakdown} cols={[["country", "Country"], ["visitors", "Visitors"], ["clicks", "Clicks"]]} />
-      </Panel>
-    </div>
-  );
-}
-
-function AccessControls({ headers, rules, reload }: { headers: Record<string, string>; rules: AccessRule[]; reload: () => void }) {
-  const [form, setForm] = useState({ name: "", rule_type: "country", value: "SA", action: "allow", enabled: true, notes: "" });
-  async function save() {
-    await fetch(`${API_BASE}/api/v1/admin/access-rules`, { method: "POST", headers, body: JSON.stringify(form) });
-    setForm({ name: "", rule_type: "country", value: "SA", action: "allow", enabled: true, notes: "" });
-    reload();
-  }
-  return (
-    <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
-      <Panel title="New Access Rule">
-        <div className="space-y-3">
-          <Input label="Rule name" value={form.name} onChange={(v) => setForm({ ...form, name: v })} />
-          <Select label="Type" value={form.rule_type} values={["country", "device", "ip"]} onChange={(v) => setForm({ ...form, rule_type: v })} />
-          <Input label="Value" value={form.value} onChange={(v) => setForm({ ...form, value: v })} />
-          <Select label="Action" value={form.action} values={["allow", "block"]} onChange={(v) => setForm({ ...form, action: v })} />
-          <Input label="Notes" value={form.notes} onChange={(v) => setForm({ ...form, notes: v })} />
-          <button onClick={save} className="rounded-xl bg-[#155235] px-5 py-3 font-black text-white">Save rule</button>
-        </div>
-      </Panel>
-      <Panel title="Rules">
-        <Table rows={rules} cols={[["name", "Name"], ["rule_type", "Type"], ["value", "Value"], ["action", "Action"], ["enabled", "Enabled"], ["notes", "Notes"]]} />
-      </Panel>
-    </div>
-  );
-}
-
-function Translations({ headers, translations, reload }: { headers: Record<string, string>; translations: TranslationOverride[]; reload: () => void }) {
-  const [form, setForm] = useState({ locale: "ar", translation_key: "", value: "", enabled: true });
-  async function save() {
-    await fetch(`${API_BASE}/api/v1/admin/translations`, { method: "POST", headers, body: JSON.stringify(form) });
-    setForm({ locale: "ar", translation_key: "", value: "", enabled: true });
-    reload();
-  }
-  return (
-    <div className="grid gap-6 xl:grid-cols-[0.8fr_1.2fr]">
-      <Panel title="Store Translation Override">
-        <p className="mb-4 text-sm text-[#567063]">To change live store copy, use the exact current visible text as the key, then put the replacement in value. Example key: <span className="font-mono">الدفع عند الاستلام</span>.</p>
-        <div className="space-y-3">
-          <Input label="Locale" value={form.locale} onChange={(v) => setForm({ ...form, locale: v })} />
-          <Input label="Translation key" value={form.translation_key} onChange={(v) => setForm({ ...form, translation_key: v })} />
-          <textarea className="min-h-28 w-full rounded-xl border border-[#E8E2D8] p-3" placeholder="New copy" value={form.value} onChange={(e) => setForm({ ...form, value: e.target.value })} />
-          <button onClick={save} className="rounded-xl bg-[#155235] px-5 py-3 font-black text-white">Save translation</button>
-        </div>
-      </Panel>
-      <Panel title="Translation Overrides">
-        <Table rows={translations} cols={[["locale", "Locale"], ["translation_key", "Key"], ["value", "Value"], ["enabled", "Enabled"]]} />
-      </Panel>
-    </div>
-  );
-}
-
-function Logins({ logins, live }: { logins: LoginEvent[]; live: LoginEvent[] }) {
-  return (
-    <div className="grid gap-6 xl:grid-cols-2">
-      <Panel title="Live Admin Logins">
-        <Table rows={live} cols={[["username", "User"], ["ip_address", "IP"], ["country_iso_code", "Country"], ["device_type", "Device"], ["browser", "Browser"], ["last_seen_at", "Last seen"]]} dateCols={["last_seen_at"]} />
-      </Panel>
-      <Panel title="Login History">
-        <Table rows={logins} cols={[["username", "User"], ["ip_address", "IP"], ["country_iso_code", "Country"], ["device_type", "Device"], ["browser", "Browser"], ["os", "OS"], ["created_at", "Time"]]} dateCols={["created_at"]} />
-      </Panel>
-    </div>
-  );
-}
-
-function Kpi({ title, value, dark = false }: { title: string; value: string; dark?: boolean }) {
-  return <div className={`rounded-[1.5rem] p-5 shadow-sm ${dark ? "bg-[#071C12] text-white" : "bg-white"}`}><p className="text-sm text-[#8BA898]">{title}</p><p className="mt-2 text-2xl font-black">{value}</p></div>;
-}
-
-function Panel({ title, children }: { title: string; children: React.ReactNode }) {
-  return <div className="overflow-hidden rounded-[1.75rem] bg-white p-5 shadow-sm"><h2 className="mb-4 text-xl font-black">{title}</h2>{children}</div>;
-}
-
-function Stack({ items }: { items: Array<{ label: string; meta: string; value: string }> }) {
-  if (!items.length) return <p className="text-sm text-[#567063]">No data yet.</p>;
-  return <div className="space-y-3">{items.map((item) => <div key={`${item.label}-${item.value}`} className="flex items-center justify-between gap-4 rounded-2xl bg-[#F5F3EE] p-3"><div><p className="font-bold">{item.label}</p><p className="text-xs text-[#567063]">{item.meta}</p></div><p className="font-black text-[#155235]">{item.value}</p></div>)}</div>;
-}
-
-function Table({ rows, cols, moneyCols = [], dateCols = [] }: { rows: Array<Record<string, unknown>>; cols: Array<[string, string]>; moneyCols?: string[]; dateCols?: string[] }) {
+function DataTable({ rows, cols, money = [], dates = [] }: { rows: Array<Record<string, unknown>>; cols: Array<[string, string]>; money?: string[]; dates?: string[] }) {
   if (!rows.length) return <p className="text-sm text-[#567063]">No data yet.</p>;
   return (
     <div className="max-h-[560px] overflow-auto">
-      <table className="w-full min-w-[680px] text-sm">
-        <thead><tr className="text-right text-[#567063]">{cols.map(([, label]) => <th key={label} className="whitespace-nowrap px-3 py-2">{label}</th>)}</tr></thead>
-        <tbody>{rows.map((row, index) => <tr key={String(row.id ?? index)} className="border-t border-[#E8E2D8]">{cols.map(([key]) => <td key={key} className="max-w-[260px] truncate px-3 py-3">{formatCell(row[key], key, moneyCols, dateCols)}</td>)}</tr>)}</tbody>
+      <table className="w-full min-w-[500px] text-sm">
+        <thead><tr className="text-left text-xs font-bold uppercase text-[#567063]">{cols.map(([, l]) => <th key={l} className="whitespace-nowrap px-3 py-2">{l}</th>)}</tr></thead>
+        <tbody>{rows.map((row, i) => (
+          <tr key={String(row.id ?? i)} className="border-t border-[#E8E2D8]">
+            {cols.map(([k]) => <td key={k} className="max-w-[260px] truncate px-3 py-3">{fmtCell(row[k], k, money, dates)}</td>)}
+          </tr>
+        ))}</tbody>
       </table>
     </div>
   );
 }
 
-function formatCell(value: unknown, key: string, moneyCols: string[], dateCols: string[]) {
-  if (value === null || value === undefined || value === "") return "—";
-  if (moneyCols.includes(key) && typeof value === "number") return sar(value);
-  if (dateCols.includes(key) && typeof value === "string") return shortDate(value);
-  if (typeof value === "boolean") return value ? "yes" : "no";
-  return String(value);
-}
-
-function Info({ label, value }: { label: string; value: string }) {
-  return <div className="rounded-xl border border-[#E8E2D8] px-3 py-2"><p className="text-xs text-[#567063]">{label}</p><p className="truncate font-bold" dir="ltr">{value}</p></div>;
-}
-
-function Input({ label, value, onChange }: { label: string; value: string; onChange: (value: string) => void }) {
-  return <label className="block text-sm font-bold text-[#567063]">{label}<input className="mt-1 w-full rounded-xl border border-[#E8E2D8] px-3 py-2 text-[#0F1A14]" value={value} onChange={(e) => onChange(e.target.value)} /></label>;
-}
-
-function Select({ label, value, values, onChange }: { label: string; value: string; values: string[]; onChange: (value: string) => void }) {
-  return <label className="block text-sm font-bold text-[#567063]">{label}<select className="mt-1 w-full rounded-xl border border-[#E8E2D8] px-3 py-2 text-[#0F1A14]" value={value} onChange={(e) => onChange(e.target.value)}>{values.map((v) => <option key={v} value={v}>{v}</option>)}</select></label>;
+function fmtCell(v: unknown, key: string, money: string[], dates: string[]) {
+  if (v === null || v === undefined || v === "") return "—";
+  if (money.includes(key) && typeof v === "number") return sar(v);
+  if (dates.includes(key) && typeof v === "string") return shortDate(v);
+  if (typeof v === "boolean") return v ? "Yes" : "No";
+  return String(v);
 }
