@@ -429,32 +429,57 @@ function AccessControlTab({ headers, rules, reload }: { headers: Record<string, 
     setSelectedCountries((prev) => prev.includes(code) ? prev.filter((x) => x !== code) : [...prev, code]);
   }
 
+  const [feedback, setFeedback] = useState<string | null>(null);
+
   async function saveRules() {
     setSaving(true);
+    setFeedback(null);
     const items = ruleType === "device" ? selectedDevices : selectedCountries;
+    let saved = 0;
     try {
-      for (const value of items) {
+      for (const val of items) {
         const name = ruleType === "device"
-          ? `${action === "block" ? "Block" : "Allow"} ${value}`
-          : `${action === "block" ? "Block" : "Allow"} ${countryName(value)}`;
-        await fetch(`${API_BASE}/api/v1/admin/access-rules`, {
+          ? `${action === "block" ? "Block" : "Allow"} ${val}`
+          : `${action === "block" ? "Block" : "Allow"} ${countryName(val)}`;
+        const res = await fetch(`${API_BASE}/api/v1/admin/access-rules`, {
           method: "POST", headers,
-          body: JSON.stringify({ name, rule_type: ruleType, value, action, enabled: true, notes: null }),
+          body: JSON.stringify({ name, rule_type: ruleType, value: val, action, enabled: true }),
         });
+        if (!res.ok) {
+          const errBody = await res.text().catch(() => "Unknown error");
+          setFeedback(`Failed to save rule for ${val}: ${errBody}`);
+          break;
+        }
+        saved++;
       }
-      setSelectedDevices([]); setSelectedCountries([]); setCountrySearch("");
-      reload();
+      if (saved > 0) {
+        setSelectedDevices([]); setSelectedCountries([]); setCountrySearch("");
+        setFeedback(`${saved} rule(s) saved successfully.`);
+        reload();
+      }
+    } catch (err) {
+      setFeedback(`Network error: ${err instanceof Error ? err.message : "could not reach server"}`);
     } finally { setSaving(false); }
   }
 
   async function deleteRule(id: string) {
     setDeleting(id);
+    setFeedback(null);
     try {
-      await fetch(`${API_BASE}/api/v1/admin/access-rules/${id}`, {
-        method: "PUT", headers,
-        body: JSON.stringify({ name: "deleted", rule_type: "ip", value: "0.0.0.0", action: "block", enabled: false, notes: "disabled" }),
+      const res = await fetch(`${API_BASE}/api/v1/admin/access-rules/${id}`, {
+        method: "DELETE", headers,
       });
+      if (!res.ok) {
+        const res2 = await fetch(`${API_BASE}/api/v1/admin/access-rules/${id}`, {
+          method: "PUT", headers,
+          body: JSON.stringify({ name: "disabled", rule_type: "ip", value: "0.0.0.0", action: "block", enabled: false }),
+        });
+        if (!res2.ok) { setFeedback("Failed to disable rule."); return; }
+      }
+      setFeedback("Rule removed.");
       reload();
+    } catch (err) {
+      setFeedback(`Network error: ${err instanceof Error ? err.message : "could not reach server"}`);
     } finally { setDeleting(null); }
   }
 
@@ -510,9 +535,10 @@ function AccessControlTab({ headers, rules, reload }: { headers: Record<string, 
             </div>
           )}
 
-          <button onClick={saveRules} disabled={saving || (ruleType === "device" ? !selectedDevices.length : !selectedCountries.length)} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
+          <button type="button" onClick={() => void saveRules()} disabled={saving || (ruleType === "device" ? !selectedDevices.length : !selectedCountries.length)} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
             {saving ? "Saving..." : `${action === "block" ? "Block" : "Whitelist"} ${ruleType === "device" ? selectedDevices.length : selectedCountries.length} selected`}
           </button>
+          {feedback && <p className={`mt-2 rounded-xl p-3 text-sm font-bold ${feedback.includes("error") || feedback.includes("Failed") ? "bg-red-50 text-red-700" : "bg-emerald-50 text-emerald-700"}`}>{feedback}</p>}
         </div>
       </Card>
 
