@@ -3,6 +3,7 @@ import Link from "next/link";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { PRODUCTS } from "@/content/products";
+import { CATEGORIES } from "@/content/categories";
 import { COPY } from "@/content/copy";
 import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
 import { BrandGalleryMarquee } from "@/components/home/BrandGalleryMarquee";
@@ -94,6 +95,40 @@ export default function HomePage() {
               </div>
               <p className="text-[#071C12] font-bold text-xs mt-4">صورة توضيحية — تُستبدل بصورة المنتج</p>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══ HEALTH PROBLEMS / CATEGORIES STRIP ═══ */}
+      <section className="bg-white border-y border-[#E8E2D8] py-8">
+        <div className="max-w-[1200px] mx-auto px-4">
+          <div className="text-center mb-5">
+            <span className="inline-block text-[#155235] text-xs font-semibold tracking-widest uppercase mb-2">
+              تصفّح حسب الحاجة
+            </span>
+            <h2 className="text-xl md:text-2xl font-extrabold text-[#0F1A14]">
+              ما المشكلة الصحية التي تبحث عنها؟
+            </h2>
+            <p className="text-[#567063] text-sm mt-2">
+              اضغط على الحاجة الأقرب لك لتنتقل إلى تصنيف المنتجات المناسب.
+            </p>
+          </div>
+          <div className="flex flex-wrap justify-center gap-2">
+            {CATEGORIES.map((category) => (
+              <Link
+                key={category.slug}
+                href={`/categories/${category.slug}`}
+                className="bg-[#F5F3EE] border border-[#E8E2D8] rounded-full px-4 py-2 text-sm font-medium text-[#0F1A14] hover:border-[#155235] hover:text-[#155235] hover:bg-white transition-colors"
+              >
+                {category.nameAr}
+              </Link>
+            ))}
+            <Link
+              href="/categories"
+              className="bg-[#155235] text-white rounded-full px-4 py-2 text-sm font-bold hover:bg-[#0A3622] transition-colors"
+            >
+              كل التصنيفات ←
+            </Link>
           </div>
         </div>
       </section>

@@ -192,6 +192,68 @@ body {
   animation: marquee-brand 55s linear infinite;
 }
 
+/* ─── Herb drift effect (cart drawer background) ─── */
+@keyframes herb-drift {
+  0%   { transform: translate3d(0, 0, 0) rotate(0deg); }
+  50%  { transform: translate3d(8px, -14px, 0) rotate(8deg); }
+  100% { transform: translate3d(-6px, -28px, 0) rotate(-6deg); }
+}
+@keyframes herb-fade {
+  0%, 100% { opacity: 0.10; }
+  50%      { opacity: 0.22; }
+}
+
+.herb-backdrop {
+  position: relative;
+  isolation: isolate;
+}
+.herb-backdrop::before,
+.herb-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-repeat: no-repeat;
+  background-size: 70px 70px, 90px 90px, 60px 60px, 110px 110px;
+  background-position:
+    8% 12%,
+    78% 28%,
+    18% 70%,
+    72% 86%;
+  /* Inline SVG herb leaf, gold/sage tinted */
+  background-image:
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23C99A45' opacity='0.85'/><path d='M32 8c-2 14 4 28 16 36' stroke='%234ADE80' stroke-width='1.5' opacity='0.6'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%234ADE80' opacity='0.7'/><path d='M12 32c8-2 16-8 22-18' stroke='%23C99A45' stroke-width='1.5' opacity='0.6'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%234ADE80' opacity='0.55'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23C99A45' opacity='0.65'/></svg>");
+  animation: herb-drift 14s ease-in-out infinite alternate,
+             herb-fade  6s  ease-in-out infinite;
+  will-change: transform, opacity;
+}
+.herb-backdrop::after {
+  background-size: 50px 50px, 80px 80px, 70px 70px, 60px 60px;
+  background-position:
+    62% 8%,
+    14% 38%,
+    82% 58%,
+    32% 92%;
+  animation-duration: 18s, 8s;
+  animation-direction: alternate-reverse, alternate;
+  opacity: 0.7;
+}
+.herb-backdrop > * {
+  position: relative;
+  z-index: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .herb-backdrop::before,
+  .herb-backdrop::after {
+    animation: none;
+  }
+}
+
 .shimmer-text {
   background: linear-gradient(
     90deg,

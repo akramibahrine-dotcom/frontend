@@ -12,6 +12,7 @@ import { cn } from "@/lib/utils";
 
 const NAV_LINKS = [
   { href: "/", label: COPY.nav.homeAr },
+  { href: "/categories", label: COPY.nav.categoriesAr },
   { href: "/collections", label: COPY.nav.productsAr },
   { href: "/news", label: COPY.nav.newsAr },
   { href: "/about", label: COPY.nav.aboutAr },

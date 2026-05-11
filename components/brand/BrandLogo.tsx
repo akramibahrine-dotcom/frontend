@@ -38,8 +38,8 @@ export function BrandLogo({ className, size = "md", dark = false }: Props) {
         <span className={cn(s.title, "font-bold", dark ? "text-white" : "text-[#0F1A14]")}>
           بيت الصحة
         </span>
-        <span className={cn(s.sub, "font-normal tracking-wide", dark ? "text-[#C99A45]/70" : "text-[#567063]")}>
-          Baytseha
+        <span className={cn(s.sub, "font-normal tracking-wide", dark ? "text-[#D19900]" : "text-[#567063]")}>
+          عودة للأصل
         </span>
       </div>
     </Link>

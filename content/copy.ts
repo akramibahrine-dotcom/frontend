@@ -130,6 +130,7 @@ export const COPY = {
 
   nav: {
     homeAr: "الرئيسية",
+    categoriesAr: "حسب الحاجة",
     productsAr: "المجموعة",
     newsAr: "الأخبار والمقالات",
     aboutAr: "من نحن",

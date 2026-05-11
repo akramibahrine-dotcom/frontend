@@ -4,21 +4,13 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { TrustStrip } from "@/components/ui/TrustBadge";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { PRODUCTS } from "@/content/products";
+import { CATEGORIES } from "@/content/categories";
 import { COPY } from "@/content/copy";
 
 export const metadata: Metadata = {
   title: "جميع المنتجات",
   description: "اختر الخلطة الأقرب لاحتياجك اليومي من مجموعة بيت الصحة من الشاي العشبي.",
 };
-
-const CONCERN_GUIDE = [
-  { concern: "دعم إدارة الوزن", slug: "weight-support-tea" },
-  { concern: "راحة القولون والغازات", slug: "colon-comfort-tea" },
-  { concern: "الراحة مع البواسير", slug: "hemorrhoid-comfort-tea" },
-  { concern: "دعم صحة الكبد", slug: "liver-wellness-tea" },
-  { concern: "دعم الرئة وتقليل التدخين", slug: "lung-smoking-support-tea" },
-  { concern: "دعم صحة البروستات", slug: "prostate-wellness-tea" },
-];
 
 export default function CollectionsPage() {
   return (
@@ -51,25 +43,29 @@ export default function CollectionsPage() {
       <section className="py-12 bg-[#F8F1E7]">
         <div className="max-w-[1200px] mx-auto px-4">
           <h2 className="text-xl font-extrabold text-[#0F1A14] text-center mb-2">
-            مو متأكد أي منتج تختار؟
+            تصفّح حسب الحاجة الصحية
           </h2>
           <p className="text-[#567063] text-center text-sm mb-8">
-            اختر من القائمة الاحتياج الأقرب لك
+            اختر التصنيف الأقرب لاحتياجك، ثم تصفح المنتجات داخل كل تصنيف.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
-            {CONCERN_GUIDE.map((item) => {
-              const product = PRODUCTS.find((p) => p.slug === item.slug);
-              if (!product) return null;
-              return (
-                <Link
-                  key={item.slug}
-                  href={`/products/${item.slug}`}
-                  className="bg-white border border-[#E8E2D8] rounded-xl p-3 text-center text-sm font-medium text-[#0F1A14] hover:border-[#155235] hover:text-[#155235] hover:bg-[#F5F3EE] transition-colors"
-                >
-                  {item.concern}
-                </Link>
-              );
-            })}
+            {CATEGORIES.map((category) => (
+              <Link
+                key={category.slug}
+                href={`/categories/${category.slug}`}
+                className="bg-white border border-[#E8E2D8] rounded-xl p-3 text-center text-sm font-medium text-[#0F1A14] hover:border-[#155235] hover:text-[#155235] hover:bg-[#F5F3EE] transition-colors"
+              >
+                {category.nameAr}
+              </Link>
+            ))}
+          </div>
+          <div className="text-center mt-6">
+            <Link
+              href="/categories"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#155235] text-white text-sm font-bold hover:bg-[#0A3622] transition-colors"
+            >
+              عرض كل التصنيفات ←
+            </Link>
           </div>
         </div>
       </section>
