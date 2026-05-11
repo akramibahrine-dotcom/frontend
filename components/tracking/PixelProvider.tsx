@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import Script from "next/script";
 import { captureUtmAndClickIds } from "@/lib/events";
-import { trackPageView } from "@/lib/tracking";
+import { trackHeartbeat, trackPageView } from "@/lib/tracking";
 
 const META_PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
 const TIKTOK_PIXEL_ID = process.env.NEXT_PUBLIC_TIKTOK_PIXEL_ID;
@@ -24,6 +24,10 @@ export function PixelProvider() {
       window._baytsehaPixelsLoaded = true;
       trackPageView();
     });
+
+    trackHeartbeat();
+    const heartbeat = window.setInterval(trackHeartbeat, 60_000);
+    return () => window.clearInterval(heartbeat);
   }, []);
 
   return (

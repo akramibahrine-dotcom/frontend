@@ -1,5 +1,9 @@
 "use client";
 
+import { getTrackingData } from "@/lib/events";
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
+
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
@@ -38,6 +42,7 @@ export function trackPageView() {
   fireMetaEvent("PageView");
   fireTikTokEvent("Browse");
   fireSnapEvent("PAGE_VIEW");
+  void sendServerAnalyticsEvent("page_view");
 }
 
 export function trackViewContent(productId: string, productName: string, eventId: string) {
@@ -55,6 +60,7 @@ export function trackViewContent(productId: string, productName: string, eventId
     item_ids: [productId],
     item_category: "herbal_tea",
   });
+  void sendServerAnalyticsEvent("view_content", { productId, source: "product_page" });
 }
 
 export function trackAddToCart(
@@ -84,6 +90,7 @@ export function trackAddToCart(
     currency: "SAR",
     number_items: quantity,
   });
+  void sendServerAnalyticsEvent("add_to_cart", { productId, source: "product_page" });
 }
 
 export function trackInitiateCheckout(totalSar: number, eventId: string) {
@@ -99,6 +106,11 @@ export function trackInitiateCheckout(totalSar: number, eventId: string) {
     price: totalSar,
     currency: "SAR",
   });
+  void sendServerAnalyticsEvent("initiate_checkout", { source: "checkout" });
+}
+
+export function trackHeartbeat() {
+  void sendServerAnalyticsEvent("heartbeat");
 }
 
 export function trackPurchase(
@@ -131,4 +143,42 @@ export function trackPurchase(
     number_items: contents.reduce((sum, c) => sum + c.quantity, 0),
     content_ids: contents.map((c) => c.id),
   });
+}
+
+async function sendServerAnalyticsEvent(
+  eventName: string,
+  extra: { productId?: string; source?: string } = {}
+) {
+  if (typeof window === "undefined") return;
+  const tracking = getTrackingData();
+  try {
+    await fetch(`${API_BASE}/api/v1/analytics/clicks`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        event_name: eventName,
+        session_id: getAnalyticsSessionId(),
+        page_url: window.location.href,
+        referrer: document.referrer || null,
+        product_id: extra.productId ?? null,
+        source: extra.source ?? null,
+        utm: tracking.utm,
+      }),
+      keepalive: true,
+    });
+  } catch (err) {
+    log("server analytics skipped", err);
+  }
+}
+
+function getAnalyticsSessionId(): string {
+  const key = "baytseha_admin_analytics_session";
+  const existing = sessionStorage.getItem(key);
+  if (existing) return existing;
+  const next =
+    typeof crypto !== "undefined" && crypto.randomUUID
+      ? crypto.randomUUID()
+      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  sessionStorage.setItem(key, next);
+  return next;
 }

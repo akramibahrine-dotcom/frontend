@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans_Arabic } from "next/font/google";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
+import { StoreAccessGate } from "@/components/layout/StoreAccessGate";
+import { StoreTranslationApplier } from "@/components/layout/StoreTranslationApplier";
 import { PixelProvider } from "@/components/tracking/PixelProvider";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { CurrencyProvider } from "@/components/currency/CurrencyProvider";
@@ -41,6 +43,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main className="flex-1">{children}</main>
         <Footer />
         <WhatsAppButton />
+        <StoreAccessGate />
+        <StoreTranslationApplier />
         <PixelProvider />
         <CurrencyProvider />
       </body>
