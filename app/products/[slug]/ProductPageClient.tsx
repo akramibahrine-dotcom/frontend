@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
-import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
 import { OfferSelector } from "@/components/product/OfferSelector";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
