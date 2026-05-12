@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
@@ -108,27 +109,34 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="order-first md:order-last relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0"></div>
               <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden group">
-                {/* Simple auto-sliding placeholder (CSS based) */}
+                {/* Product image carousel */}
                 <div className="flex w-[300%] animate-[marquee_15s_linear_infinite] group-hover:[animation-play-state:paused]">
                   <div className="w-1/3 shrink-0 px-2">
-                    <ProductPlaceholderImage
-                      theme={product.imageTheme}
-                      aspectRatio="product"
-                      className="w-full mx-auto rounded-3xl"
+                    <Image
+                      src="/product-galery/IMA.1.jpg"
+                      alt="شاي بيت الصحة - صورة 1"
+                      width={500}
+                      height={500}
+                      className="w-full mx-auto rounded-3xl object-cover aspect-square"
+                      priority
                     />
                   </div>
                   <div className="w-1/3 shrink-0 px-2">
-                    <ProductPlaceholderImage
-                      theme={product.imageTheme}
-                      aspectRatio="product"
-                      className="w-full mx-auto rounded-3xl"
+                    <Image
+                      src="/product-galery/IMA3.jpg"
+                      alt="شاي بيت الصحة - صورة 2"
+                      width={500}
+                      height={500}
+                      className="w-full mx-auto rounded-3xl object-cover aspect-square"
                     />
                   </div>
                   <div className="w-1/3 shrink-0 px-2">
-                    <ProductPlaceholderImage
-                      theme={product.imageTheme}
-                      aspectRatio="product"
-                      className="w-full mx-auto rounded-3xl"
+                    <Image
+                      src="/product-galery/IMA6.jpg"
+                      alt="شاي بيت الصحة - صورة 3"
+                      width={500}
+                      height={500}
+                      className="w-full mx-auto rounded-3xl object-cover aspect-square"
                     />
                   </div>
                 </div>
