@@ -22,32 +22,27 @@ type Props = {
   crossSells: Product[];
 };
 
-const GALLERY_IMAGES = [
-  "/product-galery/IMA.1.jpg",
-  "/product-galery/IMA3.jpg",
-  "/product-galery/IMA6.jpg",
-];
-
 function HeroCarousel({ product }: { product: Product }) {
   const [current, setCurrent] = useState(0);
-  const total = GALLERY_IMAGES.length;
+  const images = product.images;
 
   useEffect(() => {
+    if (images.length <= 1) return;
     const timer = setInterval(() => {
-      setCurrent((prev) => (prev + 1) % total);
+      setCurrent((prev) => (prev + 1) % images.length);
     }, 4000);
     return () => clearInterval(timer);
-  }, [total]);
+  }, [images.length]);
 
   return (
     <div className="order-first md:order-last relative">
       <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0" />
       <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
         <div className="relative aspect-square rounded-3xl overflow-hidden">
-          {GALLERY_IMAGES.map((src, i) => (
+          {images.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
-              key={i}
+              key={src}
               src={src}
               alt={`${product.nameAr} - صورة ${i + 1}`}
               className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
@@ -58,18 +53,20 @@ function HeroCarousel({ product }: { product: Product }) {
         </div>
 
         {/* Dots */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
-          {GALLERY_IMAGES.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setCurrent(i)}
-              aria-label={`صورة ${i + 1}`}
-              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                i === current ? "bg-white scale-125 shadow-md" : "bg-white/50 hover:bg-white/80"
-              }`}
-            />
-          ))}
-        </div>
+        {images.length > 1 && (
+          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+            {images.map((_, i) => (
+              <button
+                key={i}
+                onClick={() => setCurrent(i)}
+                aria-label={`صورة ${i + 1}`}
+                className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                  i === current ? "bg-white scale-125 shadow-md" : "bg-white/50 hover:bg-white/80"
+                }`}
+              />
+            ))}
+          </div>
+        )}
 
         {/* Floating Badge */}
         <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce-slow z-10">

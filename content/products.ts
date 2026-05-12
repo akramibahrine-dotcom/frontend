@@ -36,6 +36,7 @@ export type Product = {
   faq: FAQItem[];
   ritualAr: string;
   whyBaytsehaPoints: string[];
+  images: string[];
 };
 
 export const PRODUCTS: Product[] = [
@@ -52,6 +53,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "أحيانًا العقبة مو الحماس، إنما الاستمرار. جعلنا هذا المزيج خفيفًا على الحلق وعلى يومك، ليسهل أن يثبت معك.",
     imageTheme: "weight",
+    images: ["/products/weight-support-tea/1.jpg", "/products/weight-support-tea/2.jpg", "/products/weight-support-tea/3.jpg"],
     upsellProductId: "colon-comfort-tea",
     crossSellProductIds: ["colon-comfort-tea", "liver-wellness-tea"],
     ritualAr:
@@ -97,6 +99,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "الضغط والسفر والوجبات الثقيلة تَثقل البطن حتى يضيق صدرك. جئنا بخلطة دافئة تُذكّرك أن العناية تبدأ بكوبٍ منتظم.",
     imageTheme: "colon",
+    images: ["/products/colon-comfort-tea/1.jpg", "/products/colon-comfort-tea/2.jpg", "/products/colon-comfort-tea/3.jpg"],
     upsellProductId: "liver-wellness-tea",
     crossSellProductIds: ["weight-support-tea", "hemorrhoid-comfort-tea"],
     ritualAr:
@@ -136,6 +139,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "بعض الاحتياجات لا تحتاج خطبة. نكتفي أن نضع بين يديك روتينًا عشبيًا بسيطًا، ونترك الطبيب لحديث المسارات العلاجية.",
     imageTheme: "hemorrhoid",
+    images: ["/products/hemorrhoid-comfort-tea/1.jpg", "/products/hemorrhoid-comfort-tea/2.jpg", "/products/hemorrhoid-comfort-tea/3.jpg"],
     upsellProductId: "colon-comfort-tea",
     crossSellProductIds: ["colon-comfort-tea", "liver-wellness-tea"],
     ritualAr:
@@ -172,6 +176,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "الكبد يحتاج هدوءًا في الأكل والوقت، نحن نضيف له كوبًا دافئًا من دون أن نزعم أنه يعالج مرضًا.",
     imageTheme: "liver",
+    images: ["/products/liver-wellness-tea/1.jpg", "/products/liver-wellness-tea/2.jpg", "/products/liver-wellness-tea/3.jpg"],
     upsellProductId: "weight-support-tea",
     crossSellProductIds: ["weight-support-tea", "colon-comfort-tea"],
     ritualAr:
@@ -207,6 +212,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "كلُّ خطوةٍ كبيرةٍ تبدأ بخطوةٍ صغيرة — نمنحك جلسةً عشبيةً خفيفةً تذكّرك أنك بدأت تهتمّ بنفسك، من دون وعودٍ بإقلاعٍ سحري.",
     imageTheme: "lung",
+    images: ["/products/lung-smoking-support-tea/1.jpg", "/products/lung-smoking-support-tea/2.jpg", "/products/lung-smoking-support-tea/3.jpg"],
     upsellProductId: "liver-wellness-tea",
     crossSellProductIds: ["liver-wellness-tea", "colon-comfort-tea"],
     ritualAr:
@@ -243,6 +249,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "العناية الذكية لا تُؤجّل. بيت الصحة يسّهل لك الخطوة العشبية، ويترك التشخيص لأهل الاختصاص.",
     imageTheme: "prostate",
+    images: ["/products/prostate-wellness-tea/1.jpg", "/products/prostate-wellness-tea/2.jpg", "/products/prostate-wellness-tea/3.jpg"],
     upsellProductId: "liver-wellness-tea",
     crossSellProductIds: ["liver-wellness-tea", "lung-smoking-support-tea"],
     ritualAr:
