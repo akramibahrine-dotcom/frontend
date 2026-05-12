@@ -14,6 +14,7 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { WelcomePromoModal } from "@/components/product/WelcomePromoModal";
+import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 
@@ -411,6 +412,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <p className="text-[#6E675F] text-lg leading-relaxed">{COPY.reviewsPlaceholderBodyAr}</p>
         </div>
       </section>
+
+      {/* ═══ REVIEWS MARQUEE ═══ */}
+      <ReviewsMarquee />
 
       {/* 8. ختامٌ يدعوك بلطفِ بيتٍ */}
       <section className="py-16 md:py-24 bg-[#0F1A14] text-white relative overflow-hidden">
