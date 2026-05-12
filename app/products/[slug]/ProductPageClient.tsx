@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
@@ -22,6 +21,65 @@ type Props = {
   product: Product;
   crossSells: Product[];
 };
+
+const GALLERY_IMAGES = [
+  "/product-galery/IMA.1.jpg",
+  "/product-galery/IMA3.jpg",
+  "/product-galery/IMA6.jpg",
+];
+
+function HeroCarousel({ product }: { product: Product }) {
+  const [current, setCurrent] = useState(0);
+  const total = GALLERY_IMAGES.length;
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % total);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [total]);
+
+  return (
+    <div className="order-first md:order-last relative">
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0" />
+      <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
+        <div className="relative aspect-square rounded-3xl overflow-hidden">
+          {GALLERY_IMAGES.map((src, i) => (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              key={i}
+              src={src}
+              alt={`${product.nameAr} - صورة ${i + 1}`}
+              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+                i === current ? "opacity-100" : "opacity-0"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Dots */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+          {GALLERY_IMAGES.map((_, i) => (
+            <button
+              key={i}
+              onClick={() => setCurrent(i)}
+              aria-label={`صورة ${i + 1}`}
+              className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
+                i === current ? "bg-white scale-125 shadow-md" : "bg-white/50 hover:bg-white/80"
+              }`}
+            />
+          ))}
+        </div>
+
+        {/* Floating Badge */}
+        <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce-slow z-10">
+          <span className="text-xl">✨</span>
+          <span className="text-sm font-bold text-[#155235]">{product.concernAr}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function ProductPageClient({ product, crossSells }: Props) {
   const [selectedQty, setSelectedQty] = useState<1 | 2 | 3>(2);
@@ -105,40 +163,8 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </div>
             </div>
 
-            {/* Hero Image Slider */}
-            <div className="order-first md:order-last relative">
-              <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0"></div>
-              <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden group">
-                {/* 1 big image at a time, sliding one after one, looping forever */}
-                <div className="flex w-[600%] animate-marquee-product">
-                  <div className="w-1/6 shrink-0">
-                    <Image src="/product-galery/IMA.1.jpg" alt="شاي بيت الصحة - صورة 1" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" priority />
-                  </div>
-                  <div className="w-1/6 shrink-0">
-                    <Image src="/product-galery/IMA3.jpg" alt="شاي بيت الصحة - صورة 2" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
-                  </div>
-                  <div className="w-1/6 shrink-0">
-                    <Image src="/product-galery/IMA6.jpg" alt="شاي بيت الصحة - صورة 3" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
-                  </div>
-                  {/* Duplicates for seamless loop */}
-                  <div className="w-1/6 shrink-0" aria-hidden="true">
-                    <Image src="/product-galery/IMA.1.jpg" alt="" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
-                  </div>
-                  <div className="w-1/6 shrink-0" aria-hidden="true">
-                    <Image src="/product-galery/IMA3.jpg" alt="" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
-                  </div>
-                  <div className="w-1/6 shrink-0" aria-hidden="true">
-                    <Image src="/product-galery/IMA6.jpg" alt="" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
-                  </div>
-                </div>
-                
-                {/* Floating Badge */}
-                <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce-slow z-10">
-                  <span className="text-xl">✨</span>
-                  <span className="text-sm font-bold text-[#155235]">من عنايةِ البيت إلى عنايتك</span>
-                </div>
-              </div>
-            </div>
+            {/* Hero Image Carousel */}
+            <HeroCarousel product={product} />
           </div>
         </div>
       </section>
