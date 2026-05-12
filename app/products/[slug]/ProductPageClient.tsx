@@ -109,46 +109,26 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="order-first md:order-last relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0"></div>
               <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden group">
-                {/* All 3 images visible + 3 duplicates for seamless infinite loop */}
-                <div className="flex w-[200%] animate-marquee-product">
-                  {/* Real set */}
-                  <div className="w-1/6 shrink-0 px-1">
-                    <Image
-                      src="/product-galery/IMA.1.jpg"
-                      alt="شاي بيت الصحة - صورة 1"
-                      width={500}
-                      height={500}
-                      className="w-full mx-auto rounded-2xl object-cover aspect-square"
-                      priority
-                    />
+                {/* 1 big image at a time, sliding one after one, looping forever */}
+                <div className="flex w-[600%] animate-marquee-product">
+                  <div className="w-1/6 shrink-0">
+                    <Image src="/product-galery/IMA.1.jpg" alt="شاي بيت الصحة - صورة 1" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" priority />
                   </div>
-                  <div className="w-1/6 shrink-0 px-1">
-                    <Image
-                      src="/product-galery/IMA3.jpg"
-                      alt="شاي بيت الصحة - صورة 2"
-                      width={500}
-                      height={500}
-                      className="w-full mx-auto rounded-2xl object-cover aspect-square"
-                    />
+                  <div className="w-1/6 shrink-0">
+                    <Image src="/product-galery/IMA3.jpg" alt="شاي بيت الصحة - صورة 2" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
                   </div>
-                  <div className="w-1/6 shrink-0 px-1">
-                    <Image
-                      src="/product-galery/IMA6.jpg"
-                      alt="شاي بيت الصحة - صورة 3"
-                      width={500}
-                      height={500}
-                      className="w-full mx-auto rounded-2xl object-cover aspect-square"
-                    />
+                  <div className="w-1/6 shrink-0">
+                    <Image src="/product-galery/IMA6.jpg" alt="شاي بيت الصحة - صورة 3" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
                   </div>
-                  {/* Duplicate set for seamless loop */}
-                  <div className="w-1/6 shrink-0 px-1" aria-hidden="true">
-                    <Image src="/product-galery/IMA.1.jpg" alt="" width={500} height={500} className="w-full mx-auto rounded-2xl object-cover aspect-square" />
+                  {/* Duplicates for seamless loop */}
+                  <div className="w-1/6 shrink-0" aria-hidden="true">
+                    <Image src="/product-galery/IMA.1.jpg" alt="" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
                   </div>
-                  <div className="w-1/6 shrink-0 px-1" aria-hidden="true">
-                    <Image src="/product-galery/IMA3.jpg" alt="" width={500} height={500} className="w-full mx-auto rounded-2xl object-cover aspect-square" />
+                  <div className="w-1/6 shrink-0" aria-hidden="true">
+                    <Image src="/product-galery/IMA3.jpg" alt="" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
                   </div>
-                  <div className="w-1/6 shrink-0 px-1" aria-hidden="true">
-                    <Image src="/product-galery/IMA6.jpg" alt="" width={500} height={500} className="w-full mx-auto rounded-2xl object-cover aspect-square" />
+                  <div className="w-1/6 shrink-0" aria-hidden="true">
+                    <Image src="/product-galery/IMA6.jpg" alt="" width={600} height={600} className="w-full rounded-3xl object-cover aspect-square" />
                   </div>
                 </div>
                 

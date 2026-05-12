@@ -172,7 +172,7 @@ body {
 }
 
 .animate-marquee-product {
-  animation: marquee-product 8s linear infinite;
+  animation: marquee-product 9s linear infinite;
 }
 .animate-marquee-product:hover,
 .group:hover .animate-marquee-product {
