@@ -260,8 +260,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="absolute inset-0 bg-gradient-to-br from-[#155235] to-[#0a291a] rounded-full blur-2xl opacity-40 animate-pulse" />
 
               <div className="relative bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-[3rem] max-w-sm w-full text-center">
-                <div className="w-32 h-32 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-green-900/50">
-                  <span className="text-6xl">🏡</span>
+                <div className="w-32 h-32 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-green-900/50 overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/logo.jpg" alt="بيت الصحة" className="w-full h-full object-cover" />
                 </div>
                 <h3 className="text-2xl font-extrabold mb-2 text-white">البيت أولاً</h3>
                 <p className="text-gray-300 text-sm mb-6">
