@@ -109,9 +109,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="order-first md:order-last relative">
               <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0"></div>
               <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden group">
-                {/* Product image carousel */}
-                <div className="flex w-[300%] animate-[marquee_15s_linear_infinite] group-hover:[animation-play-state:paused]">
-                  <div className="w-1/3 shrink-0 px-2">
+                {/* Product image carousel — 3 real + 3 duplicates for seamless loop */}
+                <div className="flex w-[600%] animate-marquee-product">
+                  {/* Real slides */}
+                  <div className="w-1/6 shrink-0 px-2">
                     <Image
                       src="/product-galery/IMA.1.jpg"
                       alt="شاي بيت الصحة - صورة 1"
@@ -121,7 +122,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                       priority
                     />
                   </div>
-                  <div className="w-1/3 shrink-0 px-2">
+                  <div className="w-1/6 shrink-0 px-2">
                     <Image
                       src="/product-galery/IMA3.jpg"
                       alt="شاي بيت الصحة - صورة 2"
@@ -130,10 +131,38 @@ export function ProductPageClient({ product, crossSells }: Props) {
                       className="w-full mx-auto rounded-3xl object-cover aspect-square"
                     />
                   </div>
-                  <div className="w-1/3 shrink-0 px-2">
+                  <div className="w-1/6 shrink-0 px-2">
                     <Image
                       src="/product-galery/IMA6.jpg"
                       alt="شاي بيت الصحة - صورة 3"
+                      width={500}
+                      height={500}
+                      className="w-full mx-auto rounded-3xl object-cover aspect-square"
+                    />
+                  </div>
+                  {/* Duplicate slides for seamless loop */}
+                  <div className="w-1/6 shrink-0 px-2" aria-hidden="true">
+                    <Image
+                      src="/product-galery/IMA.1.jpg"
+                      alt=""
+                      width={500}
+                      height={500}
+                      className="w-full mx-auto rounded-3xl object-cover aspect-square"
+                    />
+                  </div>
+                  <div className="w-1/6 shrink-0 px-2" aria-hidden="true">
+                    <Image
+                      src="/product-galery/IMA3.jpg"
+                      alt=""
+                      width={500}
+                      height={500}
+                      className="w-full mx-auto rounded-3xl object-cover aspect-square"
+                    />
+                  </div>
+                  <div className="w-1/6 shrink-0 px-2" aria-hidden="true">
+                    <Image
+                      src="/product-galery/IMA6.jpg"
+                      alt=""
                       width={500}
                       height={500}
                       className="w-full mx-auto rounded-3xl object-cover aspect-square"

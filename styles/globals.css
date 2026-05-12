@@ -166,6 +166,19 @@ body {
   100% { transform: translateX(50%); }
 }
 
+@keyframes marquee-product {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee-product {
+  animation: marquee-product 12s linear infinite;
+}
+.animate-marquee-product:hover,
+.group:hover .animate-marquee-product {
+  animation-play-state: paused;
+}
+
 @keyframes marquee-reviews {
   0% { transform: translateX(0); }
   100% { transform: translateX(-50%); }
