@@ -181,12 +181,12 @@ function TransformationCard({ t }: { t: Transformation }) {
         <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">
           قبل
         </div>
-        <div className="absolute top-3 right-3 bg-emerald-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">
+        <div className="absolute top-3 right-3 bg-[#155235] text-white text-[10px] font-bold px-2 py-1 rounded-full">
           بعد
         </div>
         {/* Weight lost badge */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2">
-          <span className="text-emerald-400 font-extrabold text-sm">-{t.lostKg} كغ</span>
+          <span className="text-[#C99A45] font-extrabold text-sm">-{t.lostKg} كغ</span>
           <span className="text-white/60 text-xs">في {t.durationAr}</span>
         </div>
       </div>
@@ -223,7 +223,7 @@ export function BeforeAfterCarousel() {
     <section className="py-12 md:py-16 bg-gradient-to-b from-[#0F1A14] to-[#071C12] overflow-hidden" aria-labelledby="ba-carousel-title">
       <div className="max-w-[1200px] mx-auto px-4 mb-8 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4 border border-white/20">
-          <span className="text-emerald-400">📸</span>
+          <span className="text-[#C99A45]">📸</span>
           <span className="text-sm font-bold text-white tracking-wide">نتائج حقيقية</span>
         </div>
         <h2 id="ba-carousel-title" className="text-2xl md:text-4xl font-extrabold text-white mb-3">
@@ -232,7 +232,7 @@ export function BeforeAfterCarousel() {
         <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
           نتائج حقيقية من عملاء استخدموا شاي بيت الصحة لمدة ٣ أشهر مع نمط حياة صحي
         </p>
-        <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-emerald-500 to-transparent mx-auto mt-5" />
+        <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#C99A45] to-transparent mx-auto mt-5" />
       </div>
 
       {/* Row 1: scroll right */}
@@ -257,7 +257,7 @@ export function BeforeAfterCarousel() {
           ].map((stat) => (
             <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
               <span className="text-2xl block mb-1">{stat.icon}</span>
-              <span className="text-xl md:text-2xl font-extrabold text-emerald-400 block">{stat.value}</span>
+              <span className="text-xl md:text-2xl font-extrabold text-[#C99A45] block">{stat.value}</span>
               <span className="text-xs text-gray-400">{stat.label}</span>
             </div>
           ))}

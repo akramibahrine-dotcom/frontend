@@ -121,7 +121,7 @@ export function CheckoutModal({ onClose }: Props) {
             <span className="font-extrabold text-[#C99A45] text-lg">{format(total)}</span>
           </div>
           {welcomePromo && (
-            <p className="text-[11px] text-center text-emerald-400/90 font-bold mb-1">
+            <p className="text-[11px] text-center text-[#C99A45] font-bold mb-1">
               ✓ عرض ترحيب بيت الصحة مفعّل — أسعار الباقات كما هي معروضة
             </p>
           )}

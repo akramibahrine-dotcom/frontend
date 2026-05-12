@@ -133,7 +133,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
               <div className="bg-white p-6 rounded-3xl shadow-sm border border-[#E8D8C3] mb-6">
                 <p className="text-base font-extrabold text-[#0F1A14] mb-4 flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                  <span className="w-2 h-2 rounded-full bg-[#C99A45] animate-pulse"></span>
                   اختر العرض المناسب لك:
                 </p>
                 <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} productImage={product.images[0]} />
@@ -221,7 +221,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="text-right">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6 border border-white/20">
-                <span className="text-[#6EE7B7]">🌿</span>
+                <span className="text-[#C99A45]">🌿</span>
                 <span className="text-sm font-bold tracking-wide">ذوق بيت الصحة</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">
@@ -249,7 +249,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 ].map((item, idx) => (
                   <li key={idx} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
                     <div className="w-10 h-10 rounded-full bg-[#155235]/40 flex items-center justify-center shrink-0">
-                      <span className="text-[#6EE7B7] font-bold">✓</span>
+                      <span className="text-[#C99A45] font-bold">✓</span>
                     </div>
                     <div>
                       <h4 className="font-extrabold text-white mb-1">{item.title}</h4>

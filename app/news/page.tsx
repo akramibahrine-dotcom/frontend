@@ -324,7 +324,7 @@ export default function NewsPage() {
                       <ul className="space-y-1.5">
                         {week.tips.map((tip) => (
                           <li key={tip} className="text-sm text-[#567063] flex items-start gap-2">
-                            <span className="text-emerald-500 mt-0.5 shrink-0">✓</span>
+                            <span className="text-[#C99A45] mt-0.5 shrink-0">✓</span>
                             {tip}
                           </li>
                         ))}
@@ -349,7 +349,7 @@ export default function NewsPage() {
                 اطلب شاي بيت الصحة الآن وابدأ برنامج الـ ٣٠ يوم — النتائج تبدأ من الأسبوع الأول!
               </p>
               <Link
-                href="/products"
+                href="/products/weight-support-tea"
                 className="inline-flex items-center gap-2 bg-[#C99A45] hover:bg-[#B8893A] text-white font-bold px-8 py-3.5 rounded-full transition-colors"
               >
                 <span>اطلب الآن</span>

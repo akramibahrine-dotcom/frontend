@@ -43,6 +43,7 @@ html {
   font-family: var(--font-arabic);
   direction: rtl;
   scroll-behavior: smooth;
+  overflow-x: hidden;
 }
 
 body {
@@ -100,7 +101,7 @@ body {
 /* ─── Glass card effect on dark bg ─── */
 .glass-card {
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(110,231,183,0.15);
+  border: 1px solid rgba(201,154,69,0.15);
   backdrop-filter: blur(12px);
 }
 
@@ -123,14 +124,14 @@ body {
 
 /* ─── Leaf decorative pattern ─── */
 .leaf-pattern {
-  background-image: radial-gradient(circle at 20% 80%, rgba(110,231,183,0.08) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(74,222,128,0.06) 0%, transparent 50%);
+  background-image: radial-gradient(circle at 20% 80%, rgba(201,154,69,0.06) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(21,82,53,0.06) 0%, transparent 50%);
 }
 
 /* ─── Scrollbar ─── */
-::-webkit-scrollbar { width: 6px; }
-::-webkit-scrollbar-track { background: var(--color-forest-mid); }
-::-webkit-scrollbar-thumb { background: var(--color-sage); border-radius: 3px; }
+::-webkit-scrollbar { width: 0px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: transparent; }
 
 /* ─── Animations ─── */
 @keyframes slide-in-right {
@@ -231,10 +232,10 @@ body {
     72% 86%;
   /* Inline SVG herb leaf, gold/sage tinted */
   background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23C99A45' opacity='0.85'/><path d='M32 8c-2 14 4 28 16 36' stroke='%234ADE80' stroke-width='1.5' opacity='0.6'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%234ADE80' opacity='0.7'/><path d='M12 32c8-2 16-8 22-18' stroke='%23C99A45' stroke-width='1.5' opacity='0.6'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%234ADE80' opacity='0.55'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23C99A45' opacity='0.65'/></svg>");
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23C99A45' opacity='0.25'/><path d='M32 8c-2 14 4 28 16 36' stroke='%23C99A45' stroke-width='1.5' opacity='0.15'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23155235' opacity='0.2'/><path d='M12 32c8-2 16-8 22-18' stroke='%23C99A45' stroke-width='1.5' opacity='0.15'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23155235' opacity='0.15'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23C99A45' opacity='0.2'/></svg>");
   animation: herb-drift 14s ease-in-out infinite alternate,
              herb-fade  6s  ease-in-out infinite;
   will-change: transform, opacity;

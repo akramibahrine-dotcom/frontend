@@ -38,7 +38,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="ar" dir="rtl" className={ibmPlexArabic.variable}>
-      <body className="min-h-screen flex flex-col font-arabic">
+      <body className="min-h-screen flex flex-col font-arabic overflow-x-hidden">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

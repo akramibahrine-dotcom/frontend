@@ -62,7 +62,7 @@ export function CartDrawer() {
               <Link
                 href="/collections"
                 onClick={closeCart}
-                className="px-6 py-2.5 rounded-full bg-[#C99A45] text-[#071C12] text-sm font-bold hover:bg-[#4ADE80] transition-colors"
+                className="px-6 py-2.5 rounded-full bg-[#C99A45] text-[#071C12] text-sm font-bold hover:bg-[#B8893A] transition-colors"
               >
                 اختر منتجًا
               </Link>
@@ -107,7 +107,7 @@ export function CartDrawer() {
             </div>
 
             {welcomePromo && (
-              <p className="text-[11px] text-center text-emerald-400/90 font-bold">
+              <p className="text-[11px] text-center text-[#C99A45] font-bold">
                 ✓ عرض ترحيب بيت الصحة مفعّل على هذا الطلب
               </p>
             )}
