@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { COPY } from "@/content/copy";
-import { PRODUCTS, type ImageTheme } from "@/content/products";
-import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
+import { PRODUCTS } from "@/content/products";
 
 type OrderItem = {
   productId: string;
@@ -22,12 +21,17 @@ type OrderSummary = {
   createdAt: string;
 };
 
-function getProductName(productId: string): string {
-  return PRODUCTS.find((p) => p.id === productId)?.shortNameAr ?? productId;
+function getProduct(productId: string) {
+  return PRODUCTS.find((p) => p.id === productId);
 }
 
-function getProductTheme(productId: string): ImageTheme {
-  return PRODUCTS.find((p) => p.id === productId)?.imageTheme ?? "weight";
+function getProductName(productId: string): string {
+  return getProduct(productId)?.shortNameAr ?? productId;
+}
+
+function getProductImage(productId: string): string {
+  const product = getProduct(productId);
+  return product ? `/products/${product.slug}/1.jpg` : "/products/fallback.jpg";
 }
 
 function getQuantityLabel(qty: number): string {
@@ -94,10 +98,11 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                   key={item.productId}
                   className="flex items-center gap-3 bg-[#F5F3EE] rounded-2xl p-3"
                 >
-                  <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden">
-                    <ProductPlaceholderImage
-                      theme={getProductTheme(item.productId)}
-                      aspectRatio="square"
+                  <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden bg-[#E8D8C3]/30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getProductImage(item.productId)}
+                      alt={getProductName(item.productId)}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -111,10 +116,11 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
 
               {order.upsell && (
                 <div className="flex items-center gap-3 bg-[#C99A45]/5 border border-[#C99A45]/20 rounded-2xl p-3">
-                  <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden">
-                    <ProductPlaceholderImage
-                      theme={getProductTheme(order.upsell.productId)}
-                      aspectRatio="square"
+                  <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden bg-[#E8D8C3]/30">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={getProductImage(order.upsell.productId)}
+                      alt={getProductName(order.upsell.productId)}
                       className="w-full h-full object-cover"
                     />
                   </div>
@@ -175,9 +181,21 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
         </div>
 
         {/* Urgency Note */}
-        <div className="flex items-center justify-center gap-3 bg-[#C99A45]/10 border border-[#C99A45]/20 p-4 rounded-2xl mb-10">
+        <div className="flex items-center justify-center gap-3 bg-[#C99A45]/10 border border-[#C99A45]/20 p-4 rounded-2xl mb-6">
           <span className="text-[#C99A45] text-xl">⚡</span>
           <span className="text-sm font-bold text-[#0F1A14]">{COPY.thankYou.deliveryNoteAr}</span>
+        </div>
+
+        {/* Contact Notice */}
+        <div className="flex items-start gap-4 bg-[#155235]/10 border border-[#155235]/30 p-5 rounded-2xl mb-10">
+          <div className="w-10 h-10 shrink-0 rounded-full bg-[#155235] flex items-center justify-center">
+            <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+          </div>
+          <p className="text-sm font-bold text-[#0F1A14] leading-relaxed pt-1.5">
+            ستتواصل معك موظفتنا بين الساعة ٩ صباحًا و ٩ مساءً للإجابة على جميع استفساراتك قبل الشحن
+          </p>
         </div>
 
         {/* Trust Signals */}
@@ -217,10 +235,11 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                 href={`/products/${product.slug}`}
                 className="bg-white rounded-3xl border border-[#E8D8C3] p-5 flex gap-4 items-center shadow-sm hover:shadow-lg hover:border-[#C99A45]/40 transition-all duration-200 group"
               >
-                <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden">
-                  <ProductPlaceholderImage
-                    theme={product.imageTheme}
-                    aspectRatio="square"
+                <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-[#F5F3EE]">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={product.images[0] ?? `/products/${product.slug}/1.jpg`}
+                    alt={product.shortNameAr}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 </div>

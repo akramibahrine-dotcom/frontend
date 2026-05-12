@@ -12,6 +12,7 @@ import { COPY } from "@/content/copy";
 import { isValidPhone } from "@/lib/phone";
 import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
+import { getPayableBundlePriceSar } from "@/lib/pricing";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
@@ -91,15 +92,29 @@ export function CheckoutModal({ onClose }: Props) {
         </div>
 
         <div className="mb-5 p-3 bg-[#155235]/30 border border-[#155235]/50 rounded-xl text-sm">
-          <div className="flex gap-4 items-center border-b border-[#155235]/50 pb-3 mb-3">
-            {/* Offer Image Placeholder */}
-            <div className="w-16 h-16 bg-[#071C12] rounded-lg border border-[#155235] flex items-center justify-center text-2xl shrink-0 shadow-inner">
-              📦
-            </div>
-            <div className="flex-1">
-              <h3 className="font-bold text-white text-base">باقة مختارة</h3>
-              <p className="text-xs text-[#C99A45] mt-1">تأكيدٌ على الخادم + الدفع عند الاستلام</p>
-            </div>
+          <div className="space-y-2 border-b border-[#155235]/50 pb-3 mb-3">
+            {items.map((item) => {
+              const itemPrice = getPayableBundlePriceSar(item.quantity);
+              return (
+                <div key={item.lineId} className="flex gap-3 items-center">
+                  <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#155235] bg-[#071C12]">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`/products/${item.slug}/1.jpg`}
+                      alt={item.nameAr}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="font-bold text-white text-sm line-clamp-1">{item.nameAr}</p>
+                    <p className="text-xs text-[#FFFFFF]/60 mt-0.5">
+                      {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "٣ عبوات"}
+                    </p>
+                  </div>
+                  <span className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</span>
+                </div>
+              );
+            })}
           </div>
           <div className="flex justify-between font-medium mb-2">
             <span className="text-[#FFFFFF]/70">إجمالي الطلب</span>

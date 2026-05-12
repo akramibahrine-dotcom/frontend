@@ -99,7 +99,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "الضغط والسفر والوجبات الثقيلة تَثقل البطن حتى يضيق صدرك. جئنا بخلطة دافئة تُذكّرك أن العناية تبدأ بكوبٍ منتظم.",
     imageTheme: "colon",
-    images: ["/products/colon-comfort-tea/1.jpg.webp", "/products/colon-comfort-tea/2.jpg.webp", "/products/colon-comfort-tea/3.jpg.jpg"],
+    images: ["/products/colon-comfort-tea/1.jpg", "/products/colon-comfort-tea/2.jpg", "/products/colon-comfort-tea/3.jpg"],
     upsellProductId: "liver-wellness-tea",
     crossSellProductIds: ["weight-support-tea", "hemorrhoid-comfort-tea"],
     ritualAr:

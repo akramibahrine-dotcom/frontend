@@ -26,13 +26,16 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
 
       <nav
         className={cn(
-          "fixed top-0 left-0 h-full w-72 z-50 bg-white shadow-2xl flex flex-col",
+          "fixed top-0 left-0 h-full w-72 z-50 bg-gradient-to-b from-[#F5F3EE] to-white shadow-2xl flex flex-col",
           "transition-transform duration-300 md:hidden",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
         aria-label="قائمة التنقل"
         aria-hidden={!isOpen}
       >
+        <div className="bg-[#071C12] px-4 py-3 flex items-center justify-center">
+          <span className="text-[#C99A45] font-bold text-sm tracking-wide">بيت الصحة — أعشاب تليق ببيتك</span>
+        </div>
         <div className="flex items-center justify-between p-4 border-b border-[#E8D8C3]">
           <BrandLogo size="sm" />
           <button
@@ -52,7 +55,7 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
               onClick={onClose}
               className="px-4 py-3 rounded-xl text-[#1D1D1B] font-medium hover:bg-[#F8F1E7] hover:text-[#1F6B4E] transition-colors"
             >
-              {link.label}
+              {link.href === "/collections" ? "الأكثر طلبا على موقعنا" : link.label}
             </Link>
           ))}
         </div>

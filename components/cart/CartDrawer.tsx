@@ -3,7 +3,6 @@
 import { useCartStore, type CartItem } from "@/store/cart-store";
 import { useCurrencyStore } from "@/store/currency-store";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
-import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
 import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { COPY } from "@/content/copy";
@@ -139,11 +138,12 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
-      <div className="w-16 h-16 flex-shrink-0">
-        <ProductPlaceholderImage
-          theme={item.imageTheme as import("@/content/products").ImageTheme}
-          aspectRatio="square"
-          className="w-16 h-16"
+      <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`/products/${item.slug}/1.jpg`}
+          alt={item.nameAr}
+          className="w-14 h-14 object-contain"
         />
       </div>
       <div className="flex-1 min-w-0">
@@ -179,11 +179,12 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
-      <div className="w-12 h-12 flex-shrink-0">
-        <ProductPlaceholderImage
-          theme={product.imageTheme}
-          aspectRatio="square"
-          className="w-12 h-12"
+      <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={product.images[0]}
+          alt={product.nameAr}
+          className="w-12 h-12 object-contain"
         />
       </div>
       <div className="flex-1 min-w-0">

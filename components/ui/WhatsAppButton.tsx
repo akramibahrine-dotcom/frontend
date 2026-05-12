@@ -11,7 +11,7 @@ export function WhatsAppButton({ phoneNumber = "966500000000", message = "مرح
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
 
   return (
-    <div className="fixed bottom-24 right-4 z-40 flex flex-col items-center gap-2 group md:bottom-8 md:right-8">
+    <div className="fixed bottom-24 left-4 z-40 flex flex-col items-center gap-2 group md:bottom-8 md:left-8">
       {/* Close button */}
       <button 
         onClick={() => setIsVisible(false)}
@@ -27,7 +27,7 @@ export function WhatsAppButton({ phoneNumber = "966500000000", message = "مرح
         target="_blank"
         rel="noopener noreferrer"
         className={cn(
-          "w-14 h-14 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg",
+          "w-12 h-12 bg-[#25D366] text-white rounded-full flex items-center justify-center shadow-lg",
           "hover:scale-110 hover:shadow-[0_0_20px_rgba(37,211,102,0.4)] transition-all duration-300",
           "animate-pulse-glow"
         )}

@@ -23,12 +23,21 @@ export function ProductCard({ product, className }: Props) {
         className
       )}
     >
-      <Link href={`/products/${product.slug}`} className="block">
-        <ProductPlaceholderImage
-          theme={product.imageTheme}
-          aspectRatio="product"
-          className="rounded-t-2xl rounded-b-none group-hover:scale-[1.02] transition-transform duration-300"
-        />
+      <Link href={`/products/${product.slug}`} className="block overflow-hidden rounded-t-2xl">
+        {product.images && product.images.length > 0 ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.images[0]}
+            alt={product.nameAr}
+            className="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-300"
+          />
+        ) : (
+          <ProductPlaceholderImage
+            theme={product.imageTheme}
+            aspectRatio="product"
+            className="rounded-t-2xl rounded-b-none group-hover:scale-[1.02] transition-transform duration-300"
+          />
+        )}
       </Link>
 
       <div className="p-4 flex flex-col flex-1 gap-3">

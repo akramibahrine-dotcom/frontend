@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { CATEGORIES } from "@/content/categories";
-import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
 import { TrustStrip } from "@/components/ui/TrustBadge";
 
 export const metadata: Metadata = {
@@ -37,11 +36,14 @@ export default function CategoriesPage() {
                 href={`/categories/${category.slug}`}
                 className="group bg-white rounded-2xl border border-[#E8E2D8] overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col"
               >
-                <ProductPlaceholderImage
-                  theme={category.imageTheme}
-                  aspectRatio="square"
-                  className="rounded-b-none group-hover:scale-[1.02] transition-transform duration-300"
-                />
+                <div className="aspect-square overflow-hidden rounded-b-none">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={category.image}
+                    alt={category.nameAr}
+                    className="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                  />
+                </div>
                 <div className="p-5 flex flex-col gap-2 flex-1">
                   <h2 className="font-extrabold text-[#0F1A14] text-lg group-hover:text-[#155235] transition-colors">
                     {category.nameAr}

@@ -71,7 +71,7 @@ function HeroCarousel({ product }: { product: Product }) {
 
         {/* Floating Badge */}
         <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce-slow z-10">
-          <span className="text-xl">✨</span>
+          <span className="text-xl">🌿</span>
           <span className="text-sm font-bold text-[#155235]">{product.concernAr}</span>
         </div>
       </div>
@@ -136,7 +136,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                   <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
                   اختر العرض المناسب لك:
                 </p>
-                <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} />
+                <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} productImage={product.images[0]} />
               </div>
 
               <button
@@ -221,7 +221,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="text-right">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6 border border-white/20">
-                <span className="text-[#6EE7B7]">✨</span>
+                <span className="text-[#6EE7B7]">🌿</span>
                 <span className="text-sm font-bold tracking-wide">ذوق بيت الصحة</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">
@@ -342,25 +342,34 @@ export function ProductPageClient({ product, crossSells }: Props) {
       <section className="py-12 border-y border-[#E8D8C3] bg-white">
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl">
-              <div className="text-4xl mb-4">🏡</div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">ذوقُ التغليف</h3>
+            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
+              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/product-galery/promise-packaging.jpg" alt="تغليف فاخر" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">تغليف فاخر يليق بك</h3>
               <p className="text-sm text-[#6E675F]">
-                نراعي أن يصلك الطرد بمظهرٍ يليق ببيتٍ يهتمّ بتفاصيله، من دون أن نضيف على الصندوق وعودًا طبيةً.
+                كل طرد يصلك بتغليف أنيق يعكس جودة المنتج — لأن التجربة تبدأ قبل الفتح.
               </p>
             </div>
-            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl">
-              <div className="text-4xl mb-4">⚡</div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">سيرٌ للشحن</h3>
+            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
+              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/product-galery/promise-delivery.jpg" alt="توصيل سريع" className="w-full h-full object-cover" />
+              </div>
+              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">توصيل سريع لباب بيتك</h3>
               <p className="text-sm text-[#6E675F]">
-                نعمل على توصيلٍ معقولٍ داخل المملكة؛ مدة التسليم تُحدَّد عند تأكيد الطلب وليس كرقمٍ غرامٍ في الإعلان.
+                نوصّل لجميع دول الخليج — السعودية والإمارات والكويت والبحرين وقطر وعُمان.
               </p>
             </div>
-            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl">
-              <div className="text-4xl mb-4">💵</div>
+            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
+              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/product-galery/promise-cod.jpg" alt="الدفع عند الاستلام" className="w-full h-full object-cover" />
+              </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">الدفع عند الاستلام</h3>
               <p className="text-sm text-[#6E675F]">
-                لا نأخذ من محفظتك ولا ريالًا قبل أن يمسك مندوبُنا الطردَ أمامك — راحة قرارٍ قبل كلفته.
+                لا تدفع ولا ريال قبل ما يوصلك المنتج — ثقة كاملة من البداية.
               </p>
             </div>
           </div>
@@ -423,7 +432,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
           <div className="bg-white text-black p-8 rounded-3xl max-w-2xl mx-auto shadow-2xl mb-8">
             <h3 className="text-xl font-extrabold text-[#0F1A14] mb-6">الباقة (الدفع عند الاستلام)</h3>
-            <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} />
+            <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} productImage={product.images[0]} />
             <button
               onClick={handleAddToCart}
               className="w-full mt-6 bg-[#C99A45] hover:bg-[#b3883b] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] shadow-lg shadow-[#C99A45]/30"
