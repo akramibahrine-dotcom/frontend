@@ -14,6 +14,7 @@ import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { WelcomePromoModal } from "@/components/product/WelcomePromoModal";
 import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
+import { BeforeAfterCarousel } from "@/components/product/BeforeAfterCarousel";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 
@@ -165,6 +166,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
           </div>
         </div>
       </section>
+
+      {/* Before & After transformations carousel */}
+      <BeforeAfterCarousel />
 
       {/* Reviews marquee after hero */}
       <ReviewsMarquee />

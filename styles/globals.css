@@ -192,6 +192,13 @@ body {
   width: max-content;
   animation: marquee-brand 55s linear infinite;
 }
+.animate-marquee-ba {
+  width: max-content;
+  animation: marquee-reviews 90s linear infinite;
+}
+.animate-marquee-ba:hover {
+  animation-play-state: paused;
+}
 
 /* ─── Herb drift effect (cart drawer background) ─── */
 @keyframes herb-drift {
