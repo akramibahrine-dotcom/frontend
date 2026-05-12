@@ -9,9 +9,9 @@ type Props = {
 
 export function BrandLogo({ className, size = "md", dark = false }: Props) {
   const sizes = {
-    sm: { circle: "w-8 h-8 text-base", title: "text-lg", sub: "text-xs" },
-    md: { circle: "w-10 h-10 text-xl", title: "text-xl", sub: "text-xs" },
-    lg: { circle: "w-12 h-12 text-2xl", title: "text-2xl", sub: "text-sm" },
+    sm: { img: 32, title: "text-lg", sub: "text-xs" },
+    md: { img: 40, title: "text-xl", sub: "text-xs" },
+    lg: { img: 48, title: "text-2xl", sub: "text-sm" },
   };
 
   const s = sizes[size];
@@ -22,18 +22,6 @@ export function BrandLogo({ className, size = "md", dark = false }: Props) {
       className={cn("flex items-center gap-2 no-underline", className)}
       aria-label="بيت الصحة - الصفحة الرئيسية"
     >
-      <div
-        className={cn(
-          s.circle,
-          "rounded-full flex items-center justify-center font-bold flex-shrink-0",
-          dark
-            ? "bg-[#C99A45] text-[#071C12]"
-            : "bg-[#155235] text-[#F5F3EE]"
-        )}
-        aria-hidden="true"
-      >
-        ن
-      </div>
       <div className="flex flex-col leading-tight">
         <span className={cn(s.title, "font-bold", dark ? "text-white" : "text-[#0F1A14]")}>
           بيت الصحة

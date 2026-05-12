@@ -167,6 +167,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
         </div>
       </section>
 
+      {/* Reviews marquee after hero */}
+      <ReviewsMarquee />
+
       {/* 2. Pain & Emotion Section (Text Left, Image Right in RTL -> code wise: text order-last, image order-first) */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#F8F1E7] rounded-full blur-3xl opacity-50 -translate-y-1/2 translate-x-1/2"></div>
@@ -175,11 +178,11 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {/* Image (Right in RTL) */}
             <div className="order-first relative group">
               <div className="absolute inset-0 bg-[#F8F1E7] rounded-3xl rotate-3 transition-transform group-hover:rotate-6"></div>
-              <ProductPlaceholderImage
-                theme={product.imageTheme}
-                aspectRatio="square"
-                className="w-full relative z-10 rounded-3xl shadow-lg grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
-                alt="صورة تعبر عن المعاناة"
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                  src="/product-galery/6.jpg"
+                alt="رشاقتك بفنجان"
+                className="w-full relative z-10 rounded-3xl shadow-lg object-cover aspect-square grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
             
@@ -291,18 +294,13 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="relative group order-first">
               <div className="absolute inset-0 bg-white rounded-[3rem] rotate-[-3deg] transition-transform group-hover:rotate-0" />
-              <div className="relative bg-gradient-to-br from-[#155235]/10 to-transparent p-8 rounded-[3rem] border border-white">
-                <div className="grid grid-cols-2 gap-4">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className="aspect-square bg-white rounded-2xl p-4 flex flex-col items-center justify-center text-center shadow-sm border border-[#E8D8C3]/50 hover:-translate-y-1 transition-transform"
-                    >
-                      <span className="text-4xl mb-2">🌿</span>
-                      <span className="text-xs font-bold text-[#6E675F]">عشبٌ في المزيج</span>
-                    </div>
-                  ))}
-                </div>
+              <div className="relative bg-gradient-to-br from-[#155235]/10 to-transparent p-4 rounded-[3rem] border border-white overflow-hidden">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/product-galery/4.jpg"
+                  alt="مكوّنات المزيج العشبي"
+                  className="w-full h-full object-cover rounded-2xl"
+                />
               </div>
             </div>
 
@@ -390,28 +388,20 @@ export function ProductPageClient({ product, crossSells }: Props) {
             </div>
             
             <div className="order-first flex justify-center">
-              <div className="w-full max-w-sm aspect-square bg-white rounded-full flex items-center justify-center shadow-2xl shadow-[#155235]/10 border-8 border-[#F8F1E7] relative">
-                <div className="absolute inset-0 border-2 border-dashed border-[#C99A45]/30 rounded-full animate-spin-slow"></div>
-                <div className="text-center relative z-10">
-                  <span className="text-8xl block mb-4">☕</span>
-                  <span className="font-extrabold text-[#0F1A14]">وقتك الخاص</span>
-                </div>
+              <div className="w-full max-w-sm relative">
+                <div className="absolute inset-0 border-2 border-dashed border-[#C99A45]/30 rounded-3xl animate-spin-slow pointer-events-none" />
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/product-galery/5.jpg"
+                  alt="خطوات تحضير الشاي"
+                  className="w-full rounded-3xl shadow-2xl shadow-[#155235]/10 border-4 border-[#F8F1E7] object-cover"
+                />
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 7. لا تقييمات وهمية */}
-      <section className="py-16 md:py-24 bg-white">
-        <div className="max-w-[720px] mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-4">
-            {COPY.reviewsPlaceholderTitleAr}
-          </h2>
-          <div className="divider-mint w-24 mx-auto mb-6" />
-          <p className="text-[#6E675F] text-lg leading-relaxed">{COPY.reviewsPlaceholderBodyAr}</p>
-        </div>
-      </section>
 
       {/* ═══ REVIEWS MARQUEE ═══ */}
       <ReviewsMarquee />
