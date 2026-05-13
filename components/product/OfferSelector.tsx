@@ -5,6 +5,12 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { BUNDLE_OFFERS, SAVINGS_MAP } from "@/content/products";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 
+const OFFER_IMAGES: Record<number, string> = {
+  1: "/offers/1box.png",
+  2: "/offers/2box.png",
+  3: "/offers/3box.png",
+};
+
 type Props = {
   selectedQuantity: 1 | 2 | 3;
   onChange: (quantity: 1 | 2 | 3) => void;
@@ -13,7 +19,7 @@ type Props = {
   productImage?: string;
 };
 
-export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, productImage }: Props) {
+export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false }: Props) {
   const format = useCurrencyStore((s) => s.format);
 
   return (
@@ -49,33 +55,10 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                   <div className="w-2 h-2 rounded-full bg-white" />
                 )}
               </div>
-              {productImage && (
-                <div className="relative flex-shrink-0 w-14 h-14">
-                  {offer.quantity === 1 && (
-                    <>
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={productImage} alt="" className="w-14 h-14 object-contain" />
-                    </>
-                  )}
-                  {offer.quantity === 2 && (
-                    <div className="relative w-14 h-14">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={productImage} alt="" className="absolute top-0 right-0 w-11 h-11 object-contain" />
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={productImage} alt="" className="absolute bottom-0 left-0 w-11 h-11 object-contain" />
-                    </div>
-                  )}
-                  {offer.quantity === 3 && (
-                    <div className="relative w-14 h-14">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={productImage} alt="" className="w-14 h-14 object-contain" />
-                      <span className="absolute -top-1 -left-1 bg-[#C99A45] text-white text-[10px] font-bold rounded-full w-5 h-5 flex items-center justify-center">
-                        x3
-                      </span>
-                    </div>
-                  )}
-                </div>
-              )}
+              <div className="flex-shrink-0 w-10 h-10">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={OFFER_IMAGES[offer.quantity]} alt={`${offer.quantity} عبوة`} className="w-10 h-10 object-contain" />
+              </div>
               <div>
                 <span className="font-bold text-[#0F1A14] text-sm">{offer.labelAr}</span>
                 {savings && (
