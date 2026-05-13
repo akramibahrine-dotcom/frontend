@@ -67,25 +67,23 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Hero visual card */}
+            {/* Hero visual */}
             <div className="flex flex-col items-center justify-center relative">
-              <div className="bg-[#071C12] rounded-3xl p-8 w-full max-w-sm text-center relative overflow-hidden shadow-2xl">
-                <div
-                  aria-hidden
-                  className="absolute inset-0 rounded-3xl opacity-10"
-                  style={{ background: "linear-gradient(135deg,rgba(201,154,69,0.3),transparent)" }}
+              <div className="w-full max-w-md relative rounded-3xl overflow-hidden shadow-2xl shadow-[#071C12]/40 group">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/product-galery/hero-main.jpg"
+                  alt="منتجات بيت الصحة — أعشاب طبيعية فاخرة"
+                  className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
-                <div className="relative">
-                  <div className="text-7xl mb-4">🍃</div>
-                  <div className="bg-white/10 rounded-2xl px-5 py-4 mb-4 border border-white/5">
-                    <p className="font-extrabold text-[#C99A45] text-2xl">بيت الصحة</p>
-                    <p className="text-white/80 text-sm mt-1">{COPY.brand.taglineAr}</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 text-center">
-                    {["💳 COD", "🚚 KSA", "🌿 عشبي"].map((b) => (
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071C12]/80 via-transparent to-transparent" />
+                <div className="absolute bottom-0 inset-x-0 p-6 text-center">
+                  <p className="font-extrabold text-[#C99A45] text-xl mb-2">بيت الصحة</p>
+                  <div className="flex justify-center gap-2">
+                    {["💳 الدفع عند الاستلام", "🚚 توصيل الخليج", "🌿 طبيعي ١٠٠٪"].map((b) => (
                       <span
                         key={b}
-                        className="bg-[#C99A45]/10 border border-[#C99A45]/20 text-[#C99A45] text-xs py-1.5 rounded-lg font-medium"
+                        className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] py-1 px-2 rounded-full font-medium"
                       >
                         {b}
                       </span>
@@ -93,7 +91,6 @@ export default function HomePage() {
                   </div>
                 </div>
               </div>
-              <p className="text-[#071C12] font-bold text-xs mt-4">صورة توضيحية — تُستبدل بصورة المنتج</p>
             </div>
           </div>
         </div>
@@ -250,18 +247,13 @@ export default function HomePage() {
               </Link>
             </div>
             <div className="flex items-center justify-center order-first md:order-last">
-              <div
-                className="w-full max-w-sm rounded-3xl aspect-[4/5] flex items-center justify-center relative overflow-hidden"
-                style={{ background: "linear-gradient(135deg,#0D2B1D,#155235)" }}
-              >
-                <div className="absolute inset-0" style={{ background: "radial-gradient(circle at 70% 30%,rgba(201,154,69,0.15),transparent 60%)" }} />
-                <div className="text-center relative">
-                  <div className="text-8xl mb-3">☕</div>
-                  <div className="bg-white/10 backdrop-blur-sm rounded-2xl px-6 py-3 mx-4 border border-white/10">
-                    <p className="font-bold text-[#C99A45] text-sm">لحظات العناية اليومية</p>
-                    <p className="text-white/70 text-xs mt-1">صورة توضيحية</p>
-                  </div>
-                </div>
+              <div className="w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl shadow-[#155235]/20 group">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src="/product-galery/gallery-lifestyle.jpg"
+                  alt="لحظات العناية اليومية مع بيت الصحة"
+                  className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700"
+                />
               </div>
             </div>
           </div>
