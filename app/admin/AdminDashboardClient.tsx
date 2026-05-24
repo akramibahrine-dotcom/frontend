@@ -87,6 +87,10 @@ type Metrics = {
   traffic_sources: Array<{ source: string; clicks: number }>;
   device_breakdown: Array<{ device: string; visitors: number; clicks: number }>;
   country_breakdown: Array<{ country: string; visitors: number; clicks: number }>;
+  order_status_breakdown: Array<{ status: string; orders: number; revenue_sar: number }>;
+  funnel: Array<{ step: string; count: number }>;
+  utm_source_breakdown: Array<{ source: string; orders: number; revenue_sar: number }>;
+  risk_breakdown: Array<{ reason: string; attempts: number }>;
 };
 
 type ProductMetric = {
@@ -99,9 +103,22 @@ type ProductMetric = {
 
 type OrderListItem = {
   id: string; public_order_number: string; status: string; customer_name: string;
-  customer_phone_local: string; total_sar: number; created_at: string;
+  customer_phone_local: string; total_sar: number; is_test_order: boolean; created_at: string;
   utm_source: string | null; utm_campaign: string | null;
   country_iso_code: string | null; fraud_reason: string | null;
+  fraud_decision: string | null; risk_score: number | null; ip_risk: number | null;
+};
+
+type OrderDetail = OrderListItem & {
+  customer_phone_e164: string; subtotal_sar: number; shipping_sar: number;
+  display_currency: string | null; display_total: number | null;
+  landing_page_url: string | null; page_url: string | null; ip_address: string | null;
+  user_agent: string | null; utm_medium: string | null; utm_content: string | null; utm_term: string | null;
+  is_anonymous_proxy: boolean | null; is_anonymous_vpn: boolean | null; is_hosting_provider: boolean | null;
+  is_public_proxy: boolean | null; is_residential_proxy: boolean | null; is_tor_exit_node: boolean | null;
+  items: Array<{ product_id: string; product_name_ar: string; quantity: number; bundle_price_sar: number; source: string }>;
+  tracking_events: Array<{ platform: string; event_name: string; status: string; error: string | null; created_at: string }>;
+  webhook_deliveries: Array<{ destination: string; status: string; attempts: number; last_error: string | null }>;
 };
 
 type LoginEvent = {
@@ -128,6 +145,16 @@ function sar(v: number) { return new Intl.NumberFormat("ar-SA", { style: "curren
 function shortDate(v: string) { return new Intl.DateTimeFormat("en-US", { dateStyle: "medium", timeStyle: "short" }).format(new Date(v)); }
 function pct(v: number) { return `${v.toFixed(1)}%`; }
 function countryName(code: string) { return ALL_COUNTRIES.find((c) => c.code === code)?.name ?? code; }
+function compact(v: number) { return new Intl.NumberFormat("en-US", { notation: "compact", maximumFractionDigits: 1 }).format(v); }
+function statusLabel(status: string) { return status.replaceAll("_", " "); }
+function riskFlags(order: OrderDetail): string[] {
+  const flags: string[] = [];
+  if (order.is_anonymous_vpn) flags.push("VPN");
+  if (order.is_anonymous_proxy || order.is_public_proxy || order.is_residential_proxy) flags.push("Proxy");
+  if (order.is_hosting_provider) flags.push("Hosting");
+  if (order.is_tor_exit_node) flags.push("Tor");
+  return flags;
+}
 
 export function AdminDashboardClient() {
   const [username, setUsername] = useState("");
@@ -138,11 +165,13 @@ export function AdminDashboardClient() {
   const [end, setEnd] = useState(new Date().toISOString().slice(0, 10));
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [orders, setOrders] = useState<OrderListItem[]>([]);
+  const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
   const [logins, setLogins] = useState<LoginEvent[]>([]);
   const [liveLogins, setLiveLogins] = useState<LoginEvent[]>([]);
   const [rules, setRules] = useState<AccessRule[]>([]);
   const [translations, setTranslations] = useState<TranslationOverride[]>([]);
   const [loading, setLoading] = useState(false);
+  const [orderPreviewLoading, setOrderPreviewLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const headers = useMemo(() => (auth ? { Authorization: `Basic ${auth}`, "Content-Type": "application/json" } : undefined), [auth]);
@@ -182,9 +211,21 @@ export function AdminDashboardClient() {
 
   useEffect(() => { if (auth) void loadData(); }, [auth, loadData]);
 
+  async function previewOrder(orderId: string) {
+    setOrderPreviewLoading(true);
+    setError(null);
+    try {
+      setSelectedOrder(await adminFetch<OrderDetail>(`/api/v1/admin/orders/${orderId}`));
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not load order preview.");
+    } finally {
+      setOrderPreviewLoading(false);
+    }
+  }
+
   if (!auth) {
     return (
-      <section className="min-h-[70vh] bg-[#071C12] px-4 py-16 text-white">
+      <section dir="ltr" className="min-h-[70vh] bg-[#111111] px-4 py-16 text-white">
         <div className="mx-auto max-w-md rounded-[2rem] border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur">
           <p className="mb-2 text-sm font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha Admin</p>
           <h1 className="mb-6 text-3xl font-black">Admin Login</h1>
@@ -200,24 +241,25 @@ export function AdminDashboardClient() {
   }
 
   return (
-    <section className="min-h-screen bg-[#F5F3EE] px-4 py-8 text-[#0F1A14]">
+    <section dir="ltr" className="min-h-screen bg-[#111111] px-4 py-8 text-white">
       <div className="mx-auto max-w-7xl">
         <HeroBar start={start} end={end} setStart={setStart} setEnd={setEnd} refresh={() => void loadData()} loading={loading} />
         {error && <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-700">{error}</div>}
         <nav className="mb-6 flex flex-wrap gap-2">
           {([["command", "Dashboard"], ["products", "Products"], ["orders", "Orders"], ["visitors", "Visitors"], ["controls", "Access Control"], ["translations", "Translation"], ["logins", "Logins"]] as const).map(([id, label]) => (
-            <button key={id} onClick={() => setTab(id)} className={`rounded-full px-5 py-2 text-sm font-black transition ${tab === id ? "bg-[#155235] text-white shadow-md" : "bg-white text-[#155235] hover:bg-[#155235]/10"}`}>{label}</button>
+            <button key={id} onClick={() => setTab(id)} className={`rounded-full px-5 py-2 text-sm font-black transition ${tab === id ? "bg-[#1473ff] text-white shadow-md" : "border border-white/10 bg-[#1f1f1f] text-white/70 hover:text-white"}`}>{label}</button>
           ))}
         </nav>
 
         {metrics && tab === "command" && <CommandTab metrics={metrics} />}
         {metrics && tab === "products" && <ProductsTab products={metrics.products} />}
-        {tab === "orders" && metrics && <OrdersTab orders={orders} products={metrics.products} />}
+        {tab === "orders" && metrics && <OrdersTab orders={orders} products={metrics.products} onPreview={previewOrder} loadingPreview={orderPreviewLoading} />}
         {metrics && tab === "visitors" && <VisitorsTab metrics={metrics} />}
         {tab === "controls" && headers && <AccessControlTab headers={headers} rules={rules} reload={() => void loadData()} />}
         {tab === "translations" && headers && <TranslationsTab headers={headers} translations={translations} reload={() => void loadData()} />}
         {tab === "logins" && <LoginsTab logins={logins} live={liveLogins} />}
       </div>
+      {selectedOrder && <OrderPreview order={selectedOrder} onClose={() => setSelectedOrder(null)} />}
     </section>
   );
 }
@@ -225,16 +267,17 @@ export function AdminDashboardClient() {
 /* ─── Hero Bar ─── */
 function HeroBar(props: { start: string; end: string; setStart: (v: string) => void; setEnd: (v: string) => void; refresh: () => void; loading: boolean }) {
   return (
-    <div className="mb-6 rounded-[2rem] bg-[#071C12] p-6 text-white shadow-xl">
+    <div className="mb-6 rounded-[2rem] border border-white/10 bg-[#1f1f1f] p-6 text-white shadow-xl">
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
         <div>
-          <p className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha Command Center</p>
-          <h1 className="text-2xl font-black">Store Analytics & Control Panel</h1>
+          <p className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-[#8f8f8f]">Baytseha Command Center</p>
+          <h1 className="text-2xl font-black">COD Store Analytics & Operations</h1>
+          <p className="mt-1 text-sm text-white/55">Only valid Saudi, non-VPN analytics are counted.</p>
         </div>
         <div className="flex flex-wrap items-end gap-3">
-          <label className="text-xs text-white/80">From<input className="mt-1 block rounded-xl px-3 py-2 text-sm text-[#071C12]" type="date" value={props.start} onChange={(e) => props.setStart(e.target.value)} /></label>
-          <label className="text-xs text-white/80">To<input className="mt-1 block rounded-xl px-3 py-2 text-sm text-[#071C12]" type="date" value={props.end} onChange={(e) => props.setEnd(e.target.value)} /></label>
-          <button onClick={props.refresh} className="rounded-xl bg-[#C99A45] px-5 py-2.5 text-sm font-black text-[#071C12]">{props.loading ? "Loading..." : "Refresh"}</button>
+          <label className="text-xs text-white/70">From<input className="mt-1 block rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-sm text-white" type="date" value={props.start} onChange={(e) => props.setStart(e.target.value)} /></label>
+          <label className="text-xs text-white/70">To<input className="mt-1 block rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-sm text-white" type="date" value={props.end} onChange={(e) => props.setEnd(e.target.value)} /></label>
+          <button onClick={props.refresh} className="rounded-xl bg-[#1473ff] px-5 py-2.5 text-sm font-black text-white">{props.loading ? "Loading..." : "Refresh"}</button>
         </div>
       </div>
     </div>
@@ -247,29 +290,44 @@ function CommandTab({ metrics: m }: { metrics: Metrics }) {
     <div className="space-y-6">
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
         <Kpi label="Live Visitors" value={m.live_visitors} accent />
-        <Kpi label="Visitors Today" value={m.today.visitors} />
-        <Kpi label="All Time Visitors" value={m.all_time.visitors} />
-        <Kpi label="Total Orders" value={m.orders} />
+        <Kpi label="Valid Clicks" value={m.clicks} />
+        <Kpi label="Visitors" value={m.unique_sessions} />
+        <Kpi label="Orders" value={m.orders} />
         <Kpi label="Revenue" value={sar(m.revenue_sar)} accent />
         <Kpi label="AOV" value={sar(m.average_order_value_sar)} />
         <Kpi label="Conversion" value={pct(m.conversion_rate)} />
         <Kpi label="Cross-sell" value={pct(m.cross_sell_rate)} />
         <Kpi label="Upsell" value={pct(m.upsell_rate)} />
         <Kpi label="New Customers" value={m.new_customers} />
-        <Kpi label="Rejected" value={m.rejected_attempts} />
+        <Kpi label="Rejected Risk" value={m.rejected_attempts} />
         <Kpi label="Today Revenue" value={sar(m.today.revenue_sar)} />
       </div>
-      <div className="grid gap-6 xl:grid-cols-3">
+      <div className="grid gap-6 xl:grid-cols-2">
         <Card title="Daily Performance">
+          <TrendBars rows={m.daily} />
           <DataTable rows={m.daily} cols={[["date", "Day"], ["clicks", "Clicks"], ["orders", "Orders"], ["revenue_sar", "Revenue"]]} money={["revenue_sar"]} />
         </Card>
-        <Card title="Campaign Performance">
+        <Card title="COD Funnel">
+          <FunnelList rows={m.funnel} />
+        </Card>
+      </div>
+      <div className="grid gap-6 xl:grid-cols-4">
+        <Card title="Campaign Revenue">
           <StackList items={m.campaign_breakdown.map((c) => ({ label: c.campaign, sub: `${c.orders} orders`, value: sar(c.revenue_sar) }))} />
         </Card>
-        <Card title="Traffic Sources">
+        <Card title="UTM Sources">
+          <StackList items={m.utm_source_breakdown.map((s) => ({ label: s.source, sub: `${s.orders} orders`, value: sar(s.revenue_sar) }))} />
+        </Card>
+        <Card title="Order Status">
+          <StackList items={m.order_status_breakdown.map((s) => ({ label: statusLabel(s.status), sub: `${s.orders} orders`, value: sar(s.revenue_sar) }))} />
+        </Card>
+        <Card title="Traffic Clicks">
           <StackList items={m.traffic_sources.map((s) => ({ label: s.source, sub: "clicks", value: String(s.clicks) }))} />
         </Card>
       </div>
+      <Card title="Rejected / Risk Reasons">
+        <DataTable rows={m.risk_breakdown} cols={[["reason", "Reason"], ["attempts", "Attempts"]]} />
+      </Card>
     </div>
   );
 }
@@ -328,7 +386,7 @@ function ProductsTab({ products }: { products: ProductMetric[] }) {
 }
 
 /* ─── Orders Tab ─── */
-function OrdersTab({ orders, products }: { orders: OrderListItem[]; products: ProductMetric[] }) {
+function OrdersTab({ orders, products, onPreview, loadingPreview }: { orders: OrderListItem[]; products: ProductMetric[]; onPreview: (orderId: string) => void; loadingPreview: boolean }) {
   const [period, setPeriod] = useState<"all" | "month" | "today">("all");
 
   const filteredOrders = useMemo(() => {
@@ -340,34 +398,72 @@ function OrdersTab({ orders, products }: { orders: OrderListItem[]; products: Pr
     return orders.filter((o) => { const d = new Date(o.created_at); return d >= cutoff && d <= now; });
   }, [orders, period]);
 
+  const totals = useMemo(() => ({
+    orders: filteredOrders.length,
+    revenue: filteredOrders.reduce((sum, order) => sum + order.total_sar, 0),
+    pending: filteredOrders.filter((order) => order.status.includes("pending")).length,
+    rejectedRisk: filteredOrders.filter((order) => order.fraud_decision && !["allowed", "allowed_test", "error_allow"].includes(order.fraud_decision)).length,
+  }), [filteredOrders]);
+
   return (
     <div className="space-y-6">
-      <div className="flex gap-2">
+      <div className="flex flex-wrap gap-2">
         {(["all", "month", "today"] as const).map((p) => (
-          <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-1.5 text-xs font-black ${period === p ? "bg-[#155235] text-white" : "bg-white text-[#155235]"}`}>
+          <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-1.5 text-xs font-black ${period === p ? "bg-[#1473ff] text-white" : "border border-white/10 bg-[#1f1f1f] text-white/70"}`}>
             {p === "all" ? "All Time" : p === "month" ? "This Month" : "Today"}
           </button>
         ))}
       </div>
 
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Kpi label="Orders in view" value={totals.orders} accent />
+        <Kpi label="Revenue in view" value={sar(totals.revenue)} />
+        <Kpi label="Pending confirmation" value={totals.pending} />
+        <Kpi label="Risk flagged" value={totals.rejectedRisk} />
+      </div>
+
       <Card title={`Orders by Product (${period === "all" ? "All Time" : period === "month" ? "This Month" : "Today"})`}>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (
-            <div key={p.id} className="rounded-2xl border border-[#E8E2D8] p-4">
-              <p className="font-bold">{p.name_ar}</p>
+            <div key={p.id} className="rounded-2xl border border-white/10 bg-[#151515] p-4">
+              <p className="font-bold text-white">{p.name_ar}</p>
               <div className="mt-2 flex items-baseline gap-3">
-                <span className="text-3xl font-black text-[#155235]">{p.orders}</span>
-                <span className="text-sm text-[#567063]">orders</span>
-                <span className="ml-auto text-sm font-bold">{sar(p.revenue_sar)}</span>
+                <span className="text-3xl font-black text-[#60a5fa]">{p.orders}</span>
+                <span className="text-sm text-white/45">orders</span>
+                <span className="ml-auto text-sm font-bold text-white">{sar(p.revenue_sar)}</span>
               </div>
-              <div className="mt-1 text-xs text-[#567063]">{p.units} units sold &middot; {pct(p.conversion_rate)} conv.</div>
+              <div className="mt-1 text-xs text-white/45">{p.units} units sold &middot; {pct(p.conversion_rate)} conv.</div>
             </div>
           ))}
         </div>
       </Card>
 
       <Card title={`Order List (${filteredOrders.length})`}>
-        <DataTable rows={filteredOrders} cols={[["public_order_number", "Order #"], ["customer_name", "Customer"], ["customer_phone_local", "Phone"], ["total_sar", "Total"], ["created_at", "Date"], ["utm_campaign", "Campaign"], ["country_iso_code", "Country"], ["fraud_reason", "Fraud"]]} money={["total_sar"]} dates={["created_at"]} />
+        {!filteredOrders.length ? <p className="text-sm text-white/45">No orders yet.</p> : (
+          <div className="space-y-3">
+            {filteredOrders.map((order) => (
+              <button key={order.id} onClick={() => onPreview(order.id)} disabled={loadingPreview} className="grid w-full gap-3 rounded-2xl border border-white/10 bg-[#151515] p-4 text-left transition hover:border-[#1473ff]/60 md:grid-cols-[1.1fr_1fr_0.8fr_0.8fr_0.8fr] md:items-center">
+                <div>
+                  <p className="font-black text-white">{order.public_order_number}</p>
+                  <p className="text-xs text-white/45">{shortDate(order.created_at)}</p>
+                </div>
+                <div>
+                  <p className="font-bold text-white">{order.customer_name}</p>
+                  <p className="text-xs text-white/45">{order.customer_phone_local}</p>
+                </div>
+                <div><Badge value={statusLabel(order.status)} good={!order.status.includes("abandoned")} /></div>
+                <div>
+                  <p className="font-black text-white">{sar(order.total_sar)}</p>
+                  <p className="text-xs text-white/45">{order.utm_campaign || order.utm_source || "Direct"}</p>
+                </div>
+                <div className="text-sm text-white/65">
+                  <p>{order.country_iso_code || "Unknown"} · {order.fraud_reason || "passed"}</p>
+                  <p className="text-xs text-white/40">Preview details</p>
+                </div>
+              </button>
+            ))}
+          </div>
+        )}
       </Card>
     </div>
   );
@@ -659,32 +755,180 @@ function LoginsTab({ logins, live }: { logins: LoginEvent[]; live: LoginEvent[] 
   );
 }
 
+function TrendBars({ rows }: { rows: Metrics["daily"] }) {
+  const max = Math.max(1, ...rows.map((row) => Math.max(row.clicks, row.revenue_sar / 100, row.orders * 10)));
+  return (
+    <div className="mb-5 flex h-44 items-end gap-1 rounded-2xl border border-white/10 bg-[#151515] p-4">
+      {rows.slice(-24).map((row) => {
+        const height = Math.max(4, (Math.max(row.clicks, row.revenue_sar / 100, row.orders * 10) / max) * 100);
+        return (
+          <div key={row.date} className="group relative flex flex-1 items-end">
+            <div className="w-full rounded-t bg-[#1473ff]" style={{ height: `${height}%` }} />
+            <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-black px-2 py-1 text-xs text-white group-hover:block">
+              {row.date}: {row.clicks} clicks, {row.orders} orders, {sar(row.revenue_sar)}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function FunnelList({ rows }: { rows: Metrics["funnel"] }) {
+  const max = Math.max(1, ...rows.map((row) => row.count));
+  return (
+    <div className="space-y-3">
+      {rows.map((row, index) => (
+        <div key={row.step}>
+          <div className="mb-1 flex justify-between text-sm">
+            <span className="font-bold text-white">{index + 1}. {row.step}</span>
+            <span className="text-white/65">{compact(row.count)}</span>
+          </div>
+          <div className="h-2 rounded-full bg-white/10">
+            <div className="h-2 rounded-full bg-[#1473ff]" style={{ width: `${Math.max(2, (row.count / max) * 100)}%` }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => void }) {
+  const flags = riskFlags(order);
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 backdrop-blur sm:items-center">
+      <div className="max-h-[92vh] w-full max-w-5xl overflow-auto rounded-[1.5rem] border border-white/10 bg-[#1f1f1f] text-white shadow-2xl">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-white/10 bg-[#1f1f1f]/95 p-5 backdrop-blur">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40">Order Preview</p>
+            <h2 className="mt-1 text-2xl font-black">{order.public_order_number}</h2>
+            <p className="text-sm text-white/50">{shortDate(order.created_at)} · {order.country_iso_code || "Unknown country"}</p>
+          </div>
+          <button onClick={onClose} className="rounded-full border border-white/10 px-4 py-2 text-sm font-black text-white/70 hover:text-white">Close</button>
+        </div>
+
+        <div className="grid gap-5 p-5 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="space-y-5">
+            <div className="grid gap-3 sm:grid-cols-3">
+              <Kpi label="Total" value={sar(order.total_sar)} accent />
+              <Kpi label="Subtotal" value={sar(order.subtotal_sar)} />
+              <Kpi label="Shipping" value={sar(order.shipping_sar)} />
+            </div>
+
+            <Card title="Items">
+              <div className="space-y-3">
+                {order.items.map((item) => (
+                  <div key={`${item.product_id}-${item.source}`} className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#151515] p-3">
+                    <div>
+                      <p className="font-bold text-white">{item.product_name_ar}</p>
+                      <p className="text-xs text-white/45">{item.product_id} · {item.source}</p>
+                    </div>
+                    <div className="text-right">
+                      <p className="font-black text-white">{sar(item.bundle_price_sar)}</p>
+                      <p className="text-xs text-white/45">Qty {item.quantity}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </Card>
+
+            <Card title="Tracking & Delivery">
+              <div className="grid gap-4 md:grid-cols-2">
+                <StackList items={order.tracking_events.map((event) => ({
+                  label: `${event.platform} · ${event.event_name}`,
+                  sub: event.error || shortDate(event.created_at),
+                  value: event.status,
+                }))} />
+                <StackList items={order.webhook_deliveries.map((delivery) => ({
+                  label: delivery.destination,
+                  sub: delivery.last_error || `${delivery.attempts} attempt(s)`,
+                  value: delivery.status,
+                }))} />
+              </div>
+            </Card>
+          </div>
+
+          <div className="space-y-5">
+            <Card title="Customer">
+              <div className="space-y-3 text-sm">
+                <InfoRow label="Name" value={order.customer_name} />
+                <InfoRow label="Phone" value={`${order.customer_phone_local} / ${order.customer_phone_e164}`} />
+                <InfoRow label="Status" value={statusLabel(order.status)} />
+                <InfoRow label="Test order" value={order.is_test_order ? "Yes" : "No"} />
+              </div>
+            </Card>
+
+            <Card title="Fraud & IP Quality">
+              <div className="space-y-3 text-sm">
+                <InfoRow label="Decision" value={order.fraud_decision || "unknown"} />
+                <InfoRow label="Reason" value={order.fraud_reason || "passed"} />
+                <InfoRow label="IP" value={order.ip_address || "unknown"} />
+                <InfoRow label="Risk score" value={order.risk_score == null ? "n/a" : String(order.risk_score)} />
+                <InfoRow label="IP risk" value={order.ip_risk == null ? "n/a" : String(order.ip_risk)} />
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {flags.length ? flags.map((flag) => <Badge key={flag} value={flag} good={false} />) : <Badge value="Clean IP" good />}
+                </div>
+              </div>
+            </Card>
+
+            <Card title="Attribution">
+              <div className="space-y-3 text-sm">
+                <InfoRow label="Source" value={order.utm_source || "Direct / unknown"} />
+                <InfoRow label="Medium" value={order.utm_medium || "n/a"} />
+                <InfoRow label="Campaign" value={order.utm_campaign || "n/a"} />
+                <InfoRow label="Content" value={order.utm_content || "n/a"} />
+                <InfoRow label="Term" value={order.utm_term || "n/a"} />
+              </div>
+            </Card>
+
+            <Card title="URLs">
+              <div className="space-y-3 text-xs">
+                <InfoRow label="Landing" value={order.landing_page_url || "n/a"} />
+                <InfoRow label="Page" value={order.page_url || "n/a"} />
+              </div>
+            </Card>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InfoRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="flex justify-between gap-4 border-b border-white/10 pb-2 last:border-0">
+      <span className="shrink-0 text-white/45">{label}</span>
+      <span className="break-all text-right font-bold text-white">{value}</span>
+    </div>
+  );
+}
+
 /* ─── Shared Components ─── */
 function Kpi({ label, value, accent = false }: { label: string; value: string | number; accent?: boolean }) {
   return (
-    <div className={`rounded-[1.5rem] p-5 shadow-sm ${accent ? "bg-[#071C12] text-white" : "bg-white"}`}>
-      <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-[#C99A45]" : "text-[#8BA898]"}`}>{label}</p>
+    <div className={`rounded-[1.5rem] border p-5 shadow-sm ${accent ? "border-[#1473ff]/40 bg-[#11233d] text-white" : "border-white/10 bg-[#1f1f1f] text-white"}`}>
+      <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-[#60a5fa]" : "text-white/45"}`}>{label}</p>
       <p className="mt-2 text-2xl font-black">{typeof value === "number" ? value.toLocaleString() : value}</p>
     </div>
   );
 }
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
-  return <div className="overflow-hidden rounded-[1.75rem] bg-white p-5 shadow-sm"><h2 className="mb-4 text-lg font-black">{title}</h2>{children}</div>;
+  return <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#1f1f1f] p-5 shadow-sm"><h2 className="mb-4 border-b border-white/15 pb-3 text-lg font-black text-white">{title}</h2>{children}</div>;
 }
 
 function Badge({ value, good }: { value: string; good: boolean }) {
-  return <span className={`inline-block rounded-full px-2.5 py-0.5 text-xs font-bold ${good ? "bg-emerald-100 text-emerald-700" : "bg-amber-100 text-amber-700"}`}>{value}</span>;
+  return <span className={`inline-block rounded-full border px-2.5 py-0.5 text-xs font-bold ${good ? "border-emerald-500/50 bg-emerald-500/10 text-emerald-300" : "border-amber-500/50 bg-amber-500/10 text-amber-300"}`}>{value}</span>;
 }
 
 function StackList({ items }: { items: Array<{ label: string; sub: string; value: string }> }) {
-  if (!items.length) return <p className="text-sm text-[#567063]">No data yet.</p>;
+  if (!items.length) return <p className="text-sm text-white/45">No data yet.</p>;
   return (
     <div className="space-y-2">
       {items.map((item, i) => (
-        <div key={`${item.label}-${i}`} className="flex items-center justify-between gap-4 rounded-2xl bg-[#F5F3EE] p-3">
-          <div><p className="font-bold">{item.label}</p><p className="text-xs text-[#567063]">{item.sub}</p></div>
-          <p className="font-black text-[#155235]">{item.value}</p>
+        <div key={`${item.label}-${i}`} className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#151515] p-3">
+          <div><p className="font-bold text-white">{item.label}</p><p className="text-xs text-white/45">{item.sub}</p></div>
+          <p className="font-black text-white">{item.value}</p>
         </div>
       ))}
     </div>
@@ -692,13 +936,13 @@ function StackList({ items }: { items: Array<{ label: string; sub: string; value
 }
 
 function DataTable({ rows, cols, money = [], dates = [] }: { rows: Array<Record<string, unknown>>; cols: Array<[string, string]>; money?: string[]; dates?: string[] }) {
-  if (!rows.length) return <p className="text-sm text-[#567063]">No data yet.</p>;
+  if (!rows.length) return <p className="text-sm text-white/45">No data yet.</p>;
   return (
     <div className="max-h-[560px] overflow-auto">
       <table className="w-full min-w-[500px] text-sm">
-        <thead><tr className="text-left text-xs font-bold uppercase text-[#567063]">{cols.map(([, l]) => <th key={l} className="whitespace-nowrap px-3 py-2">{l}</th>)}</tr></thead>
+        <thead><tr className="text-left text-xs font-bold uppercase text-white/45">{cols.map(([, l]) => <th key={l} className="whitespace-nowrap px-3 py-2">{l}</th>)}</tr></thead>
         <tbody>{rows.map((row, i) => (
-          <tr key={String(row.id ?? i)} className="border-t border-[#E8E2D8]">
+          <tr key={String(row.id ?? i)} className="border-t border-white/10 text-white/80">
             {cols.map(([k]) => <td key={k} className="max-w-[260px] truncate px-3 py-3">{fmtCell(row[k], k, money, dates)}</td>)}
           </tr>
         ))}</tbody>
