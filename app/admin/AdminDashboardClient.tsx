@@ -1,6 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { Eye, ShoppingBag, DollarSign, Percent, Package, Users, Activity, Filter, Check } from "lucide-react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
 
@@ -173,6 +183,9 @@ export function AdminDashboardClient() {
   const [loading, setLoading] = useState(false);
   const [orderPreviewLoading, setOrderPreviewLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [marketFilter, setMarketFilter] = useState("");
+  const [productFilter, setProductFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("This month");
 
   const headers = useMemo(() => (auth ? { Authorization: `Basic ${auth}`, "Content-Type": "application/json" } : undefined), [auth]);
 
@@ -225,14 +238,13 @@ export function AdminDashboardClient() {
 
   if (!auth) {
     return (
-      <section dir="ltr" className="min-h-[70vh] bg-[#111111] px-4 py-16 text-white">
-        <div className="mx-auto max-w-md rounded-[2rem] border border-white/10 bg-white/10 p-8 shadow-2xl backdrop-blur">
-          <p className="mb-2 text-sm font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha Admin</p>
-          <h1 className="mb-6 text-3xl font-black">Admin Login</h1>
+      <section dir="ltr" className="min-h-screen bg-[#1c1c1c] px-4 py-16 text-white flex items-center justify-center">
+        <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#252525] p-8 shadow-2xl">
+          <h1 className="mb-6 text-2xl font-bold">Admin Login</h1>
           <form onSubmit={login} className="space-y-4">
-            <input className="w-full rounded-2xl bg-white px-4 py-3 text-[#071C12]" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-            <input className="w-full rounded-2xl bg-white px-4 py-3 text-[#071C12]" placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-            <button className="w-full rounded-2xl bg-[#C99A45] py-3 font-black text-[#071C12]" type="submit">Login</button>
+            <input className="w-full rounded-lg border border-white/10 bg-[#1c1c1c] px-4 py-3 text-white focus:border-[#1473ff] focus:outline-none" placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
+            <input className="w-full rounded-lg border border-white/10 bg-[#1c1c1c] px-4 py-3 text-white focus:border-[#1473ff] focus:outline-none" placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+            <button className="w-full rounded-lg bg-[#1473ff] py-3 font-bold text-white hover:bg-[#1473ff]/90" type="submit">Login</button>
           </form>
           {error && <p className="mt-4 rounded-xl bg-red-500/15 p-3 text-sm text-red-100">{error}</p>}
         </div>
@@ -241,15 +253,56 @@ export function AdminDashboardClient() {
   }
 
   return (
-    <section dir="ltr" className="min-h-screen bg-[#111111] px-4 py-8 text-white">
-      <div className="mx-auto max-w-7xl">
-        <HeroBar start={start} end={end} setStart={setStart} setEnd={setEnd} refresh={() => void loadData()} loading={loading} />
-        {error && <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 p-4 text-red-700">{error}</div>}
-        <nav className="mb-6 flex flex-wrap gap-2">
-          {([["command", "Dashboard"], ["products", "Products"], ["orders", "Orders"], ["visitors", "Visitors"], ["controls", "Access Control"], ["translations", "Translation"], ["logins", "Logins"]] as const).map(([id, label]) => (
-            <button key={id} onClick={() => setTab(id)} className={`rounded-full px-5 py-2 text-sm font-black transition ${tab === id ? "bg-[#1473ff] text-white shadow-md" : "border border-white/10 bg-[#1f1f1f] text-white/70 hover:text-white"}`}>{label}</button>
-          ))}
-        </nav>
+    <section dir="ltr" className="min-h-screen bg-[#1c1c1c] text-white">
+      {/* Top Navigation Bar */}
+      <header className="flex items-center justify-between border-b border-white/10 bg-[#252525] px-6 py-4">
+        <div className="flex items-center gap-6">
+          <h1 className="text-xl font-bold">Dashboard</h1>
+          <nav className="hidden md:flex gap-4">
+            {([["command", "Statistics"], ["products", "Products"], ["orders", "Orders"], ["visitors", "Visitors"], ["controls", "Access Control"], ["translations", "Translation"], ["logins", "Logins"]] as const).map(([id, label]) => (
+              <button key={id} onClick={() => setTab(id)} className={`text-sm font-medium transition ${tab === id ? "text-white" : "text-white/50 hover:text-white"}`}>{label}</button>
+            ))}
+          </nav>
+        </div>
+        <div className="flex items-center gap-4">
+           <button onClick={() => void loadData()} className="text-sm font-medium text-white/50 hover:text-white">{loading ? "Loading..." : "Refresh"}</button>
+        </div>
+      </header>
+
+      <div className="mx-auto max-w-[1600px] p-6">
+        {error && <div className="mb-4 rounded-lg border border-red-500/30 bg-red-500/10 p-4 text-red-400">{error}</div>}
+        
+        {/* Filter Bar */}
+        {tab === "command" && (
+          <div className="mb-6 flex flex-wrap items-center gap-4">
+            <div className="flex flex-col">
+              <span className="text-[10px] font-medium text-white/50 uppercase mb-1">Market</span>
+              <select className="rounded-lg border border-white/10 bg-[#252525] px-3 py-2 text-sm text-white focus:border-[#1473ff] focus:outline-none min-w-[160px]" value={marketFilter} onChange={(e) => setMarketFilter(e.target.value)}>
+                <option value="">Filter by market</option>
+                <option value="SA">Saudi Arabia</option>
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-medium text-white/50 uppercase mb-1">Product</span>
+              <select className="rounded-lg border border-white/10 bg-[#252525] px-3 py-2 text-sm text-white focus:border-[#1473ff] focus:outline-none min-w-[160px]" value={productFilter} onChange={(e) => setProductFilter(e.target.value)}>
+                <option value="">Filter by product</option>
+                {metrics?.products.map((p) => <option key={p.id} value={p.id}>{p.name_ar}</option>)}
+              </select>
+            </div>
+            <div className="flex flex-col">
+              <span className="text-[10px] font-medium text-white/50 uppercase mb-1">Date</span>
+              <select className="rounded-lg border border-white/10 bg-[#252525] px-3 py-2 text-sm text-white focus:border-[#1473ff] focus:outline-none min-w-[160px]" value={dateFilter} onChange={(e) => setDateFilter(e.target.value)}>
+                <option value="This month">This month</option>
+                <option value="Last 30 days">Last 30 days</option>
+              </select>
+            </div>
+            <div className="flex items-end h-full pt-5">
+               <button className="flex items-center gap-2 rounded-lg bg-[#1473ff] px-4 py-2 text-sm font-medium text-white hover:bg-[#1473ff]/90">
+                 <Filter size={14} /> Filter
+               </button>
+            </div>
+          </div>
+        )}
 
         {metrics && tab === "command" && <CommandTab metrics={metrics} />}
         {metrics && tab === "products" && <ProductsTab products={metrics.products} />}
@@ -264,70 +317,185 @@ export function AdminDashboardClient() {
   );
 }
 
-/* ─── Hero Bar ─── */
-function HeroBar(props: { start: string; end: string; setStart: (v: string) => void; setEnd: (v: string) => void; refresh: () => void; loading: boolean }) {
-  return (
-    <div className="mb-6 rounded-[2rem] border border-white/10 bg-[#1f1f1f] p-6 text-white shadow-xl">
-      <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
-        <div>
-          <p className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-[#8f8f8f]">Baytseha Command Center</p>
-          <h1 className="text-2xl font-black">COD Store Analytics & Operations</h1>
-          <p className="mt-1 text-sm text-white/55">Only valid Saudi, non-VPN analytics are counted.</p>
-        </div>
-        <div className="flex flex-wrap items-end gap-3">
-          <label className="text-xs text-white/70">From<input className="mt-1 block rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-sm text-white" type="date" value={props.start} onChange={(e) => props.setStart(e.target.value)} /></label>
-          <label className="text-xs text-white/70">To<input className="mt-1 block rounded-xl border border-white/10 bg-[#111] px-3 py-2 text-sm text-white" type="date" value={props.end} onChange={(e) => props.setEnd(e.target.value)} /></label>
-          <button onClick={props.refresh} className="rounded-xl bg-[#1473ff] px-5 py-2.5 text-sm font-black text-white">{props.loading ? "Loading..." : "Refresh"}</button>
-        </div>
-      </div>
-    </div>
-  );
-}
-
 /* ─── Dashboard / Command ─── */
 function CommandTab({ metrics: m }: { metrics: Metrics }) {
+  const chartData = m.daily.map(d => ({
+    name: d.date.slice(-2), // just the day
+    views: d.clicks,
+    orders: d.orders,
+    sales: d.revenue_sar,
+    conversion: d.clicks > 0 ? (d.orders / d.clicks) * 100 : 0
+  }));
+
   return (
-    <div className="space-y-6">
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-6">
-        <Kpi label="Live Visitors" value={m.live_visitors} accent />
-        <Kpi label="Valid Clicks" value={m.clicks} />
-        <Kpi label="Visitors" value={m.unique_sessions} />
-        <Kpi label="Orders" value={m.orders} />
-        <Kpi label="Revenue" value={sar(m.revenue_sar)} accent />
-        <Kpi label="AOV" value={sar(m.average_order_value_sar)} />
-        <Kpi label="Conversion" value={pct(m.conversion_rate)} />
-        <Kpi label="Cross-sell" value={pct(m.cross_sell_rate)} />
-        <Kpi label="Upsell" value={pct(m.upsell_rate)} />
-        <Kpi label="New Customers" value={m.new_customers} />
-        <Kpi label="Rejected Risk" value={m.rejected_attempts} />
-        <Kpi label="Today Revenue" value={sar(m.today.revenue_sar)} />
+    <div className="flex flex-col lg:flex-row gap-6">
+      {/* Main Charts Area */}
+      <div className="flex-1 space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ChartCard title="TOTAL VIEWS" value={m.clicks} trend="+19.3%" data={chartData} dataKey="views" color="#1473ff" />
+          <ChartCard title="TOTAL ORDERS" value={m.orders} trend="+130.6%" data={chartData} dataKey="orders" color="#1473ff" />
+          <ChartCard title="TOTAL SALES" value={`${compact(m.revenue_sar)} MAD`} trend="+144.2%" data={chartData} dataKey="sales" color="#1473ff" />
+          <ChartCard title="CONVERSION RATE" value={`${m.conversion_rate.toFixed(2)} %`} trend="+93.3%" data={chartData} dataKey="conversion" color="#1473ff" />
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+            <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">AVERAGE ORDER VALUE</h3>
+            <div className="flex items-center gap-3 mb-6">
+              <span className="text-2xl font-bold">{m.average_order_value_sar.toFixed(2)} MAD</span>
+              <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full flex items-center gap-1">↑ 5.9%</span>
+            </div>
+            <div className="h-[140px] w-full">
+              <ResponsiveContainer width="100%" height="100%">
+                <AreaChart data={chartData}>
+                  <defs>
+                    <linearGradient id="colorAov" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#1473ff" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#1473ff" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                  <Area type="monotone" dataKey="sales" stroke="#1473ff" strokeWidth={2} fillOpacity={1} fill="url(#colorAov)" />
+                </AreaChart>
+              </ResponsiveContainer>
+            </div>
+          </div>
+          
+          <div className="space-y-6">
+            <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+              <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">ORDERS Tracking orders</h3>
+              <div className="grid grid-cols-3 gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg border border-white/10 text-[#1473ff]"><Package size={20} /></div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-lg">19</span>
+                      <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">11.3%</span>
+                    </div>
+                    <span className="text-[10px] text-white/50 uppercase">ABANDONED ORDERS</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg border border-white/10 text-[#1473ff]"><Check size={20} /></div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-lg">10</span>
+                      <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">5.9%</span>
+                    </div>
+                    <span className="text-[10px] text-white/50 uppercase">DUPLICATED ORDERS</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg border border-white/10 text-[#1473ff]"><Activity size={20} /></div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-lg">0</span>
+                      <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">0%</span>
+                    </div>
+                    <span className="text-[10px] text-white/50 uppercase">RETURNING ORDERS</span>
+                  </div>
+                </div>
+              </div>
+              <div className="mt-4 flex items-center gap-3">
+                  <div className="p-2 rounded-lg border border-white/10 text-[#1473ff]"><ShoppingBag size={20} /></div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-lg">139</span>
+                      <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">82.7%</span>
+                    </div>
+                    <span className="text-[10px] text-white/50 uppercase">NORMAL ORDERS</span>
+                  </div>
+              </div>
+            </div>
+            
+            <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+              <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">ORDERS By status</h3>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg border border-white/10 text-[#1473ff]"><Activity size={20} /></div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-lg">153</span>
+                      <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">92.1%</span>
+                    </div>
+                    <span className="text-[10px] text-white/50 uppercase">PENDING ORDERS</span>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="p-2 rounded-lg border border-white/10 text-[#1473ff]"><Package size={20} /></div>
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <span className="font-bold text-lg">13</span>
+                      <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">7.8%</span>
+                    </div>
+                    <span className="text-[10px] text-white/50 uppercase">ABANDONED ORDERS</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="grid gap-6 xl:grid-cols-2">
-        <Card title="Daily Performance">
-          <TrendBars rows={m.daily} />
-          <DataTable rows={m.daily} cols={[["date", "Day"], ["clicks", "Clicks"], ["orders", "Orders"], ["revenue_sar", "Revenue"]]} money={["revenue_sar"]} />
-        </Card>
-        <Card title="COD Funnel">
-          <FunnelList rows={m.funnel} />
-        </Card>
+
+      {/* Right Sidebar */}
+      <div className="w-full lg:w-[320px] xl:w-[380px] space-y-6 shrink-0">
+        <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+          <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">DEVICES</h3>
+          <div className="text-3xl font-bold mb-6">{m.clicks}</div>
+          <div className="flex justify-between">
+            {m.device_breakdown.map(d => (
+              <div key={d.device} className="flex flex-col items-center">
+                <div className="flex items-center gap-1 mb-1">
+                  <span className="text-[#1473ff]"><Eye size={16} /></span>
+                  <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">{((d.clicks / m.clicks) * 100).toFixed(1)}%</span>
+                </div>
+                <span className="text-[10px] text-white/50 uppercase">{d.device} VIEWS</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+          <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">COUNTRIES Most ordered</h3>
+          <div className="space-y-4">
+            {m.country_breakdown.slice(0, 3).map(c => (
+              <div key={c.country} className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-xs">{c.country}</div>
+                <div>
+                  <div className="font-bold">{c.clicks}</div>
+                  <div className="text-[10px] text-white/50 uppercase">ORDERS</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+          <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">PRODUCTS Top selling</h3>
+          <div className="space-y-4">
+            {m.products.sort((a,b) => b.orders - a.orders).slice(0, 6).map(p => (
+              <div key={p.id} className="flex items-center justify-between text-sm">
+                <span className="text-[#1473ff] truncate pr-4">{p.name_ar}</span>
+                <div className="flex gap-4 shrink-0 text-white/70">
+                  <span><strong className="text-white">{p.orders}</strong> ORDERS</span>
+                  <span><strong className="text-white">{p.units}</strong> SALES</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        
+        <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
+          <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">TRAFFIC SOURCES Most visits</h3>
+          <div className="space-y-3">
+            {m.traffic_sources.map(s => (
+              <div key={s.source} className="flex items-center justify-between text-sm">
+                <span>{s.source}</span>
+                <span className="font-bold">{compact(s.clicks)} MAD</span>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-      <div className="grid gap-6 xl:grid-cols-4">
-        <Card title="Campaign Revenue">
-          <StackList items={m.campaign_breakdown.map((c) => ({ label: c.campaign, sub: `${c.orders} orders`, value: sar(c.revenue_sar) }))} />
-        </Card>
-        <Card title="UTM Sources">
-          <StackList items={m.utm_source_breakdown.map((s) => ({ label: s.source, sub: `${s.orders} orders`, value: sar(s.revenue_sar) }))} />
-        </Card>
-        <Card title="Order Status">
-          <StackList items={m.order_status_breakdown.map((s) => ({ label: statusLabel(s.status), sub: `${s.orders} orders`, value: sar(s.revenue_sar) }))} />
-        </Card>
-        <Card title="Traffic Clicks">
-          <StackList items={m.traffic_sources.map((s) => ({ label: s.source, sub: "clicks", value: String(s.clicks) }))} />
-        </Card>
-      </div>
-      <Card title="Rejected / Risk Reasons">
-        <DataTable rows={m.risk_breakdown} cols={[["reason", "Reason"], ["attempts", "Attempts"]]} />
-      </Card>
     </div>
   );
 }
@@ -409,7 +577,7 @@ function OrdersTab({ orders, products, onPreview, loadingPreview }: { orders: Or
     <div className="space-y-6">
       <div className="flex flex-wrap gap-2">
         {(["all", "month", "today"] as const).map((p) => (
-          <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-1.5 text-xs font-black ${period === p ? "bg-[#1473ff] text-white" : "border border-white/10 bg-[#1f1f1f] text-white/70"}`}>
+          <button key={p} onClick={() => setPeriod(p)} className={`rounded-full px-4 py-1.5 text-xs font-bold ${period === p ? "bg-[#1473ff] text-white" : "border border-white/10 bg-[#252525] text-white/70 hover:bg-[#2a2a2a]"}`}>
             {p === "all" ? "All Time" : p === "month" ? "This Month" : "Today"}
           </button>
         ))}
@@ -425,7 +593,7 @@ function OrdersTab({ orders, products, onPreview, loadingPreview }: { orders: Or
       <Card title={`Orders by Product (${period === "all" ? "All Time" : period === "month" ? "This Month" : "Today"})`}>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {products.map((p) => (
-            <div key={p.id} className="rounded-2xl border border-white/10 bg-[#151515] p-4">
+            <div key={p.id} className="rounded-xl border border-white/10 bg-[#252525] p-4">
               <p className="font-bold text-white">{p.name_ar}</p>
               <div className="mt-2 flex items-baseline gap-3">
                 <span className="text-3xl font-black text-[#60a5fa]">{p.orders}</span>
@@ -442,23 +610,26 @@ function OrdersTab({ orders, products, onPreview, loadingPreview }: { orders: Or
         {!filteredOrders.length ? <p className="text-sm text-white/45">No orders yet.</p> : (
           <div className="space-y-3">
             {filteredOrders.map((order) => (
-              <button key={order.id} onClick={() => onPreview(order.id)} disabled={loadingPreview} className="grid w-full gap-3 rounded-2xl border border-white/10 bg-[#151515] p-4 text-left transition hover:border-[#1473ff]/60 md:grid-cols-[1.1fr_1fr_0.8fr_0.8fr_0.8fr] md:items-center">
+              <button key={order.id} onClick={() => onPreview(order.id)} disabled={loadingPreview} className="grid w-full gap-3 rounded-xl border border-white/10 bg-[#252525] p-4 text-left transition hover:border-[#1473ff]/60 md:grid-cols-[1.1fr_1fr_0.8fr_0.8fr_0.8fr] md:items-center">
                 <div>
-                  <p className="font-black text-white">{order.public_order_number}</p>
+                  <p className="font-bold text-white">{order.public_order_number}</p>
                   <p className="text-xs text-white/45">{shortDate(order.created_at)}</p>
                 </div>
                 <div>
-                  <p className="font-bold text-white">{order.customer_name}</p>
+                  <p className="font-medium text-white">{order.customer_name}</p>
                   <p className="text-xs text-white/45">{order.customer_phone_local}</p>
                 </div>
                 <div><Badge value={statusLabel(order.status)} good={!order.status.includes("abandoned")} /></div>
                 <div>
-                  <p className="font-black text-white">{sar(order.total_sar)}</p>
+                  <p className="font-bold text-white">{sar(order.total_sar)}</p>
                   <p className="text-xs text-white/45">{order.utm_campaign || order.utm_source || "Direct"}</p>
                 </div>
-                <div className="text-sm text-white/65">
-                  <p>{order.country_iso_code || "Unknown"} · {order.fraud_reason || "passed"}</p>
-                  <p className="text-xs text-white/40">Preview details</p>
+                <div className="text-sm text-white/65 flex justify-between items-center">
+                  <div>
+                    <p>{order.country_iso_code || "Unknown"} · {order.fraud_reason || "passed"}</p>
+                    <p className="text-xs text-white/40">Preview details</p>
+                  </div>
+                  <div className="text-[#1473ff]"><Eye size={18} /></div>
                 </div>
               </button>
             ))}
@@ -758,7 +929,7 @@ function LoginsTab({ logins, live }: { logins: LoginEvent[]; live: LoginEvent[] 
 function TrendBars({ rows }: { rows: Metrics["daily"] }) {
   const max = Math.max(1, ...rows.map((row) => Math.max(row.clicks, row.revenue_sar / 100, row.orders * 10)));
   return (
-    <div className="mb-5 flex h-44 items-end gap-1 rounded-2xl border border-white/10 bg-[#151515] p-4">
+    <div className="mb-5 flex h-44 items-end gap-1 rounded-2xl border border-white/10 bg-[#252525] p-4">
       {rows.slice(-24).map((row) => {
         const height = Math.max(4, (Math.max(row.clicks, row.revenue_sar / 100, row.orders * 10) / max) * 100);
         return (
@@ -796,20 +967,20 @@ function FunnelList({ rows }: { rows: Metrics["funnel"] }) {
 function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => void }) {
   const flags = riskFlags(order);
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 p-4 backdrop-blur sm:items-center">
-      <div className="max-h-[92vh] w-full max-w-5xl overflow-auto rounded-[1.5rem] border border-white/10 bg-[#1f1f1f] text-white shadow-2xl">
-        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-white/10 bg-[#1f1f1f]/95 p-5 backdrop-blur">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 p-4 backdrop-blur-sm sm:items-center">
+      <div className="max-h-[92vh] w-full max-w-5xl overflow-auto rounded-2xl border border-white/10 bg-[#1c1c1c] text-white shadow-2xl">
+        <div className="sticky top-0 z-10 flex items-start justify-between gap-4 border-b border-white/10 bg-[#252525] p-5">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/40">Order Preview</p>
-            <h2 className="mt-1 text-2xl font-black">{order.public_order_number}</h2>
+            <p className="text-[10px] font-bold uppercase tracking-wider text-white/50">Order Preview</p>
+            <h2 className="mt-1 text-2xl font-bold">{order.public_order_number}</h2>
             <p className="text-sm text-white/50">{shortDate(order.created_at)} · {order.country_iso_code || "Unknown country"}</p>
           </div>
-          <button onClick={onClose} className="rounded-full border border-white/10 px-4 py-2 text-sm font-black text-white/70 hover:text-white">Close</button>
+          <button onClick={onClose} className="rounded-lg border border-white/10 bg-[#1c1c1c] px-4 py-2 text-sm font-bold text-white hover:bg-white/5">Close</button>
         </div>
 
-        <div className="grid gap-5 p-5 lg:grid-cols-[1.1fr_0.9fr]">
-          <div className="space-y-5">
-            <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-6 p-6 lg:grid-cols-[1fr_380px]">
+          <div className="space-y-6">
+            <div className="grid gap-4 sm:grid-cols-3">
               <Kpi label="Total" value={sar(order.total_sar)} accent />
               <Kpi label="Subtotal" value={sar(order.subtotal_sar)} />
               <Kpi label="Shipping" value={sar(order.shipping_sar)} />
@@ -818,14 +989,14 @@ function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => v
             <Card title="Items">
               <div className="space-y-3">
                 {order.items.map((item) => (
-                  <div key={`${item.product_id}-${item.source}`} className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#151515] p-3">
+                  <div key={`${item.product_id}-${item.source}`} className="flex items-center justify-between gap-4 rounded-xl border border-white/10 bg-[#252525] p-4">
                     <div>
                       <p className="font-bold text-white">{item.product_name_ar}</p>
-                      <p className="text-xs text-white/45">{item.product_id} · {item.source}</p>
+                      <p className="text-xs text-white/50">{item.product_id} · {item.source}</p>
                     </div>
                     <div className="text-right">
-                      <p className="font-black text-white">{sar(item.bundle_price_sar)}</p>
-                      <p className="text-xs text-white/45">Qty {item.quantity}</p>
+                      <p className="font-bold text-white">{sar(item.bundle_price_sar)}</p>
+                      <p className="text-xs text-white/50">Qty {item.quantity}</p>
                     </div>
                   </div>
                 ))}
@@ -848,9 +1019,9 @@ function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => v
             </Card>
           </div>
 
-          <div className="space-y-5">
+          <div className="space-y-6">
             <Card title="Customer">
-              <div className="space-y-3 text-sm">
+              <div className="space-y-4 text-sm">
                 <InfoRow label="Name" value={order.customer_name} />
                 <InfoRow label="Phone" value={`${order.customer_phone_local} / ${order.customer_phone_e164}`} />
                 <InfoRow label="Status" value={statusLabel(order.status)} />
@@ -859,7 +1030,7 @@ function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => v
             </Card>
 
             <Card title="Fraud & IP Quality">
-              <div className="space-y-3 text-sm">
+              <div className="space-y-4 text-sm">
                 <InfoRow label="Decision" value={order.fraud_decision || "unknown"} />
                 <InfoRow label="Reason" value={order.fraud_reason || "passed"} />
                 <InfoRow label="IP" value={order.ip_address || "unknown"} />
@@ -872,7 +1043,7 @@ function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => v
             </Card>
 
             <Card title="Attribution">
-              <div className="space-y-3 text-sm">
+              <div className="space-y-4 text-sm">
                 <InfoRow label="Source" value={order.utm_source || "Direct / unknown"} />
                 <InfoRow label="Medium" value={order.utm_medium || "n/a"} />
                 <InfoRow label="Campaign" value={order.utm_campaign || "n/a"} />
@@ -882,7 +1053,7 @@ function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => v
             </Card>
 
             <Card title="URLs">
-              <div className="space-y-3 text-xs">
+              <div className="space-y-4 text-xs">
                 <InfoRow label="Landing" value={order.landing_page_url || "n/a"} />
                 <InfoRow label="Page" value={order.page_url || "n/a"} />
               </div>
@@ -903,18 +1074,46 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
+function ChartCard({ title, value, trend, data, dataKey, color }: { title: string; value: string | number; trend: string; data: any[]; dataKey: string; color: string }) {
+  return (
+    <div className="rounded-xl border border-white/10 bg-[#252525] p-5 flex flex-col">
+      <div className="flex items-start justify-between mb-2">
+        <h3 className="text-[10px] font-bold text-white/50 uppercase tracking-wider">{title}</h3>
+      </div>
+      <div className="flex items-center gap-3 mb-6">
+        <span className="text-2xl font-bold">{value}</span>
+        <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full flex items-center gap-1">{trend}</span>
+      </div>
+      <div className="h-[120px] w-full mt-auto">
+        <ResponsiveContainer width="100%" height="100%">
+          <AreaChart data={data} margin={{ top: 5, right: 0, left: 0, bottom: 0 }}>
+            <defs>
+              <linearGradient id={`color${dataKey}`} x1="0" y1="0" x2="0" y2="1">
+                <stop offset="5%" stopColor={color} stopOpacity={0.3}/>
+                <stop offset="95%" stopColor={color} stopOpacity={0}/>
+              </linearGradient>
+            </defs>
+            <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fontSize: 10, fill: '#666' }} dy={10} />
+            <Area type="monotone" dataKey={dataKey} stroke={color} strokeWidth={2} fillOpacity={1} fill={`url(#color${dataKey})`} />
+          </AreaChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
+
 /* ─── Shared Components ─── */
 function Kpi({ label, value, accent = false }: { label: string; value: string | number; accent?: boolean }) {
   return (
-    <div className={`rounded-[1.5rem] border p-5 shadow-sm ${accent ? "border-[#1473ff]/40 bg-[#11233d] text-white" : "border-white/10 bg-[#1f1f1f] text-white"}`}>
-      <p className={`text-xs font-bold uppercase tracking-wider ${accent ? "text-[#60a5fa]" : "text-white/45"}`}>{label}</p>
-      <p className="mt-2 text-2xl font-black">{typeof value === "number" ? value.toLocaleString() : value}</p>
+    <div className={`rounded-xl border p-5 shadow-sm ${accent ? "border-[#1473ff]/40 bg-[#1473ff]/10 text-white" : "border-white/10 bg-[#252525] text-white"}`}>
+      <p className={`text-[10px] font-bold uppercase tracking-wider mb-2 ${accent ? "text-[#1473ff]" : "text-white/50"}`}>{label}</p>
+      <p className="mt-2 text-2xl font-bold">{typeof value === "number" ? value.toLocaleString() : value}</p>
     </div>
   );
 }
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
-  return <div className="overflow-hidden rounded-[1.25rem] border border-white/10 bg-[#1f1f1f] p-5 shadow-sm"><h2 className="mb-4 border-b border-white/15 pb-3 text-lg font-black text-white">{title}</h2>{children}</div>;
+  return <div className="overflow-hidden rounded-xl border border-white/10 bg-[#252525] p-5 shadow-sm"><h2 className="mb-4 border-b border-white/10 pb-3 text-[10px] uppercase tracking-wider font-bold text-white/50">{title}</h2>{children}</div>;
 }
 
 function Badge({ value, good }: { value: string; good: boolean }) {
@@ -926,8 +1125,8 @@ function StackList({ items }: { items: Array<{ label: string; sub: string; value
   return (
     <div className="space-y-2">
       {items.map((item, i) => (
-        <div key={`${item.label}-${i}`} className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#151515] p-3">
-          <div><p className="font-bold text-white">{item.label}</p><p className="text-xs text-white/45">{item.sub}</p></div>
+        <div key={`${item.label}-${i}`} className="flex items-center justify-between gap-4 rounded-lg border border-white/5 bg-[#1c1c1c] p-3">
+          <div><p className="font-medium text-sm text-white">{item.label}</p><p className="text-xs text-white/45">{item.sub}</p></div>
           <p className="font-black text-white">{item.value}</p>
         </div>
       ))}
