@@ -5,12 +5,9 @@ import {
   AreaChart,
   Area,
   XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
   ResponsiveContainer,
 } from "recharts";
-import { Eye, ShoppingBag, DollarSign, Percent, Package, Users, Activity, Filter, Check } from "lucide-react";
+import { Eye, ShoppingBag, Package, Activity, Filter, Check } from "lucide-react";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
 
@@ -171,8 +168,8 @@ export function AdminDashboardClient() {
   const [password, setPassword] = useState("");
   const [auth, setAuth] = useState<string | null>(null);
   const [tab, setTab] = useState<Tab>("command");
-  const [start, setStart] = useState(dateDaysAgo(30));
-  const [end, setEnd] = useState(new Date().toISOString().slice(0, 10));
+  const [start] = useState(dateDaysAgo(30));
+  const [end] = useState(new Date().toISOString().slice(0, 10));
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [orders, setOrders] = useState<OrderListItem[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<OrderDetail | null>(null);
@@ -926,43 +923,6 @@ function LoginsTab({ logins, live }: { logins: LoginEvent[]; live: LoginEvent[] 
   );
 }
 
-function TrendBars({ rows }: { rows: Metrics["daily"] }) {
-  const max = Math.max(1, ...rows.map((row) => Math.max(row.clicks, row.revenue_sar / 100, row.orders * 10)));
-  return (
-    <div className="mb-5 flex h-44 items-end gap-1 rounded-2xl border border-white/10 bg-[#252525] p-4">
-      {rows.slice(-24).map((row) => {
-        const height = Math.max(4, (Math.max(row.clicks, row.revenue_sar / 100, row.orders * 10) / max) * 100);
-        return (
-          <div key={row.date} className="group relative flex flex-1 items-end">
-            <div className="w-full rounded-t bg-[#1473ff]" style={{ height: `${height}%` }} />
-            <div className="pointer-events-none absolute bottom-full left-1/2 z-10 mb-2 hidden -translate-x-1/2 whitespace-nowrap rounded-lg bg-black px-2 py-1 text-xs text-white group-hover:block">
-              {row.date}: {row.clicks} clicks, {row.orders} orders, {sar(row.revenue_sar)}
-            </div>
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
-function FunnelList({ rows }: { rows: Metrics["funnel"] }) {
-  const max = Math.max(1, ...rows.map((row) => row.count));
-  return (
-    <div className="space-y-3">
-      {rows.map((row, index) => (
-        <div key={row.step}>
-          <div className="mb-1 flex justify-between text-sm">
-            <span className="font-bold text-white">{index + 1}. {row.step}</span>
-            <span className="text-white/65">{compact(row.count)}</span>
-          </div>
-          <div className="h-2 rounded-full bg-white/10">
-            <div className="h-2 rounded-full bg-[#1473ff]" style={{ width: `${Math.max(2, (row.count / max) * 100)}%` }} />
-          </div>
-        </div>
-      ))}
-    </div>
-  );
-}
 
 function OrderPreview({ order, onClose }: { order: OrderDetail; onClose: () => void }) {
   const flags = riskFlags(order);
@@ -1074,7 +1034,7 @@ function InfoRow({ label, value }: { label: string; value: string }) {
   );
 }
 
-function ChartCard({ title, value, trend, data, dataKey, color }: { title: string; value: string | number; trend: string; data: any[]; dataKey: string; color: string }) {
+function ChartCard({ title, value, trend, data, dataKey, color }: { title: string; value: string | number; trend: string; data: Record<string, unknown>[]; dataKey: string; color: string }) {
   return (
     <div className="rounded-xl border border-white/10 bg-[#252525] p-5 flex flex-col">
       <div className="flex items-start justify-between mb-2">
