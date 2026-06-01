@@ -8,9 +8,9 @@ export type BundleOffer = {
 };
 
 export const BUNDLE_OFFERS: readonly BundleOffer[] = [
-  { quantity: 3, priceSar: 349, badgeAr: "بيتٌ يشرب معك طول الشهر", labelAr: "ثلاث عبوات" },
-  { quantity: 2, priceSar: 279, badgeAr: "توازنٌ بين السعر والاستمرار", labelAr: "عبوتان" },
-  { quantity: 1, priceSar: 199, badgeAr: "أول قربٍ من روتينك", labelAr: "عبوة واحدة" },
+  { quantity: 3, priceSar: 349, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
+  { quantity: 2, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
+  { quantity: 1, priceSar: 199, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
 ] as const;
 
 export const UPSELL_PRICE_SAR = 99;
@@ -292,7 +292,7 @@ export const PRODUCTS: Product[] = [
       "رحلة الخصوبة قد تكون مليئة بالضغوط. صممنا هذا المزيج ليكون لحظة هدوء وعناية يومية لكِ، بمكونات طبيعية تُلائم طبيعة جسمك.",
     imageTheme: "womens-health",
     images: ["/products/fertility-tea/1.jpg", "/products/fertility-tea/2.jpg", "/products/fertility-tea/3.jpg"],
-    imageSection2: "/products/fertility-tea/section2.jpg",
+    imageSection2: "/products/fertility-tea/section2-v2.jpg",
     imageSection4: "/products/fertility-tea/section4.jpg",
     imagePromisePackaging: "/products/fertility-tea/promise-packaging.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-delivery.jpg",
