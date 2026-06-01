@@ -294,7 +294,7 @@ export const PRODUCTS: Product[] = [
     images: ["/products/fertility-tea/1.jpg", "/products/fertility-tea/2.jpg", "/products/fertility-tea/3.jpg"],
     imageSection2: "/products/fertility-tea/section2-v2.jpg",
     imageSection4: "/products/fertility-tea/section4.jpg",
-    imagePromisePackaging: "/products/fertility-tea/promise-packaging.jpg",
+    imagePromisePackaging: "/products/fertility-tea/promise-packaging-v2.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-delivery.jpg",
     imagePromiseCod: "/products/fertility-tea/promise-cod.jpg",
     imageRitual: "/products/fertility-tea/ritual.jpg",
