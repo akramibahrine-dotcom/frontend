@@ -52,13 +52,52 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
   if (typeof window === "undefined") return null;
   const ctrl = new AbortController();
   const t = window.setTimeout(() => ctrl.abort(), timeoutMs);
+
+  // 1. Try Cloudflare trace (Bulletproof, unblocked by adblockers, very fast)
+  try {
+    const res = await fetch("https://cloudflare.com/cdn-cgi/trace", {
+      signal: ctrl.signal,
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const text = await res.text();
+      const match = text.match(/loc=([A-Z]{2})/);
+      if (match && match[1]) {
+        const code = COUNTRY_FALLBACK[match[1]];
+        if (code) return code;
+      }
+    }
+  } catch {
+    // Ignore and fallback
+  }
+  
+  // 2. Try freeipapi.com
+  try {
+    const res = await fetch("https://freeipapi.com/api/json", {
+      signal: ctrl.signal,
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.currencies && data.currencies.length > 0) {
+        return data.currencies[0].toUpperCase();
+      }
+      if (data && data.countryCode) {
+        return COUNTRY_FALLBACK[data.countryCode.toUpperCase()] ?? null;
+      }
+    }
+  } catch {
+    // Ignore and fallback
+  }
+
+  // 2. Try ipwho.is
   try {
     const res = await fetch("https://ipwho.is/", {
       signal: ctrl.signal,
       cache: "no-store",
     });
     if (res.ok) {
-      const data = (await res.json()) as IpWhoResponse;
+      const data = await res.json();
       if (data.success) {
         let code = data.currency?.code?.toUpperCase();
         if (!code && data.country_code) {
@@ -71,7 +110,7 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
     // Ignore and fallback
   }
 
-  // Fallback API if ipwho.is fails, is blocked, or omits currency/country code
+  // 3. Fallback API
   try {
     const res = await fetch("https://api.country.is/", {
       signal: ctrl.signal,

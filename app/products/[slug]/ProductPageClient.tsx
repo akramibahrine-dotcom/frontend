@@ -31,7 +31,7 @@ function HeroCarousel({ product }: { product: Product }) {
     if (images.length <= 1) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % images.length);
-    }, 4000);
+    }, 2500);
     return () => clearInterval(timer);
   }, [images.length]);
 
