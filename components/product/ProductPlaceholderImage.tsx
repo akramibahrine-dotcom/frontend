@@ -39,6 +39,11 @@ const THEME_CONFIG: Record<ImageTheme, { gradient: string; emoji: string; labelA
     emoji: "🌱",
     labelAr: "شاي دعم البروستات",
   },
+  "womens-health": {
+    gradient: "from-pink-50 via-fuchsia-50 to-rose-50",
+    emoji: "🌸",
+    labelAr: "شاي دعم صحة الأنثى",
+  },
 };
 
 export function ProductPlaceholderImage({ theme, className, aspectRatio = "product", alt }: Props) {

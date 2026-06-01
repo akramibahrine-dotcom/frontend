@@ -78,6 +78,17 @@ export const CATEGORIES: Category[] = [
     image: "/categories/cat-prostate.jpg",
     productSlugs: ["prostate-wellness-tea"],
   },
+  {
+    slug: "womens-health",
+    nameAr: "دعم صحة الأنثى",
+    shortNameAr: "صحة الأنثى",
+    concernAr: "مرافقة صحة الأنثى",
+    descriptionAr:
+      "مزيج عشبي دافئ لمرافقة صحة المرأة ودعم الخصوبة، ضمن نمط حياة متوازن.",
+    imageTheme: "womens-health",
+    image: "/categories/cat-womens-health.jpg",
+    productSlugs: ["fertility-tea"],
+  },
 ];
 
 export function getCategoryBySlug(slug: string): Category | undefined {
