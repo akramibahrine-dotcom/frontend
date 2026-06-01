@@ -1,12 +1,5 @@
 import type { CurrencyCode } from "@/lib/currency";
 
-type IpWhoCurrency = { code?: string };
-type IpWhoResponse = {
-  success?: boolean;
-  country_code?: string;
-  currency?: IpWhoCurrency;
-};
-
 /** ISO country → fallback currency when API omits currency.code */
 const COUNTRY_FALLBACK: Record<string, CurrencyCode> = {
   SA: "SAR",
