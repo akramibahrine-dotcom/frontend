@@ -115,7 +115,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 </Link>
               </div>
 
-              <h1 className={`text-3xl md:text-5xl font-extrabold mb-4 leading-tight ${product.slug === "fertility-tea" ? "text-[#FB569D]" : "text-[#005727]"}`}>
+              <h1 className={`text-3xl md:text-5xl font-extrabold mb-4 leading-tight ${product.slug === "fertility-tea" ? "text-[#FF0A74]" : "text-[#005727]"}`}>
                 {product.headlineAr}
               </h1>
               <p className="text-[#6E675F] text-lg mb-6 leading-relaxed">
