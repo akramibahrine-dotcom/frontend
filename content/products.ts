@@ -293,7 +293,7 @@ export const PRODUCTS: Product[] = [
       "رحلة الخصوبة قد تكون مليئة بالضغوط. صممنا هذا المزيج ليكون لحظة هدوء وعناية يومية لكِ، بمكونات طبيعية تُلائم طبيعة جسمك.",
     imageTheme: "womens-health",
     images: ["/products/fertility-tea/1.jpg", "/products/fertility-tea/2.jpg", "/products/fertility-tea/3.jpg"],
-    imageSection2: "/products/fertility-tea/section2-v6.jpg",
+    imageSection2: "/products/fertility-tea/section2-v7.png",
     imageSection4: "/products/fertility-tea/section4.jpg",
     imagePromisePackaging: "/products/fertility-tea/promise-pkg-fertility-v3.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-del-fertility-v3.jpg",
@@ -340,6 +340,7 @@ export const PRODUCTS: Product[] = [
       "البقع الداكنة والتصبغات قد تؤثر على ثقتك بنفسك. سيروم اكسس واي يقدم لك الحل العشبي اللطيف لبشرة أكثر إشراقاً وتجانساً.",
     imageTheme: "herbal-skin",
     images: ["/products/axis-y-serum/1.webp"],
+    imageSection2: "/products/axis-y-serum/section2.jpg",
     upsellProductId: "weight-support-tea",
     crossSellProductIds: ["colon-comfort-tea"],
     ritualAr:
