@@ -16,10 +16,10 @@ type Props = {
   onChange: (quantity: 1 | 2 | 3) => void;
   className?: string;
   welcomePromo?: boolean;
-  productImage?: string;
+  offerImages?: Record<number, string>;
 };
 
-export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false }: Props) {
+export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages }: Props) {
   const format = useCurrencyStore((s) => s.format);
 
   return (
@@ -57,7 +57,7 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               </div>
               <div className="flex-shrink-0 w-10 h-10">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={OFFER_IMAGES[offer.quantity]} alt={`${offer.quantity} عبوة`} className="w-10 h-10 object-contain" />
+                <img src={offerImages ? offerImages[offer.quantity] : OFFER_IMAGES[offer.quantity]} alt={`${offer.quantity} عبوة`} className="w-10 h-10 object-contain" />
               </div>
               <div>
                 <span className="font-bold text-[#0F1A14] text-sm">{offer.labelAr}</span>
@@ -66,10 +66,10 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                 )}
               </div>
             </div>
-            <div className="flex items-center gap-2 flex-shrink-0">
+            <div className="flex flex-col items-end gap-1 flex-shrink-0">
               <span
                 className={cn(
-                  "text-xs px-2 py-0.5 rounded-full font-bold",
+                  "text-[10px] px-2 py-0.5 rounded-full font-bold whitespace-nowrap",
                   offer.quantity === 3
                     ? "bg-[#C99A45] text-white"
                     : offer.quantity === 2
@@ -79,11 +79,11 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               >
                 {offer.badgeAr}
               </span>
-              <div className="flex flex-col items-end gap-0.5">
+              <div className="flex flex-col items-end gap-0">
                 {!welcomePromo && reference > payable && (
-                  <span className="text-xs text-[#567063] line-through">{format(reference)}</span>
+                  <span className="text-[10px] text-[#567063] line-through leading-none">{format(reference)}</span>
                 )}
-                <span className="font-extrabold text-[#0F1A14] text-base">{format(payable)}</span>
+                <span className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">{format(payable)}</span>
               </div>
             </div>
           </button>

@@ -43,6 +43,7 @@ export type Product = {
   imagePromiseDelivery?: string;
   imagePromiseCod?: string;
   imageRitual?: string;
+  offerImages?: Record<number, string>;
 };
 
 export const PRODUCTS: Product[] = [
@@ -308,6 +309,11 @@ export const PRODUCTS: Product[] = [
       "الدفع عند الاستلام بكل راحة وأمان",
       "فريق دعم للإجابة على استفساراتك"
     ],
+    offerImages: {
+      1: "/products/fertility-tea/offer-1.png",
+      2: "/products/fertility-tea/offer-2.png",
+      3: "/products/fertility-tea/offer-3.png",
+    },
     faq: [
       {
         question: "هل يساعد هذا الشاي على الحمل؟",
