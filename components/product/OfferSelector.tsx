@@ -17,9 +17,10 @@ type Props = {
   className?: string;
   welcomePromo?: boolean;
   offerImages?: Record<number, string>;
+  productImage?: string;
 };
 
-export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages }: Props) {
+export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages, productImage }: Props) {
   const format = useCurrencyStore((s) => s.format);
 
   return (
@@ -55,9 +56,30 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                   <div className="w-2 h-2 rounded-full bg-white" />
                 )}
               </div>
-              <div className="flex-shrink-0 w-10 h-10">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={offerImages ? offerImages[offer.quantity] : OFFER_IMAGES[offer.quantity]} alt={`${offer.quantity} عبوة`} className="w-10 h-10 object-contain" />
+              <div className="flex-shrink-0 w-12 h-10 flex items-center justify-center relative">
+                {offerImages ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={offerImages[offer.quantity]} alt={`${offer.quantity} عبوة`} className="w-10 h-10 object-contain" />
+                ) : productImage ? (
+                  <div className="flex items-center justify-center relative w-full h-full">
+                    {Array.from({ length: offer.quantity }).map((_, i) => (
+                      /* eslint-disable-next-line @next/next/no-img-element */
+                      <img
+                        key={i}
+                        src={productImage}
+                        alt="Product packaging"
+                        className="w-8 h-8 object-contain absolute"
+                        style={{
+                          transform: `translateX(${i * 8 - (offer.quantity - 1) * 4}px) rotate(${i * 5 - (offer.quantity - 1) * 2.5}deg)`,
+                          zIndex: offer.quantity - i
+                        }}
+                      />
+                    ))}
+                  </div>
+                ) : (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img src={OFFER_IMAGES[offer.quantity]} alt={`${offer.quantity} عبوة`} className="w-10 h-10 object-contain" />
+                )}
               </div>
               <div>
                 <span className="font-bold text-[#0F1A14] text-sm">{offer.labelAr}</span>

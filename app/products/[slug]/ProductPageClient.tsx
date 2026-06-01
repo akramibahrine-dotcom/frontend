@@ -135,7 +135,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                   <span className="w-2 h-2 rounded-full bg-[#C99A45] animate-pulse"></span>
                   اختر العرض المناسب لك:
                 </p>
-                <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} />
+                <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} />
               </div>
 
               <button
@@ -426,7 +426,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
           <div className="bg-white text-black p-8 rounded-3xl max-w-2xl mx-auto shadow-2xl mb-8">
             <h3 className="text-xl font-extrabold text-[#0F1A14] mb-6">الباقة (الدفع عند الاستلام)</h3>
-            <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} />
+            <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} />
             <button
               onClick={handleAddToCart}
               className="w-full mt-6 bg-[#C99A45] hover:bg-[#b3883b] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] shadow-lg shadow-[#C99A45]/30"
