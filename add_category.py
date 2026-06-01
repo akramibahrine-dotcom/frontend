@@ -11,7 +11,7 @@ new_category = """  {
     descriptionAr:
       "مزيج عشبي دافئ لمرافقة صحة المرأة ودعم الخصوبة، ضمن نمط حياة متوازن.",
     imageTheme: "womens-health",
-    image: "/categories/cat-womens-health.jpg",
+    image: "/categories/cat-womens-health-v2.jpg",
     productSlugs: ["fertility-tea"],
   },
 ];"""
