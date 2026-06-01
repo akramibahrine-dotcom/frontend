@@ -1,4 +1,4 @@
-export type ImageTheme = "weight" | "colon" | "hemorrhoid" | "liver" | "lung" | "prostate" | "womens-health";
+export type ImageTheme = "weight" | "colon" | "hemorrhoid" | "liver" | "lung" | "prostate" | "womens-health" | "herbal-skin";
 
 export type BundleOffer = {
   quantity: 1 | 2 | 3;
@@ -324,6 +324,41 @@ export const PRODUCTS: Product[] = [
         question: "هل يمكنني شربه أثناء الدورة الشهرية؟",
         answer: "نعم، مكوناته الطبيعية الدافئة قد تساعد في تخفيف الانزعاج المرافق للدورة الشهرية.",
       },
+    ],
+  },
+  {
+    id: "axis-y-serum",
+    slug: "axis-y-serum",
+    sku: "BAYT-SKN-001",
+    nameAr: "سيروم اكسس واي لتصحيح البقع",
+    shortNameAr: "سيروم اكسس واي",
+    headlineAr: "إشراقة طبيعية وبشرة موحدة اللون",
+    subheadlineAr:
+      "سيروم عشبي مصمم خصيصاً لتصحيح البقع الداكنة وتوحيد لون البشرة بفضل مكوناته الطبيعية.",
+    concernAr: "توحيد لون البشرة وتصحيح البقع",
+    painAwareAr:
+      "البقع الداكنة والتصبغات قد تؤثر على ثقتك بنفسك. سيروم اكسس واي يقدم لك الحل العشبي اللطيف لبشرة أكثر إشراقاً وتجانساً.",
+    imageTheme: "herbal-skin",
+    images: ["/products/axis-y-serum/1.webp"],
+    upsellProductId: "weight-support-tea",
+    crossSellProductIds: ["colon-comfort-tea"],
+    ritualAr:
+      "ضعي بضع قطرات على بشرة نظيفة وجافة مرتين يومياً. دلكيه بلطف حتى يمتص تماماً. ينصح باستخدام واقي شمس نهاراً.",
+    whyBaytsehaPoints: [
+      "تركيبة عشبية لطيفة على جميع أنواع البشرة",
+      "يساعد في تقليل التصبغات والبقع الداكنة بفعالية",
+      "منتج أصلي وآمن تماماً",
+      "نتائج ملحوظة مع الاستمرار"
+    ],
+    faq: [
+      {
+        question: "هل يناسب البشرة الحساسة؟",
+        answer: "نعم، تركيبته العشبية اللطيفة مصممة لتناسب حتى البشرة الحساسة.",
+      },
+      {
+        question: "متى تظهر النتائج؟",
+        answer: "تختلف النتائج من شخص لآخر، ولكن معظم المستخدمين يلاحظون تحسناً في توحيد لون البشرة خلال أسابيع من الاستخدام المنتظم.",
+      }
     ],
   },
 ];

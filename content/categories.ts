@@ -89,6 +89,17 @@ export const CATEGORIES: Category[] = [
     image: "/categories/cat-womens-health-v2.jpg",
     productSlugs: ["fertility-tea"],
   },
+  {
+    slug: "herbal-skin",
+    nameAr: "علاجات عشبية للجلد",
+    shortNameAr: "علاجات للجلد",
+    concernAr: "العناية بصحة الجلد والبشرة",
+    descriptionAr:
+      "مجموعة من المنتجات الطبيعية والعشبية المصممة بعناية لتحسين صحة ومظهر البشرة وتصحيح البقع.",
+    imageTheme: "herbal-skin",
+    image: "/categories/cat-herbal-skin.jpg",
+    productSlugs: ["axis-y-serum"],
+  },
 ];
 
 export function getCategoryBySlug(slug: string): Category | undefined {

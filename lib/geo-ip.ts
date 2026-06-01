@@ -46,7 +46,25 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
   const ctrl = new AbortController();
   const t = window.setTimeout(() => ctrl.abort(), timeoutMs);
 
-  // 1. Try Cloudflare trace (Bulletproof, unblocked by adblockers, very fast)
+  // 1. Try our own backend GeoIP endpoint (which reads CF-IPCountry or falls back to IPAPI)
+  try {
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.Baytseha.shop";
+    const res = await fetch(`${apiBase}/api/v1/currency/geo`, {
+      signal: ctrl.signal,
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.country_code) {
+        const code = COUNTRY_FALLBACK[data.country_code.toUpperCase()];
+        if (code) return code;
+      }
+    }
+  } catch {
+    // Ignore and fallback
+  }
+
+  // 2. Try Cloudflare trace (Bulletproof, unblocked by adblockers, very fast)
   try {
     const res = await fetch("https://cloudflare.com/cdn-cgi/trace", {
       signal: ctrl.signal,
