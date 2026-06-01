@@ -292,7 +292,7 @@ export const PRODUCTS: Product[] = [
       "رحلة الخصوبة قد تكون مليئة بالضغوط. صممنا هذا المزيج ليكون لحظة هدوء وعناية يومية لكِ، بمكونات طبيعية تُلائم طبيعة جسمك.",
     imageTheme: "womens-health",
     images: ["/products/fertility-tea/1.jpg", "/products/fertility-tea/2.jpg", "/products/fertility-tea/3.jpg"],
-    imageSection2: "/products/fertility-tea/section2-v2.jpg",
+    imageSection2: "/products/fertility-tea/section2-v5.jpg",
     imageSection4: "/products/fertility-tea/section4.jpg",
     imagePromisePackaging: "/products/fertility-tea/promise-pkg-fertility-v3.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-del-fertility-v3.jpg",
