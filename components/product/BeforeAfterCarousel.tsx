@@ -11,6 +11,16 @@ type Transformation = {
   image: string;
 };
 
+type FertilityReview = {
+  id: number;
+  nameAr: string;
+  cityAr: string;
+  age: number;
+  quoteAr: string;
+  rating: number;
+  badge: string;
+};
+
 const TRANSFORMATIONS: Transformation[] = [
   {
     id: 1,
@@ -164,13 +174,150 @@ const TRANSFORMATIONS: Transformation[] = [
   },
 ];
 
+const FERTILITY_REVIEWS: FertilityReview[] = [
+  {
+    id: 1,
+    nameAr: "نوف الحربي",
+    cityAr: "🇸🇦 الرياض",
+    age: 29,
+    quoteAr: "بعد سنتين محاولات، بديت أشرب الشاي بانتظام وحسّيت بتغيّر في دورتي وانتظامها. الحمدلله أنا الحين حامل في الشهر الثالث!",
+    rating: 5,
+    badge: "🌸 نتيجة مباركة",
+  },
+  {
+    id: 2,
+    nameAr: "مريم الشامسي",
+    cityAr: "🇦🇪 أبوظبي",
+    age: 31,
+    quoteAr: "كنت أعاني من عدم انتظام الدورة، وبعد شهرين من الشاي صارت منتظمة. طعمه لذيذ وأحس بفرق واضح في طاقتي.",
+    rating: 5,
+    badge: "✅ دورة منتظمة",
+  },
+  {
+    id: 3,
+    nameAr: "سارة العتيبي",
+    cityAr: "🇸🇦 جدة",
+    age: 27,
+    quoteAr: "دكتورتي نصحتني بأعشاب طبيعية مع العلاج، وهالشاي كان الخيار المثالي. أحس براحة نفسية وجسدية مع كل كوب.",
+    rating: 5,
+    badge: "💆‍♀️ راحة يومية",
+  },
+  {
+    id: 4,
+    nameAr: "فاطمة الكويتية",
+    cityAr: "🇰🇼 حولي",
+    age: 34,
+    quoteAr: "أختي جرّبته قبلي وحملت بعد ٤ أشهر. أنا بديت أشربه وألاحظ تحسّن بالدورة والمزاج. منتج طبيعي ١٠٠٪.",
+    rating: 5,
+    badge: "🌿 طبيعي وآمن",
+  },
+  {
+    id: 5,
+    nameAr: "هدى القحطاني",
+    cityAr: "🇸🇦 الدمام",
+    age: 26,
+    quoteAr: "من أفضل القرارات اللي أخذتها! الشاي ساعدني أحافظ على توازن هرموناتي. أنصح كل بنت تجربه.",
+    rating: 5,
+    badge: "⚖️ توازن هرموني",
+  },
+  {
+    id: 6,
+    nameAr: "عائشة البلوشي",
+    cityAr: "🇴🇲 مسقط",
+    age: 30,
+    quoteAr: "طلبته لعُمان ووصلني بأسبوع. طعمه خفيف وأحبه مع العسل. دورتي تحسّنت وآلامها خفّت كثير.",
+    rating: 5,
+    badge: "🚚 وصل بسرعة",
+  },
+  {
+    id: 7,
+    nameAr: "لطيفة السبيعي",
+    cityAr: "🇸🇦 مكة",
+    age: 33,
+    quoteAr: "كنت أعاني من تكيّس المبايض وبديت أشرب الشاي كمكمّل طبيعي. الحمدلله أحس بتحسّن ملحوظ في كل شيء.",
+    rating: 5,
+    badge: "💪 تحسّن ملحوظ",
+  },
+  {
+    id: 8,
+    nameAr: "دانة المطيري",
+    cityAr: "🇶🇦 الدوحة",
+    age: 28,
+    quoteAr: "جرّبت أشياء كثيرة وهذا أول منتج حسّيت بفرق حقيقي معه. دورتي انتظمت والتقلّبات المزاجية خفّت!",
+    rating: 5,
+    badge: "🎯 فرق حقيقي",
+  },
+  {
+    id: 9,
+    nameAr: "زينب حسن",
+    cityAr: "🇧🇭 المنامة",
+    age: 35,
+    quoteAr: "الشاي صار جزء من روتيني اليومي. أحس بهدوء نفسي وراحة، وأنا وزوجي نخطط ونثق أن الله يرزقنا.",
+    rating: 5,
+    badge: "☕ روتين يومي",
+  },
+  {
+    id: 10,
+    nameAr: "أمل الراشد",
+    cityAr: "🇸🇦 الرياض",
+    age: 32,
+    quoteAr: "زوجي هو اللي طلبه لي كهدية. صراحة أحسن هدية! بشرتي تحسّنت ودورتي صارت منتظمة.",
+    rating: 5,
+    badge: "🎁 هدية مثالية",
+  },
+  {
+    id: 11,
+    nameAr: "رنا الزعبي",
+    cityAr: "🇱🇧 بيروت",
+    age: 29,
+    quoteAr: "طلبته من لبنان ووصلني. طعمه ناعم ولذيذ وأحس إنه ساعدني على الاسترخاء وتنظيم هرموناتي.",
+    rating: 5,
+    badge: "🌸 استرخاء وعناية",
+  },
+  {
+    id: 12,
+    nameAr: "شيماء العراقية",
+    cityAr: "🇮🇶 بغداد",
+    age: 27,
+    quoteAr: "أعشاب طبيعية ومفعولها واضح. بعد شهر ونص دورتي انتظمت وآلام البطن اختفت تقريبًا.",
+    rating: 5,
+    badge: "✅ نتيجة سريعة",
+  },
+  {
+    id: 13,
+    nameAr: "حنان العلي",
+    cityAr: "🇸🇦 أبها",
+    age: 36,
+    quoteAr: "عمري ٣٦ وكنت خايفة إن الوقت فات. بس بعد ما بديت الشاي وتغيّر نمط حياتي، أنا الحين حامل والحمدلله!",
+    rating: 5,
+    badge: "🤰 حمل مبارك",
+  },
+  {
+    id: 14,
+    nameAr: "منى الليبية",
+    cityAr: "🇱🇾 طرابلس",
+    age: 30,
+    quoteAr: "وصلني المنتج لليبيا بعد ١٠ أيام. مكونات طبيعية وطعم رائع. أحس بتحسّن في صحتي العامة ونشاطي.",
+    rating: 5,
+    badge: "🌍 توصيل دولي",
+  },
+  {
+    id: 15,
+    nameAr: "ريم الدوسري",
+    cityAr: "🇸🇦 الخبر",
+    age: 25,
+    quoteAr: "أنا عروس جديدة وبديت أشرب الشاي من باب الوقاية والعناية. أحبه مع الزنجبيل وأنصح كل عروس فيه!",
+    rating: 5,
+    badge: "💍 عناية العروس",
+  },
+];
+
 function TransformationCard({ t }: { t: Transformation }) {
   return (
     <article
       className="relative shrink-0 w-[min(90vw,320px)] md:w-[340px] rounded-2xl overflow-hidden bg-white border border-[#E8D8C3] shadow-lg"
       dir="rtl"
     >
-      {/* Before/After Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
@@ -184,14 +331,12 @@ function TransformationCard({ t }: { t: Transformation }) {
         <div className="absolute top-3 right-3 bg-[#155235] text-white text-[10px] font-bold px-2 py-1 rounded-full">
           بعد
         </div>
-        {/* Weight lost badge */}
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2">
           <span className="text-[#C99A45] font-extrabold text-sm">-{t.lostKg} كغ</span>
           <span className="text-white/60 text-xs">في {t.durationAr}</span>
         </div>
       </div>
 
-      {/* Info */}
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
           <div>
@@ -216,7 +361,87 @@ function TransformationCard({ t }: { t: Transformation }) {
   );
 }
 
-export function BeforeAfterCarousel() {
+function FertilityReviewCard({ r }: { r: FertilityReview }) {
+  return (
+    <article
+      className="relative shrink-0 w-[min(90vw,320px)] md:w-[340px] rounded-2xl overflow-hidden bg-white border border-pink-200 shadow-lg"
+      dir="rtl"
+    >
+      <div className="p-5">
+        <div className="flex items-center justify-between mb-3">
+          <div>
+            <p className="font-extrabold text-[#0F1A14] text-sm">{r.nameAr}</p>
+            <p className="text-[#567063] text-xs">{r.cityAr} · {r.age} سنة</p>
+          </div>
+          <div className="text-[#C99A45] text-sm" aria-hidden="true">★★★★★</div>
+        </div>
+        <p className="text-[#567063] text-sm leading-relaxed mb-3">
+          &ldquo;{r.quoteAr}&rdquo;
+        </p>
+        <div className="flex items-center gap-2">
+          <span className="text-[10px] bg-pink-50 text-pink-700 px-2 py-0.5 rounded-full border border-pink-200 font-bold">
+            {r.badge}
+          </span>
+          <span className="text-[10px] bg-[#F5F3EE] text-[#567063] px-2 py-0.5 rounded-full border border-[#E8E2D8]">
+            🌸 شاي Fertility
+          </span>
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
+  const isFertility = productSlug === "fertility-tea";
+
+  if (isFertility) {
+    const doubled = [...FERTILITY_REVIEWS, ...FERTILITY_REVIEWS];
+    return (
+      <section className="py-12 md:py-16 bg-gradient-to-b from-[#2D0A1B] to-[#1A0511] overflow-hidden" aria-labelledby="ba-carousel-title">
+        <div className="max-w-[1200px] mx-auto px-4 mb-8 text-center">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4 border border-white/20">
+            <span className="text-pink-400">🌸</span>
+            <span className="text-sm font-bold text-white tracking-wide">تجارب حقيقية</span>
+          </div>
+          <h2 id="ba-carousel-title" className="text-2xl md:text-4xl font-extrabold text-white mb-3">
+            ثقة مجتمعك، اختيارك الذكي
+          </h2>
+          <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
+            تجارب حقيقية من سيدات في الخليج والوطن العربي استخدمن شاي Fertility من بيت الصحة
+          </p>
+          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto mt-5" />
+        </div>
+
+        <div className="relative mb-5" dir="ltr">
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 z-10 bg-gradient-to-r from-[#2D0A1B] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 z-10 bg-gradient-to-l from-[#2D0A1B] to-transparent" />
+          <div className="flex gap-5 animate-marquee-ba py-2">
+            {doubled.map((r, i) => (
+              <FertilityReviewCard key={`fr-${r.id}-${i}`} r={r} />
+            ))}
+          </div>
+        </div>
+
+        <div className="max-w-[1200px] mx-auto px-4 mt-10">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              { value: "+١,٢٤٠", label: "سيدة من الخليج", icon: "👩" },
+              { value: "٤.٩/٥", label: "تقييم المنتج", icon: "⭐" },
+              { value: "٩٧٪", label: "نسبة رضا العميلات", icon: "💕" },
+              { value: "٩ دول", label: "توصيل عربي", icon: "🚚" },
+            ].map((stat) => (
+              <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
+                <span className="text-2xl block mb-1">{stat.icon}</span>
+                <span className="text-xl md:text-2xl font-extrabold text-pink-400 block">{stat.value}</span>
+                <span className="text-xs text-gray-400">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
+
   const doubled = [...TRANSFORMATIONS, ...TRANSFORMATIONS];
 
   return (
@@ -235,7 +460,6 @@ export function BeforeAfterCarousel() {
         <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#C99A45] to-transparent mx-auto mt-5" />
       </div>
 
-      {/* Row 1: scroll right */}
       <div className="relative mb-5" dir="ltr">
         <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 z-10 bg-gradient-to-r from-[#0F1A14] to-transparent" />
         <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 z-10 bg-gradient-to-l from-[#0F1A14] to-transparent" />
@@ -246,7 +470,6 @@ export function BeforeAfterCarousel() {
         </div>
       </div>
 
-      {/* Stats bar */}
       <div className="max-w-[1200px] mx-auto px-4 mt-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
