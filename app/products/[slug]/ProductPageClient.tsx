@@ -183,7 +183,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="absolute inset-0 bg-[#F8F1E7] rounded-3xl rotate-3 transition-transform group-hover:rotate-6"></div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
-                  src="/product-galery/6.jpg"
+                  src={product.imageSection2 || "/product-galery/6.jpg"}
                 alt="رشاقتك بفنجان"
                 className="w-full relative z-10 rounded-3xl shadow-lg object-cover aspect-square grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
               />
@@ -301,7 +301,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="relative bg-gradient-to-br from-[#155235]/10 to-transparent p-4 rounded-[3rem] border border-white overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/product-galery/4.jpg"
+                  src={product.imageSection4 || "/product-galery/4.jpg"}
                   alt="مكوّنات المزيج العشبي"
                   className="w-full h-full object-cover rounded-2xl"
                 />
@@ -345,7 +345,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
               <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/product-galery/promise-packaging.jpg" alt="تغليف فاخر" className="w-full h-full object-cover" />
+                <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt="تغليف فاخر" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">تغليف فاخر يليق بك</h3>
               <p className="text-sm text-[#6E675F]">
@@ -355,7 +355,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
               <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/product-galery/promise-delivery.jpg" alt="توصيل سريع" className="w-full h-full object-cover" />
+                <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt="توصيل سريع" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">توصيل سريع لباب بيتك</h3>
               <p className="text-sm text-[#6E675F]">
@@ -365,7 +365,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
               <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/product-galery/promise-cod.jpg" alt="الدفع عند الاستلام" className="w-full h-full object-cover" />
+                <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt="الدفع عند الاستلام" className="w-full h-full object-cover" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">الدفع عند الاستلام</h3>
               <p className="text-sm text-[#6E675F]">
@@ -405,7 +405,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 <div className="absolute inset-0 border-2 border-dashed border-[#C99A45]/30 rounded-3xl animate-spin-slow pointer-events-none" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src="/product-galery/5.jpg"
+                  src={product.imageRitual || "/product-galery/5.jpg"}
                   alt="خطوات تحضير الشاي"
                   className="w-full rounded-3xl shadow-2xl shadow-[#155235]/10 border-4 border-[#F8F1E7] object-cover"
                 />
