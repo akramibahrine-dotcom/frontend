@@ -21,6 +21,27 @@ const COUNTRY_FALLBACK: Record<string, CurrencyCode> = {
   GB: "GBP",
   FR: "EUR",
   DE: "EUR",
+  IT: "EUR",
+  ES: "EUR",
+  LB: "LBP",
+  MA: "MAD",
+  TN: "TND",
+  TR: "TRY",
+  PK: "PKR",
+  IN: "INR",
+  CA: "CAD",
+  AU: "AUD",
+  JP: "JPY",
+  CN: "CNY",
+  IQ: "IQD",
+  SD: "SDG",
+  LY: "LYD",
+  YE: "YER",
+  SY: "SYP",
+  DZ: "DZD",
+  MY: "MYR",
+  ID: "IDR",
+  NG: "NGN"
 };
 
 /**
@@ -36,18 +57,37 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
       signal: ctrl.signal,
       cache: "no-store",
     });
-    if (!res.ok) return null;
-    const data = (await res.json()) as IpWhoResponse;
-    if (!data.success) return null;
-
-    let code = data.currency?.code?.toUpperCase();
-    if (!code && data.country_code) {
-      code = COUNTRY_FALLBACK[data.country_code.toUpperCase()];
+    if (res.ok) {
+      const data = (await res.json()) as IpWhoResponse;
+      if (data.success) {
+        let code = data.currency?.code?.toUpperCase();
+        if (!code && data.country_code) {
+          code = COUNTRY_FALLBACK[data.country_code.toUpperCase()];
+        }
+        if (code) return code;
+      }
     }
-    return code ?? null;
   } catch {
-    return null;
+    // Ignore and fallback
+  }
+
+  // Fallback API if ipwho.is fails, is blocked, or omits currency/country code
+  try {
+    const res = await fetch("https://api.country.is/", {
+      signal: ctrl.signal,
+      cache: "no-store",
+    });
+    if (res.ok) {
+      const data = await res.json();
+      if (data && data.country) {
+        return COUNTRY_FALLBACK[data.country.toUpperCase()] ?? null;
+      }
+    }
+  } catch {
+    // Ignore and return null
   } finally {
     clearTimeout(t);
   }
+
+  return null;
 }
