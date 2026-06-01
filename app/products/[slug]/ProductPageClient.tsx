@@ -13,7 +13,6 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { WelcomePromoModal } from "@/components/product/WelcomePromoModal";
-import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
 import { BeforeAfterCarousel } from "@/components/product/BeforeAfterCarousel";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
@@ -70,7 +69,7 @@ function HeroCarousel({ product }: { product: Product }) {
         )}
 
         {/* Floating Badge */}
-        <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce-slow z-10">
+        <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce z-10">
           <span className="text-xl">🌿</span>
           <span className="text-sm font-bold text-[#155235]">{product.concernAr}</span>
         </div>
@@ -169,9 +168,6 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
       {/* Before & After transformations carousel */}
       <BeforeAfterCarousel productSlug={product.slug} />
-
-      {/* Reviews marquee after hero */}
-      <ReviewsMarquee />
 
       {/* 2. Pain & Emotion Section (Text Left, Image Right in RTL -> code wise: text order-last, image order-first) */}
       <section className="py-16 md:py-24 bg-white relative overflow-hidden">
@@ -416,8 +412,6 @@ export function ProductPageClient({ product, crossSells }: Props) {
       </section>
 
 
-      {/* ═══ REVIEWS MARQUEE ═══ */}
-      <ReviewsMarquee />
 
       {/* 8. ختامٌ يدعوك بلطفِ بيتٍ */}
       <section className="py-16 md:py-24 bg-[#0F1A14] text-white relative overflow-hidden">

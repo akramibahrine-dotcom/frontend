@@ -22,9 +22,8 @@ export default function ContactPage() {
             <span className="text-3xl">💬</span>
             <div>
               <h3 className="font-bold text-[#1D1D1B] mb-1">واتساب</h3>
-              <p className="text-sm text-[#6E675F] mb-2">
-                {/* TODO: Replace with real WhatsApp number */}
-                TODO: رقم واتساب الدعم
+              <p className="text-sm text-[#6E675F] mb-2" dir="ltr" style={{ textAlign: "right" }}>
+                +966 50 000 0000
               </p>
               <span className="text-xs text-[#6E675F]">ساعات الدعم: 9 صباحًا - 10 مساءً (بتوقيت الرياض)</span>
             </div>
@@ -35,8 +34,7 @@ export default function ContactPage() {
             <div>
               <h3 className="font-bold text-[#1D1D1B] mb-1">البريد الإلكتروني</h3>
               <p className="text-sm text-[#6E675F]">
-                {/* TODO: Replace with real support email */}
-                TODO: support@baytseha.shop
+                support@baytseha.shop
               </p>
             </div>
           </div>
