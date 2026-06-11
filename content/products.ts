@@ -52,7 +52,7 @@ export const PRODUCTS: Product[] = [
     id: "weight-support-tea",
     slug: "weight-support-tea",
     sku: "BAYT-WST-001",
-    nameAr: "شاي عشبي من بيت الصحة لمرافقة يومك في إدارة الوزن",
+    nameAr: "شاي الأعشاب للتخسيس الطبيعي",
     shortNameAr: "شاي مرافقة الوزن",
     headlineAr: "تخلّص من الوزن الزائد — الحل الطبيعي الذي ينتظره جسمك",
     subheadlineAr:
@@ -294,9 +294,6 @@ export const PRODUCTS: Product[] = [
       "رحلة الخصوبة قد تكون مليئة بالضغوط. صممنا هذا المزيج ليكون لحظة هدوء وعناية يومية لكِ، بمكونات طبيعية تُلائم طبيعة جسمك.",
       imageTheme: "womens-health",
       images: [
-        "/products/fertility-tea/1.jpg",
-        "/products/fertility-tea/2.jpg",
-        "/products/fertility-tea/3.jpg",
         "/products/fertility-tea/4.jpg",
         "/products/fertility-tea/5.jpg",
         "/products/fertility-tea/6.jpg",
