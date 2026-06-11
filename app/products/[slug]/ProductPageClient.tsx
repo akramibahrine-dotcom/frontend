@@ -342,9 +342,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
+              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt="تغليف فاخر" className="w-full h-full object-cover" />
+                <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt="تغليف فاخر" className="w-full h-full object-contain mix-blend-multiply" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">تغليف فاخر يليق بك</h3>
               <p className="text-sm text-[#6E675F]">
@@ -352,9 +352,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </p>
             </div>
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
+              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt="توصيل سريع" className="w-full h-full object-cover" />
+                <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt="توصيل سريع" className="w-full h-full object-contain mix-blend-multiply" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">توصيل سريع لباب بيتك</h3>
               <p className="text-sm text-[#6E675F]">
@@ -362,9 +362,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </p>
             </div>
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4">
+              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt="الدفع عند الاستلام" className="w-full h-full object-cover" />
+                <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt="الدفع عند الاستلام" className="w-full h-full object-contain mix-blend-multiply" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">الدفع عند الاستلام</h3>
               <p className="text-sm text-[#6E675F]">

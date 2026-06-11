@@ -40,7 +40,7 @@ export function TrustBadgeRow({ className }: { className?: string }) {
     <div className={cn("flex flex-wrap gap-2", className)}>
       <CODBadge />
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#F5F3EE] text-[#155235] border border-[#E8E2D8]">
-        🚚 توصيل داخل السعودية
+        شامل للتوصيل
       </span>
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#F5F3EE] text-[#155235] border border-[#E8E2D8]">
         💬 دعم قبل وبعد الطلب
