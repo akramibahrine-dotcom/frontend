@@ -285,7 +285,7 @@ export const PRODUCTS: Product[] = [
     id: "fertility-tea",
     slug: "fertility-tea",
     sku: "BAYT-FTT-007",
-    nameAr: "شاي الخصوبة الجنسية من بيت الصحه",
+    nameAr: "شاي الخصوبة الجنسية من بيت الصحة",
     shortNameAr: "شاي Fertility",
     headlineAr: "دعم طبيعي لرحلة الخصوبة وصحة المرأة",
     subheadlineAr:
