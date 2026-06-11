@@ -32,7 +32,7 @@ const newExport = `const REVIEWS_MAP: Record<string, ProductReview[]> = {
     { id: 6, nameAr: "نواف الشامسي", cityAr: "🇦🇪 الشارقة", age: 41, quoteAr: "بديت أحس بخفة في جسمي بعد أسبوعين. أنصح كل مهتم بصحته يدخله في نظامه.", rating: 4, badge: "🎯 فرق ملموس" },
   ],
   "lung-smoking-support-tea": [
-    { id: 1, nameAr: "ماجد المطيري", cityAr: "🇸🇦 بريدة", age: 38, quoteAr: "أنا مدخن من ١٥ سنة. الشاي هذا ريح صدري كثير، وخفف عني الكحة الصباحية بشكل كبير.", rating: 5, badge: "🍀 تنفس أسهل" },
+    { id: 1, nameAr: "ماجد المطيري", cityAr: "🇸🇦 بريدة", age: 38, quoteAr: "أنا مدخن من 15 سنة. الشاي هذا ريح صدري كثير، وخفف عني الكحة الصباحية بشكل كبير.", rating: 5, badge: "🍀 تنفس أسهل" },
     { id: 2, nameAr: "أحمد العتيبي", cityAr: "🇸🇦 الرياض", age: 45, quoteAr: "ممتاز جداً للي يحاول يخفف تدخين. يعطيك هدوء ويخفف الرغبة بالسجائر.", rating: 5, badge: "✅ يخفف الرغبة" },
     { id: 3, nameAr: "سلطان النعيمي", cityAr: "🇦🇪 دبي", age: 33, quoteAr: "فرق واضح في النفس وقت الرياضة! الشاي نظف الرئة وصرت أتنفس براحة أكثر.", rating: 5, badge: "🏃‍♂️ نشاط رياضي" },
     { id: 4, nameAr: "تركي الدوسري", cityAr: "🇸🇦 الخبر", age: 41, quoteAr: "طعمه مريح ودافي. ساعدني أتخلص من البلغم المتراكم بصراحة منتج يستاهل.", rating: 5, badge: "🌿 طرد البلغم" },
@@ -83,7 +83,7 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
             قبل وبعد — عملاؤنا يتكلمون بالصور
           </h2>
           <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
-            نتائج حقيقية من عملاء استخدموا شاي بيت الصحة لمدة ٣ أشهر مع نمط حياة صحي
+            نتائج حقيقية من عملاء استخدموا شاي بيت الصحة لمدة 3 أشهر مع نمط حياة صحي
           </p>
           <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#C99A45] to-transparent mx-auto mt-5" />
         </div>
@@ -101,10 +101,10 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
         <div className="max-w-[1200px] mx-auto px-4 mt-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { value: "+١٥,٠٠٠", label: "عميل سعيد", icon: "👥" },
-              { value: "-١٢ كغ", label: "معدل النزول في ٣ أشهر", icon: "⚖️" },
-              { value: "٩٨٪", label: "نسبة رضا العملاء", icon: "⭐" },
-              { value: "٦ دول", label: "توصيل خليجي", icon: "🚚" },
+              { value: "+15,000", label: "عميل سعيد", icon: "👥" },
+              { value: "-12 كغ", label: "معدل النزول في 3 أشهر", icon: "⚖️" },
+              { value: "98٪", label: "نسبة رضا العملاء", icon: "⭐" },
+              { value: "6 دول", label: "توصيل خليجي", icon: "🚚" },
             ].map((stat) => (
               <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
                 <span className="text-2xl block mb-1">{stat.icon}</span>
@@ -160,10 +160,10 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
       <div className="max-w-[1200px] mx-auto px-4 mt-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { value: "+١,٢٤٠", label: "عميل راضٍ", icon: "👥" },
-            { value: "٤.٩/٥", label: "تقييم المنتج", icon: "⭐" },
-            { value: "٩٧٪", label: "نسبة رضا العملاء", icon: "💕" },
-            { value: "٩ دول", label: "توصيل عربي", icon: "🚚" },
+            { value: "+1,240", label: "عميل راضٍ", icon: "👥" },
+            { value: "4.9/5", label: "تقييم المنتج", icon: "⭐" },
+            { value: "97٪", label: "نسبة رضا العملاء", icon: "💕" },
+            { value: "9 دول", label: "توصيل عربي", icon: "🚚" },
           ].map((stat) => (
             <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
               <span className="text-2xl block mb-1">{stat.icon}</span>

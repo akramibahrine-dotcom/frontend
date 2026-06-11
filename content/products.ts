@@ -43,6 +43,7 @@ export type Product = {
   imagePromiseDelivery?: string;
   imagePromiseCod?: string;
   imageRitual?: string;
+  imageCertificates?: string;
   offerImages?: Record<number, string>;
   bundleOffers?: readonly BundleOffer[];
 };
@@ -304,6 +305,7 @@ export const PRODUCTS: Product[] = [
     imagePromiseDelivery: "/products/fertility-tea/promise-del-fertility-v3.jpg",
     imagePromiseCod: "/products/fertility-tea/promise-cod-fertility-v3.jpg",
     imageRitual: "/products/fertility-tea/ritual-new.png",
+    imageCertificates: "/products/fertility-tea/certificates.png",
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "weight-support-tea"],
     bundleOffers: [

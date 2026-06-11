@@ -29,15 +29,19 @@ function getProductName(productId: string): string {
   return getProduct(productId)?.shortNameAr ?? productId;
 }
 
-function getProductImage(productId: string): string {
+function getProductImage(productId: string, quantity?: number): string {
   const product = getProduct(productId);
-  return product ? `/products/${product.slug}/1.jpg` : "/products/fallback.jpg";
+  if (!product) return "/products/fallback.jpg";
+  if (quantity && product.offerImages?.[quantity as keyof typeof product.offerImages]) {
+    return product.offerImages[quantity as keyof typeof product.offerImages];
+  }
+  return product.images[0] || `/products/${product.slug}/1.jpg`;
 }
 
 function getQuantityLabel(qty: number): string {
   if (qty === 1) return "عبوة واحدة";
   if (qty === 2) return "عبوتان";
-  return "٣ عبوات";
+  return "3 عبوات";
 }
 
 export function ThankYouClient({ orderId }: { orderId: string }) {
@@ -101,7 +105,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                   <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden bg-[#E8D8C3]/30">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={getProductImage(item.productId)}
+                      src={getProductImage(item.productId, item.quantity)}
                       alt={getProductName(item.productId)}
                       className="w-full h-full object-cover"
                     />
@@ -119,7 +123,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                   <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden bg-[#E8D8C3]/30">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={getProductImage(order.upsell.productId)}
+                      src={getProductImage(order.upsell.productId, 1)}
                       alt={getProductName(order.upsell.productId)}
                       className="w-full h-full object-cover"
                     />
@@ -194,7 +198,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
             </svg>
           </div>
           <p className="text-sm font-bold text-[#0F1A14] leading-relaxed pt-1.5">
-            ستتواصل معك موظفتنا بين الساعة ٩ صباحًا و ٩ مساءً للإجابة على جميع استفساراتك قبل الشحن
+            ستتواصل معك موظفتنا بين الساعة 9 صباحًا و 9 مساءً للإجابة على جميع استفساراتك قبل الشحن
           </p>
         </div>
 

@@ -139,7 +139,7 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
       <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={prod?.offerImages?.[item.quantity] || `/products/${item.slug}/1.jpg`}
+          src={prod?.offerImages?.[item.quantity as keyof typeof prod.offerImages] || prod?.images[0] || `/products/${item.slug}/1.jpg`}
           alt={item.nameAr}
           className="w-14 h-14 object-contain"
         />

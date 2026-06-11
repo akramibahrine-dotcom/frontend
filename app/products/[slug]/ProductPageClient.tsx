@@ -127,7 +127,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="flex items-center gap-3 mb-8 py-3 px-4 rounded-2xl bg-[#F5F3EE] border border-[#E8E2D8]">
                 <div className="flex text-[#C99A45] text-lg">★★★★★</div>
                 <span className="text-sm font-bold text-[#567063]">
-                  +١٠,٠٠٠ عميل يثقون بنا
+                  +10,000 عميل يثقون بنا
                 </span>
               </div>
 
@@ -215,7 +215,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="mt-16 flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/product-galery/certificates.png?v=3"
+              src={product.imageCertificates || "/product-galery/certificates.png?v=3"}
               alt="شهادات الجودة والاعتماد"
               className="w-full max-w-4xl rounded-3xl shadow-sm object-contain border border-[#E8D8C3]"
             />
@@ -319,7 +319,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="order-last text-right space-y-6">
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
                 <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
-                  <span className="text-[#155235]">١</span> تنويعةٌ عطريةٌ
+                  <span className="text-[#155235]">1</span> تنويعةٌ عطريةٌ
                 </h4>
                 <p className="text-[#6E675F] leading-relaxed">
                   نجهّز المزيج ليكون لطيفًا على الحلق ومناسبًا للانتظام، لا لمفاجأةٍ مرّةٍ تُهجَر بعد أيامٍ.
@@ -327,7 +327,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </div>
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
                 <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
-                  <span className="text-[#155235]">٢</span> وضوحٌ قبل الشرب
+                  <span className="text-[#155235]">2</span> وضوحٌ قبل الشرب
                 </h4>
                 <p className="text-[#6E675F] leading-relaxed">
                   ستجد على عبوة بيت الصحة تعليمات الاستخدام بلغةٍ واضحةٍ؛ أي تحذيرٍ أو استثناءٍ سيُذكر حرفيًا.
@@ -335,7 +335,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </div>
               <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
                 <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
-                  <span className="text-[#155235]">٣</span> التزامٌ بعدم المبالغة
+                  <span className="text-[#155235]">3</span> التزامٌ بعدم المبالغة
                 </h4>
                 <p className="text-[#6E675F] leading-relaxed">
                   لا نعدك «بطريقٍ قصيرٍ» لنتيجةٍ طبية — نعدك بأن الكوب الأول سيكون متوقعًا، لا مفاجئًا بمعنى يقلقك.

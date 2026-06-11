@@ -102,7 +102,7 @@ export function CheckoutModal({ onClose }: Props) {
                   <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#155235] bg-[#071C12]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={`/products/${item.slug}/1.jpg`}
+                      src={prod?.offerImages?.[item.quantity as keyof typeof prod.offerImages] || prod?.images[0] || `/products/${item.slug}/1.jpg`}
                       alt={item.nameAr}
                       className="w-full h-full object-cover"
                     />
@@ -110,7 +110,7 @@ export function CheckoutModal({ onClose }: Props) {
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-white text-sm line-clamp-1">{item.nameAr}</p>
                     <p className="text-xs text-[#FFFFFF]/60 mt-0.5">
-                      {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "٣ عبوات"}
+                      {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "3 عبوات"}
                     </p>
                   </div>
                   <span className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</span>

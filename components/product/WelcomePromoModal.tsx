@@ -64,7 +64,7 @@ export function WelcomePromoModal() {
             id="welcome-promo-title"
             className="text-2xl md:text-3xl font-extrabold text-[#C99A45] mb-3 leading-tight"
           >
-            خصم ١٠٪ — لأنك تستحق البداية
+            خصم 10٪ — لأنك تستحق البداية
           </h2>
 
           <p className="text-white/70 text-sm mb-8">
