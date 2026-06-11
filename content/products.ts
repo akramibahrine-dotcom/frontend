@@ -303,7 +303,7 @@ export const PRODUCTS: Product[] = [
     imagePromisePackaging: "/products/fertility-tea/promise-pkg-fertility-v3.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-del-fertility-v3.jpg",
     imagePromiseCod: "/products/fertility-tea/promise-cod-fertility-v3.jpg",
-    imageRitual: "/products/fertility-tea/ritual.jpg",
+    imageRitual: "/products/fertility-tea/ritual-new.png",
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "weight-support-tea"],
     bundleOffers: [
