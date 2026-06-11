@@ -215,7 +215,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="mt-16 flex justify-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/product-galery/certificates.png?v=1"
+              src="/product-galery/certificates.png?v=3"
               alt="شهادات الجودة والاعتماد"
               className="w-full max-w-4xl rounded-3xl shadow-sm object-contain border border-[#E8D8C3]"
             />

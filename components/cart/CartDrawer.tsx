@@ -19,7 +19,7 @@ export function CartDrawer() {
 
   const crossSells = PRODUCTS.filter(
     (p) => !items.some((item) => item.productId === p.id)
-  ).slice(0, 2);
+  ).slice(0, 4);
 
   return (
     <>
@@ -69,13 +69,17 @@ export function CartDrawer() {
             </div>
           ) : (
             <div className="p-4 space-y-3">
+              <div className="mb-2">
+                <p className="text-sm font-bold text-white">منتجاتك المختارة</p>
+                <p className="text-xs text-[#FFFFFF]/60">راجع تفاصيل الباقات قبل إتمام الطلب</p>
+              </div>
               {items.map((item) => (
                 <CartLineRow key={item.lineId} item={item} welcomePromo={welcomePromo} />
               ))}
 
               {crossSells.length > 0 && (
                 <div className="pt-2">
-                  <p className="text-sm font-bold text-[#C99A45] mb-2">{COPY.cart.crossSellTitleAr}</p>
+                  <p className="text-sm font-bold text-[#C99A45] mb-2">أكملي روتين عنايتك بأسعار حصرية لفترة محدودة 🔥</p>
                   <div className="space-y-2">
                     {crossSells.map((product) => (
                       <CrossSellCard key={product.id} product={product} />
