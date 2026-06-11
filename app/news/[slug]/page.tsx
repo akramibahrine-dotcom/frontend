@@ -9,6 +9,7 @@ import {
   type NewsArticle,
 } from "@/content/news-articles";
 import { getSiteOrigin } from "@/lib/site-url";
+import { formatDateAr } from "@/lib/format-number";
 
 const siteUrl = getSiteOrigin();
 
@@ -115,7 +116,7 @@ export default async function NewsArticlePage({ params }: Props) {
                 dateTime={article.publishedAt}
                 className="text-xs text-[#C99A45] font-bold"
               >
-                {new Date(article.publishedAt).toLocaleDateString("ar-SA", {
+                {formatDateAr(article.publishedAt, {
                   year: "numeric",
                   month: "long",
                   day: "numeric",
@@ -180,7 +181,7 @@ export default async function NewsArticlePage({ params }: Props) {
                         className="block bg-white rounded-2xl border border-[#E8D8C3] p-5 hover:shadow-md transition-shadow"
                       >
                         <span className="text-xs text-[#C99A45] font-bold">
-                          {new Date(related.publishedAt).toLocaleDateString("ar-SA", {
+                          {formatDateAr(related.publishedAt, {
                             month: "short",
                             day: "numeric",
                           })}

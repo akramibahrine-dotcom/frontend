@@ -1,3 +1,5 @@
+import { formatNumber } from "@/lib/format-number";
+
 export type CurrencyCode = string;
 export type CurrencyRates = Record<CurrencyCode, number>;
 
@@ -104,10 +106,11 @@ export function convertSarTo(amountSar: number, targetCurrency: CurrencyCode, ra
 export function formatPrice(amount: number, currency: CurrencyCode): string {
   const config = CURRENCY_CONFIG[currency];
   if (!config) {
-    return `${amount.toLocaleString("ar-SA")} ${currency}`;
+    return `${formatNumber(amount)} ${currency}`;
   }
 
-  const formatted = amount.toLocaleString(config.locale, {
+  const formatted = formatNumber(amount, {
+    locale: config.locale,
     minimumFractionDigits: config.fractionDigits,
     maximumFractionDigits: config.fractionDigits,
   });
@@ -116,7 +119,7 @@ export function formatPrice(amount: number, currency: CurrencyCode): string {
 }
 
 export function formatSar(amount: number): string {
-  return `${amount} ر.س`;
+  return `${formatNumber(amount, { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ر.س`;
 }
 
 export function getAllCurrencyCodes(): CurrencyCode[] {

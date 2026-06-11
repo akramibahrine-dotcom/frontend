@@ -6,7 +6,7 @@ import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { COPY } from "@/content/copy";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, getProductBundleOffers } from "@/content/products";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { getCatalogBundlePriceSar, getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
@@ -149,7 +149,7 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
         <p className="text-xs text-[#FFFFFF]/60 mt-0.5">
           {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "3 عبوات"}
         </p>
-        <div className="mt-1 flex items-center gap-2 flex-wrap">
+        <div className="mt-1 flex items-center gap-2 flex-wrap" dir="ltr">
           {!welcomePromo && reference > payable ? (
             <>
               <span className="text-xs text-[#FFFFFF]/45 line-through">{format(reference)}</span>
@@ -174,6 +174,9 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
 function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   const { addBundle } = useCartStore();
   const format = useCurrencyStore((s) => s.format);
+  const startingPrice =
+    getProductBundleOffers(product).find((o) => o.quantity === 1)?.priceSar ??
+    getCatalogBundlePriceSar(1);
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
@@ -187,7 +190,7 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-bold text-white line-clamp-1">{product.nameAr}</p>
-        <p className="text-xs text-[#C99A45] font-bold mt-0.5">تبدأ من {format(199)}</p>
+        <p className="text-xs text-[#C99A45] font-bold mt-0.5">تبدأ من {format(startingPrice)}</p>
       </div>
       <button
         onClick={() => {

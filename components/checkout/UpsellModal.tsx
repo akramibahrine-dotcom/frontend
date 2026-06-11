@@ -215,16 +215,25 @@ export function UpsellModal({ customer, cartItems }: Props) {
             </div>
 
             <div className="flex gap-4 items-center">
-              <div className="w-24 h-24 flex-shrink-0">
-                <ProductPlaceholderImage
-                  theme={upsellProduct.imageTheme}
-                  aspectRatio="square"
-                  className="w-24 h-24"
-                />
+              <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-[#155235]/20">
+                {upsellProduct.images?.[0] ? (
+                  /* eslint-disable-next-line @next/next/no-img-element */
+                  <img
+                    src={upsellProduct.images[0]}
+                    alt={upsellProduct.nameAr}
+                    className="w-24 h-24 object-contain"
+                  />
+                ) : (
+                  <ProductPlaceholderImage
+                    theme={upsellProduct.imageTheme}
+                    aspectRatio="square"
+                    className="w-24 h-24"
+                  />
+                )}
               </div>
               <div>
                 <p className="font-bold text-white text-sm">{upsellProduct.nameAr}</p>
-                <div className="flex items-center gap-2 mt-1">
+                <div className="flex items-center gap-2 mt-1" dir="ltr">
                   <span className="text-2xl font-extrabold text-[#C99A45]">{format(upsellDisplayPrice)}</span>
                   {!welcomePromo && (
                     <span className="text-sm text-[#FFFFFF]/50 line-through">

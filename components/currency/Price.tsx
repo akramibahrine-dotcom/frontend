@@ -1,6 +1,4 @@
-"use client";
-
-import { useCurrencyStore } from "@/store/currency-store";
+import { formatNumber } from "@/lib/format-number";
 
 type Props = {
   amountSar: number;
@@ -16,7 +14,7 @@ export function Price({ amountSar, className, showOriginal = false }: Props) {
     return (
       <span className={className}>
         {formatted}
-        <span className="text-[0.7em] opacity-50 mr-1">({amountSar} ر.س)</span>
+        <span className="text-[0.7em] opacity-50 mr-1">({formatNumber(amountSar)} ر.س)</span>
       </span>
     );
   }

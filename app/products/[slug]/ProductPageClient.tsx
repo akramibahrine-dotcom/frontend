@@ -17,6 +17,7 @@ import { WelcomePromoModal } from "@/components/product/WelcomePromoModal";
 import { BeforeAfterCarousel } from "@/components/product/BeforeAfterCarousel";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
+import { getProductPageSections } from "@/lib/product-page-copy";
 
 type Props = {
   product: Product;
@@ -46,7 +47,7 @@ function HeroCarousel({ product }: { product: Product }) {
               key={src}
               src={src}
               alt={`${product.nameAr} - صورة ${i + 1}`}
-              className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+              className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply transition-opacity duration-700 ease-in-out ${
                 i === current ? "opacity-100" : "opacity-0"
               }`}
             />
@@ -71,7 +72,7 @@ function HeroCarousel({ product }: { product: Product }) {
 
         {/* Floating Badge */}
         <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce z-10">
-          <span className="text-xl">🌿</span>
+          <span className="text-xl">{product.imageTheme === "herbal-skin" ? "✨" : "🌿"}</span>
           <span className="text-sm font-bold text-[#155235]">{product.concernAr}</span>
         </div>
       </div>
@@ -87,6 +88,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
   const productOffers = getProductBundleOffers(product);
   const productSavings = getProductSavings(product);
+  const sections = getProductPageSections(product);
   const payableOfferSar = getPayableBundlePriceSar(selectedQty, productOffers);
   const referenceOfferSar = getWelcomeReferenceBundlePriceSar(selectedQty, productOffers);
 
@@ -148,11 +150,12 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                 <span className="relative z-10 flex items-center justify-center gap-2 flex-wrap">
                   {COPY.bundleBadges.addToCart}
-                  <span aria-hidden="true">-</span>
-                  {!welcomePromo && referenceOfferSar > payableOfferSar && (
-                    <span className="text-white/55 line-through text-base">{format(referenceOfferSar)}</span>
-                  )}
-                  <span>{format(payableOfferSar)}</span>
+                  <span className="inline-flex items-center gap-1.5" dir="ltr">
+                    {!welcomePromo && referenceOfferSar > payableOfferSar && (
+                      <span className="text-white/55 line-through text-base">{format(referenceOfferSar)}</span>
+                    )}
+                    <span>{format(payableOfferSar)}</span>
+                  </span>
                 </span>
               </button>
               
@@ -183,7 +186,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
                   src={product.imageSection2 || "/product-galery/6.jpg"}
-                alt="رشاقتك بفنجان"
+                alt={sections.empathy.imageAlt}
                 className="w-full relative z-10 rounded-3xl shadow-lg object-cover aspect-square grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
               />
             </div>
@@ -194,7 +197,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 {COPY.productPageEmpathyEyebrowAr}
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-6 leading-tight">
-                يومٌ مزدحمٌ يستحق كوبًا يلطّف حدّته
+                {sections.empathy.heading}
               </h2>
               <div className="space-y-4 text-lg text-[#6E675F] leading-relaxed">
                 <p>
@@ -205,8 +208,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                   {product.painAwareAr}
                 </p>
                 <p>
-                  في بيت الصحة نصنع من الأعشاب روتينًا يمكن أن يثبت معك — بلا وعودٍ طبيةٍ وبلا لفٍ حول المكوّنات.
-                  ما نعدك به هو تجربةٌ أنيقةٌ من الطلب حتى الرشفة الأولى.
+                  {sections.empathy.closing}
                 </p>
               </div>
             </div>
@@ -236,25 +238,11 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 نحترم ذكاءك: لا أرقام تفتيش وهمية، ولا أختامٌ لا نملك أصلها
               </h2>
               <p className="text-gray-300 text-lg mb-8 leading-relaxed">
-                نسعى لأن تكون كل عبوةٍ من بيت الصحة قريبةً من صورةِ بيتٍ عربيٍّ يهتمّ بالمائدة والماء والهدوء.
-                قائمة المكوّنات التفصيلية تُستكمل مع الموردين الموثوقين، وتُعرض عند جاهزيتها دون أن ندّعي تسجيلاتٍ ليس لدينا مستندها.
+                {sections.quality.intro}
               </p>
 
               <ul className="space-y-4 mb-8">
-                {[
-                  {
-                    title: "شفافيةٌ في الوعد",
-                    desc: "ما يقرأه اسمُ «بيت الصحة» على العبوة يجب أن يصدقه من اشترى منّا — لذلك نتجنّب الحديث الدوائي قبل أوانه.",
-                  },
-                  {
-                    title: "أعشابٌ بروحِ المطبخ العربيِّ",
-                    desc: "نختار مزيجًا يُشرب ويُتنسم، لا يُخاف منه؛ ورشفاتٌ ثابتةٌ أهمُّ من مفاجآتٍ إعلانية.",
-                  },
-                  {
-                    title: "تحسينٌ مستمرٌّ",
-                    desc: "نراجع تغليفنا ونصّنا مع كل دفعة؛ ملاحظاتُكم عبر واتسابنا يصل صداها إلى فريقٍ يتكلم لغتكم.",
-                  },
-                ].map((item, idx) => (
+                {sections.quality.points.map((item, idx) => (
                   <li key={idx} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
                     <div className="w-10 h-10 rounded-full bg-[#155235]/40 flex items-center justify-center shrink-0">
                       <span className="text-[#C99A45] font-bold">✓</span>
@@ -278,7 +266,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 </div>
                 <h3 className="text-2xl font-extrabold mb-2 text-white">البيت أولاً</h3>
                 <p className="text-gray-300 text-sm mb-6">
-                  شعارُنا ليس «نُعالج» — بل «نقرّبُ العناية إلى غرفة ضيافتك»، بكوبٍ بعد كوبٍ.
+                  {sections.quality.cardTagline}
                 </p>
                 <div className="h-px w-1/2 mx-auto bg-white/20 mb-6" />
                 <p className="text-xs text-gray-400 leading-relaxed">
@@ -295,11 +283,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-4">
-              مكوّناتٌ نختارها بذوقٍ بيتيٍّ… وتفاصيلُها قادمةٌ للعلن
+              {sections.ingredients.title}
             </h2>
             <p className="text-[#6E675F] text-lg leading-relaxed">
-              نعمل مع موردين نثق بهم لاعتماد قائمةٍ نصيةٍ دقيقةٍ على كل عبوة. حتى ذلك الحين، نذكّرك بأن هذا الشاي
-              رفيقُ يومٍ هادئٍ — وليس وصفةً تُستبدل بها كلمة الطبيب.
+              {sections.ingredients.intro}
             </p>
           </div>
 
@@ -310,37 +297,21 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={product.imageSection4 || "/product-galery/4.jpg"}
-                  alt="مكوّنات المزيج العشبي"
+                  alt={sections.ingredients.imageAlt}
                   className="w-full h-full object-cover rounded-2xl"
                 />
               </div>
             </div>
 
             <div className="order-last text-right space-y-6">
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
-                <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
-                  <span className="text-[#155235]">1</span> تنويعةٌ عطريةٌ
-                </h4>
-                <p className="text-[#6E675F] leading-relaxed">
-                  نجهّز المزيج ليكون لطيفًا على الحلق ومناسبًا للانتظام، لا لمفاجأةٍ مرّةٍ تُهجَر بعد أيامٍ.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
-                <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
-                  <span className="text-[#155235]">2</span> وضوحٌ قبل الشرب
-                </h4>
-                <p className="text-[#6E675F] leading-relaxed">
-                  ستجد على عبوة بيت الصحة تعليمات الاستخدام بلغةٍ واضحةٍ؛ أي تحذيرٍ أو استثناءٍ سيُذكر حرفيًا.
-                </p>
-              </div>
-              <div className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
-                <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
-                  <span className="text-[#155235]">3</span> التزامٌ بعدم المبالغة
-                </h4>
-                <p className="text-[#6E675F] leading-relaxed">
-                  لا نعدك «بطريقٍ قصيرٍ» لنتيجةٍ طبية — نعدك بأن الكوب الأول سيكون متوقعًا، لا مفاجئًا بمعنى يقلقك.
-                </p>
-              </div>
+              {sections.ingredients.points.map((item, idx) => (
+                <div key={idx} className="bg-white p-6 rounded-2xl shadow-sm border border-[#E8D8C3]">
+                  <h4 className="text-xl font-extrabold text-[#0F1A14] mb-2 flex items-center gap-2">
+                    <span className="text-[#155235]">{idx + 1}</span> {item.title}
+                  </h4>
+                  <p className="text-[#6E675F] leading-relaxed">{item.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -390,7 +361,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-last text-right">
               <span className="text-[#155235] font-bold text-sm tracking-widest uppercase mb-2 block">خطوات بسيطة</span>
-              <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-6">كيف تشربُه في بيتك؟</h2>
+              <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-6">{sections.ritual.title}</h2>
               <div className="bg-white p-8 rounded-3xl shadow-sm border border-[#E8D8C3] mb-6 relative">
                 <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#C99A45] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md">
                   الروتين اليومي
@@ -402,8 +373,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="flex items-start gap-3 p-4 bg-[#155235]/5 rounded-xl border border-[#155235]/20">
                 <span className="text-[#155235] mt-1">💡</span>
                 <p className="text-sm text-[#6E675F]">
-                  نصيحة بيت الصحة: ثبّت ساعة الكوب كما تثبت ساعة الدوام — الانتظام أجمل من العنف في الشرب. اجعله عادةً في
-                  ركنٍ هادئٍ من بيتك.
+                  {sections.ritual.tip}
                 </p>
               </div>
             </div>
@@ -414,7 +384,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={product.imageRitual || "/product-galery/5.jpg"}
-                  alt="خطوات تحضير الشاي"
+                  alt={sections.ritual.imageAlt}
                   className="w-full rounded-3xl shadow-2xl shadow-[#155235]/10 border-4 border-[#F8F1E7] object-cover"
                 />
               </div>
@@ -443,18 +413,20 @@ export function ProductPageClient({ product, crossSells }: Props) {
               onClick={handleAddToCart}
               className="w-full mt-6 bg-[#C99A45] hover:bg-[#b3883b] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] shadow-lg shadow-[#C99A45]/30"
             >
-              أضِف إلى سلّتي بـ{" "}
-              {!welcomePromo && referenceOfferSar > payableOfferSar ? (
-                <>
-                  <span className="line-through text-white/50 text-lg mr-1">{format(referenceOfferSar)}</span>{" "}
-                  {format(payableOfferSar)}
-                </>
-              ) : (
-                format(payableOfferSar)
-              )}
+              أضِف إلى سلّتي{" "}
+              <span className="inline-flex items-center gap-1.5" dir="ltr">
+                {!welcomePromo && referenceOfferSar > payableOfferSar ? (
+                  <>
+                    <span className="line-through text-white/50 text-lg">{format(referenceOfferSar)}</span>
+                    {format(payableOfferSar)}
+                  </>
+                ) : (
+                  format(payableOfferSar)
+                )}
+              </span>
             </button>
             <p className="text-sm font-medium text-[#6E675F] mt-4 text-center">
-              {COPY.disclaimer}
+              {sections.disclaimer}
             </p>
           </div>
         </div>

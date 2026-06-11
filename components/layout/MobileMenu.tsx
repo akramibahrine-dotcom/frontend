@@ -66,7 +66,7 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
             <CurrencySelector />
           </div>
           <p className="text-xs text-[#6E675F] leading-relaxed text-center">
-            منتجات شاي عشبية داعمة للعافية اليومية
+            منتجات عشبية وعناية طبيعية لروتينك اليومي
           </p>
         </div>
       </nav>

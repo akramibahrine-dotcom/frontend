@@ -21,7 +21,7 @@ export async function generateMetadata({
   const category = getCategoryBySlug(slug);
   if (!category) return { title: "التصنيف غير موجود" };
   return {
-    title: `${category.nameAr} — بيت الصحة`,
+    title: category.nameAr,
     description: category.descriptionAr,
   };
 }

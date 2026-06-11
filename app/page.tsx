@@ -9,7 +9,9 @@ import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
 import { BrandGalleryMarquee } from "@/components/home/BrandGalleryMarquee";
 
 export const metadata: Metadata = {
-  title: "بيت الصحة — أعشاب تليق ببيتك، والدفع عند بابك",
+  title: {
+    absolute: "بيت الصحة — أعشاب تليق ببيتك، والدفع عند بابك",
+  },
   description:
     "بيت الصحة يقدّم لك أعشابًا مختارة لروتين يومي هادئ داخل السعودية: وضوح بالمكوّنات، طلب بسيط، والدفع عند الاستلام.",
 };
@@ -80,7 +82,7 @@ export default function HomePage() {
                 <div className="absolute bottom-0 inset-x-0 p-6 text-center">
                   <p className="font-extrabold text-[#C99A45] text-xl mb-2">بيت الصحة</p>
                   <div className="flex justify-center gap-2">
-                    {["💳 الدفع عند الاستلام", "🚚 توصيل الخليج", "🌿 طبيعي ١٠٠٪"].map((b) => (
+                    {["💳 الدفع عند الاستلام", "🚚 توصيل الخليج", "🌿 طبيعي 100%"].map((b) => (
                       <span
                         key={b}
                         className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] py-1 px-2 rounded-full font-medium"

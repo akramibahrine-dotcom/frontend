@@ -105,7 +105,7 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               >
                 {offer.badgeAr}
               </span>
-              <div className="flex flex-col items-end gap-0">
+              <div className="flex flex-col items-end gap-0" dir="ltr">
                 {!welcomePromo && reference > payable && (
                   <span className="text-[10px] text-[#567063] line-through leading-none">{format(reference)}</span>
                 )}
