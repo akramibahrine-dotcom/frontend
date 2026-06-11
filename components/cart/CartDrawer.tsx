@@ -89,8 +89,6 @@ export function CartDrawer() {
 
         {items.length > 0 && (
           <div className="p-4 border-t border-[#155235]/50 space-y-3 bg-[#0A2616]">
-            <p className="text-xs text-[#C99A45] font-medium text-center">{COPY.cart.scarcityAr}</p>
-
             <div className="flex justify-between items-center">
               <span className="text-[#FFFFFF]/60 text-sm">الإجمالي</span>
               <span className="font-extrabold text-xl text-white">{format(total)}</span>
@@ -102,15 +100,10 @@ export function CartDrawer() {
                 🚚 تأكيد قبل التجهيز
               </span>
               <span className="text-xs text-[#FFFFFF]/60 flex items-center gap-1">
-                🇸🇦 توصيل داخل السعودية
+                شامل للتوصيل
               </span>
             </div>
 
-            {welcomePromo && (
-              <p className="text-[11px] text-center text-[#C99A45] font-bold">
-                ✓ عرض ترحيب بيت الصحة مفعّل على هذا الطلب
-              </p>
-            )}
             <button
               onClick={openCheckout}
               className="btn-luxury w-full py-4 rounded-full font-bold text-base transition-all"
@@ -142,7 +135,7 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
       <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
-          src={`/products/${item.slug}/1.jpg`}
+          src={prod?.offerImages?.[item.quantity] || `/products/${item.slug}/1.jpg`}
           alt={item.nameAr}
           className="w-14 h-14 object-contain"
         />

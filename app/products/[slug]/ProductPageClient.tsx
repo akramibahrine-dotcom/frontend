@@ -159,7 +159,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="flex justify-center items-center gap-4 text-xs font-bold text-[#6E675F]">
                 <span className="flex items-center gap-1">💳 الدفع عند الاستلام</span>
                 <span className="w-1 h-1 rounded-full bg-[#D1C6B4]" />
-                <span className="flex items-center gap-1">🚚 توصيلٌ داخل المملكة</span>
+                <span className="flex items-center gap-1">شامل للتوصيل</span>
               </div>
             </div>
 
@@ -210,6 +210,15 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 </p>
               </div>
             </div>
+          </div>
+
+          <div className="mt-16 flex justify-center">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/product-galery/certificates.png?v=1"
+              alt="شهادات الجودة والاعتماد"
+              className="w-full max-w-4xl rounded-3xl shadow-sm object-contain border border-[#E8D8C3]"
+            />
           </div>
         </div>
       </section>
