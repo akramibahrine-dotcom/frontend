@@ -44,6 +44,7 @@ export type Product = {
   imagePromiseCod?: string;
   imageRitual?: string;
   offerImages?: Record<number, string>;
+  bundleOffers?: readonly BundleOffer[];
 };
 
 export const PRODUCTS: Product[] = [
@@ -291,16 +292,28 @@ export const PRODUCTS: Product[] = [
     concernAr: "دعم صحة الأنثى والخصوبة",
     painAwareAr:
       "رحلة الخصوبة قد تكون مليئة بالضغوط. صممنا هذا المزيج ليكون لحظة هدوء وعناية يومية لكِ، بمكونات طبيعية تُلائم طبيعة جسمك.",
-    imageTheme: "womens-health",
-    images: ["/products/fertility-tea/1.jpg", "/products/fertility-tea/2.jpg", "/products/fertility-tea/3.jpg"],
-    imageSection2: "/products/fertility-tea/section2-v7.png",
-    imageSection4: "/products/fertility-tea/section4.jpg",
+      imageTheme: "womens-health",
+      images: [
+        "/products/fertility-tea/1.jpg",
+        "/products/fertility-tea/2.jpg",
+        "/products/fertility-tea/3.jpg",
+        "/products/fertility-tea/4.jpg",
+        "/products/fertility-tea/5.jpg",
+        "/products/fertility-tea/6.jpg",
+      ],
+      imageSection2: "/products/fertility-tea/section2-new.jpg",
+      imageSection4: "/products/fertility-tea/section4-new.jpg",
     imagePromisePackaging: "/products/fertility-tea/promise-pkg-fertility-v3.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-del-fertility-v3.jpg",
     imagePromiseCod: "/products/fertility-tea/promise-cod-fertility-v3.jpg",
     imageRitual: "/products/fertility-tea/ritual.jpg",
-    upsellProductId: "colon-comfort-tea",
-    crossSellProductIds: ["colon-comfort-tea", "weight-support-tea"],
+    upsellProductId: "axis-y-serum",
+    crossSellProductIds: ["axis-y-serum", "weight-support-tea"],
+    bundleOffers: [
+      { quantity: 3, priceSar: 699, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
+      { quantity: 2, priceSar: 549, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
+      { quantity: 1, priceSar: 299, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
+    ],
     ritualAr:
       "كوبٌ دافئ يومياً يرافق لحظات استرخائك. يُنصح باستشارة طبيبتك إذا كنتِ تتابعين خطة علاجية للخصوبة.",
     whyBaytsehaPoints: [
@@ -386,3 +399,19 @@ export const SAVINGS_MAP: Record<number, number> = {
   2: 199 * 2 - 279,
   3: 199 * 3 - 349,
 };
+
+export function getProductBundleOffers(product: Product): readonly BundleOffer[] {
+  return product.bundleOffers ?? BUNDLE_OFFERS;
+}
+
+export function getProductSavings(product: Product): Record<number, number> {
+  const offers = getProductBundleOffers(product);
+  const singlePrice = offers.find((o) => o.quantity === 1)?.priceSar ?? 199;
+  const result: Record<number, number> = {};
+  for (const offer of offers) {
+    if (offer.quantity > 1) {
+      result[offer.quantity] = singlePrice * offer.quantity - offer.priceSar;
+    }
+  }
+  return result;
+}

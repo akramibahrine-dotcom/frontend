@@ -1,5 +1,5 @@
 import { create } from "zustand";
-import { BUNDLE_OFFERS } from "@/content/products";
+import { BUNDLE_OFFERS, PRODUCTS } from "@/content/products";
 import { getPayableBundlePriceSar } from "@/lib/pricing";
 
 export type CartItemSource = "product_page" | "cart_cross_sell" | "checkout_upsell";
@@ -40,8 +40,10 @@ type CartState = {
   getItemCount: () => number;
 };
 
-function getBundlePrice(quantity: 1 | 2 | 3): number {
-  return BUNDLE_OFFERS.find((o) => o.quantity === quantity)?.priceSar ?? 199;
+function getBundlePrice(quantity: 1 | 2 | 3, productId?: string): number {
+  const product = productId ? PRODUCTS.find((p) => p.id === productId) : undefined;
+  const offers = product?.bundleOffers ?? BUNDLE_OFFERS;
+  return offers.find((o) => o.quantity === quantity)?.priceSar ?? 199;
 }
 
 export const useCartStore = create<CartState>((set, get) => ({
@@ -57,7 +59,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       set((state) => ({
         items: state.items.map((item) =>
           item.lineId === existing.lineId
-            ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity) }
+            ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity, productId) }
             : item
         ),
       }));
@@ -72,7 +74,7 @@ export const useCartStore = create<CartState>((set, get) => ({
             slug,
             nameAr,
             quantity,
-            bundlePriceSar: getBundlePrice(quantity),
+            bundlePriceSar: getBundlePrice(quantity, productId),
             imageTheme,
             source,
           },
@@ -89,7 +91,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     set((state) => ({
       items: state.items.map((item) =>
         item.lineId === lineId
-          ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity) }
+          ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity, item.productId) }
           : item
       ),
     }));
@@ -104,7 +106,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   getTotal: () => {
     return get().items.reduce(
-      (sum, item) => sum + getPayableBundlePriceSar(item.quantity),
+      (sum, item) => sum + item.bundlePriceSar,
       0
     );
   },

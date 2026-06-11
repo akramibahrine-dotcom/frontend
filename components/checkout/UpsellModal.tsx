@@ -5,7 +5,7 @@ import { useCartStore, type CartItem } from "@/store/cart-store";
 import { useCurrencyStore } from "@/store/currency-store";
 import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
 import { COPY } from "@/content/copy";
-import { getUpsellProduct } from "@/content/products";
+import { getUpsellProduct, PRODUCTS } from "@/content/products";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import {
   getPayableBundlePriceSar,
@@ -42,7 +42,10 @@ export function UpsellModal({ customer, cartItems }: Props) {
   const upsellProduct = mainProductId ? getUpsellProduct(mainProductId) : null;
 
   const baseTotal = cartItems.reduce(
-    (sum, item) => sum + getPayableBundlePriceSar(item.quantity),
+    (sum, item) => {
+      const prod = PRODUCTS.find((p) => p.id === item.productId);
+      return sum + getPayableBundlePriceSar(item.quantity, prod?.bundleOffers);
+    },
     0
   );
 
@@ -79,12 +82,15 @@ export function UpsellModal({ customer, cartItems }: Props) {
     const purchaseEventId = purchaseEventIdRef.current;
     const idempotencyKey = generateEventId();
 
-    const finalItems = cartItems.map((item) => ({
-      productId: item.productId,
-      quantity: item.quantity,
-      bundlePriceSar: getPayableBundlePriceSar(item.quantity),
-      source: item.source,
-    }));
+    const finalItems = cartItems.map((item) => {
+      const prod = PRODUCTS.find((p) => p.id === item.productId);
+      return {
+        productId: item.productId,
+        quantity: item.quantity,
+        bundlePriceSar: getPayableBundlePriceSar(item.quantity, prod?.bundleOffers),
+        source: item.source,
+      };
+    });
 
     const upsellPrice = getPayableUpsellPriceSar();
 

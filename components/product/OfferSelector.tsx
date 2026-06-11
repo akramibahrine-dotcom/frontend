@@ -2,7 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/store/currency-store";
-import { BUNDLE_OFFERS, SAVINGS_MAP } from "@/content/products";
+import { BUNDLE_OFFERS, SAVINGS_MAP, type BundleOffer } from "@/content/products";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 
 const OFFER_IMAGES: Record<number, string> = {
@@ -18,18 +18,22 @@ type Props = {
   welcomePromo?: boolean;
   offerImages?: Record<number, string>;
   productImage?: string;
+  bundleOffers?: readonly BundleOffer[];
+  savingsMap?: Record<number, number>;
 };
 
-export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages, productImage }: Props) {
+export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages, productImage, bundleOffers, savingsMap }: Props) {
   const format = useCurrencyStore((s) => s.format);
+  const offers = bundleOffers ?? BUNDLE_OFFERS;
+  const savings_map = savingsMap ?? SAVINGS_MAP;
 
   return (
     <div className={cn("space-y-2", className)} role="group" aria-label="اختر الباقة">
-      {BUNDLE_OFFERS.map((offer) => {
+      {offers.map((offer) => {
         const isSelected = offer.quantity === selectedQuantity;
-        const savings = SAVINGS_MAP[offer.quantity];
-        const payable = getPayableBundlePriceSar(offer.quantity);
-        const reference = getWelcomeReferenceBundlePriceSar(offer.quantity);
+        const savings = savings_map[offer.quantity];
+        const payable = getPayableBundlePriceSar(offer.quantity, bundleOffers);
+        const reference = getWelcomeReferenceBundlePriceSar(offer.quantity, bundleOffers);
 
         return (
           <button

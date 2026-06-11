@@ -9,6 +9,7 @@ import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { TrustBadgeRow } from "@/components/ui/TrustBadge";
 import { COPY } from "@/content/copy";
 import type { Product } from "@/content/products";
+import { getProductBundleOffers, getProductSavings } from "@/content/products";
 import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
@@ -84,8 +85,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
   const format = useCurrencyStore((s) => s.format);
   const welcomePromo = useWelcomePromoStore((s) => s.active);
 
-  const payableOfferSar = getPayableBundlePriceSar(selectedQty);
-  const referenceOfferSar = getWelcomeReferenceBundlePriceSar(selectedQty);
+  const productOffers = getProductBundleOffers(product);
+  const productSavings = getProductSavings(product);
+  const payableOfferSar = getPayableBundlePriceSar(selectedQty, productOffers);
+  const referenceOfferSar = getWelcomeReferenceBundlePriceSar(selectedQty, productOffers);
 
   useEffect(() => {
     const eventId = generateEventId();
@@ -135,7 +138,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                   <span className="w-2 h-2 rounded-full bg-[#C99A45] animate-pulse"></span>
                   اختر العرض المناسب لك:
                 </p>
-                <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} />
+                <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
               </div>
 
               <button
@@ -426,7 +429,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
           <div className="bg-white text-black p-8 rounded-3xl max-w-2xl mx-auto shadow-2xl mb-8">
             <h3 className="text-xl font-extrabold text-[#0F1A14] mb-6">الباقة (الدفع عند الاستلام)</h3>
-            <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} />
+            <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
             <button
               onClick={handleAddToCart}
               className="w-full mt-6 bg-[#C99A45] hover:bg-[#b3883b] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] shadow-lg shadow-[#C99A45]/30"

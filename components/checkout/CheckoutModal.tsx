@@ -13,6 +13,7 @@ import { isValidPhone } from "@/lib/phone";
 import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import { getPayableBundlePriceSar } from "@/lib/pricing";
+import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
 
 const schema = z.object({
@@ -94,7 +95,8 @@ export function CheckoutModal({ onClose }: Props) {
         <div className="mb-5 p-3 bg-[#155235]/30 border border-[#155235]/50 rounded-xl text-sm">
           <div className="space-y-2 border-b border-[#155235]/50 pb-3 mb-3">
             {items.map((item) => {
-              const itemPrice = getPayableBundlePriceSar(item.quantity);
+              const prod = PRODUCTS.find((p) => p.id === item.productId);
+              const itemPrice = getPayableBundlePriceSar(item.quantity, prod?.bundleOffers);
               return (
                 <div key={item.lineId} className="flex gap-3 items-center">
                   <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#155235] bg-[#071C12]">

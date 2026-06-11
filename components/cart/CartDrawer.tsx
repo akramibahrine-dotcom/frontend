@@ -132,9 +132,10 @@ export function CartDrawer() {
 function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boolean }) {
   const format = useCurrencyStore((s) => s.format);
   const removeLine = useCartStore((s) => s.removeLine);
-  const catalog = getCatalogBundlePriceSar(item.quantity);
-  const payable = getPayableBundlePriceSar(item.quantity);
-  const reference = getWelcomeReferenceBundlePriceSar(item.quantity);
+  const prod = PRODUCTS.find((p) => p.id === item.productId);
+  const catalog = getCatalogBundlePriceSar(item.quantity, prod?.bundleOffers);
+  const payable = getPayableBundlePriceSar(item.quantity, prod?.bundleOffers);
+  const reference = getWelcomeReferenceBundlePriceSar(item.quantity, prod?.bundleOffers);
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
