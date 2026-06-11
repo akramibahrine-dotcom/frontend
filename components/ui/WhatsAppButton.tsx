@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 
-export function WhatsAppButton({ phoneNumber = "966500000000", message = "مرحباً، أود الاستفسار عن منتجات بيت الصحة." }) {
+export function WhatsAppButton({ phoneNumber = "212648015267", message = "مرحباً، أود الاستفسار عن منتجات بيت الصحة." }) {
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) return null;
