@@ -351,7 +351,11 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "البقع الداكنة والتصبغات قد تؤثر على ثقتك بنفسك. سيروم اكسس واي يقدم لك الحل العشبي اللطيف لبشرة أكثر إشراقاً وتجانساً.",
     imageTheme: "herbal-skin",
-    images: ["/products/axis-y-serum/1.webp"],
+    images: [
+      "/products/axis-y-serum/1.webp",
+      "/products/axis-y-serum/hero.png",
+      "/products/axis-y-serum/section2.jpg",
+    ],
     imageSection2: "/products/axis-y-serum/section2.jpg",
     upsellProductId: "weight-support-tea",
     crossSellProductIds: ["colon-comfort-tea"],

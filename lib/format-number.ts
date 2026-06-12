@@ -8,7 +8,8 @@ export function formatNumber(
   options?: Intl.NumberFormatOptions & { locale?: string }
 ): string {
   const { locale = "en-US", ...rest } = options ?? {};
-  return value.toLocaleString(locale, { ...WESTERN_DIGITS, ...rest });
+  const localeWithLatn = locale.replace(/-u-.*$/, "") + "-u-nu-latn";
+  return value.toLocaleString(localeWithLatn, { ...WESTERN_DIGITS, ...rest });
 }
 
 export function formatDateAr(
@@ -16,7 +17,7 @@ export function formatDateAr(
   options?: Intl.DateTimeFormatOptions
 ): string {
   const d = date instanceof Date ? date : new Date(date);
-  return d.toLocaleDateString("ar-SA", {
+  return d.toLocaleDateString("ar-SA-u-nu-latn", {
     ...WESTERN_DIGITS,
     ...options,
   });
