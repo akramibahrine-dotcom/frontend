@@ -443,14 +443,14 @@ const REVIEWS_MAP: Record<string, ProductReview[]> = {
   ],
 };
 
-const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string }> = {
-  "fertility-tea": { badgeColor: "bg-pink-50 text-pink-700 border-pink-200", borderColor: "border-pink-200", emoji: "🌸", title: "شاي Fertility" },
-  "colon-comfort-tea": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "🌼", title: "شاي راحة القولون" },
-  "hemorrhoid-comfort-tea": { badgeColor: "bg-rose-50 text-rose-700 border-rose-200", borderColor: "border-rose-200", emoji: "🌸", title: "شاي دعم الراحة" },
-  "liver-wellness-tea": { badgeColor: "bg-teal-50 text-teal-700 border-teal-200", borderColor: "border-teal-200", emoji: "🌿", title: "شاي دعم الكبد" },
-  "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "🍀", title: "شاي دعم الرئة" },
-  "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "🌱", title: "شاي البروستات" },
-  "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✨", title: "عناية البشرة" },
+const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string; accentColor: string; bgFrom: string; bgTo: string }> = {
+  "fertility-tea": { badgeColor: "bg-pink-50 text-pink-700 border-pink-200", borderColor: "border-pink-200", emoji: "🌸", title: "شاي Fertility", accentColor: "text-pink-400", bgFrom: "#2D0A1B", bgTo: "#1A0511" },
+  "colon-comfort-tea": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "🌼", title: "شاي راحة القولون", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "hemorrhoid-comfort-tea": { badgeColor: "bg-rose-50 text-rose-700 border-rose-200", borderColor: "border-rose-200", emoji: "🌸", title: "شاي دعم الراحة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "liver-wellness-tea": { badgeColor: "bg-teal-50 text-teal-700 border-teal-200", borderColor: "border-teal-200", emoji: "🌿", title: "شاي دعم الكبد", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "🍀", title: "شاي دعم الرئة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "🌱", title: "شاي البروستات", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✨", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
 };
 
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
@@ -512,10 +512,10 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
   const doubled = [...reviews, ...reviews];
 
   return (
-    <section className="py-12 md:py-16 bg-gradient-to-b from-[#2D0A1B] to-[#1A0511] overflow-hidden" aria-labelledby="ba-carousel-title">
+    <section className={`py-12 md:py-16 bg-gradient-to-b overflow-hidden`} style={{ background: `linear-gradient(to bottom, ${theme.bgFrom}, ${theme.bgTo})` }} aria-labelledby="ba-carousel-title">
       <div className="max-w-[1200px] mx-auto px-4 mb-8 text-center">
         <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4 border border-white/20">
-          <span className="text-pink-400">{theme.emoji}</span>
+          <span className={theme.accentColor}>{theme.emoji}</span>
           <span className="text-sm font-bold text-white tracking-wide">تجارب حقيقية</span>
         </div>
         <h2 id="ba-carousel-title" className="text-2xl md:text-4xl font-extrabold text-white mb-3">
@@ -524,12 +524,12 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
         <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
           تجارب حقيقية من عملاء في الخليج والوطن العربي استخدموا {theme.title} من بيت الصحة
         </p>
-        <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-pink-400 to-transparent mx-auto mt-5" />
+        <div className="w-24 h-0.5 mx-auto mt-5" style={{ background: `linear-gradient(to right, transparent, ${theme.bgFrom === "#2D0A1B" ? "#f472b6" : "#C99A45"}, transparent)` }} />
       </div>
 
       <div className="relative mb-5" dir="ltr">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 z-10 bg-gradient-to-r from-[#2D0A1B] to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 z-10 bg-gradient-to-l from-[#2D0A1B] to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 z-10" style={{ background: `linear-gradient(to right, ${theme.bgFrom}, transparent)` }} />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 z-10" style={{ background: `linear-gradient(to left, ${theme.bgFrom}, transparent)` }} />
         <div className="flex gap-5 animate-marquee-ba py-2">
           {doubled.map((r, i) => (
             <ProductReviewCard 
@@ -553,7 +553,7 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
           ].map((stat) => (
             <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
               <span className="text-2xl block mb-1">{stat.icon}</span>
-              <span className="text-xl md:text-2xl font-extrabold text-pink-400 block">{stat.value}</span>
+              <span className={`text-xl md:text-2xl font-extrabold ${theme.accentColor} block`}>{stat.value}</span>
               <span className="text-xs text-gray-400">{stat.label}</span>
             </div>
           ))}
