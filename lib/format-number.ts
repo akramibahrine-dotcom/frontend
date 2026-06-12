@@ -9,7 +9,12 @@ export function formatNumber(
 ): string {
   const { locale = "en-US", ...rest } = options ?? {};
   const localeWithLatn = locale.replace(/-u-.*$/, "") + "-u-nu-latn";
-  return value.toLocaleString(localeWithLatn, { ...WESTERN_DIGITS, ...rest });
+  const formatted = value.toLocaleString(localeWithLatn, { ...WESTERN_DIGITS, ...rest });
+  return toWesternDigits(formatted);
+}
+
+export function formatInteger(value: number, locale = "en-US"): string {
+  return formatNumber(value, { locale, maximumFractionDigits: 0 });
 }
 
 export function formatDateAr(
@@ -17,10 +22,11 @@ export function formatDateAr(
   options?: Intl.DateTimeFormatOptions
 ): string {
   const d = date instanceof Date ? date : new Date(date);
-  return d.toLocaleDateString("ar-SA-u-nu-latn", {
+  const formatted = d.toLocaleDateString("ar-SA-u-nu-latn", {
     ...WESTERN_DIGITS,
     ...options,
   });
+  return toWesternDigits(formatted);
 }
 
 /** Convert Eastern Arabic numerals in text to Western digits. */

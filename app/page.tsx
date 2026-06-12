@@ -7,6 +7,7 @@ import { CATEGORIES } from "@/content/categories";
 import { COPY } from "@/content/copy";
 import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
 import { BrandGalleryMarquee } from "@/components/home/BrandGalleryMarquee";
+import { formatInteger } from "@/lib/format-number";
 
 export const metadata: Metadata = {
   title: {
@@ -82,7 +83,7 @@ export default function HomePage() {
                 <div className="absolute bottom-0 inset-x-0 p-6 text-center">
                   <p className="font-extrabold text-[#C99A45] text-xl mb-2">بيت الصحة</p>
                   <div className="flex justify-center gap-2">
-                    {["💳 الدفع عند الاستلام", "🚚 توصيل الخليج", "🌿 طبيعي 100%"].map((b) => (
+                    {["💳 الدفع عند الاستلام", "🚚 توصيل السعودية", "🌿 طبيعي 100%"].map((b) => (
                       <span
                         key={b}
                         className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] py-1 px-2 rounded-full font-medium"
@@ -299,13 +300,17 @@ export default function HomePage() {
                 >
                   {offer.badge}
                 </span>
-                <p className="text-4xl font-extrabold text-white">{offer.price}</p>
+                <p className="text-4xl font-extrabold text-white" dir="ltr">
+                  {formatInteger(offer.price)}
+                </p>
                 <p className="text-white/60 text-sm">ريال</p>
-                <p className="text-xs text-white/60 mt-2">
-                  {offer.qty} {offer.qty === 1 ? "عبوة" : "عبوات"}
+                <p className="text-xs text-white/60 mt-2" dir="ltr">
+                  {formatInteger(offer.qty)} {offer.qty === 1 ? "عبوة" : "عبوات"}
                 </p>
                 {offer.savings > 0 && (
-                  <p className="text-[#C99A45] text-xs font-bold mt-2">وفّر {offer.savings} ريال</p>
+                  <p className="text-[#C99A45] text-xs font-bold mt-2" dir="ltr">
+                    وفّر {formatInteger(offer.savings)} ريال
+                  </p>
                 )}
               </div>
             ))}

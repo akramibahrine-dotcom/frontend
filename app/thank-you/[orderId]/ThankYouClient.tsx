@@ -4,7 +4,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { COPY } from "@/content/copy";
 import { PRODUCTS } from "@/content/products";
-
+import { ProductImage } from "@/components/product/ProductImage";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import { useCurrencyStore } from "@/store/currency-store";
 type OrderItem = {
   productId: string;
   quantity: number;
@@ -29,15 +31,6 @@ function getProductName(productId: string): string {
   return getProduct(productId)?.shortNameAr ?? productId;
 }
 
-function getProductImage(productId: string, quantity?: number): string {
-  const product = getProduct(productId);
-  if (!product) return "/products/fallback.jpg";
-  if (quantity && product.offerImages?.[quantity as keyof typeof product.offerImages]) {
-    return product.offerImages[quantity as keyof typeof product.offerImages];
-  }
-  return product.images[0] || `/products/${product.slug}/1.jpg`;
-}
-
 function getQuantityLabel(qty: number): string {
   if (qty === 1) return "عبوة واحدة";
   if (qty === 2) return "عبوتان";
@@ -46,6 +39,7 @@ function getQuantityLabel(qty: number): string {
 
 export function ThankYouClient({ orderId }: { orderId: string }) {
   const [order, setOrder] = useState<OrderSummary | null>(null);
+  const format = useCurrencyStore((s) => s.format);
   const shortId = orderId.slice(-8).toUpperCase();
 
   useEffect(() => {
@@ -97,49 +91,57 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
           {order && (
             <div className="mb-6 space-y-3">
               <h3 className="font-bold text-[#0F1A14] text-sm mb-3">المنتجات في طلبك:</h3>
-              {order.items.map((item) => (
+              {order.items.map((item) => {
+                const product = getProduct(item.productId);
+                return (
                 <div
                   key={item.productId}
                   className="flex items-center gap-3 bg-[#F5F3EE] rounded-2xl p-3"
                 >
                   <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden bg-[#E8D8C3]/30">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={getProductImage(item.productId, item.quantity)}
-                      alt={getProductName(item.productId)}
-                      className="w-full h-full object-cover"
-                    />
+                    {product ? (
+                      <ProductImage
+                        product={product}
+                        quantity={item.quantity}
+                        alt={getProductName(item.productId)}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : null}
                   </div>
                   <div className="flex-1">
                     <p className="font-bold text-[#0F1A14] text-sm">{getProductName(item.productId)}</p>
                     <p className="text-xs text-[#567063]">{getQuantityLabel(item.quantity)}</p>
                   </div>
-                  <span className="font-bold text-[#155235] text-sm">{item.priceSar} ر.س</span>
+                  <FormattedAmount className="font-bold text-[#155235] text-sm">{format(item.priceSar)}</FormattedAmount>
                 </div>
-              ))}
+              );})}
 
-              {order.upsell && (
+              {order.upsell && (() => {
+                const upsellProduct = getProduct(order.upsell.productId);
+                return (
                 <div className="flex items-center gap-3 bg-[#C99A45]/5 border border-[#C99A45]/20 rounded-2xl p-3">
                   <div className="w-14 h-14 shrink-0 rounded-xl overflow-hidden bg-[#E8D8C3]/30">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={getProductImage(order.upsell.productId, 1)}
-                      alt={getProductName(order.upsell.productId)}
-                      className="w-full h-full object-cover"
-                    />
+                    {upsellProduct ? (
+                      <ProductImage
+                        product={upsellProduct}
+                        quantity={1}
+                        alt={getProductName(order.upsell.productId)}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : null}
                   </div>
                   <div className="flex-1">
                     <p className="font-bold text-[#0F1A14] text-sm">{getProductName(order.upsell.productId)}</p>
                     <p className="text-xs text-[#C99A45] font-bold">هدية مع الطلب</p>
                   </div>
-                  <span className="font-bold text-[#C99A45] text-sm">{order.upsell.priceSar} ر.س</span>
+                  <FormattedAmount className="font-bold text-[#C99A45] text-sm">{format(order.upsell.priceSar)}</FormattedAmount>
                 </div>
-              )}
+              );})()}
 
               {/* Total */}
               <div className="flex items-center justify-between border-t border-[#E8D8C3] pt-4 mt-4">
                 <span className="font-bold text-[#0F1A14]">الإجمالي</span>
-                <span className="font-extrabold text-[#155235] text-xl">{order.totalSar} ر.س</span>
+                <FormattedAmount className="font-extrabold text-[#155235] text-xl">{format(order.totalSar)}</FormattedAmount>
               </div>
             </div>
           )}
@@ -210,7 +212,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
           </div>
           <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
             <span className="text-2xl mb-2 block">🛡️</span>
-            <span className="text-xs font-bold text-[#0F1A14]">ضمان استرجاع 30 يوم</span>
+            <span className="text-xs font-bold text-[#0F1A14]">ضمان استرجاع مجاني 7 أيام</span>
           </div>
           <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
             <span className="text-2xl mb-2 block">💬</span>
@@ -240,9 +242,8 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                 className="bg-white rounded-3xl border border-[#E8D8C3] p-5 flex gap-4 items-center shadow-sm hover:shadow-lg hover:border-[#C99A45]/40 transition-all duration-200 group"
               >
                 <div className="w-20 h-20 shrink-0 rounded-2xl overflow-hidden bg-[#F5F3EE]">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={product.images[0] ?? `/products/${product.slug}/1.jpg`}
+                  <ProductImage
+                    product={product}
                     alt={product.shortNameAr}
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                   />

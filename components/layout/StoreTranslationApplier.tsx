@@ -4,7 +4,9 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { toWesternDigits } from "@/lib/format-number";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
+import { getApiBase } from "@/lib/api-base";
+
+const API_BASE = getApiBase();
 
 function applyTranslations(translations: Record<string, string>) {
   const entries = Object.entries(translations).filter(([key, value]) => key.trim() && value.trim());
@@ -37,7 +39,7 @@ function applyTranslations(translations: Record<string, string>) {
     const trimmed = original.trim();
     const replacement = toWesternDigits(translations[trimmed]);
     if (!replacement) continue;
-    textNode.textContent = original.replace(trimmed, replacement);
+    textNode.textContent = toWesternDigits(original.replace(trimmed, replacement));
   }
 }
 

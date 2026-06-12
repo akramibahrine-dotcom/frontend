@@ -12,6 +12,8 @@ import { COPY } from "@/content/copy";
 import { isValidPhone } from "@/lib/phone";
 import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import { ProductImage } from "@/components/product/ProductImage";
 import { getPayableBundlePriceSar } from "@/lib/pricing";
 import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
@@ -100,12 +102,14 @@ export function CheckoutModal({ onClose }: Props) {
               return (
                 <div key={item.lineId} className="flex gap-3 items-center">
                   <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#155235] bg-[#071C12]">
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img
-                      src={prod?.offerImages?.[item.quantity as keyof typeof prod.offerImages] || prod?.images[0] || `/products/${item.slug}/1.jpg`}
-                      alt={item.nameAr}
-                      className="w-full h-full object-cover"
-                    />
+                    {prod ? (
+                      <ProductImage
+                        product={prod}
+                        quantity={item.quantity}
+                        alt={item.nameAr}
+                        className="w-full h-full object-cover"
+                      />
+                    ) : null}
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-bold text-white text-sm line-clamp-1">{item.nameAr}</p>
@@ -113,14 +117,14 @@ export function CheckoutModal({ onClose }: Props) {
                       {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "3 عبوات"}
                     </p>
                   </div>
-                  <span className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</span>
+                  <FormattedAmount className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</FormattedAmount>
                 </div>
               );
             })}
           </div>
           <div className="flex justify-between font-medium mb-2">
             <span className="text-[#FFFFFF]/70">إجمالي الطلب</span>
-            <span className="font-extrabold text-[#C99A45] text-lg">{format(total)}</span>
+            <FormattedAmount className="font-extrabold text-[#C99A45] text-lg">{format(total)}</FormattedAmount>
           </div>
           {welcomePromo && (
             <p className="text-[11px] text-center text-[#C99A45] font-bold mb-1">
@@ -129,7 +133,7 @@ export function CheckoutModal({ onClose }: Props) {
           )}
           <p className="text-xs text-center text-[#FFFFFF]/50 flex items-center justify-center gap-1">
             <span className="text-[#C99A45]">🛡️</span> 
-            ضمان استرجاع لمدة 30 يوم
+            ضمان استرجاع مجاني لمدة 7 أيام
           </p>
         </div>
 

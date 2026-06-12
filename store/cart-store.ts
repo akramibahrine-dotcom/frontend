@@ -42,8 +42,7 @@ type CartState = {
 
 function getBundlePrice(quantity: 1 | 2 | 3, productId?: string): number {
   const product = productId ? PRODUCTS.find((p) => p.id === productId) : undefined;
-  const offers = product?.bundleOffers ?? BUNDLE_OFFERS;
-  return offers.find((o) => o.quantity === quantity)?.priceSar ?? 199;
+  return getPayableBundlePriceSar(quantity, product?.bundleOffers ?? BUNDLE_OFFERS);
 }
 
 export const useCartStore = create<CartState>((set, get) => ({

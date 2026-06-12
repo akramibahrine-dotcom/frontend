@@ -9,7 +9,9 @@ import {
 } from "recharts";
 import { Eye, ShoppingBag, Package, Activity, Filter, Check } from "lucide-react";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
+import { getApiBase } from "@/lib/api-base";
+
+const API_BASE = getApiBase();
 
 const ALL_COUNTRIES: Array<{ code: string; name: string }> = [
   { code: "AF", name: "Afghanistan" }, { code: "AL", name: "Albania" }, { code: "DZ", name: "Algeria" },

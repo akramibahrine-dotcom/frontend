@@ -9,6 +9,8 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CurrencySelector } from "@/components/currency/CurrencySelector";
 import { COPY } from "@/content/copy";
 import { cn } from "@/lib/utils";
+import { formatInteger } from "@/lib/format-number";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
 
 const NAV_LINKS = [
   { href: "/", label: COPY.nav.homeAr },
@@ -57,7 +59,7 @@ export function Header() {
           </nav>
 
           <div className="flex items-center gap-3">
-            <CurrencySelector className="hidden sm:block" />
+            <CurrencySelector />
             <button
               onClick={openCart}
               className="relative p-2 rounded-full hover:bg-[#155235]/50 transition-colors"
@@ -69,12 +71,12 @@ export function Header() {
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
               {itemCount > 0 && (
-                <span
+                <FormattedAmount
                   className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-[#C99A45] text-[#071C12] text-xs font-bold flex items-center justify-center"
                   aria-hidden="true"
                 >
-                  {itemCount > 9 ? "9+" : itemCount}
-                </span>
+                  {itemCount > 9 ? "9+" : formatInteger(itemCount)}
+                </FormattedAmount>
               )}
             </button>
 

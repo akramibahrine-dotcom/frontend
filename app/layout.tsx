@@ -4,6 +4,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { StoreAccessGate } from "@/components/layout/StoreAccessGate";
 import { StoreTranslationApplier } from "@/components/layout/StoreTranslationApplier";
+import { WesternDigitsApplier } from "@/components/layout/WesternDigitsApplier";
 import { PixelProvider } from "@/components/tracking/PixelProvider";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { CurrencyProvider } from "@/components/currency/CurrencyProvider";
@@ -37,7 +38,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ar" dir="rtl" className={ibmPlexArabic.variable}>
+    <html lang="ar-SA-u-nu-latn" dir="rtl" className={ibmPlexArabic.variable}>
       <body className="min-h-screen flex flex-col font-arabic overflow-x-hidden">
         <Header />
         <main className="flex-1">{children}</main>
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <WhatsAppButton />
         <StoreAccessGate />
         <StoreTranslationApplier />
+        <WesternDigitsApplier />
         <PixelProvider />
         <CurrencyProvider />
       </body>

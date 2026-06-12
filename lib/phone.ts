@@ -14,7 +14,7 @@ const TEST_PHONE_WHITELIST = "0501234987";
 
 export function isValidPhone(raw: string): boolean {
   const cleaned = raw.replace(/[\s\-().]/g, "");
-  if (cleaned === TEST_PHONE_WHITELIST) return true;
+  if (process.env.NODE_ENV === "development" && cleaned === TEST_PHONE_WHITELIST) return true;
   return PHONE_PATTERNS.some(({ re }) => re.test(cleaned));
 }
 
@@ -23,7 +23,7 @@ export const isValidKsaPhone = isValidPhone;
 
 export function normalizePhoneDisplay(raw: string): string {
   const cleaned = raw.replace(/[\s\-().]/g, "");
-  if (cleaned === TEST_PHONE_WHITELIST) return cleaned;
+  if (process.env.NODE_ENV === "development" && cleaned === TEST_PHONE_WHITELIST) return cleaned;
 
   const KSA_RE = /^(?:\+966|00966|966|0)?5[0-9]{8}$/;
   if (KSA_RE.test(cleaned)) {

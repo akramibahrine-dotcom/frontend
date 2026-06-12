@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useCurrencyStore } from "@/store/currency-store";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { cn } from "@/lib/utils";
 
 type Props = {
@@ -39,7 +40,10 @@ export function StickyMobileCTA({
         onClick={onClick}
         className="w-full max-w-md py-4 rounded-full bg-[#155235] text-white font-extrabold text-base flex items-center justify-center gap-2 hover:bg-[#0A3622] transition-colors active:scale-[0.98] shadow-lg shadow-[#155235]/30"
       >
-        {price && <span>{format(price)} -</span>}
+        {price && (
+          <FormattedAmount>{format(price)}</FormattedAmount>
+        )}
+        {price && <span> -</span>}
         <span>{label}</span>
       </button>
       <p className="text-xs text-center text-[#6E675F] mt-1.5">{sublabel}</p>

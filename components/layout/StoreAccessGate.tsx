@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
+import { getApiBase } from "@/lib/api-base";
+
+const API_BASE = getApiBase();
 
 export function StoreAccessGate() {
   const pathname = usePathname();

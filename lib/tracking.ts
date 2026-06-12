@@ -2,7 +2,9 @@
 
 import { getTrackingData } from "@/lib/events";
 
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
+import { getApiBase } from "@/lib/api-base";
+
+const API_BASE = getApiBase();
 
 declare global {
   interface Window {

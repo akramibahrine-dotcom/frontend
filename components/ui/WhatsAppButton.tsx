@@ -1,14 +1,21 @@
 "use client";
 
 import { useState } from "react";
+import { buildWhatsAppUrl, DEFAULT_WHATSAPP_MESSAGE } from "@/lib/whatsapp";
 import { cn } from "@/lib/utils";
 
-export function WhatsAppButton({ phoneNumber = "212648015267", message = "مرحباً، أود الاستفسار عن منتجات بيت الصحة." }) {
+export function WhatsAppButton({
+  phoneNumber,
+  message = DEFAULT_WHATSAPP_MESSAGE,
+}: {
+  phoneNumber?: string;
+  message?: string;
+}) {
   const [isVisible, setIsVisible] = useState(true);
 
   if (!isVisible) return null;
 
-  const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  const whatsappUrl = buildWhatsAppUrl(message, phoneNumber);
 
   return (
     <div className="fixed bottom-24 left-4 z-40 flex flex-col items-center gap-2 group md:bottom-8 md:left-8">

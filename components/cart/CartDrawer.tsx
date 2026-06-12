@@ -9,6 +9,8 @@ import { COPY } from "@/content/copy";
 import { PRODUCTS, getProductBundleOffers } from "@/content/products";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import { ProductImage } from "@/components/product/ProductImage";
 import { getCatalogBundlePriceSar, getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 
 export function CartDrawer() {
@@ -95,7 +97,7 @@ export function CartDrawer() {
           <div className="p-4 border-t border-[#155235]/50 space-y-3 bg-[#0A2616]">
             <div className="flex justify-between items-center">
               <span className="text-[#FFFFFF]/60 text-sm">الإجمالي</span>
-              <span className="font-extrabold text-xl text-white">{format(total)}</span>
+              <FormattedAmount className="font-extrabold text-xl text-white">{format(total)}</FormattedAmount>
             </div>
 
             <div className="flex gap-2 flex-wrap justify-center">
@@ -137,12 +139,14 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
       <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={prod?.offerImages?.[item.quantity as keyof typeof prod.offerImages] || prod?.images[0] || `/products/${item.slug}/1.jpg`}
-          alt={item.nameAr}
-          className="w-14 h-14 object-contain"
-        />
+        {prod ? (
+          <ProductImage
+            product={prod}
+            quantity={item.quantity}
+            alt={item.nameAr}
+            className="w-14 h-14 object-contain"
+          />
+        ) : null}
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-sm font-bold text-white line-clamp-2">{item.nameAr}</p>
@@ -152,11 +156,11 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
         <div className="mt-1 flex items-center gap-2 flex-wrap" dir="ltr">
           {!welcomePromo && reference > payable ? (
             <>
-              <span className="text-xs text-[#FFFFFF]/45 line-through">{format(reference)}</span>
-              <span className="text-sm font-extrabold text-[#C99A45]">{format(payable)}</span>
+              <FormattedAmount className="text-xs text-[#FFFFFF]/45 line-through">{format(reference)}</FormattedAmount>
+              <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(payable)}</FormattedAmount>
             </>
           ) : (
-            <span className="text-sm font-extrabold text-[#C99A45]">{format(catalog)}</span>
+            <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(catalog)}</FormattedAmount>
           )}
         </div>
       </div>
@@ -181,16 +185,17 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
       <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={product.images[0]}
+        <ProductImage
+          product={product}
           alt={product.nameAr}
           className="w-12 h-12 object-contain"
         />
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-bold text-white line-clamp-1">{product.nameAr}</p>
-        <p className="text-xs text-[#C99A45] font-bold mt-0.5">تبدأ من {format(startingPrice)}</p>
+        <p className="text-xs text-[#C99A45] font-bold mt-0.5">
+          تبدأ من <FormattedAmount>{format(startingPrice)}</FormattedAmount>
+        </p>
       </div>
       <button
         onClick={() => {

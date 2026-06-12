@@ -1,15 +1,17 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import { OfferSelector } from "@/components/product/OfferSelector";
 import { ProductCard } from "@/components/product/ProductCard";
+import { ProductImage } from "@/components/product/ProductImage";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { TrustBadgeRow } from "@/components/ui/TrustBadge";
 import { COPY } from "@/content/copy";
 import type { Product } from "@/content/products";
 import { getProductBundleOffers, getProductSavings } from "@/content/products";
+import { getProductImageCandidates } from "@/lib/product-images";
 import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
@@ -18,6 +20,7 @@ import { BeforeAfterCarousel } from "@/components/product/BeforeAfterCarousel";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 import { getProductPageSections } from "@/lib/product-page-copy";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
 
 type Props = {
   product: Product;
@@ -26,7 +29,10 @@ type Props = {
 
 function HeroCarousel({ product }: { product: Product }) {
   const [current, setCurrent] = useState(0);
-  const images = product.images;
+  const images = useMemo(() => {
+    if (product.images.length > 0) return product.images;
+    return getProductImageCandidates(product).slice(0, 3);
+  }, [product]);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -35,6 +41,20 @@ function HeroCarousel({ product }: { product: Product }) {
     }, 2500);
     return () => clearInterval(timer);
   }, [images.length]);
+
+  if (images.length === 0) {
+    return (
+      <div className="order-first md:order-last relative">
+        <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
+          <ProductImage
+            product={product}
+            alt={product.nameAr}
+            className="w-full aspect-square rounded-3xl object-contain"
+          />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="order-first md:order-last relative">
@@ -152,9 +172,11 @@ export function ProductPageClient({ product, crossSells }: Props) {
                   {COPY.bundleBadges.addToCart}
                   <span className="inline-flex items-center gap-1.5" dir="ltr">
                     {!welcomePromo && referenceOfferSar > payableOfferSar && (
-                      <span className="text-white/55 line-through text-base">{format(referenceOfferSar)}</span>
+                      <FormattedAmount className="text-white/55 line-through text-base">
+                        {format(referenceOfferSar)}
+                      </FormattedAmount>
                     )}
-                    <span>{format(payableOfferSar)}</span>
+                    <FormattedAmount>{format(payableOfferSar)}</FormattedAmount>
                   </span>
                 </span>
               </button>
@@ -322,7 +344,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-white/50">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt="تغليف فاخر" className="w-full h-full object-contain mix-blend-multiply" />
               </div>
@@ -332,17 +354,17 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </p>
             </div>
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-white/50">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt="توصيل سريع" className="w-full h-full object-contain mix-blend-multiply" />
               </div>
               <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">توصيل سريع لباب بيتك</h3>
               <p className="text-sm text-[#6E675F]">
-                نوصّل لجميع دول الخليج — السعودية والإمارات والكويت والبحرين وقطر وعُمان.
+                نوصّل داخل المملكة العربية السعودية — الدفع عند الاستلام.
               </p>
             </div>
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full h-40 rounded-2xl overflow-hidden mb-4 bg-white/50">
+              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt="الدفع عند الاستلام" className="w-full h-full object-contain mix-blend-multiply" />
               </div>
@@ -417,11 +439,13 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <span className="inline-flex items-center gap-1.5" dir="ltr">
                 {!welcomePromo && referenceOfferSar > payableOfferSar ? (
                   <>
-                    <span className="line-through text-white/50 text-lg">{format(referenceOfferSar)}</span>
-                    {format(payableOfferSar)}
+                    <FormattedAmount className="line-through text-white/50 text-lg">
+                      {format(referenceOfferSar)}
+                    </FormattedAmount>
+                    <FormattedAmount>{format(payableOfferSar)}</FormattedAmount>
                   </>
                 ) : (
-                  format(payableOfferSar)
+                  <FormattedAmount>{format(payableOfferSar)}</FormattedAmount>
                 )}
               </span>
             </button>

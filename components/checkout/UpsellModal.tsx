@@ -3,7 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import { useCartStore, type CartItem } from "@/store/cart-store";
 import { useCurrencyStore } from "@/store/currency-store";
-import { ProductPlaceholderImage } from "@/components/product/ProductPlaceholderImage";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import { ProductImage } from "@/components/product/ProductImage";
 import { COPY } from "@/content/copy";
 import { getUpsellProduct, PRODUCTS } from "@/content/products";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
@@ -210,38 +211,33 @@ export function UpsellModal({ customer, cartItems }: Props) {
                 {COPY.upsell.titleAr}
               </h2>
               <span className="text-sm text-[#FFFFFF]/60">
-                {COPY.upsell.countdownPrefixAr} {countdown} {COPY.upsell.countdownSuffixAr}
+                {COPY.upsell.countdownPrefixAr}{" "}
+                <FormattedAmount>{countdown}</FormattedAmount>{" "}
+                {COPY.upsell.countdownSuffixAr}
               </span>
             </div>
 
             <div className="flex gap-4 items-center">
               <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-[#155235]/20">
-                {upsellProduct.images?.[0] ? (
-                  /* eslint-disable-next-line @next/next/no-img-element */
-                  <img
-                    src={upsellProduct.images[0]}
-                    alt={upsellProduct.nameAr}
-                    className="w-24 h-24 object-contain"
-                  />
-                ) : (
-                  <ProductPlaceholderImage
-                    theme={upsellProduct.imageTheme}
-                    aspectRatio="square"
-                    className="w-24 h-24"
-                  />
-                )}
+                <ProductImage
+                  product={upsellProduct}
+                  quantity={1}
+                  alt={upsellProduct.nameAr}
+                  className="w-24 h-24 object-contain"
+                  fallbackEmoji={upsellProduct.imageTheme === "herbal-skin" ? "✨" : "🌿"}
+                />
               </div>
               <div>
                 <p className="font-bold text-white text-sm">{upsellProduct.nameAr}</p>
                 <div className="flex items-center gap-2 mt-1" dir="ltr">
-                  <span className="text-2xl font-extrabold text-[#C99A45]">{format(upsellDisplayPrice)}</span>
+                  <FormattedAmount className="text-2xl font-extrabold text-[#C99A45]">{format(upsellDisplayPrice)}</FormattedAmount>
                   {!welcomePromo && (
-                    <span className="text-sm text-[#FFFFFF]/50 line-through">
+                    <FormattedAmount className="text-sm text-[#FFFFFF]/50 line-through">
                       {format(getWelcomeReferenceUpsellPriceSar())}
-                    </span>
+                    </FormattedAmount>
                   )}
                 </div>
-                <p className="text-xs text-[#C99A45] font-bold mt-0.5">{COPY.upsell.priceAr}</p>
+                <p className="text-xs text-[#C99A45] font-bold mt-0.5">{COPY.upsell.priceAr(format(upsellDisplayPrice))}</p>
               </div>
             </div>
 
@@ -260,7 +256,7 @@ export function UpsellModal({ customer, cartItems }: Props) {
               disabled={isSubmitting}
               className="btn-gold w-full py-4 rounded-full font-bold text-base disabled:opacity-60"
             >
-              {isSubmitting ? "جاري التأكيد..." : COPY.upsell.ctaAr}
+              {isSubmitting ? "جاري التأكيد..." : COPY.upsell.ctaAr(format(upsellDisplayPrice))}
             </button>
 
             <button

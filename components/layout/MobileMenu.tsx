@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/BrandLogo";
-import { CurrencySelector } from "@/components/currency/CurrencySelector";
 import { cn } from "@/lib/utils";
 
 type NavLink = { href: string; label: string };
@@ -61,10 +60,6 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
         </div>
 
         <div className="mt-auto p-4 border-t border-[#E8D8C3] space-y-3">
-          <div className="flex items-center justify-between">
-            <span className="text-xs text-[#6E675F] font-medium">العملة</span>
-            <CurrencySelector />
-          </div>
           <p className="text-xs text-[#6E675F] leading-relaxed text-center">
             منتجات عشبية وعناية طبيعية لروتينك اليومي
           </p>

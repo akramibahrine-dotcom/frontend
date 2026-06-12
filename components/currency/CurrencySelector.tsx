@@ -25,7 +25,21 @@ export function CurrencySelector({ className }: { className?: string }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  if (!isLoaded) return null;
+  if (!isLoaded) {
+    return (
+      <div className={cn("relative", className)}>
+        <button
+          type="button"
+          disabled
+          className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold border border-[#155235]/50 bg-[#0D2B1D] text-[#C99A45] opacity-70"
+          aria-label="تغيير العملة"
+        >
+          <span>ر.س</span>
+          <span className="text-[#FFFFFF]/60">SAR</span>
+        </button>
+      </div>
+    );
+  }
 
   const available = POPULAR_CURRENCIES.filter((c) => rates[c]);
   const config = CURRENCY_CONFIG[currency];

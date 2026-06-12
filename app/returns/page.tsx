@@ -24,8 +24,7 @@ export default function ReturnsPage() {
         <section>
           <h2 className="text-lg font-bold text-[#1D1D1B] mb-2">الإرجاع</h2>
           <p className="mb-2">
-            {/* TODO: Define return window with business/legal counsel */}
-            سياسة الإرجاع تحدد بالتنسيق مع المستشار القانوني قبل الإطلاق الرسمي.
+            يمكنك إرجاع المنتجات غير المفتوحة مجانًا خلال 7 أيام من تاريخ الاستلام، بشرط أن تكون بحالتها الأصلية.
           </p>
           <ul className="list-disc list-inside space-y-1">
             <li>المنتجات غير المفتوحة يمكن إرجاعها خلال المدة المحددة.</li>
@@ -54,7 +53,7 @@ export default function ReturnsPage() {
 
         <div className="bg-[#F8F1E7] border border-[#E8D8C3] rounded-xl p-4 text-sm">
           <p>
-            منتجات بيت الصحة هي شاي عشبي داعم للعافية اليومية وليست أدوية. للاستفسارات، تواصلي معنا.
+            منتجات بيت الصحة — أعشاب وعناية طبيعية يومية — ليست أدوية. للاستفسارات، تواصلي معنا.
           </p>
         </div>
       </div>

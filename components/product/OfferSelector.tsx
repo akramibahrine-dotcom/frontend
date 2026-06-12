@@ -2,6 +2,7 @@
 
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/store/currency-store";
+import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { BUNDLE_OFFERS, SAVINGS_MAP, type BundleOffer } from "@/content/products";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 
@@ -88,7 +89,9 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               <div>
                 <span className="font-bold text-[#0F1A14] text-sm">{offer.labelAr}</span>
                 {savings && (
-                  <p className="text-xs text-[#155235] mt-0.5 font-medium">وفّر {format(savings)}</p>
+                  <p className="text-xs text-[#155235] mt-0.5 font-medium">
+                    وفّر <FormattedAmount>{format(savings)}</FormattedAmount>
+                  </p>
                 )}
               </div>
             </div>
@@ -107,9 +110,13 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               </span>
               <div className="flex flex-col items-end gap-0" dir="ltr">
                 {!welcomePromo && reference > payable && (
-                  <span className="text-[10px] text-[#567063] line-through leading-none">{format(reference)}</span>
+                  <FormattedAmount className="text-[10px] text-[#567063] line-through leading-none">
+                    {format(reference)}
+                  </FormattedAmount>
                 )}
-                <span className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">{format(payable)}</span>
+                <FormattedAmount className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">
+                  {format(payable)}
+                </FormattedAmount>
               </div>
             </div>
           </button>
