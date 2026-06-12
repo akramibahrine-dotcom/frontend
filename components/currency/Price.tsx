@@ -2,7 +2,6 @@
 
 import { useCurrencyStore } from "@/store/currency-store";
 import { formatNumber } from "@/lib/format-number";
-import { FormattedAmount } from "@/components/currency/FormattedAmount";
 
 type Props = {
   amountSar: number;
@@ -16,12 +15,12 @@ export function Price({ amountSar, className, showOriginal = false }: Props) {
 
   if (showOriginal && currency !== "SAR") {
     return (
-      <FormattedAmount className={className}>
+      <span className={className}>
         {formatted}
         <span className="text-[0.7em] opacity-50 mr-1">({formatNumber(amountSar)} ر.س)</span>
-      </FormattedAmount>
+      </span>
     );
   }
 
-  return <FormattedAmount className={className}>{formatted}</FormattedAmount>;
+  return <span className={className}>{formatted}</span>;
 }
