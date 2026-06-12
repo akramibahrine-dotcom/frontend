@@ -32,7 +32,7 @@ type Props = {
 
 export function CheckoutModal({ onClose }: Props) {
   const { items, getTotal } = useCartStore();
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const [showUpsell, setShowUpsell] = useState(false);
   const [formData, setFormData] = useState<FormValues | null>(null);

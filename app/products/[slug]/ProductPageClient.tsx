@@ -103,7 +103,7 @@ function HeroCarousel({ product }: { product: Product }) {
 export function ProductPageClient({ product, crossSells }: Props) {
   const [selectedQty, setSelectedQty] = useState<1 | 2 | 3>(2);
   const { addBundle, openCart } = useCartStore();
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
 
   const productOffers = getProductBundleOffers(product);

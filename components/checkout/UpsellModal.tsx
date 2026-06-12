@@ -28,7 +28,7 @@ type Props = {
 
 export function UpsellModal({ customer, cartItems }: Props) {
   const { clearCart } = useCartStore();
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const [countdown, setCountdown] = useState(UPSELL_DURATION_SECONDS);
   const [isSubmitting, setIsSubmitting] = useState(false);

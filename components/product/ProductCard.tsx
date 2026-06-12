@@ -14,7 +14,7 @@ type Props = {
 };
 
 export function ProductCard({ product, className }: Props) {
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const startingPrice =
     getProductBundleOffers(product).find((o) => o.quantity === 1)?.priceSar ?? 199;
 

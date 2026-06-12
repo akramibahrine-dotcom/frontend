@@ -24,7 +24,7 @@ type Props = {
 };
 
 export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages, productImage, bundleOffers, savingsMap }: Props) {
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const offers = bundleOffers ?? BUNDLE_OFFERS;
   const savings_map = savingsMap ?? SAVINGS_MAP;
 

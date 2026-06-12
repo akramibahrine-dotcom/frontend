@@ -39,7 +39,7 @@ function getQuantityLabel(qty: number): string {
 
 export function ThankYouClient({ orderId }: { orderId: string }) {
   const [order, setOrder] = useState<OrderSummary | null>(null);
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const shortId = orderId.slice(-8).toUpperCase();
 
   useEffect(() => {

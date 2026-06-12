@@ -15,7 +15,7 @@ import { getCatalogBundlePriceSar, getPayableBundlePriceSar, getWelcomeReference
 
 export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, getTotal, closeCheckout } = useCartStore();
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const total = getTotal();
 
@@ -129,7 +129,7 @@ export function CartDrawer() {
 }
 
 function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boolean }) {
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const removeLine = useCartStore((s) => s.removeLine);
   const prod = PRODUCTS.find((p) => p.id === item.productId);
   const catalog = getCatalogBundlePriceSar(item.quantity, prod?.bundleOffers);
@@ -177,7 +177,7 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
 
 function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   const { addBundle } = useCartStore();
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const startingPrice =
     getProductBundleOffers(product).find((o) => o.quantity === 1)?.priceSar ??
     getCatalogBundlePriceSar(1);

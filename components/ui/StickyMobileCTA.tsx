@@ -18,7 +18,7 @@ export function StickyMobileCTA({
   sublabel = "الدفع عند الاستلام - بدون بطاقة",
   price,
 }: Props) {
-  const format = useCurrencyStore((s) => s.format);
+  const { format } = useCurrencyStore();
   const [show, setShow] = useState(false);
 
   useEffect(() => {
