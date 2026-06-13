@@ -48,6 +48,8 @@ export function ProductImage({
     <img
       src={src}
       alt={alt}
+      loading="lazy"
+      decoding="async"
       className={className}
       onError={() => {
         if (index < candidates.length - 1) {

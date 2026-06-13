@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useMemo } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import { OfferSelector } from "@/components/product/OfferSelector";
@@ -15,12 +16,19 @@ import { getProductImageCandidates } from "@/lib/product-images";
 import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
-import { WelcomePromoModal } from "@/components/product/WelcomePromoModal";
-import { BeforeAfterCarousel } from "@/components/product/BeforeAfterCarousel";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
 import { getProductPageSections } from "@/lib/product-page-copy";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
+
+const WelcomePromoModal = dynamic(
+  () => import("@/components/product/WelcomePromoModal").then((m) => m.WelcomePromoModal),
+  { ssr: false }
+);
+const BeforeAfterCarousel = dynamic(
+  () => import("@/components/product/BeforeAfterCarousel").then((m) => m.BeforeAfterCarousel),
+  { ssr: false }
+);
 
 type Props = {
   product: Product;
@@ -67,6 +75,10 @@ function HeroCarousel({ product }: { product: Product }) {
               key={src}
               src={src}
               alt={`${product.nameAr} - صورة ${i + 1}`}
+              // @ts-expect-error fetchPriority not in React types yet
+              fetchpriority={i === 0 ? "high" : "low"}
+              loading={i === 0 ? "eager" : "lazy"}
+              decoding={i === 0 ? "sync" : "async"}
               className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply transition-opacity duration-700 ease-in-out ${
                 i === current ? "opacity-100" : "opacity-0"
               }`}
@@ -209,6 +221,8 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <img
                   src={product.imageSection2 || "/product-galery/6.jpg"}
                 alt={sections.empathy.imageAlt}
+                loading="lazy"
+                decoding="async"
                 className="w-full relative z-10 rounded-3xl shadow-lg object-cover aspect-square grayscale-[20%] group-hover:grayscale-0 transition-all duration-500"
               />
             </div>

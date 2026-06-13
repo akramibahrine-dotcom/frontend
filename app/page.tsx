@@ -1,13 +1,22 @@
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
+import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { PRODUCTS } from "@/content/products";
 import { CATEGORIES } from "@/content/categories";
 import { COPY } from "@/content/copy";
-import { ReviewsMarquee } from "@/components/home/ReviewsMarquee";
-import { BrandGalleryMarquee } from "@/components/home/BrandGalleryMarquee";
 import { formatInteger } from "@/lib/format-number";
+
+const ReviewsMarquee = dynamic(
+  () => import("@/components/home/ReviewsMarquee").then((m) => m.ReviewsMarquee),
+  { loading: () => <div className="h-64" /> }
+);
+const BrandGalleryMarquee = dynamic(
+  () => import("@/components/home/BrandGalleryMarquee").then((m) => m.BrandGalleryMarquee),
+  { loading: () => <div className="h-64" /> }
+);
 
 export const metadata: Metadata = {
   title: {
@@ -73,10 +82,12 @@ export default function HomePage() {
             {/* Hero visual */}
             <div className="flex flex-col items-center justify-center relative">
               <div className="w-full max-w-md relative rounded-3xl overflow-hidden shadow-2xl shadow-[#071C12]/40 group">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+                <Image
                   src="/product-galery/hero-main.jpg"
                   alt="منتجات بيت الصحة — أعشاب طبيعية فاخرة"
+                  width={480}
+                  height={600}
+                  priority
                   className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-[#071C12]/80 via-transparent to-transparent" />
@@ -255,6 +266,8 @@ export default function HomePage() {
                 <img
                   src="/product-galery/gallery-lifestyle.jpg"
                   alt="لحظات العناية اليومية مع بيت الصحة"
+                  loading="lazy"
+                  decoding="async"
                   className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700"
                 />
               </div>

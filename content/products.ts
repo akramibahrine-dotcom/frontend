@@ -359,14 +359,14 @@ export const PRODUCTS: Product[] = [
     concernAr: "دعم صحة الأنثى والخصوبة",
     painAwareAr:
       "رحلة الخصوبة قد تكون مليئة بالضغوط. صممنا هذا المزيج ليكون لحظة هدوء وعناية يومية لكِ، بمكونات طبيعية تُلائم طبيعة جسمك.",
-      imageTheme: "womens-health",
-      images: [
-        "/products/fertility-tea/4.jpg",
-        "/products/fertility-tea/5.jpg",
-        "/products/fertility-tea/6.jpg",
-      ],
-      imageSection2: "/products/fertility-tea/section2-new.jpg",
-      imageSection4: "/products/fertility-tea/section4-new.jpg",
+    imageTheme: "womens-health",
+    images: [
+      "/products/fertility-tea/4.jpg",
+      "/products/fertility-tea/5.jpg",
+      "/products/fertility-tea/6.jpg",
+    ],
+    imageSection2: "/products/fertility-tea/section2-new.jpg",
+    imageSection4: "/products/fertility-tea/section4-new.jpg",
     imagePromisePackaging: "/products/fertility-tea/promise-pkg-fertility-v3.jpg",
     imagePromiseDelivery: "/products/fertility-tea/promise-del-fertility-v3.jpg",
     imagePromiseCod: "/products/fertility-tea/promise-cod-fertility-v3.jpg",
@@ -375,9 +375,9 @@ export const PRODUCTS: Product[] = [
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "weight-support-tea"],
     bundleOffers: [
-      { quantity: 3, priceSar: 699, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
-      { quantity: 2, priceSar: 549, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
-      { quantity: 1, priceSar: 299, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
+      { quantity: 3, priceSar: 449, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
+      { quantity: 2, priceSar: 349, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
+      { quantity: 1, priceSar: 229, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
     ],
     ritualAr:
       "كوبٌ دافئ يومياً يرافق لحظات استرخائك. يُنصح باستشارة طبيبتك إذا كنتِ تتابعين خطة علاجية للخصوبة.",

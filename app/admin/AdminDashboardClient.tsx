@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
@@ -54,11 +53,9 @@ function statusColor(status: string) {
 }
 
 // Types based on the existing backend response
-/* eslint-disable @typescript-eslint/no-explicit-any */
 type Metrics = any;
 type OrderListItem = any;
 type OrderDetail = any;
-/* eslint-enable @typescript-eslint/no-explicit-any */
 type Tab = "overview" | "orders" | "products" | "traffic";
 
 export function AdminDashboardClient() {
