@@ -12,6 +12,11 @@ export function WelcomePromoModal() {
 
   useEffect(() => {
     hydrate();
+    
+    // Temporarily disabled as per request
+    const isPromoActive = false; 
+    if (!isPromoActive) return;
+
     try {
       if (typeof window !== "undefined" && !localStorage.getItem(MODAL_SEEN_KEY)) {
         setOpen(true);
