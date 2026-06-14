@@ -47,7 +47,12 @@ export function trackPageView() {
   void sendServerAnalyticsEvent("page_view");
 }
 
-export function trackViewContent(productId: string, productName: string, eventId: string) {
+export function trackViewContent(
+  productId: string,
+  productName: string,
+  eventId: string,
+  itemCategory: "herbal_tea" | "skincare" = "herbal_tea"
+) {
   fireMetaEvent("ViewContent", {
     content_ids: [productId],
     content_name: productName,
@@ -60,7 +65,7 @@ export function trackViewContent(productId: string, productName: string, eventId
   });
   fireSnapEvent("VIEW_CONTENT", {
     item_ids: [productId],
-    item_category: "herbal_tea",
+    item_category: itemCategory,
   });
   void sendServerAnalyticsEvent("view_content", { productId, source: "product_page" });
 }
