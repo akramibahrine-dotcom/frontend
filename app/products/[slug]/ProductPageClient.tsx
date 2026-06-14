@@ -17,7 +17,7 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
-import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
+import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
 import { getProductPageSections } from "@/lib/product-page-copy";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 
@@ -126,8 +126,13 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
   useEffect(() => {
     const eventId = generateEventId();
-    trackViewContent(product.id, product.nameAr, eventId);
-  }, [product.id, product.nameAr]);
+    trackViewContent(
+      product.id,
+      product.nameAr,
+      eventId,
+      product.imageTheme === "herbal-skin" ? "skincare" : "herbal_tea"
+    );
+  }, [product.id, product.nameAr, product.imageTheme]);
 
   function handleAddToCart() {
     const eventId = generateEventId();
@@ -139,6 +144,23 @@ export function ProductPageClient({ product, crossSells }: Props) {
   return (
     <>
       <WelcomePromoModal />
+
+      {/* ═══ MARQUEE BANNER ═══ */}
+      <div className="bg-[#071C12] border-y border-[#C99A45]/30 overflow-hidden py-4">
+        <div className="flex whitespace-nowrap animate-marquee">
+          {[0, 1].map((dup) => (
+            <div
+              key={dup}
+              className="flex gap-16 px-8 text-[#C99A45] font-extrabold text-base md:text-lg items-center"
+            >
+              {COPY.homeMarquee.map((line) => (
+                <span key={`${dup}-${line}`}>{line}</span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
       {/* 1. Hero Section (Image Left, Text Right in RTL) */}
       <section className="py-10 md:py-16 bg-gradient-to-b from-[#F5F3EE] to-white">
         <div className="max-w-[1200px] mx-auto px-4">
@@ -183,7 +205,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 <span className="relative z-10 flex items-center justify-center gap-2 flex-wrap">
                   {COPY.bundleBadges.addToCart}
                   <span className="inline-flex items-center gap-1.5" dir="ltr">
-                    {!welcomePromo && referenceOfferSar > payableOfferSar && (
+                    {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar && (
                       <FormattedAmount className="text-white/55 line-through text-base">
                         {format(referenceOfferSar)}
                       </FormattedAmount>
@@ -451,7 +473,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             >
               أضِف إلى سلّتي{" "}
               <span className="inline-flex items-center gap-1.5" dir="ltr">
-                {!welcomePromo && referenceOfferSar > payableOfferSar ? (
+                {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar ? (
                   <>
                     <FormattedAmount className="line-through text-white/50 text-lg">
                       {format(referenceOfferSar)}
