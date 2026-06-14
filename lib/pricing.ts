@@ -3,6 +3,14 @@ import { BUNDLE_OFFERS, UPSELL_PRICE_SAR, type BundleOffer, type Product } from 
 /** Must match backend `welcome_promo_codes` (.env) — default عميل10 */
 export const WELCOME_PROMO_CODE = "عميل10";
 
+/** When false, welcome modal is hidden and stored promo state is ignored. */
+export const WELCOME_PROMO_ENABLED = false;
+
+/** Show strikethrough reference prices only when the welcome promo flow is active. */
+export function shouldShowWelcomeReferencePricing(promoAccepted: boolean = false): boolean {
+  return WELCOME_PROMO_ENABLED && !promoAccepted;
+}
+
 /** Shown as strikethrough «السعر المرجعي» before the visitor accepts the welcome promo (display only). */
 export const WELCOME_REFERENCE_MARKUP_PERCENT = 10;
 
