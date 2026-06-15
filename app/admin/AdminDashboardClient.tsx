@@ -145,7 +145,7 @@ type TranslationOverride = {
   enabled: boolean; created_at: string; updated_at: string;
 };
 
-type Tab = "command" | "products" | "orders" | "visitors" | "controls" | "translations" | "logins";
+type Tab = "command" | "products" | "orders" | "visitors" | "controls" | "translations" | "logins" | "calculator";
 
 function dateDaysAgo(days: number) { const d = new Date(); d.setDate(d.getDate() - days); return d.toISOString().slice(0, 10); }
 function sar(v: number) { return new Intl.NumberFormat("ar-SA", { style: "currency", currency: "SAR", maximumFractionDigits: 0 }).format(v); }
@@ -254,7 +254,7 @@ export function AdminDashboardClient() {
         <div className="flex items-center gap-6">
           <h1 className="text-xl font-bold">Dashboard</h1>
           <nav className="hidden md:flex gap-4">
-            {([["command", "Statistics"], ["products", "Products"], ["orders", "Orders"], ["visitors", "Visitors"], ["controls", "Access Control"], ["translations", "Translation"], ["logins", "Logins"]] as const).map(([id, label]) => (
+            {([["command", "Statistics"], ["products", "Products"], ["orders", "Orders"], ["visitors", "Visitors"], ["controls", "Access Control"], ["translations", "Translation"], ["logins", "Logins"], ["calculator", "Profit Calculator"]] as const).map(([id, label]) => (
               <button key={id} onClick={() => setTab(id)} className={`text-sm font-medium transition ${tab === id ? "text-white" : "text-white/50 hover:text-white"}`}>{label}</button>
             ))}
           </nav>
@@ -324,6 +324,7 @@ export function AdminDashboardClient() {
         {tab === "controls" && headers && <AccessControlTab headers={headers} rules={rules} reload={() => void loadData()} />}
         {tab === "translations" && headers && <TranslationsTab headers={headers} translations={translations} reload={() => void loadData()} />}
         {tab === "logins" && <LoginsTab logins={logins} live={liveLogins} />}
+        {tab === "calculator" && metrics && <ProfitCalculatorTab metrics={metrics} />}
       </div>
       {selectedOrder && <OrderPreview order={selectedOrder} onClose={() => setSelectedOrder(null)} />}
     </section>
@@ -921,6 +922,283 @@ function TranslationsTab({ headers, translations, reload }: { headers: Record<st
           )}
         </Card>
       </div>
+    </div>
+  );
+}
+
+/* ─── Profit Calculator Tab ─── */
+const SAR_TO_USD = 0.2667;
+
+function ProfitCalculatorTab({ metrics }: { metrics: Metrics }) {
+  const lifetimeAovSar = metrics.all_time.average_order_value_sar;
+  const lifetimeAovUsd = lifetimeAovSar * SAR_TO_USD;
+
+  const lifetimeUnits = metrics.products.reduce((s, p) => s + p.units, 0);
+  const lifetimeOrders = metrics.all_time.orders;
+  const avgPiecesPerOrder = lifetimeOrders > 0 ? lifetimeUnits / lifetimeOrders : 1;
+
+  const [leads, setLeads] = useState(1000);
+  const [cpl, setCpl] = useState(0.5);
+  const [confirmationRate, setConfirmationRate] = useState(45);
+  const [deliveryRate, setDeliveryRate] = useState(38);
+  const [productCost, setProductCost] = useState(2.0);
+  const [customAovUsd, setCustomAovUsd] = useState<number | null>(null);
+
+  const COST_PER_CONFIRMED = 1.7;
+  const COST_PER_DELIVERED = 4.0;
+  const COST_PER_RETURN = 1.3;
+  const COST_PER_FULFILLED = 0.8;
+
+  const activeAovUsd = customAovUsd ?? lifetimeAovUsd;
+  const activePieces = customAovUsd ? customAovUsd / (lifetimeAovUsd / avgPiecesPerOrder || 1) : avgPiecesPerOrder;
+
+  const confirmedOrders = Math.round(leads * (confirmationRate / 100));
+  const deliveredOrders = Math.round(confirmedOrders * (deliveryRate / 100));
+  const returnedOrders = confirmedOrders - deliveredOrders;
+
+  const totalAdSpend = leads * cpl;
+  const totalProductCost = confirmedOrders * activePieces * productCost;
+  const totalConfirmationCost = confirmedOrders * COST_PER_CONFIRMED;
+  const totalFulfillmentCost = confirmedOrders * COST_PER_FULFILLED;
+  const totalDeliveryCost = deliveredOrders * COST_PER_DELIVERED;
+  const totalReturnCost = returnedOrders * COST_PER_RETURN;
+  const totalFixedCosts = totalConfirmationCost + totalFulfillmentCost + totalDeliveryCost + totalReturnCost;
+  const totalCost = totalAdSpend + totalProductCost + totalFixedCosts;
+  const totalRevenue = deliveredOrders * activeAovUsd;
+  const netProfit = totalRevenue - totalCost;
+  const roas = totalAdSpend > 0 ? totalRevenue / totalAdSpend : 0;
+  const profitMargin = totalRevenue > 0 ? (netProfit / totalRevenue) * 100 : 0;
+  const costPerDelivered = deliveredOrders > 0 ? totalCost / deliveredOrders : 0;
+
+  // Breakeven: how many leads to break even given current rates
+  const revenuePerLead = (confirmationRate / 100) * (deliveryRate / 100) * activeAovUsd;
+  const variableCostPerLead =
+    cpl +
+    (confirmationRate / 100) * activePieces * productCost +
+    (confirmationRate / 100) * COST_PER_CONFIRMED +
+    (confirmationRate / 100) * COST_PER_FULFILLED +
+    (confirmationRate / 100) * (deliveryRate / 100) * COST_PER_DELIVERED +
+    (confirmationRate / 100) * (1 - deliveryRate / 100) * COST_PER_RETURN;
+  const profitPerLead = revenuePerLead - variableCostPerLead;
+  const breakEvenCpl = revenuePerLead - (variableCostPerLead - cpl);
+  const breakEvenConfirmation = totalAdSpend > 0 && activeAovUsd > 0
+    ? (() => {
+        const needed = (cpl) / ((deliveryRate / 100) * activeAovUsd - activePieces * productCost - COST_PER_CONFIRMED - COST_PER_FULFILLED - (deliveryRate / 100) * COST_PER_DELIVERED - (1 - deliveryRate / 100) * COST_PER_RETURN);
+        return Math.max(0, Math.min(100, needed * 100));
+      })()
+    : 0;
+
+  const usd = (v: number) => `$${v.toFixed(2)}`;
+  const usdLarge = (v: number) => `$${v.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+  return (
+    <div className="space-y-8">
+      {/* AOV & Pieces Summary */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <Kpi label="Lifetime AOV (SAR)" value={`${lifetimeAovSar.toFixed(2)} SAR`} />
+        <Kpi label="Lifetime AOV (USD)" value={usd(lifetimeAovUsd)} accent />
+        <Kpi label="Avg Pieces / Order" value={avgPiecesPerOrder.toFixed(2)} />
+        <Kpi label="Lifetime Orders" value={lifetimeOrders} />
+      </div>
+
+      <div className="grid gap-8 xl:grid-cols-2">
+        {/* ── SECTION 1: Breakeven Calculator ── */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-1 rounded-full bg-amber-400" />
+            <h2 className="text-lg font-bold text-white">Breakeven Analysis</h2>
+          </div>
+
+          <Card title="Your Variables">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <InputField label="Override AOV (USD)" value={customAovUsd ?? ""} onChange={(v) => setCustomAovUsd(v === "" ? null : Number(v))} placeholder={lifetimeAovUsd.toFixed(2)} hint="Leave blank to use lifetime AOV" />
+              <InputField label="Cost Per Lead ($)" value={cpl} onChange={(v) => setCpl(Number(v))} step={0.01} />
+              <InputField label="Confirmation Rate (%)" value={confirmationRate} onChange={(v) => setConfirmationRate(Number(v))} max={100} />
+              <InputField label="Delivery Rate (%)" value={deliveryRate} onChange={(v) => setDeliveryRate(Number(v))} max={100} />
+              <InputField label="Product Cost / Piece ($)" value={productCost} onChange={(v) => setProductCost(Number(v))} step={0.01} />
+            </div>
+          </Card>
+
+          <Card title="Fixed Costs (per order)">
+            <div className="grid grid-cols-2 gap-3 text-sm">
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">Per confirmed lead</span>
+                <span className="font-bold text-white">{usd(COST_PER_CONFIRMED)}</span>
+              </div>
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">Per delivered order</span>
+                <span className="font-bold text-white">{usd(COST_PER_DELIVERED)}</span>
+              </div>
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">Per return order</span>
+                <span className="font-bold text-white">{usd(COST_PER_RETURN)}</span>
+              </div>
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">Per fulfilled (warehouse)</span>
+                <span className="font-bold text-white">{usd(COST_PER_FULFILLED)}</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card title="Breakeven Results">
+            <div className="space-y-4">
+              <div className="grid gap-3 sm:grid-cols-2">
+                <ResultRow label="Revenue / Lead" value={usd(revenuePerLead)} positive />
+                <ResultRow label="Cost / Lead" value={usd(variableCostPerLead)} />
+                <ResultRow label="Profit / Lead" value={usd(profitPerLead)} positive={profitPerLead > 0} />
+                <ResultRow label="Max CPL to Break Even" value={usd(breakEvenCpl)} highlight />
+              </div>
+              <div className="rounded-xl border-2 border-dashed border-amber-400/40 bg-amber-400/5 p-4">
+                <p className="text-xs font-bold uppercase tracking-wider text-amber-400 mb-2">Breakeven Confirmation Rate</p>
+                <p className="text-2xl font-black text-white">{breakEvenConfirmation.toFixed(1)}%</p>
+                <p className="text-xs text-white/50 mt-1">Min confirmation rate needed at current CPL to not lose money</p>
+              </div>
+              {profitPerLead > 0 ? (
+                <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/30 p-4 text-sm text-emerald-300">
+                  You are <strong>profitable</strong> at these rates. Every lead nets you <strong>{usd(profitPerLead)}</strong> in profit.
+                </div>
+              ) : (
+                <div className="rounded-xl bg-red-500/10 border border-red-500/30 p-4 text-sm text-red-300">
+                  You are <strong>losing money</strong> at these rates. Each lead costs you <strong>{usd(Math.abs(profitPerLead))}</strong>.
+                  {breakEvenCpl > 0 && <> Lower your CPL to <strong>{usd(breakEvenCpl)}</strong> or raise confirmation above <strong>{breakEvenConfirmation.toFixed(1)}%</strong>.</>}
+                </div>
+              )}
+            </div>
+          </Card>
+        </div>
+
+        {/* ── SECTION 2: Profit Calculator (Scale) ── */}
+        <div className="space-y-6">
+          <div className="flex items-center gap-3">
+            <div className="h-8 w-1 rounded-full bg-[#1473ff]" />
+            <h2 className="text-lg font-bold text-white">Profit at Scale</h2>
+          </div>
+
+          <Card title="Scale Simulation">
+            <div className="grid gap-4 sm:grid-cols-2">
+              <InputField label="Number of Leads" value={leads} onChange={(v) => setLeads(Number(v))} step={100} />
+              <div className="flex flex-col justify-end">
+                <p className="text-xs text-white/50 mb-1">Using rates from Breakeven section</p>
+                <p className="text-sm text-white/70">CPL: {usd(cpl)} · Conf: {confirmationRate}% · Del: {deliveryRate}%</p>
+              </div>
+            </div>
+          </Card>
+
+          <Card title="Order Funnel">
+            <div className="flex items-center gap-2">
+              <FunnelStep label="Leads" value={leads} color="text-white" />
+              <span className="text-white/30">→</span>
+              <FunnelStep label="Confirmed" value={confirmedOrders} pct={confirmationRate} color="text-amber-400" />
+              <span className="text-white/30">→</span>
+              <FunnelStep label="Delivered" value={deliveredOrders} pct={deliveryRate} color="text-emerald-400" />
+              <span className="text-white/30">|</span>
+              <FunnelStep label="Returned" value={returnedOrders} pct={100 - deliveryRate} color="text-red-400" />
+            </div>
+          </Card>
+
+          <Card title="Cost Breakdown">
+            <div className="space-y-2 text-sm">
+              <CostRow label="Ad Spend" detail={`${leads} leads × ${usd(cpl)}`} value={usdLarge(totalAdSpend)} />
+              <CostRow label="Product Cost" detail={`${confirmedOrders} orders × ${activePieces.toFixed(1)} pcs × ${usd(productCost)}`} value={usdLarge(totalProductCost)} />
+              <CostRow label="Confirmation Fee" detail={`${confirmedOrders} × ${usd(COST_PER_CONFIRMED)}`} value={usdLarge(totalConfirmationCost)} />
+              <CostRow label="Fulfillment Fee" detail={`${confirmedOrders} × ${usd(COST_PER_FULFILLED)}`} value={usdLarge(totalFulfillmentCost)} />
+              <CostRow label="Delivery Fee" detail={`${deliveredOrders} × ${usd(COST_PER_DELIVERED)}`} value={usdLarge(totalDeliveryCost)} />
+              <CostRow label="Return Fee" detail={`${returnedOrders} × ${usd(COST_PER_RETURN)}`} value={usdLarge(totalReturnCost)} />
+              <div className="border-t border-white/10 pt-3 flex justify-between font-bold text-white">
+                <span>Total Cost</span>
+                <span>{usdLarge(totalCost)}</span>
+              </div>
+            </div>
+          </Card>
+
+          <Card title="Profit Summary">
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 mb-4">
+              <div className="rounded-lg bg-white/5 p-4 text-center">
+                <p className="text-[10px] font-bold uppercase text-white/50 mb-1">Revenue</p>
+                <p className="text-xl font-bold text-white">{usdLarge(totalRevenue)}</p>
+              </div>
+              <div className="rounded-lg bg-white/5 p-4 text-center">
+                <p className="text-[10px] font-bold uppercase text-white/50 mb-1">Total Cost</p>
+                <p className="text-xl font-bold text-white">{usdLarge(totalCost)}</p>
+              </div>
+              <div className={`rounded-lg p-4 text-center ${netProfit >= 0 ? "bg-emerald-500/10" : "bg-red-500/10"}`}>
+                <p className="text-[10px] font-bold uppercase text-white/50 mb-1">Net Profit</p>
+                <p className={`text-xl font-bold ${netProfit >= 0 ? "text-emerald-400" : "text-red-400"}`}>{usdLarge(netProfit)}</p>
+              </div>
+              <div className="rounded-lg bg-white/5 p-4 text-center">
+                <p className="text-[10px] font-bold uppercase text-white/50 mb-1">ROAS</p>
+                <p className="text-xl font-bold text-white">{roas.toFixed(2)}x</p>
+              </div>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-3 text-sm">
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">Profit Margin</span>
+                <span className={`font-bold ${profitMargin >= 0 ? "text-emerald-400" : "text-red-400"}`}>{profitMargin.toFixed(1)}%</span>
+              </div>
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">Cost / Delivered</span>
+                <span className="font-bold text-white">{usd(costPerDelivered)}</span>
+              </div>
+              <div className="flex justify-between rounded-lg bg-white/5 px-4 py-3">
+                <span className="text-white/60">AOV (USD)</span>
+                <span className="font-bold text-[#1473ff]">{usd(activeAovUsd)}</span>
+              </div>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InputField({ label, value, onChange, placeholder, hint, step, max }: {
+  label: string; value: string | number; onChange: (v: string) => void;
+  placeholder?: string; hint?: string; step?: number; max?: number;
+}) {
+  return (
+    <div>
+      <label className="mb-1 block text-xs font-bold text-white/50">{label}</label>
+      <input
+        type="number"
+        className="w-full rounded-lg border border-white/10 bg-[#1c1c1c] px-4 py-2.5 text-sm text-white focus:border-[#1473ff] focus:outline-none [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        placeholder={placeholder}
+        step={step}
+        max={max}
+      />
+      {hint && <p className="mt-1 text-[10px] text-white/30">{hint}</p>}
+    </div>
+  );
+}
+
+function ResultRow({ label, value, positive, highlight }: { label: string; value: string; positive?: boolean; highlight?: boolean }) {
+  return (
+    <div className={`flex justify-between rounded-lg px-4 py-3 ${highlight ? "bg-amber-400/10 border border-amber-400/30" : "bg-white/5"}`}>
+      <span className="text-white/60 text-sm">{label}</span>
+      <span className={`font-bold text-sm ${highlight ? "text-amber-400" : positive ? "text-emerald-400" : "text-white"}`}>{value}</span>
+    </div>
+  );
+}
+
+function CostRow({ label, detail, value }: { label: string; detail: string; value: string }) {
+  return (
+    <div className="flex items-center justify-between gap-4 rounded-lg bg-white/5 px-4 py-3">
+      <div>
+        <span className="text-white font-medium">{label}</span>
+        <span className="ml-2 text-xs text-white/40">{detail}</span>
+      </div>
+      <span className="font-bold text-white shrink-0">{value}</span>
+    </div>
+  );
+}
+
+function FunnelStep({ label, value, pct, color }: { label: string; value: number; pct?: number; color: string }) {
+  return (
+    <div className="flex-1 rounded-lg bg-white/5 p-3 text-center">
+      <p className={`text-lg font-bold ${color}`}>{value.toLocaleString()}</p>
+      <p className="text-[10px] text-white/50 uppercase">{label}</p>
+      {pct !== undefined && <p className="text-[10px] text-white/30">{pct.toFixed(0)}%</p>}
     </div>
   );
 }

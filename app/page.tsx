@@ -30,7 +30,7 @@ export default function HomePage() {
   return (
     <>
       {/* ═══ HERO — light background, dark green text ═══ */}
-      <section className="bg-[#F5F3EE] leaf-pattern relative overflow-hidden py-20 md:py-32">
+      <section className="bg-[#F5F3EE] leaf-pattern relative overflow-hidden py-10 md:py-32">
         {/* decorative corner glow */}
         <div
           aria-hidden
@@ -44,13 +44,43 @@ export default function HomePage() {
         />
 
         <div className="relative max-w-[1200px] mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            {/* Hero visual — first on mobile so the image is visible above the fold */}
+            <div className="order-1 md:order-2 flex flex-col items-center justify-center relative w-full min-w-0">
+              <div className="w-full max-w-md relative rounded-3xl overflow-hidden shadow-2xl shadow-[#071C12]/40 group bg-[#071C12]">
+                <div className="relative w-full aspect-[3/2]">
+                  <Image
+                    src="/product-galery/hero-main.jpg"
+                    alt="منتجات بيت الصحة — أعشاب طبيعية فاخرة"
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 480px"
+                    className="object-contain object-center group-hover:scale-[1.02] transition-transform duration-700"
+                  />
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[#071C12]/80 via-transparent to-transparent pointer-events-none" />
+                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 text-center pointer-events-none">
+                  <p className="font-extrabold text-[#C99A45] text-lg sm:text-xl mb-2">بيت الصحة</p>
+                  <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
+                    {["💳 الدفع عند الاستلام", "🚚 توصيل السعودية", "🌿 طبيعي 100%"].map((b) => (
+                      <span
+                        key={b}
+                        className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] py-1 px-2 rounded-full font-medium"
+                      >
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
             {/* Text */}
-            <div className="text-right animate-float-up">
+            <div className="order-2 md:order-1 text-right min-w-0 animate-float-up">
               <span className="inline-block bg-[#071C12]/5 border border-[#071C12]/10 text-[#071C12] text-xs font-semibold px-4 py-1.5 rounded-full mb-5 tracking-widest">
                 🌿 {COPY.brand.taglineAr}
               </span>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#071C12] leading-tight mb-5">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#071C12] leading-tight mb-5">
                 {COPY.hero.headlineAr}
               </h1>
               <p className="text-[#071C12]/80 text-lg leading-relaxed mb-8">
@@ -70,40 +100,12 @@ export default function HomePage() {
                   {COPY.hero.ctaSecondaryAr}
                 </Link>
               </div>
-              <div className="flex items-center gap-4 mt-5">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 mt-5">
                 <span className="text-[#071C12]/70 text-xs font-bold">✓ دفع عند الاستلام</span>
                 <span className="w-1 h-1 rounded-full bg-[#071C12]/30" />
                 <span className="text-[#071C12]/70 text-xs font-bold">✓ بدون بطاقة</span>
                 <span className="w-1 h-1 rounded-full bg-[#071C12]/30" />
                 <span className="text-[#071C12]/70 text-xs font-bold">✓ توصيل السعودية</span>
-              </div>
-            </div>
-
-            {/* Hero visual */}
-            <div className="flex flex-col items-center justify-center relative">
-              <div className="w-full max-w-md relative rounded-3xl overflow-hidden shadow-2xl shadow-[#071C12]/40 group">
-                <Image
-                  src="/product-galery/hero-main.jpg"
-                  alt="منتجات بيت الصحة — أعشاب طبيعية فاخرة"
-                  width={480}
-                  height={600}
-                  priority
-                  className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#071C12]/80 via-transparent to-transparent" />
-                <div className="absolute bottom-0 inset-x-0 p-6 text-center">
-                  <p className="font-extrabold text-[#C99A45] text-xl mb-2">بيت الصحة</p>
-                  <div className="flex justify-center gap-2">
-                    {["💳 الدفع عند الاستلام", "🚚 توصيل السعودية", "🌿 طبيعي 100%"].map((b) => (
-                      <span
-                        key={b}
-                        className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] py-1 px-2 rounded-full font-medium"
-                      >
-                        {b}
-                      </span>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
           </div>
@@ -238,8 +240,8 @@ export default function HomePage() {
       {/* ═══ EMOTIONAL — masculine tone ═══ */}
       <section className="py-20 bg-white">
         <div className="max-w-[1200px] mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-right">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+            <div className="text-right min-w-0">
               <span className="inline-block text-[#155235] text-xs font-semibold tracking-widest mb-3">
                 روتينك اليومي
               </span>
@@ -260,15 +262,15 @@ export default function HomePage() {
                 تصفَّح المجموعة
               </Link>
             </div>
-            <div className="flex items-center justify-center order-first md:order-last">
-              <div className="w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl shadow-[#155235]/20 group">
+            <div className="flex items-center justify-center order-first md:order-last w-full min-w-0">
+              <div className="w-full max-w-sm rounded-3xl overflow-hidden shadow-2xl shadow-[#155235]/20 group bg-[#F5F3EE]">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src="/product-galery/gallery-lifestyle.jpg"
                   alt="لحظات العناية اليومية مع بيت الصحة"
                   loading="lazy"
                   decoding="async"
-                  className="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full aspect-[3/2] object-contain object-center group-hover:scale-[1.02] transition-transform duration-700"
                 />
               </div>
             </div>

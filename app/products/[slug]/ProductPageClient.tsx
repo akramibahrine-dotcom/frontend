@@ -53,7 +53,7 @@ function HeroCarousel({ product }: { product: Product }) {
 
   if (images.length === 0) {
     return (
-      <div className="order-first md:order-last relative">
+      <div className="order-first md:order-last relative w-full min-w-0">
         <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
           <ProductImage
             product={product}
@@ -66,10 +66,10 @@ function HeroCarousel({ product }: { product: Product }) {
   }
 
   return (
-    <div className="order-first md:order-last relative">
-      <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0" />
-      <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
-        <div className="relative aspect-square rounded-3xl overflow-hidden">
+    <div className="order-first md:order-last relative w-full min-w-0 max-w-[400px] mx-auto md:max-w-none">
+      <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[2rem] sm:rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0 pointer-events-none" />
+      <div className="relative w-full bg-white rounded-[2rem] sm:rounded-[3rem] p-3 sm:p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
+        <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl overflow-hidden bg-[#F5F3EE]">
           {images.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
@@ -96,7 +96,7 @@ function HeroCarousel({ product }: { product: Product }) {
                 onClick={() => setCurrent(i)}
                 aria-label={`صورة ${i + 1}`}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
-                  i === current ? "bg-white scale-125 shadow-md" : "bg-white/50 hover:bg-white/80"
+                  i === current ? "bg-[#155235] scale-125 shadow-md" : "bg-[#155235]/40 hover:bg-[#155235]/60"
                 }`}
               />
             ))}
@@ -104,9 +104,9 @@ function HeroCarousel({ product }: { product: Product }) {
         )}
 
         {/* Floating Badge */}
-        <div className="absolute top-8 -right-4 bg-white px-4 py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-2 animate-bounce z-10">
-          <span className="text-xl">{product.imageTheme === "herbal-skin" ? "✨" : "🌿"}</span>
-          <span className="text-sm font-bold text-[#155235]">{product.concernAr}</span>
+        <div className="absolute top-3 end-3 sm:top-6 sm:end-4 bg-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-1.5 sm:gap-2 z-10 max-w-[70%]">
+          <span className="text-base sm:text-xl shrink-0">{product.imageTheme === "herbal-skin" ? "✨" : "🌿"}</span>
+          <span className="text-[10px] sm:text-sm font-bold text-[#155235] truncate">{product.concernAr}</span>
         </div>
       </div>
     </div>
@@ -164,9 +164,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
       {/* 1. Hero Section (Image Left, Text Right in RTL) */}
       <section className="py-10 md:py-16 bg-gradient-to-b from-[#F5F3EE] to-white">
         <div className="max-w-[1200px] mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Text Content */}
-            <div className="text-right">
+            <div className="text-right min-w-0">
               <div className="mb-4">
                 <Link href="/collections" className="inline-flex items-center gap-2 px-3 py-1 bg-[#155235]/10 text-[#155235] rounded-full text-sm font-bold hover:bg-[#155235]/20 transition-colors">
                   <span>←</span> عُدْ إلى رفّ المجموعة

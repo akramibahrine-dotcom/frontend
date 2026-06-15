@@ -11,7 +11,7 @@ const POPULAR_CURRENCIES = [
 ];
 
 export function CurrencySelector({ className }: { className?: string }) {
-  const { currency, rates, setCurrency, isLoaded } = useCurrencyStore();
+  const { currency, setCurrency, isLoaded } = useCurrencyStore();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -27,7 +27,7 @@ export function CurrencySelector({ className }: { className?: string }) {
 
   if (!isLoaded) return null;
 
-  const available = POPULAR_CURRENCIES.filter((c) => rates[c]);
+  const available = POPULAR_CURRENCIES;
   const config = CURRENCY_CONFIG[currency];
 
   return (
