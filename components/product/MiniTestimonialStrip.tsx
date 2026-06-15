@@ -61,10 +61,10 @@ export function MiniTestimonialStrip({ productSlug }: { productSlug: string }) {
   const doubled = [...reviews, ...reviews];
 
   return (
-    <div className="col-span-full overflow-hidden py-4 mt-6 rounded-2xl bg-white/60 border border-[#E8D8C3]">
+    <div className="overflow-hidden py-3 mb-6 rounded-2xl bg-[#F8F1E7]/50 border border-[#E8D8C3]">
       <div className="relative" dir="ltr">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-12 z-10 bg-gradient-to-r from-white/60 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-12 z-10 bg-gradient-to-l from-white/60 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-[#F8F1E7]/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-[#F8F1E7]/80 to-transparent" />
         <div className="flex gap-4 animate-marquee-mini whitespace-nowrap py-1">
           {doubled.map((r, i) => (
             <div

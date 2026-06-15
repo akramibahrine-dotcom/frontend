@@ -189,6 +189,8 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
               <TrustBadgeRow className="mb-8" />
 
+              <MiniTestimonialStrip productSlug={product.slug} />
+
               <div className="bg-white p-6 rounded-3xl shadow-sm border border-[#E8D8C3] mb-6">
                 <p className="text-base font-extrabold text-[#0F1A14] mb-4 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#C99A45] animate-pulse"></span>
@@ -225,9 +227,6 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {/* Hero Image Carousel */}
             <HeroCarousel product={product} />
           </div>
-
-          {/* Mini testimonial strip between image and text */}
-          <MiniTestimonialStrip productSlug={product.slug} />
         </div>
       </section>
 
