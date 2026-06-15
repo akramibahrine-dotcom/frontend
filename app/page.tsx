@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, BUNDLE_OFFERS, SAVINGS_MAP } from "@/content/products";
 import { CATEGORIES } from "@/content/categories";
 import { COPY } from "@/content/copy";
 import { formatInteger } from "@/lib/format-number";
@@ -290,43 +290,45 @@ export default function HomePage() {
           <h2 className="text-2xl md:text-3xl font-extrabold mb-2">
             كلما زادت الباقة، زاد التوفير
           </h2>
-          <p className="text-white/70 mb-12 text-sm">اختر ما يليق ببيتك وبميزانيتك</p>
+          <p className="text-white/70 mb-12 text-sm">
+            أسعار الباقات الافتراضية لمعظم الأعشاب — كل منتج له أسعاره على صفحته
+          </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-5 max-w-2xl mx-auto">
-            {[
-              { qty: 3, price: 349, savings: 248, badge: "الأكثر توفيرًا", highlight: true },
-              { qty: 2, price: 279, savings: 119, badge: "الأكثر طلبًا", highlight: false },
-              { qty: 1, price: 199, savings: 0, badge: "للتجربة", highlight: false },
-            ].map((offer) => (
+            {BUNDLE_OFFERS.map((offer) => {
+              const savings = SAVINGS_MAP[offer.quantity] ?? 0;
+              const highlight = offer.quantity === 3;
+              return (
               <div
-                key={offer.qty}
+                key={offer.quantity}
                 className={`rounded-2xl p-6 border transition-all ${
-                  offer.highlight
+                  highlight
                     ? "border-[#C99A45] bg-gradient-to-b from-[#C99A45]/15 to-[#C99A45]/5 shadow-[0_0_30px_rgba(201,154,69,0.2)]"
                     : "border-white/10 glass-card hover:border-white/20"
                 }`}
               >
                 <span
                   className={`inline-block px-3 py-1 rounded-full text-xs font-bold mb-4 ${
-                    offer.highlight ? "bg-[#C99A45] text-[#071C12]" : "bg-white/10 text-white"
+                    highlight ? "bg-[#C99A45] text-[#071C12]" : "bg-white/10 text-white"
                   }`}
                 >
-                  {offer.badge}
+                  {offer.badgeAr}
                 </span>
                 <p className="text-4xl font-extrabold text-white" dir="ltr">
-                  {formatInteger(offer.price)}
+                  {formatInteger(offer.priceSar)}
                 </p>
                 <p className="text-white/60 text-sm">ريال</p>
                 <p className="text-xs text-white/60 mt-2" dir="ltr">
-                  {formatInteger(offer.qty)} {offer.qty === 1 ? "عبوة" : "عبوات"}
+                  {formatInteger(offer.quantity)} {offer.quantity === 1 ? "عبوة" : "عبوات"}
                 </p>
-                {offer.savings > 0 && (
+                {savings > 0 && (
                   <p className="text-[#C99A45] text-xs font-bold mt-2" dir="ltr">
-                    وفّر {formatInteger(offer.savings)} ريال
+                    وفّر {formatInteger(savings)} ريال
                   </p>
                 )}
               </div>
-            ))}
+            );
+            })}
           </div>
 
           <Link

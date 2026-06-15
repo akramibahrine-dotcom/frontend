@@ -7,18 +7,20 @@ import { MobileMenu } from "./MobileMenu";
 import { useCartStore } from "@/store/cart-store";
 import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CurrencySelector } from "@/components/currency/CurrencySelector";
-import { COPY } from "@/content/copy";
+import { LanguageSwitcher } from "@/components/language/LanguageSwitcher";
+import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
 import { formatInteger } from "@/lib/format-number";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import type { TranslationKey } from "@/content/translations";
 
-const NAV_LINKS = [
-  { href: "/", label: COPY.nav.homeAr },
-  { href: "/categories", label: COPY.nav.categoriesAr },
-  { href: "/collections", label: COPY.nav.productsAr },
-  { href: "/news", label: COPY.nav.newsAr },
-  { href: "/about", label: COPY.nav.aboutAr },
-  { href: "/contact", label: COPY.nav.contactAr },
+const NAV_LINKS: Array<{ href: string; key: TranslationKey }> = [
+  { href: "/", key: "nav.home" },
+  { href: "/categories", key: "nav.categories" },
+  { href: "/collections", key: "nav.products" },
+  { href: "/news", key: "nav.news" },
+  { href: "/about", key: "nav.about" },
+  { href: "/contact", key: "nav.contact" },
 ];
 
 export function Header() {
@@ -26,6 +28,7 @@ export function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
   const { openCart, getItemCount } = useCartStore();
   const itemCount = getItemCount();
+  const { t } = useTranslation();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -53,12 +56,13 @@ export function Header() {
                 href={link.href}
                 className="text-sm font-medium text-[#FFFFFF]/80 hover:text-[#C99A45] transition-colors"
               >
-                {link.label}
+                {t(link.key)}
               </Link>
             ))}
           </nav>
 
           <div className="flex items-center gap-3">
+            <LanguageSwitcher />
             <CurrencySelector />
             <button
               onClick={openCart}

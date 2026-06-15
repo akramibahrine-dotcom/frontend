@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { ProductImage } from "@/components/product/ProductImage";
-import { getCatalogBundlePriceSar, getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
+import { getCatalogBundlePriceSar, getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
 
 export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, getTotal, closeCheckout } = useCartStore();
@@ -154,7 +154,7 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
           {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "3 عبوات"}
         </p>
         <div className="mt-1 flex items-center gap-2 flex-wrap" dir="ltr">
-          {!welcomePromo && reference > payable ? (
+          {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable ? (
             <>
               <FormattedAmount className="text-xs text-[#FFFFFF]/45 line-through">{format(reference)}</FormattedAmount>
               <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(payable)}</FormattedAmount>

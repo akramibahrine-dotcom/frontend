@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import { ProductImage } from "./ProductImage";
-import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import { ProductPlaceholderImage } from "./ProductPlaceholderImage";
 import { useCurrencyStore } from "@/store/currency-store";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { cn } from "@/lib/utils";
-import { getProductBundleOffers, type Product } from "@/content/products";
+import type { Product } from "@/content/products";
 
 type Props = {
   product: Product;
@@ -14,9 +13,7 @@ type Props = {
 };
 
 export function ProductCard({ product, className }: Props) {
-  const { format } = useCurrencyStore();
-  const startingPrice =
-    getProductBundleOffers(product).find((o) => o.quantity === 1)?.priceSar ?? 199;
+  const format = useCurrencyStore((s) => s.format);
 
   return (
     <div
@@ -27,11 +24,20 @@ export function ProductCard({ product, className }: Props) {
       )}
     >
       <Link href={`/products/${product.slug}`} className="block overflow-hidden rounded-t-2xl">
-        <ProductImage
-          product={product}
-          alt={product.nameAr}
-          className="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-300"
-        />
+        {product.images && product.images.length > 0 ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={product.images[0]}
+            alt={product.nameAr}
+            className="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-300"
+          />
+        ) : (
+          <ProductPlaceholderImage
+            theme={product.imageTheme}
+            aspectRatio="product"
+            className="rounded-t-2xl rounded-b-none group-hover:scale-[1.02] transition-transform duration-300"
+          />
+        )}
       </Link>
 
       <div className="p-4 flex flex-col flex-1 gap-3">
@@ -50,9 +56,7 @@ export function ProductCard({ product, className }: Props) {
         <div className="mt-auto">
           <p className="text-xs text-[#8BA898] mb-0.5">تبدأ من</p>
           <div className="flex items-center justify-between">
-            <FormattedAmount className="text-lg font-extrabold text-[#0F1A14]">
-              {format(startingPrice)}
-            </FormattedAmount>
+            <span className="text-lg font-extrabold text-[#0F1A14]">{format(199)}</span>
             <span className="text-xs text-[#155235] font-medium">وفّر مع باقة 2 أو 3</span>
           </div>
         </div>

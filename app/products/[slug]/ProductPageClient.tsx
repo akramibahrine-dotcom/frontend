@@ -20,6 +20,7 @@ import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
 import { getProductPageSections } from "@/lib/product-page-copy";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
+import { MiniTestimonialStrip } from "@/components/product/MiniTestimonialStrip";
 
 const WelcomePromoModal = dynamic(
   () => import("@/components/product/WelcomePromoModal").then((m) => m.WelcomePromoModal),
@@ -129,8 +130,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
     trackViewContent(
       product.id,
       product.nameAr,
-      eventId,
-      product.imageTheme === "herbal-skin" ? "skincare" : "herbal_tea"
+      eventId
     );
   }, [product.id, product.nameAr, product.imageTheme]);
 
@@ -225,6 +225,9 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {/* Hero Image Carousel */}
             <HeroCarousel product={product} />
           </div>
+
+          {/* Mini testimonial strip between image and text */}
+          <MiniTestimonialStrip productSlug={product.slug} />
         </div>
       </section>
 

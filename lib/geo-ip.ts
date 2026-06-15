@@ -1,5 +1,4 @@
 import type { CurrencyCode } from "@/lib/currency";
-import { getApiBase } from "@/lib/api-base";
 
 /** ISO country → fallback currency when API omits currency.code */
 const COUNTRY_FALLBACK: Record<string, CurrencyCode> = {
@@ -49,7 +48,7 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
 
   // 1. Try our own backend GeoIP endpoint (which reads CF-IPCountry or falls back to IPAPI)
   try {
-    const apiBase = getApiBase();
+    const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.Baytseha.shop";
     const res = await fetch(`${apiBase}/api/v1/currency/geo`, {
       signal: ctrl.signal,
       cache: "no-store",

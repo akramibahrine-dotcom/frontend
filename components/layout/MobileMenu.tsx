@@ -2,9 +2,12 @@
 
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/BrandLogo";
+import { CurrencySelector } from "@/components/currency/CurrencySelector";
+import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/lib/utils";
+import type { TranslationKey } from "@/content/translations";
 
-type NavLink = { href: string; label: string };
+type NavLink = { href: string; key: TranslationKey };
 
 type Props = {
   links: NavLink[];
@@ -13,6 +16,8 @@ type Props = {
 };
 
 export function MobileMenu({ links, isOpen, onClose }: Props) {
+  const { t } = useTranslation();
+
   return (
     <>
       {isOpen && (
@@ -54,14 +59,18 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
               onClick={onClose}
               className="px-4 py-3 rounded-xl text-[#1D1D1B] font-medium hover:bg-[#F8F1E7] hover:text-[#1F6B4E] transition-colors"
             >
-              {link.href === "/collections" ? "الأكثر طلبا على موقعنا" : link.label}
+              {t(link.key)}
             </Link>
           ))}
         </div>
 
         <div className="mt-auto p-4 border-t border-[#E8D8C3] space-y-3">
+          <div className="flex items-center justify-between">
+            <span className="text-xs text-[#6E675F] font-medium">العملة</span>
+            <CurrencySelector />
+          </div>
           <p className="text-xs text-[#6E675F] leading-relaxed text-center">
-            منتجات عشبية وعناية طبيعية لروتينك اليومي
+            منتجات شاي عشبية داعمة للعافية اليومية
           </p>
         </div>
       </nav>

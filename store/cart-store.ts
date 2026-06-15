@@ -45,6 +45,16 @@ function getBundlePrice(quantity: 1 | 2 | 3, productId?: string): number {
   return getPayableBundlePriceSar(quantity, product?.bundleOffers ?? BUNDLE_OFFERS);
 }
 
+const SOURCE_PRIORITY: Record<CartItemSource, number> = {
+  product_page: 3,
+  cart_cross_sell: 2,
+  checkout_upsell: 1,
+};
+
+function pickSource(current: CartItemSource, next: CartItemSource): CartItemSource {
+  return SOURCE_PRIORITY[next] >= SOURCE_PRIORITY[current] ? next : current;
+}
+
 export const useCartStore = create<CartState>((set, get) => ({
   items: [],
   isOpen: false,
@@ -58,7 +68,15 @@ export const useCartStore = create<CartState>((set, get) => ({
       set((state) => ({
         items: state.items.map((item) =>
           item.lineId === existing.lineId
-            ? { ...item, quantity, bundlePriceSar: getBundlePrice(quantity, productId) }
+            ? {
+                ...item,
+                slug,
+                nameAr,
+                imageTheme,
+                quantity,
+                bundlePriceSar: getBundlePrice(quantity, productId),
+                source: pickSource(item.source, source),
+              }
             : item
         ),
       }));
@@ -105,7 +123,11 @@ export const useCartStore = create<CartState>((set, get) => ({
 
   getTotal: () => {
     return get().items.reduce(
-      (sum, item) => sum + item.bundlePriceSar,
+      (sum, item) => {
+        const product = PRODUCTS.find((p) => p.id === item.productId);
+        const offers = product?.bundleOffers ?? BUNDLE_OFFERS;
+        return sum + getPayableBundlePriceSar(item.quantity, offers);
+      },
       0
     );
   },

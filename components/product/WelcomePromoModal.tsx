@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { WELCOME_PROMO_ENABLED } from "@/lib/pricing";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 
 const MODAL_SEEN_KEY = "bsh_welcome_modal_seen";
@@ -13,9 +14,7 @@ export function WelcomePromoModal() {
   useEffect(() => {
     hydrate();
     
-    // Temporarily disabled as per request
-    const isPromoActive = false; 
-    if (!isPromoActive) return;
+    if (!WELCOME_PROMO_ENABLED) return;
 
     try {
       if (typeof window !== "undefined" && !localStorage.getItem(MODAL_SEEN_KEY)) {

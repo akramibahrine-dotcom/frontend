@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ThankYouClient } from "./ThankYouClient";
 
 export const metadata: Metadata = {
-  title: "تم استلام طلبك",
+  title: "تم استلام طلبك — بيت الصحة",
   robots: { index: false, follow: false },
 };
 

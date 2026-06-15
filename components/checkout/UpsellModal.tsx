@@ -12,7 +12,9 @@ import {
   getPayableBundlePriceSar,
   getPayableUpsellPriceSar,
   getWelcomeReferenceUpsellPriceSar,
+  shouldShowWelcomeReferencePricing,
   WELCOME_PROMO_CODE,
+  WELCOME_PROMO_ENABLED,
 } from "@/lib/pricing";
 import { createOrder } from "@/lib/api";
 import { generateEventId, getTrackingData } from "@/lib/events";
@@ -24,11 +26,12 @@ type Props = {
   customer: { name: string; phone: string; address: string };
   cartItems: CartItem[];
   onClose: () => void;
+  initiateCheckoutEventId?: string | null;
 };
 
-export function UpsellModal({ customer, cartItems }: Props) {
+export function UpsellModal({ customer, cartItems, initiateCheckoutEventId = null }: Props) {
   const { clearCart } = useCartStore();
-  const { format } = useCurrencyStore();
+  const format = useCurrencyStore((s) => s.format);
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const [countdown, setCountdown] = useState(UPSELL_DURATION_SECONDS);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -37,6 +40,7 @@ export function UpsellModal({ customer, cartItems }: Props) {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   /** Prevents duplicate API calls when the timer fires while the user taps Accept/Skip (each would get a new idempotency key). */
   const orderSubmittedRef = useRef(false);
+  const submitOrderRef = useRef<(withUpsell: boolean) => Promise<void>>(async () => {});
 
   const mainProductId = cartItems.find((i) => i.source === "product_page")?.productId
     ?? cartItems[0]?.productId;
@@ -51,19 +55,23 @@ export function UpsellModal({ customer, cartItems }: Props) {
   );
 
   useEffect(() => {
+    if (!upsellProduct) {
+      void submitOrderRef.current(false);
+      return;
+    }
+
     timerRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
           clearInterval(timerRef.current!);
-          handleSkip();
+          void submitOrderRef.current(false);
           return 0;
         }
         return prev - 1;
       });
     }, 1000);
     return () => { if (timerRef.current) clearInterval(timerRef.current); };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [upsellProduct]);
 
   function stopTimer() {
     if (timerRef.current) {
@@ -109,7 +117,7 @@ export function UpsellModal({ customer, cartItems }: Props) {
           phone: customer.phone,
           address: customer.address,
         },
-        promo_code: welcomePromo ? WELCOME_PROMO_CODE : null,
+        promo_code: WELCOME_PROMO_ENABLED && welcomePromo ? WELCOME_PROMO_CODE : null,
         items: finalItems,
         upsell,
         pricing: {
@@ -120,7 +128,7 @@ export function UpsellModal({ customer, cartItems }: Props) {
         },
         tracking: {
           purchaseEventId,
-          initiateCheckoutEventId: null,
+          initiateCheckoutEventId,
           fbp: tracking.fbp,
           fbc: tracking.fbc,
           ttp: tracking.ttp,
@@ -172,24 +180,29 @@ export function UpsellModal({ customer, cartItems }: Props) {
     } catch (err) {
       orderSubmittedRef.current = false;
       const e = err as Error & { code?: string };
-      const isGeo = e.code === "order_rejected";
-      setError(
-        isGeo
-          ? COPY.checkout.geoErrorAr
-          : COPY.checkout.networkErrorAr
-      );
+      if (e.code === "order_rejected") {
+        setError(e.message || COPY.checkout.geoErrorAr);
+      } else if (e.code === "invalid_price") {
+        setError(e.message || "سعر الباقة غير متطابق. حدّث الصفحة وحاول مرة أخرى.");
+      } else if (e.message) {
+        setError(e.message);
+      } else {
+        setError(COPY.checkout.networkErrorAr);
+      }
       setIsSubmitting(false);
     }
   }
 
-  function handleAccept() { submitOrder(true); }
-  function handleSkip()   { submitOrder(false); }
+  function handleAccept() { void submitOrder(true); }
+  function handleSkip()   { void submitOrder(false); }
+
+  submitOrderRef.current = submitOrder;
 
   const progressPercent = (countdown / UPSELL_DURATION_SECONDS) * 100;
   const upsellDisplayPrice = getPayableUpsellPriceSar();
 
   return (
-    <div className="fixed inset-0 z-60 bg-[#071C12]/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
+    <div className="fixed inset-0 z-[60] bg-[#071C12]/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
       <div
         className="w-full sm:max-w-md bg-[#0D2B1D] border border-[#155235]/60 rounded-t-3xl sm:rounded-2xl overflow-hidden animate-scale-in shadow-2xl"
         role="dialog"
@@ -231,7 +244,7 @@ export function UpsellModal({ customer, cartItems }: Props) {
                 <p className="font-bold text-white text-sm">{upsellProduct.nameAr}</p>
                 <div className="flex items-center gap-2 mt-1" dir="ltr">
                   <FormattedAmount className="text-2xl font-extrabold text-[#C99A45]">{format(upsellDisplayPrice)}</FormattedAmount>
-                  {!welcomePromo && (
+                  {shouldShowWelcomeReferencePricing(welcomePromo) && (
                     <FormattedAmount className="text-sm text-[#FFFFFF]/50 line-through">
                       {format(getWelcomeReferenceUpsellPriceSar())}
                     </FormattedAmount>

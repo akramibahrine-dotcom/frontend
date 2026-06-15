@@ -347,7 +347,7 @@ export default function NewsPage() {
                 جاهز تبدأ رحلتك؟
               </p>
               <p className="text-gray-300 text-sm mb-6">
-                اطلب شاي بيت الصحة الآن وابدأ برنامج الـ 30 يوم — النتائج تبدأ من الأسبوع الأول!
+                اطلب شاي بيت الصحة الآن وابدأ برنامج الـ 30 يوم — خطوة بخطوة في روتينك اليومي.
               </p>
               <Link
                 href="/products/weight-support-tea"

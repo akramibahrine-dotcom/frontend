@@ -5,6 +5,8 @@ import { Footer } from "@/components/layout/Footer";
 import { StoreAccessGate } from "@/components/layout/StoreAccessGate";
 import { StoreTranslationApplier } from "@/components/layout/StoreTranslationApplier";
 import { WesternDigitsApplier } from "@/components/layout/WesternDigitsApplier";
+import { LanguageProvider } from "@/components/language/LanguageProvider";
+import { WelcomePromoHydrator } from "@/components/product/WelcomePromoHydrator";
 import { PixelProvider } from "@/components/tracking/PixelProvider";
 import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { CurrencyProvider } from "@/components/currency/CurrencyProvider";
@@ -13,7 +15,7 @@ import "@/styles/globals.css";
 
 const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   display: "swap",
   variable: "--font-arabic",
 });
@@ -40,6 +42,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ar-SA-u-nu-latn" dir="rtl" className={ibmPlexArabic.variable}>
       <body className="min-h-screen flex flex-col font-arabic overflow-x-hidden">
+        <LanguageProvider />
+        <WelcomePromoHydrator />
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

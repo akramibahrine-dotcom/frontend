@@ -2,9 +2,7 @@
 
 import { getTrackingData } from "@/lib/events";
 
-import { getApiBase } from "@/lib/api-base";
-
-const API_BASE = getApiBase();
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
 
 declare global {
   interface Window {
@@ -47,12 +45,7 @@ export function trackPageView() {
   void sendServerAnalyticsEvent("page_view");
 }
 
-export function trackViewContent(
-  productId: string,
-  productName: string,
-  eventId: string,
-  itemCategory: "herbal_tea" | "skincare" = "herbal_tea"
-) {
+export function trackViewContent(productId: string, productName: string, eventId: string) {
   fireMetaEvent("ViewContent", {
     content_ids: [productId],
     content_name: productName,
@@ -65,7 +58,7 @@ export function trackViewContent(
   });
   fireSnapEvent("VIEW_CONTENT", {
     item_ids: [productId],
-    item_category: itemCategory,
+    item_category: "herbal_tea",
   });
   void sendServerAnalyticsEvent("view_content", { productId, source: "product_page" });
 }

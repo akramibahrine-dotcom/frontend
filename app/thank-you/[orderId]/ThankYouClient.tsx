@@ -18,6 +18,7 @@ type OrderSummary = {
   publicOrderNumber: string;
   customerName: string;
   totalSar: number;
+  currency?: string;
   items: OrderItem[];
   upsell: { productId: string; priceSar: number } | null;
   createdAt: string;
@@ -39,8 +40,13 @@ function getQuantityLabel(qty: number): string {
 
 export function ThankYouClient({ orderId }: { orderId: string }) {
   const [order, setOrder] = useState<OrderSummary | null>(null);
-  const { format } = useCurrencyStore();
+  const { formatInCurrency } = useCurrencyStore();
   const shortId = orderId.slice(-8).toUpperCase();
+  const orderCurrency = order?.currency ?? "SAR";
+
+  function formatOrderAmount(amountSar: number): string {
+    return formatInCurrency(amountSar, orderCurrency);
+  }
 
   useEffect(() => {
     try {
@@ -112,7 +118,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                     <p className="font-bold text-[#0F1A14] text-sm">{getProductName(item.productId)}</p>
                     <p className="text-xs text-[#567063]">{getQuantityLabel(item.quantity)}</p>
                   </div>
-                  <FormattedAmount className="font-bold text-[#155235] text-sm">{format(item.priceSar)}</FormattedAmount>
+                  <FormattedAmount className="font-bold text-[#155235] text-sm">{formatOrderAmount(item.priceSar)}</FormattedAmount>
                 </div>
               );})}
 
@@ -132,16 +138,16 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                   </div>
                   <div className="flex-1">
                     <p className="font-bold text-[#0F1A14] text-sm">{getProductName(order.upsell.productId)}</p>
-                    <p className="text-xs text-[#C99A45] font-bold">هدية مع الطلب</p>
+                    <p className="text-xs text-[#C99A45] font-bold">{COPY.thankYou.upsellBadgeAr}</p>
                   </div>
-                  <FormattedAmount className="font-bold text-[#C99A45] text-sm">{format(order.upsell.priceSar)}</FormattedAmount>
+                  <FormattedAmount className="font-bold text-[#C99A45] text-sm">{formatOrderAmount(order.upsell.priceSar)}</FormattedAmount>
                 </div>
               );})()}
 
               {/* Total */}
               <div className="flex items-center justify-between border-t border-[#E8D8C3] pt-4 mt-4">
                 <span className="font-bold text-[#0F1A14]">الإجمالي</span>
-                <FormattedAmount className="font-extrabold text-[#155235] text-xl">{format(order.totalSar)}</FormattedAmount>
+                <FormattedAmount className="font-extrabold text-[#155235] text-xl">{formatOrderAmount(order.totalSar)}</FormattedAmount>
               </div>
             </div>
           )}

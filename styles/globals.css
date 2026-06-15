@@ -44,13 +44,6 @@ html {
   direction: rtl;
   scroll-behavior: smooth;
   overflow-x: hidden;
-  font-variant-numeric: lining-nums;
-}
-
-/* Prices and numeric UI — Western digits, LTR bidi */
-.tabular-nums,
-[data-latin-digits] {
-  font-variant-numeric: lining-nums tabular-nums;
 }
 
 body {
@@ -205,6 +198,13 @@ body {
   animation: marquee-reviews 90s linear infinite;
 }
 .animate-marquee-ba:hover {
+  animation-play-state: paused;
+}
+.animate-marquee-mini {
+  width: max-content;
+  animation: marquee-reviews 40s linear infinite;
+}
+.animate-marquee-mini:hover {
   animation-play-state: paused;
 }
 

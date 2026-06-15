@@ -7,9 +7,10 @@ import { z } from "zod";
 import { useCartStore } from "@/store/cart-store";
 import { useCurrencyStore } from "@/store/currency-store";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
+import { WELCOME_PROMO_ENABLED } from "@/lib/pricing";
 import { UpsellModal } from "./UpsellModal";
 import { COPY } from "@/content/copy";
-import { isValidPhone } from "@/lib/phone";
+import { isValidPhone, normalizePhoneDisplay } from "@/lib/phone";
 import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
@@ -21,7 +22,13 @@ import { cn } from "@/lib/utils";
 const schema = z.object({
   name: z.string().min(2, COPY.checkout.nameErrorAr).max(80, COPY.checkout.nameErrorAr),
   phone: z.string().refine(isValidPhone, { message: COPY.checkout.phoneErrorAr }),
+  phoneConfirm: z.string().min(1, "يرجى تأكيد رقم الجوال"),
   address: z.string().min(5, "أدخلي العنوان كاملاً (حي، شارع، مدينة)").max(500),
+}).refine((data) => {
+  return normalizePhoneDisplay(data.phone) === normalizePhoneDisplay(data.phoneConfirm);
+}, {
+  message: "رقم الجوال غير متطابق",
+  path: ["phoneConfirm"],
 });
 
 type FormValues = z.infer<typeof schema>;
@@ -36,6 +43,7 @@ export function CheckoutModal({ onClose }: Props) {
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const [showUpsell, setShowUpsell] = useState(false);
   const [formData, setFormData] = useState<FormValues | null>(null);
+  const [initiateCheckoutEventId, setInitiateCheckoutEventId] = useState<string | null>(null);
 
   const {
     register,
@@ -43,7 +51,7 @@ export function CheckoutModal({ onClose }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", phone: "", address: "" },
+    defaultValues: { name: "", phone: "", phoneConfirm: "", address: "" },
   });
 
   const total = getTotal();
@@ -51,6 +59,7 @@ export function CheckoutModal({ onClose }: Props) {
   function onSubmit(data: FormValues) {
     setFormData(data);
     const eventId = generateEventId();
+    setInitiateCheckoutEventId(eventId);
     trackInitiateCheckout(total, eventId);
     setShowUpsell(true);
   }
@@ -61,6 +70,7 @@ export function CheckoutModal({ onClose }: Props) {
         customer={{ name: formData.name, phone: formData.phone, address: formData.address }}
         onClose={onClose}
         cartItems={items}
+        initiateCheckoutEventId={initiateCheckoutEventId}
       />
     );
   }
@@ -126,7 +136,7 @@ export function CheckoutModal({ onClose }: Props) {
             <span className="text-[#FFFFFF]/70">إجمالي الطلب</span>
             <FormattedAmount className="font-extrabold text-[#C99A45] text-lg">{format(total)}</FormattedAmount>
           </div>
-          {welcomePromo && (
+          {WELCOME_PROMO_ENABLED && welcomePromo && (
             <p className="text-[11px] text-center text-[#C99A45] font-bold mb-1">
               ✓ عرض ترحيب بيت الصحة مفعّل — أسعار الباقات كما هي معروضة
             </p>
@@ -175,7 +185,7 @@ export function CheckoutModal({ onClose }: Props) {
               inputMode="tel"
               dir="rtl"
               autoComplete="tel"
-              placeholder="05XXXXXXXX"
+              placeholder={COPY.checkout.phonePlaceholderAr}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
                 "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
@@ -190,6 +200,35 @@ export function CheckoutModal({ onClose }: Props) {
             {errors.phone && (
               <p id="phone-error" className="text-[#B42318] text-xs mt-1">
                 {errors.phone.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="checkout-phone-confirm" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
+              تأكيد رقم الجوال
+            </label>
+            <input
+              id="checkout-phone-confirm"
+              type="tel"
+              inputMode="tel"
+              dir="rtl"
+              autoComplete="tel"
+              placeholder="أعد كتابة رقم الجوال"
+              className={cn(
+                "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
+                "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
+                errors.phoneConfirm
+                  ? "border-[#B42318] focus:border-[#B42318]"
+                  : "border-[#155235] focus:border-[#C99A45]"
+              )}
+              {...register("phoneConfirm")}
+              aria-invalid={!!errors.phoneConfirm}
+              aria-describedby={errors.phoneConfirm ? "phone-confirm-error" : undefined}
+            />
+            {errors.phoneConfirm && (
+              <p id="phone-confirm-error" className="text-[#B42318] text-xs mt-1">
+                {errors.phoneConfirm.message}
               </p>
             )}
           </div>

@@ -3,7 +3,7 @@ import Link from "next/link";
 import { COPY } from "@/content/copy";
 
 export const metadata: Metadata = {
-  title: "من نحن",
+  title: "عن بيت الصحة",
   description:
     "تعرّف على قصة بيت الصحة: أعشابٌ تُختار بذوق البيت، ووعدٌ بالوضوح قبل الإبهار في أي إعلان.",
 };
