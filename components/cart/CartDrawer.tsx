@@ -6,7 +6,7 @@ import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { COPY } from "@/content/copy";
-import { PRODUCTS, getProductBundleOffers } from "@/content/products";
+import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
