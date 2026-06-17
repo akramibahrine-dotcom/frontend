@@ -44,6 +44,7 @@ export function CheckoutModal({ onClose }: Props) {
   const [showUpsell, setShowUpsell] = useState(false);
   const [formData, setFormData] = useState<FormValues | null>(null);
   const [initiateCheckoutEventId, setInitiateCheckoutEventId] = useState<string | null>(null);
+  const [purchaseEventId, setPurchaseEventId] = useState<string | null>(null);
 
   const {
     register,
@@ -58,19 +59,22 @@ export function CheckoutModal({ onClose }: Props) {
 
   function onSubmit(data: FormValues) {
     setFormData(data);
-    const eventId = generateEventId();
-    setInitiateCheckoutEventId(eventId);
-    trackInitiateCheckout(total, eventId);
+    const checkoutEventId = generateEventId();
+    const purchaseId = generateEventId();
+    setInitiateCheckoutEventId(checkoutEventId);
+    setPurchaseEventId(purchaseId);
+    trackInitiateCheckout(total, checkoutEventId);
     setShowUpsell(true);
   }
 
-  if (showUpsell && formData) {
+  if (showUpsell && formData && purchaseEventId) {
     return (
       <UpsellModal
         customer={{ name: formData.name, phone: formData.phone, address: formData.address }}
         onClose={onClose}
         cartItems={items}
         initiateCheckoutEventId={initiateCheckoutEventId}
+        purchaseEventId={purchaseEventId}
       />
     );
   }

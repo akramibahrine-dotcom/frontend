@@ -5,7 +5,8 @@ import { ProductPlaceholderImage } from "./ProductPlaceholderImage";
 import { useCurrencyStore } from "@/store/currency-store";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { cn } from "@/lib/utils";
-import type { Product } from "@/content/products";
+import { getCatalogBundlePriceSar } from "@/lib/pricing";
+import { getProductBundleOffers, type Product } from "@/content/products";
 
 type Props = {
   product: Product;
@@ -14,11 +15,13 @@ type Props = {
 
 export function ProductCard({ product, className }: Props) {
   const format = useCurrencyStore((s) => s.format);
+  const offers = getProductBundleOffers(product);
+  const startingPrice = getCatalogBundlePriceSar(1, offers);
 
   return (
     <div
       className={cn(
-        "bg-white rounded-2xl border border-[#E8E2D8] overflow-hidden card-glow",
+        "bg-white rounded-2xl border border-[#E8E2D8] overflow-hidden card-glow min-w-0",
         "shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group",
         className
       )}
@@ -56,7 +59,7 @@ export function ProductCard({ product, className }: Props) {
         <div className="mt-auto">
           <p className="text-xs text-[#8BA898] mb-0.5">تبدأ من</p>
           <div className="flex items-center justify-between">
-            <span className="text-lg font-extrabold text-[#0F1A14]">{format(199)}</span>
+            <span className="text-lg font-extrabold text-[#0F1A14]">{format(startingPrice)}</span>
             <span className="text-xs text-[#155235] font-medium">وفّر مع باقة 2 أو 3</span>
           </div>
         </div>

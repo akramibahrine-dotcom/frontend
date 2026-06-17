@@ -1,7 +1,7 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.Baytseha.shop";
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL?.trim()?.replace(/\/$/, "") ?? "https://api.baytseha.shop";
 
 export type OrderTracking = {
-  purchaseEventId: string | null;
+  purchaseEventId: string;
   initiateCheckoutEventId: string | null;
   fbp: string | null;
   fbc: string | null;
@@ -53,6 +53,7 @@ export type CreateOrderResponse = {
   total_sar: number;
   is_test_order: boolean;
   thank_you_url: string;
+  purchase_event_id: string;
 };
 
 export type ApiError = {
@@ -71,7 +72,9 @@ async function apiPost<T>(path: string, body: unknown): Promise<T> {
     let detail: ApiError = { error: "unknown_error", message: "صار خطأ مؤقت. حاولي مرة ثانية." };
     try {
       const data = await response.json();
-      if (data.detail) {
+      if (typeof data.error === "string" && data.message) {
+        detail = { error: data.error, message: data.message };
+      } else if (data.detail) {
         detail = typeof data.detail === "string"
           ? { error: "server_error", message: data.detail }
           : data.detail;

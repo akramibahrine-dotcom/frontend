@@ -3,7 +3,7 @@
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/store/currency-store";
 import { BUNDLE_OFFERS, SAVINGS_MAP, type BundleOffer } from "@/content/products";
-import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar } from "@/lib/pricing";
+import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
 
 const OFFER_IMAGES: Record<number, string> = {
   1: "/offers/1box.png",
@@ -106,7 +106,7 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                 {offer.badgeAr}
               </span>
               <div className="flex flex-col items-end gap-0">
-                {!welcomePromo && reference > payable && (
+                {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable && (
                   <span className="text-[10px] text-[#567063] line-through leading-none">{format(reference)}</span>
                 )}
                 <span className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">{format(payable)}</span>

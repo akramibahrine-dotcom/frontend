@@ -19,14 +19,26 @@ export function BrandLogo({ className, size = "md", dark = false }: Props) {
   return (
     <Link
       href="/"
-      className={cn("flex items-center gap-2 no-underline", className)}
+      className={cn("flex shrink-0 items-center gap-2 no-underline", className)}
       aria-label="بيت الصحة - الصفحة الرئيسية"
     >
-      <div className="flex flex-col leading-tight">
-        <span className={cn(s.title, "font-bold", dark ? "text-white" : "text-[#0F1A14]")}>
+      <div className="flex flex-col gap-0.5 leading-none">
+        <span
+          className={cn(
+            s.title,
+            "font-bold leading-none whitespace-nowrap",
+            dark ? "text-white" : "text-[#0F1A14]"
+          )}
+        >
           بيت الصحة
         </span>
-        <span className={cn(s.sub, "font-normal tracking-wide", dark ? "text-[#D19900]" : "text-[#567063]")}>
+        <span
+          className={cn(
+            s.sub,
+            "font-normal tracking-wide leading-none whitespace-nowrap pb-0.5",
+            dark ? "text-[#D19900]" : "text-[#567063]"
+          )}
+        >
           عودة للأصل
         </span>
       </div>

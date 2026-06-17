@@ -8,7 +8,7 @@ import { WesternDigitsApplier } from "@/components/layout/WesternDigitsApplier";
 import { LanguageProvider } from "@/components/language/LanguageProvider";
 import { WelcomePromoHydrator } from "@/components/product/WelcomePromoHydrator";
 import { PixelProvider } from "@/components/tracking/PixelProvider";
-import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
+// import { WhatsAppButton } from "@/components/ui/WhatsAppButton";
 import { CurrencyProvider } from "@/components/currency/CurrencyProvider";
 import { getMetadataBase, getSiteOrigin } from "@/lib/site-url";
 import "@/styles/globals.css";
@@ -47,7 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />
-        <WhatsAppButton />
+        {/* <WhatsAppButton /> */}
         <StoreAccessGate />
         <StoreTranslationApplier />
         <WesternDigitsApplier />

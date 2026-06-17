@@ -12,8 +12,35 @@ const PHONE_PATTERNS: Array<{ code: string; re: RegExp }> = [
 
 const TEST_PHONE_WHITELIST = "0501234987";
 
+/** GCC prefixes that use a leading 0 in national display form. */
+const GCC_LOCAL_PREFIX: Record<string, string> = {
+  "966": "0",
+  "971": "0",
+};
+
+function stripSeparators(raw: string): string {
+  return raw.replace(/[\s\-().]/g, "");
+}
+
+function toLocalDisplay(cleaned: string, countryCode: string): string {
+  const prefix = GCC_LOCAL_PREFIX[countryCode] ?? "";
+  let local = cleaned;
+
+  if (cleaned.startsWith(`+${countryCode}`)) {
+    local = cleaned.slice(countryCode.length + 1);
+  } else if (cleaned.startsWith(`00${countryCode}`)) {
+    local = cleaned.slice(countryCode.length + 2);
+  } else if (cleaned.startsWith(countryCode)) {
+    local = cleaned.slice(countryCode.length);
+  } else if (cleaned.startsWith("0")) {
+    local = cleaned.slice(1);
+  }
+
+  return prefix ? `${prefix}${local}` : local;
+}
+
 export function isValidPhone(raw: string): boolean {
-  const cleaned = raw.replace(/[\s\-().]/g, "");
+  const cleaned = stripSeparators(raw);
   if (cleaned === TEST_PHONE_WHITELIST) return true;
   return PHONE_PATTERNS.some(({ re }) => re.test(cleaned));
 }
@@ -22,24 +49,13 @@ export function isValidPhone(raw: string): boolean {
 export const isValidKsaPhone = isValidPhone;
 
 export function normalizePhoneDisplay(raw: string): string {
-  const cleaned = raw.replace(/[\s\-().]/g, "");
+  const cleaned = stripSeparators(raw);
   if (cleaned === TEST_PHONE_WHITELIST) return cleaned;
 
-  const KSA_RE = /^(?:\+966|00966|966|0)?5[0-9]{8}$/;
-  if (KSA_RE.test(cleaned)) {
-    let local: string;
-    if (cleaned.startsWith("+966")) {
-      local = cleaned.slice(4);
-    } else if (cleaned.startsWith("00966")) {
-      local = cleaned.slice(5);
-    } else if (cleaned.startsWith("966")) {
-      local = cleaned.slice(3);
-    } else if (cleaned.startsWith("0")) {
-      local = cleaned.slice(1);
-    } else {
-      local = cleaned;
+  for (const { code, re } of PHONE_PATTERNS) {
+    if (re.test(cleaned)) {
+      return toLocalDisplay(cleaned, code);
     }
-    return `0${local}`;
   }
 
   return cleaned;

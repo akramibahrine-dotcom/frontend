@@ -39,9 +39,13 @@ export function getTrackingData() {
 }
 
 function buildFbc(): string | null {
-  const fbclid = getUrlParam("fbclid");
+  const existing = getCookie("_fbc");
+  if (existing) return existing;
+
+  const fbclid = getUrlParam("fbclid") || getFromStorage("fbclid");
   if (!fbclid) return null;
-  const ts = Date.now();
+
+  const ts = getFromStorage("fbclid_ts") ?? String(Date.now());
   return `fb.1.${ts}.${fbclid}`;
 }
 
@@ -60,7 +64,12 @@ export function captureUtmAndClickIds(): void {
   };
   for (const [param, storageKey] of Object.entries(keys)) {
     const val = params.get(param);
-    if (val) sessionStorage.setItem(storageKey, val);
+    if (val) {
+      sessionStorage.setItem(storageKey, val);
+      if (param === "fbclid" && !sessionStorage.getItem("fbclid_ts")) {
+        sessionStorage.setItem("fbclid_ts", String(Date.now()));
+      }
+    }
   }
 
   // Infer platform when ads send click IDs but no UTMs

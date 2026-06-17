@@ -1,15 +1,17 @@
 "use client";
 
+import { getApiBase } from "@/lib/api-base";
 import { getTrackingData } from "@/lib/events";
-
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.baytseha.shop";
 
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
-    ttq?: { track: (event: string, props?: object) => void; identify?: (data: object) => void };
+    ttq?: {
+      track: (event: string, props?: object, options?: { event_id?: string }) => void;
+      page?: () => void;
+      identify?: (data: object) => void;
+    };
     snaptr?: (action: string, event?: string, data?: object) => void;
-    _baytsehaPixelsLoaded?: boolean;
   }
 }
 
@@ -21,45 +23,67 @@ function log(...args: unknown[]) {
 
 export function fireMetaEvent(eventName: string, data: object = {}, eventId?: string) {
   if (typeof window === "undefined" || !window.fbq) return;
-  const opts = eventId ? { eventID: eventId } : {};
-  window.fbq("track", eventName, data, opts);
+  if (eventId) {
+    window.fbq("track", eventName, data, { eventID: eventId });
+  } else {
+    window.fbq("track", eventName, data);
+  }
   log("meta", eventName, eventId, data);
 }
 
-export function fireTikTokEvent(eventName: string, data: object = {}) {
+export function fireTikTokEvent(eventName: string, data: object = {}, eventId?: string) {
   if (typeof window === "undefined" || !window.ttq) return;
-  window.ttq.track(eventName, data);
-  log("tiktok", eventName, data);
+  const options = eventId ? { event_id: eventId } : undefined;
+  window.ttq.track(eventName, data, options);
+  log("tiktok", eventName, eventId, data);
 }
 
-export function fireSnapEvent(eventName: string, data: object = {}) {
+export function fireSnapEvent(eventName: string, data: object = {}, eventId?: string) {
   if (typeof window === "undefined" || !window.snaptr) return;
-  window.snaptr("track", eventName, data);
-  log("snap", eventName, data);
+  const payload = eventId ? { ...data, client_deduplication_id: eventId } : data;
+  window.snaptr("track", eventName, payload);
+  log("snap", eventName, eventId, payload);
 }
 
 export function trackPageView() {
   fireMetaEvent("PageView");
-  fireTikTokEvent("Browse");
+  if (typeof window !== "undefined" && window.ttq?.page) {
+    window.ttq.page();
+    log("tiktok", "page");
+  } else {
+    fireTikTokEvent("Pageview");
+  }
   fireSnapEvent("PAGE_VIEW");
   void sendServerAnalyticsEvent("page_view");
 }
 
 export function trackViewContent(productId: string, productName: string, eventId: string) {
-  fireMetaEvent("ViewContent", {
-    content_ids: [productId],
-    content_name: productName,
-    currency: "SAR",
-  }, eventId);
-  fireTikTokEvent("ViewContent", {
-    content_id: productId,
-    content_name: productName,
-    currency: "SAR",
-  });
-  fireSnapEvent("VIEW_CONTENT", {
-    item_ids: [productId],
-    item_category: "herbal_tea",
-  });
+  fireMetaEvent(
+    "ViewContent",
+    {
+      content_ids: [productId],
+      content_name: productName,
+      currency: "SAR",
+    },
+    eventId
+  );
+  fireTikTokEvent(
+    "ViewContent",
+    {
+      content_id: productId,
+      content_name: productName,
+      currency: "SAR",
+    },
+    eventId
+  );
+  fireSnapEvent(
+    "VIEW_CONTENT",
+    {
+      item_ids: [productId],
+      item_category: "herbal_tea",
+    },
+    eventId
+  );
   void sendServerAnalyticsEvent("view_content", { productId, source: "product_page" });
 }
 
@@ -70,47 +94,78 @@ export function trackAddToCart(
   quantity: number,
   eventId: string
 ) {
-  fireMetaEvent("AddToCart", {
-    content_ids: [productId],
-    content_name: productName,
-    value: priceSar,
-    currency: "SAR",
-    num_items: quantity,
-  }, eventId);
-  fireTikTokEvent("AddToCart", {
-    content_id: productId,
-    content_name: productName,
-    value: priceSar,
-    currency: "SAR",
-    quantity,
-  });
-  fireSnapEvent("ADD_CART", {
-    item_ids: [productId],
-    price: priceSar,
-    currency: "SAR",
-    number_items: quantity,
-  });
+  fireMetaEvent(
+    "AddToCart",
+    {
+      content_ids: [productId],
+      content_name: productName,
+      value: priceSar,
+      currency: "SAR",
+      num_items: quantity,
+    },
+    eventId
+  );
+  fireTikTokEvent(
+    "AddToCart",
+    {
+      content_id: productId,
+      content_name: productName,
+      value: priceSar,
+      currency: "SAR",
+      quantity,
+    },
+    eventId
+  );
+  fireSnapEvent(
+    "ADD_CART",
+    {
+      item_ids: [productId],
+      price: priceSar,
+      currency: "SAR",
+      number_items: quantity,
+    },
+    eventId
+  );
   void sendServerAnalyticsEvent("add_to_cart", { productId, source: "product_page" });
 }
 
 export function trackInitiateCheckout(totalSar: number, eventId: string) {
-  fireMetaEvent("InitiateCheckout", {
-    value: totalSar,
-    currency: "SAR",
-  }, eventId);
-  fireTikTokEvent("InitiateCheckout", {
-    value: totalSar,
-    currency: "SAR",
-  });
-  fireSnapEvent("START_CHECKOUT", {
-    price: totalSar,
-    currency: "SAR",
-  });
+  fireMetaEvent(
+    "InitiateCheckout",
+    {
+      value: totalSar,
+      currency: "SAR",
+    },
+    eventId
+  );
+  fireTikTokEvent(
+    "InitiateCheckout",
+    {
+      value: totalSar,
+      currency: "SAR",
+    },
+    eventId
+  );
+  fireSnapEvent(
+    "START_CHECKOUT",
+    {
+      price: totalSar,
+      currency: "SAR",
+    },
+    eventId
+  );
   void sendServerAnalyticsEvent("initiate_checkout", { source: "checkout" });
 }
 
 export function trackHeartbeat() {
   void sendServerAnalyticsEvent("heartbeat");
+}
+
+/** Give Meta Pixel time to send the event before navigating away. */
+export function waitForPixelFlush(ms = 450): Promise<void> {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms);
+  });
 }
 
 export function trackPurchase(
@@ -119,30 +174,59 @@ export function trackPurchase(
   contents: Array<{ id: string; quantity: number; item_price: number }>,
   eventId: string
 ) {
-  fireMetaEvent("Purchase", {
-    order_id: orderId,
-    value: totalSar,
-    currency: "SAR",
-    contents,
-    content_type: "product",
-  }, eventId);
-  fireTikTokEvent("CompletePayment", {
-    order_id: orderId,
-    value: totalSar,
-    currency: "SAR",
-    contents: contents.map((c) => ({
-      content_id: c.id,
-      quantity: c.quantity,
-      price: String(c.item_price),
-    })),
-  });
-  fireSnapEvent("PURCHASE", {
-    transaction_id: eventId,
-    price: totalSar,
-    currency: "SAR",
-    number_items: contents.reduce((sum, c) => sum + c.quantity, 0),
-    content_ids: contents.map((c) => c.id),
-  });
+  if (typeof window !== "undefined") {
+    const dedupKey = `baytseha_purchase_fired_${eventId}`;
+    if (sessionStorage.getItem(dedupKey)) {
+      log("purchase skipped duplicate browser fire", eventId);
+      return;
+    }
+    sessionStorage.setItem(dedupKey, "1");
+  }
+
+  const metaContents = contents.map((c) => ({
+    id: c.id,
+    quantity: c.quantity,
+    item_price: c.item_price,
+  }));
+
+  fireMetaEvent(
+    "Purchase",
+    {
+      value: totalSar,
+      currency: "SAR",
+      order_id: orderId,
+      content_ids: contents.map((c) => c.id),
+      contents: metaContents,
+      content_type: "product",
+      num_items: contents.reduce((sum, c) => sum + c.quantity, 0),
+    },
+    eventId
+  );
+  fireTikTokEvent(
+    "CompletePayment",
+    {
+      order_id: orderId,
+      value: totalSar,
+      currency: "SAR",
+      contents: contents.map((c) => ({
+        content_id: c.id,
+        quantity: c.quantity,
+        price: String(c.item_price),
+      })),
+    },
+    eventId
+  );
+  fireSnapEvent(
+    "PURCHASE",
+    {
+      transaction_id: eventId,
+      price: totalSar,
+      currency: "SAR",
+      number_items: contents.reduce((sum, c) => sum + c.quantity, 0),
+      content_ids: contents.map((c) => c.id),
+    },
+    eventId
+  );
 }
 
 async function sendServerAnalyticsEvent(
@@ -152,7 +236,7 @@ async function sendServerAnalyticsEvent(
   if (typeof window === "undefined") return;
   const tracking = getTrackingData();
   try {
-    await fetch(`${API_BASE}/api/v1/analytics/clicks`, {
+    await fetch(`${getApiBase()}/api/v1/analytics/clicks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

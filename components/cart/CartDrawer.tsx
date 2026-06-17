@@ -21,7 +21,7 @@ export function CartDrawer() {
 
   const crossSells = PRODUCTS.filter(
     (p) => !items.some((item) => item.productId === p.id)
-  ).slice(0, 4);
+  ).slice(0, 2);
 
   return (
     <>
@@ -78,6 +78,8 @@ export function CartDrawer() {
               {items.map((item) => (
                 <CartLineRow key={item.lineId} item={item} welcomePromo={welcomePromo} />
               ))}
+
+              <GiftProgressBanner totalSar={total} />
 
               {crossSells.length > 0 && (
                 <div className="pt-2">
@@ -171,6 +173,46 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
       >
         ✕
       </button>
+    </div>
+  );
+}
+
+const GIFT_THRESHOLD_SAR = 299;
+
+function GiftProgressBanner({ totalSar }: { totalSar: number }) {
+  const { format } = useCurrencyStore();
+  const reached = totalSar >= GIFT_THRESHOLD_SAR;
+  const remaining = GIFT_THRESHOLD_SAR - totalSar;
+  const progress = Math.min((totalSar / GIFT_THRESHOLD_SAR) * 100, 100);
+
+  return (
+    <div className="p-3 rounded-xl border border-[#C99A45]/30 bg-gradient-to-r from-[#1A3A28] to-[#0D2B1D]">
+      {reached ? (
+        <div className="flex items-center gap-2 text-center justify-center">
+          <span className="text-2xl">🎁</span>
+          <p className="text-sm font-bold text-[#C99A45]">
+            تهانينا! ستحصل على هدية مفاجأة مجانية مع طلبك!
+          </p>
+        </div>
+      ) : (
+        <>
+          <div className="flex items-center gap-2 mb-2">
+            <span className="text-lg">🎁</span>
+            <p className="text-xs font-bold text-white">
+              أضف <FormattedAmount className="text-[#C99A45] font-extrabold">{format(remaining)}</FormattedAmount> للحصول على هدية مجانية!
+            </p>
+          </div>
+          <div className="w-full h-2 bg-[#155235]/50 rounded-full overflow-hidden mb-1.5">
+            <div
+              className="h-full bg-gradient-to-r from-[#C99A45] to-[#E8C068] rounded-full transition-all duration-500"
+              style={{ width: `${progress}%` }}
+            />
+          </div>
+          <p className="text-[10px] text-[#FFFFFF]/50 text-center">
+            عند الوصول لـ <FormattedAmount className="text-[#FFFFFF]/70">{format(GIFT_THRESHOLD_SAR)}</FormattedAmount> تحصل على هدية مفاجأة
+          </p>
+        </>
+      )}
     </div>
   );
 }

@@ -46,7 +46,7 @@ export function Header() {
             : "bg-[#071C12] border-b border-transparent"
         )}
       >
-        <div className="max-w-[1200px] mx-auto px-4 h-16 flex items-center justify-between gap-4">
+        <div className="max-w-[1200px] mx-auto px-4 min-h-[4.5rem] py-2.5 flex items-center justify-between gap-4">
           <BrandLogo size="md" dark />
 
           <nav className="hidden md:flex items-center gap-6" aria-label="التنقل الرئيسي">
@@ -61,7 +61,7 @@ export function Header() {
             ))}
           </nav>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-1.5 sm:gap-3 shrink-0">
             <LanguageSwitcher />
             <CurrencySelector />
             <button

@@ -375,8 +375,8 @@ export const PRODUCTS: Product[] = [
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "weight-support-tea"],
     bundleOffers: [
-      { quantity: 3, priceSar: 349, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
-      { quantity: 2, priceSar: 299, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
+      { quantity: 3, priceSar: 449, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
+      { quantity: 2, priceSar: 349, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
       { quantity: 1, priceSar: 229, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
     ],
     ritualAr:

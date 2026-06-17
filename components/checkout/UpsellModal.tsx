@@ -18,7 +18,7 @@ import {
 } from "@/lib/pricing";
 import { createOrder } from "@/lib/api";
 import { generateEventId, getTrackingData } from "@/lib/events";
-import { trackPurchase } from "@/lib/tracking";
+import { trackPurchase, waitForPixelFlush } from "@/lib/tracking";
 
 const UPSELL_DURATION_SECONDS = 12;
 
@@ -26,17 +26,23 @@ type Props = {
   customer: { name: string; phone: string; address: string };
   cartItems: CartItem[];
   onClose: () => void;
+  purchaseEventId: string;
   initiateCheckoutEventId?: string | null;
 };
 
-export function UpsellModal({ customer, cartItems, initiateCheckoutEventId = null }: Props) {
+export function UpsellModal({
+  customer,
+  cartItems,
+  purchaseEventId,
+  initiateCheckoutEventId = null,
+}: Props) {
   const { clearCart } = useCartStore();
   const format = useCurrencyStore((s) => s.format);
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const [countdown, setCountdown] = useState(UPSELL_DURATION_SECONDS);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const purchaseEventIdRef = useRef(generateEventId());
+  const idempotencyKeyRef = useRef<string | null>(null);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   /** Prevents duplicate API calls when the timer fires while the user taps Accept/Skip (each would get a new idempotency key). */
   const orderSubmittedRef = useRef(false);
@@ -88,8 +94,10 @@ export function UpsellModal({ customer, cartItems, initiateCheckoutEventId = nul
     setError(null);
 
     const tracking = getTrackingData();
-    const purchaseEventId = purchaseEventIdRef.current;
-    const idempotencyKey = generateEventId();
+    if (!idempotencyKeyRef.current) {
+      idempotencyKeyRef.current = generateEventId();
+    }
+    const idempotencyKey = idempotencyKeyRef.current;
 
     const finalItems = cartItems.map((item) => {
       const prod = PRODUCTS.find((p) => p.id === item.productId);
@@ -153,7 +161,7 @@ export function UpsellModal({ customer, cartItems, initiateCheckoutEventId = nul
           : []),
       ];
 
-      trackPurchase(response.order_id, totalSar, contents, purchaseEventId);
+      trackPurchase(response.order_id, totalSar, contents, response.purchase_event_id);
 
       // Save order summary for the thank-you page
       try {
@@ -176,6 +184,7 @@ export function UpsellModal({ customer, cartItems, initiateCheckoutEventId = nul
       } catch { /* ignore storage errors */ }
 
       clearCart();
+      await waitForPixelFlush();
       window.location.href = `/thank-you/${response.order_id}`;
     } catch (err) {
       orderSubmittedRef.current = false;

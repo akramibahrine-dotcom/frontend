@@ -132,7 +132,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
       product.nameAr,
       eventId
     );
-  }, [product.id, product.nameAr, product.imageTheme]);
+  }, [product.id, product.nameAr]);
 
   function handleAddToCart() {
     const eventId = generateEventId();
@@ -239,7 +239,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="max-w-[1200px] mx-auto px-4 relative z-10">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             {/* Image (Right in RTL) */}
-            <div className="order-first relative group">
+            <div className="order-first relative group min-w-0">
               <div className="absolute inset-0 bg-[#F8F1E7] rounded-3xl rotate-3 transition-transform group-hover:rotate-6"></div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img
@@ -289,7 +289,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
       <section className="py-16 md:py-24 bg-[#0F1A14] text-white">
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-right">
+            <div className="text-right min-w-0">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6 border border-white/20">
                 <span className="text-[#C99A45]">🌿</span>
                 <span className="text-sm font-bold tracking-wide">ذوق بيت الصحة</span>
@@ -351,7 +351,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           </div>
 
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="relative group order-first">
+            <div className="relative group order-first min-w-0">
               <div className="absolute inset-0 bg-white rounded-[3rem] rotate-[-3deg] transition-transform group-hover:rotate-0" />
               <div className="relative bg-gradient-to-br from-[#155235]/10 to-transparent p-4 rounded-[3rem] border border-white overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -419,7 +419,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
       <section className="py-16 md:py-24 bg-[#F5F3EE]">
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="order-last text-right">
+            <div className="order-last text-right min-w-0">
               <span className="text-[#155235] font-bold text-sm tracking-widest uppercase mb-2 block">خطوات بسيطة</span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-6">{sections.ritual.title}</h2>
               <div className="bg-white p-8 rounded-3xl shadow-sm border border-[#E8D8C3] mb-6 relative">
