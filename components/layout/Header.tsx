@@ -9,6 +9,7 @@ import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CurrencySelector } from "@/components/currency/CurrencySelector";
 import { LanguageSwitcher } from "@/components/language/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useCopy } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
 import { formatInteger } from "@/lib/format-number";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
@@ -29,6 +30,7 @@ export function Header() {
   const { openCart, getItemCount } = useCartStore();
   const itemCount = getItemCount();
   const { t } = useTranslation();
+  const { isEn } = useCopy();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -49,7 +51,7 @@ export function Header() {
         <div className="max-w-[1200px] mx-auto px-4 min-h-[4.5rem] py-2.5 flex items-center justify-between gap-4">
           <BrandLogo size="md" dark />
 
-          <nav className="hidden md:flex items-center gap-6" aria-label="التنقل الرئيسي">
+          <nav className="hidden md:flex items-center gap-6" aria-label={isEn ? "Main navigation" : "التنقل الرئيسي"}>
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
@@ -67,7 +69,7 @@ export function Header() {
             <button
               onClick={openCart}
               className="relative p-2 rounded-full hover:bg-[#155235]/50 transition-colors"
-              aria-label={`سلة التسوق - ${itemCount} منتج`}
+              aria-label={isEn ? `Shopping cart — ${itemCount} items` : `سلة التسوق - ${itemCount} منتج`}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#C99A45]">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
@@ -87,7 +89,7 @@ export function Header() {
             <button
               onClick={() => setMenuOpen(true)}
               className="md:hidden p-2 rounded-full hover:bg-[#155235]/50 transition-colors"
-              aria-label="فتح القائمة"
+              aria-label={isEn ? "Open menu" : "فتح القائمة"}
             >
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#C99A45]">
                 <line x1="3" y1="6" x2="21" y2="6" />

@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { COPY } from "@/content/copy";
 import { PRODUCTS } from "@/content/products";
+import { useCopy } from "@/hooks/useCopy";
 import { cn } from "@/lib/utils";
 
 // Collapsible Section Component
@@ -36,6 +36,8 @@ function FooterSection({ title, children }: { title: string; children: React.Rea
 }
 
 export function Footer() {
+  const { brand, footer, nav, localize } = useCopy();
+
   return (
     <footer className="bg-[#071C12] text-[#FFFFFF] mt-0">
       <div className="divider-mint" />
@@ -46,24 +48,24 @@ export function Footer() {
           <div className="mb-4 flex items-center gap-2">
             <div className="w-10 h-10 rounded-full bg-white overflow-hidden flex-shrink-0 shadow-lg shadow-green-900/30">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo.jpg" alt="بيت الصحة" className="w-full h-full object-cover" />
+              <img src="/logo.jpg" alt={brand.name} className="w-full h-full object-cover" />
             </div>
             <div className="flex flex-col leading-tight">
-              <span className="text-lg font-bold text-white">بيت الصحة</span>
-              <span className="text-xs text-[#C99A45]/60 tracking-wide">Baytseha</span>
+              <span className="text-lg font-bold text-white">{brand.name}</span>
+              <span className="text-xs text-[#C99A45]/60 tracking-wide">{brand.tagline}</span>
             </div>
           </div>
           <p className="text-xs text-[#C99A45]/60 leading-relaxed max-w-xs">
-            {COPY.footer.descriptionAr}
+            {footer.description}
           </p>
         </div>
 
         {/* Shop links */}
-        <FooterSection title={COPY.footer.shopTitle}>
+        <FooterSection title={footer.shopTitle}>
           <ul className="space-y-3">
             <li>
               <Link href="/collections" className="text-sm text-[#FFFFFF]/70 hover:text-[#C99A45] transition-colors flex items-center gap-2">
-                <span className="w-1 h-1 rounded-full bg-[#C99A45]/50"></span> جميع المنتجات
+                <span className="w-1 h-1 rounded-full bg-[#C99A45]/50"></span> {footer.allProducts}
               </Link>
             </li>
             {PRODUCTS.slice(0, 4).map((p) => (
@@ -72,7 +74,7 @@ export function Footer() {
                   href={`/products/${p.slug}`}
                   className="text-sm text-[#FFFFFF]/70 hover:text-[#C99A45] transition-colors line-clamp-1 flex items-center gap-2"
                 >
-                  <span className="w-1 h-1 rounded-full bg-[#C99A45]/50"></span> {p.shortNameAr}
+                  <span className="w-1 h-1 rounded-full bg-[#C99A45]/50"></span> {localize(p.shortNameAr)}
                 </Link>
               </li>
             ))}
@@ -80,15 +82,15 @@ export function Footer() {
         </FooterSection>
 
         {/* Help links */}
-        <FooterSection title={COPY.footer.helpTitle}>
+        <FooterSection title={footer.helpTitle}>
           <ul className="space-y-3">
             {[
-              { href: "/news", label: COPY.nav.newsAr },
-              { href: "/contact", label: COPY.footer.links.contact },
-              { href: "/returns", label: COPY.footer.links.returns },
-              { href: "/privacy", label: COPY.footer.links.privacy },
-              { href: "/terms", label: COPY.footer.links.terms },
-              { href: "/about", label: COPY.footer.links.about },
+              { href: "/news", label: nav.news },
+              { href: "/contact", label: footer.links.contact },
+              { href: "/returns", label: footer.links.returns },
+              { href: "/privacy", label: footer.links.privacy },
+              { href: "/terms", label: footer.links.terms },
+              { href: "/about", label: footer.links.about },
             ].map(({ href, label }) => (
               <li key={href}>
                 <Link href={href} className="text-sm text-[#FFFFFF]/70 hover:text-[#C99A45] transition-colors flex items-center gap-2">
@@ -100,15 +102,15 @@ export function Footer() {
         </FooterSection>
 
         {/* Trust & Socials */}
-        <FooterSection title={COPY.footer.trustTitle}>
+        <FooterSection title={footer.trustTitle}>
           <ul className="space-y-3 text-sm text-[#FFFFFF]/70 mb-6">
-            <li className="flex items-center gap-2"><span>💳</span> الدفع عند الاستلام</li>
-            <li className="flex items-center gap-2"><span>🚚</span> توصيل لجميع دول الخليج العربي</li>
-            <li className="flex items-center gap-2"><span>💬</span> دعم قبل وبعد الطلب</li>
+            <li className="flex items-center gap-2"><span>💳</span> {footer.cod}</li>
+            <li className="flex items-center gap-2"><span>🚚</span> {footer.deliveryGcc}</li>
+            <li className="flex items-center gap-2"><span>💬</span> {footer.support}</li>
           </ul>
           
           <div>
-            <p className="text-xs text-[#C99A45]/70 mb-3 font-bold">تواصل معنا على</p>
+            <p className="text-xs text-[#C99A45]/70 mb-3 font-bold">{footer.contactOn}</p>
             <div className="flex gap-3">
               <a href="https://www.tiktok.com/@baytseha" className="w-8 h-8 rounded-full bg-white/5 border border-white/10 flex items-center justify-center hover:bg-[#C99A45] hover:text-[#071C12] text-[#C99A45] transition-all duration-300 hover:scale-110" aria-label="TikTok">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
@@ -140,7 +142,7 @@ export function Footer() {
       <div className="border-t border-[#155235]/40 py-6 px-4 bg-[#05140D]">
         <div className="max-w-[1200px] mx-auto flex flex-col items-center">
           <p className="text-xs text-[#C99A45]/30 text-center">
-            © {new Date().getFullYear()} بيت الصحة - Baytseha. جميع الحقوق محفوظة.
+            {footer.copyright(new Date().getFullYear())}
           </p>
         </div>
       </div>

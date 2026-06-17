@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,7 +9,7 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { WELCOME_PROMO_ENABLED } from "@/lib/pricing";
 import { UpsellModal } from "./UpsellModal";
-import { COPY } from "@/content/copy";
+import { useCopy } from "@/hooks/useCopy";
 import { isValidPhone, normalizePhoneDisplay } from "@/lib/phone";
 import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
@@ -19,25 +19,34 @@ import { getPayableBundlePriceSar } from "@/lib/pricing";
 import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
 
-const schema = z.object({
-  name: z.string().min(2, COPY.checkout.nameErrorAr).max(80, COPY.checkout.nameErrorAr),
-  phone: z.string().refine(isValidPhone, { message: COPY.checkout.phoneErrorAr }),
-  phoneConfirm: z.string().min(1, "يرجى تأكيد رقم الجوال"),
-  address: z.string().min(5, "أدخلي العنوان كاملاً (حي، شارع، مدينة)").max(500),
-}).refine((data) => {
-  return normalizePhoneDisplay(data.phone) === normalizePhoneDisplay(data.phoneConfirm);
-}, {
-  message: "رقم الجوال غير متطابق",
-  path: ["phoneConfirm"],
-});
-
-type FormValues = z.infer<typeof schema>;
+type FormValues = {
+  name: string;
+  phone: string;
+  phoneConfirm: string;
+  address: string;
+};
 
 type Props = {
   onClose: () => void;
 };
 
 export function CheckoutModal({ onClose }: Props) {
+  const { checkout, packLabel, localize, lang } = useCopy();
+  const schema = useMemo(
+    () =>
+      z
+        .object({
+          name: z.string().min(2, checkout.nameError).max(80, checkout.nameError),
+          phone: z.string().refine(isValidPhone, { message: checkout.phoneError }),
+          phoneConfirm: z.string().min(1, checkout.phoneConfirmError),
+          address: z.string().min(5, checkout.addressError).max(500),
+        })
+        .refine((data) => normalizePhoneDisplay(data.phone) === normalizePhoneDisplay(data.phoneConfirm), {
+          message: checkout.phoneMismatchError,
+          path: ["phoneConfirm"],
+        }),
+    [checkout]
+  );
   const { items, getTotal } = useCartStore();
   const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
@@ -97,12 +106,12 @@ export function CheckoutModal({ onClose }: Props) {
       >
         <div className="flex items-center justify-between mb-6">
           <h2 id="checkout-title" className="text-xl font-bold text-white">
-            {COPY.checkout.titleAr}
+            {checkout.title}
           </h2>
           <button
             onClick={onClose}
             className="w-8 h-8 rounded-full bg-[#155235]/50 flex items-center justify-center hover:bg-[#155235] transition-colors text-[#C99A45]"
-            aria-label="إغلاق"
+            aria-label={checkout.close}
           >
             ✕
           </button>
@@ -126,9 +135,9 @@ export function CheckoutModal({ onClose }: Props) {
                     ) : null}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="font-bold text-white text-sm line-clamp-1">{item.nameAr}</p>
+                    <p className="font-bold text-white text-sm line-clamp-1">{localize(item.nameAr)}</p>
                     <p className="text-xs text-[#FFFFFF]/60 mt-0.5">
-                      {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "3 عبوات"}
+                      {packLabel(item.quantity)}
                     </p>
                   </div>
                   <FormattedAmount className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</FormattedAmount>
@@ -137,30 +146,30 @@ export function CheckoutModal({ onClose }: Props) {
             })}
           </div>
           <div className="flex justify-between font-medium mb-2">
-            <span className="text-[#FFFFFF]/70">إجمالي الطلب</span>
+            <span className="text-[#FFFFFF]/70">{checkout.orderTotal}</span>
             <FormattedAmount className="font-extrabold text-[#C99A45] text-lg">{format(total)}</FormattedAmount>
           </div>
           {WELCOME_PROMO_ENABLED && welcomePromo && (
             <p className="text-[11px] text-center text-[#C99A45] font-bold mb-1">
-              ✓ عرض ترحيب بيت الصحة مفعّل — أسعار الباقات كما هي معروضة
+              {checkout.welcomePromo}
             </p>
           )}
           <p className="text-xs text-center text-[#FFFFFF]/50 flex items-center justify-center gap-1">
             <span className="text-[#C99A45]">🛡️</span> 
-            ضمان استرجاع مجاني لمدة 7 أيام
+            {checkout.returnGuarantee}
           </p>
         </div>
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
+        <form key={lang} onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
           <div>
             <label htmlFor="checkout-name" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
-              الاسم الكامل
+              {checkout.fullNameLabel}
             </label>
             <input
               id="checkout-name"
               type="text"
               autoComplete="name"
-              placeholder={COPY.checkout.namePlaceholderAr}
+              placeholder={checkout.namePlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
                 "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
@@ -181,7 +190,7 @@ export function CheckoutModal({ onClose }: Props) {
 
           <div>
             <label htmlFor="checkout-phone" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
-              رقم الجوال
+              {checkout.phoneLabel}
             </label>
             <input
               id="checkout-phone"
@@ -189,7 +198,7 @@ export function CheckoutModal({ onClose }: Props) {
               inputMode="tel"
               dir="rtl"
               autoComplete="tel"
-              placeholder={COPY.checkout.phonePlaceholderAr}
+              placeholder={checkout.phonePlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
                 "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
@@ -210,7 +219,7 @@ export function CheckoutModal({ onClose }: Props) {
 
           <div>
             <label htmlFor="checkout-phone-confirm" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
-              تأكيد رقم الجوال
+              {checkout.phoneConfirmLabel}
             </label>
             <input
               id="checkout-phone-confirm"
@@ -218,7 +227,7 @@ export function CheckoutModal({ onClose }: Props) {
               inputMode="tel"
               dir="rtl"
               autoComplete="tel"
-              placeholder="أعد كتابة رقم الجوال"
+              placeholder={checkout.phoneConfirmPlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
                 "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
@@ -239,13 +248,13 @@ export function CheckoutModal({ onClose }: Props) {
 
           <div>
             <label htmlFor="checkout-address" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
-              العنوان الكامل (حي، شارع، مدينة)
+              {checkout.addressLabel}
             </label>
             <input
               id="checkout-address"
               type="text"
               autoComplete="street-address"
-              placeholder="مثال: حي النزهة، شارع الأمير محمد، الرياض"
+              placeholder={checkout.addressPlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
                 "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
@@ -272,11 +281,11 @@ export function CheckoutModal({ onClose }: Props) {
               "active:scale-[0.98] disabled:opacity-60 disabled:cursor-not-allowed"
             )}
           >
-            {isSubmitting ? COPY.checkout.submittingAr : COPY.checkout.ctaAr}
+            {isSubmitting ? checkout.submitting : checkout.cta}
           </button>
 
           <p className="text-xs text-center text-[#FFFFFF]/50 leading-relaxed">
-            {COPY.checkout.privacyAr}
+            {checkout.privacy}
           </p>
         </form>
       </div>

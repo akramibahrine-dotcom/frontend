@@ -1,6 +1,11 @@
 import type { Language } from "@/store/language-store";
 
 const translations = {
+  // Brand
+  "brand.name": { ar: "بيت الصحة", en: "Baytseha" },
+  "brand.tagline": { ar: "عودة للأصل", en: "Return to origin" },
+  "brand.taglineShort": { ar: "أعشاب تليق ببيتك", en: "Herbs that suit your home" },
+
   // Navigation
   "nav.home": { ar: "الرئيسية", en: "Home" },
   "nav.categories": { ar: "مشاكلك الصحية", en: "Health Issues" },

@@ -5,7 +5,7 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import { CODBadge } from "@/components/ui/TrustBadge";
-import { COPY } from "@/content/copy";
+import { useCopy } from "@/hooks/useCopy";
 import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
@@ -17,6 +17,7 @@ export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, getTotal, closeCheckout } = useCartStore();
   const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
+  const { cart } = useCopy();
   const total = getTotal();
 
   const crossSells = PRODUCTS.filter(
@@ -42,14 +43,14 @@ export function CartDrawer() {
         )}
         role="dialog"
         aria-modal="true"
-        aria-label="سلة التسوق"
+        aria-label={cart.title}
       >
         <div className="flex items-center justify-between p-4 border-b border-[#155235]/50">
-          <h2 className="font-bold text-lg text-white">سلة التسوق</h2>
+          <h2 className="font-bold text-lg text-white">{cart.title}</h2>
           <button
             onClick={closeCart}
             className="w-8 h-8 rounded-full bg-[#155235]/50 flex items-center justify-center hover:bg-[#155235] transition-colors text-[#C99A45]"
-            aria-label="إغلاق السلة"
+            aria-label={cart.close}
           >
             ✕
           </button>
@@ -59,21 +60,21 @@ export function CartDrawer() {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
               <span className="text-5xl">🛒</span>
-              <p className="text-[#C99A45] font-medium">{COPY.cart.emptyAr}</p>
-              <p className="text-sm text-[#FFFFFF]/60">{COPY.cart.emptySubAr}</p>
+              <p className="text-[#C99A45] font-medium">{cart.empty}</p>
+              <p className="text-sm text-[#FFFFFF]/60">{cart.emptySub}</p>
               <Link
                 href="/collections"
                 onClick={closeCart}
                 className="px-6 py-2.5 rounded-full bg-[#C99A45] text-[#071C12] text-sm font-bold hover:bg-[#B8893A] transition-colors"
               >
-                اختر منتجًا
+                {cart.chooseProduct}
               </Link>
             </div>
           ) : (
             <div className="p-4 space-y-3">
               <div className="mb-2">
-                <p className="text-sm font-bold text-white">منتجاتك المختارة</p>
-                <p className="text-xs text-[#FFFFFF]/60">راجع تفاصيل الباقات قبل إتمام الطلب</p>
+                <p className="text-sm font-bold text-white">{cart.selectedProducts}</p>
+                <p className="text-xs text-[#FFFFFF]/60">{cart.reviewBundles}</p>
               </div>
               {items.map((item) => (
                 <CartLineRow key={item.lineId} item={item} welcomePromo={welcomePromo} />
@@ -83,7 +84,7 @@ export function CartDrawer() {
 
               {crossSells.length > 0 && (
                 <div className="pt-2">
-                  <p className="text-sm font-bold text-[#C99A45] mb-2">أكملي روتين عنايتك بأسعار حصرية لفترة محدودة 🔥</p>
+                  <p className="text-sm font-bold text-[#C99A45] mb-2">{cart.crossSellTitle}</p>
                   <div className="space-y-2">
                     {crossSells.map((product) => (
                       <CrossSellCard key={product.id} product={product} />
@@ -98,17 +99,17 @@ export function CartDrawer() {
         {items.length > 0 && (
           <div className="p-4 border-t border-[#155235]/50 space-y-3 bg-[#0A2616]">
             <div className="flex justify-between items-center">
-              <span className="text-[#FFFFFF]/60 text-sm">الإجمالي</span>
+              <span className="text-[#FFFFFF]/60 text-sm">{cart.total}</span>
               <FormattedAmount className="font-extrabold text-xl text-white">{format(total)}</FormattedAmount>
             </div>
 
             <div className="flex gap-2 flex-wrap justify-center">
               <CODBadge />
               <span className="text-xs text-[#FFFFFF]/60 flex items-center gap-1">
-                🚚 تأكيد قبل التجهيز
+                {cart.confirmBeforePack}
               </span>
               <span className="text-xs text-[#FFFFFF]/60 flex items-center gap-1">
-                شامل للتوصيل
+                {cart.shippingIncluded}
               </span>
             </div>
 
@@ -116,10 +117,10 @@ export function CartDrawer() {
               onClick={openCheckout}
               className="btn-luxury w-full py-4 rounded-full font-bold text-base transition-all"
             >
-              {COPY.cart.ctaAr}
+              {cart.cta}
             </button>
             <p className="text-xs text-center text-[#FFFFFF]/50">
-              دفع عند الاستلام - بدون بطاقة
+              {cart.codNoCard}
             </p>
           </div>
         )}
@@ -132,6 +133,7 @@ export function CartDrawer() {
 
 function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boolean }) {
   const { format } = useCurrencyStore();
+  const { packLabel, localize, isEn } = useCopy();
   const removeLine = useCartStore((s) => s.removeLine);
   const prod = PRODUCTS.find((p) => p.id === item.productId);
   const catalog = getCatalogBundlePriceSar(item.quantity, prod?.bundleOffers);
@@ -151,9 +153,9 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
         ) : null}
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-bold text-white line-clamp-2">{item.nameAr}</p>
+        <p className="text-sm font-bold text-white line-clamp-2">{localize(item.nameAr)}</p>
         <p className="text-xs text-[#FFFFFF]/60 mt-0.5">
-          {item.quantity === 1 ? "عبوة واحدة" : item.quantity === 2 ? "عبوتان" : "3 عبوات"}
+          {packLabel(item.quantity)}
         </p>
         <div className="mt-1 flex items-center gap-2 flex-wrap" dir="ltr">
           {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable ? (
@@ -169,7 +171,7 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
       <button
         onClick={() => removeLine(item.lineId)}
         className="flex-shrink-0 w-7 h-7 rounded-full bg-[#155235]/40 text-[#FFFFFF] hover:bg-red-900/40 hover:text-red-400 flex items-center justify-center text-xs transition-colors"
-        aria-label={`حذف ${item.nameAr}`}
+        aria-label={isEn ? `Remove ${localize(item.nameAr)}` : `حذف ${item.nameAr}`}
       >
         ✕
       </button>
@@ -220,6 +222,7 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
 function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   const { addBundle } = useCartStore();
   const { format } = useCurrencyStore();
+  const { cart, localize, isEn } = useCopy();
   const CROSS_SELL_PRICE_SAR = 129;
 
   return (
@@ -232,7 +235,7 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
         />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="text-xs font-bold text-white line-clamp-1">{product.nameAr}</p>
+        <p className="text-xs font-bold text-white line-clamp-1">{localize(product.nameAr)}</p>
         <p className="text-xs text-[#C99A45] font-bold mt-0.5">
           <FormattedAmount>{format(CROSS_SELL_PRICE_SAR)}</FormattedAmount>
         </p>
@@ -242,9 +245,9 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
           addBundle(product.id, product.slug, product.nameAr, 1, product.imageTheme, "cart_cross_sell");
         }}
         className="flex-shrink-0 px-3 py-1.5 rounded-full bg-[#155235] text-[#C99A45] text-xs font-bold border border-[#C99A45]/20 hover:bg-[#1B6B45] transition-colors whitespace-nowrap"
-        aria-label={`أضف ${product.nameAr} للطلب`}
+        aria-label={isEn ? `Add ${localize(product.nameAr)} to order` : `أضف ${product.nameAr} للطلب`}
       >
-        أضف
+        {cart.add}
       </button>
     </div>
   );

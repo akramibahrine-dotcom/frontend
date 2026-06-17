@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
-import Link from "next/link";
 import { useCartStore } from "@/store/cart-store";
 import { OfferSelector } from "@/components/product/OfferSelector";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -113,6 +112,14 @@ function HeroCarousel({ product }: { product: Product }) {
   );
 }
 
+function getProductOrderCount(slug: string): number {
+  let hash = 0;
+  for (let i = 0; i < slug.length; i++) {
+    hash = ((hash << 5) - hash + slug.charCodeAt(i)) | 0;
+  }
+  return 2100 + Math.abs(hash % 3500);
+}
+
 export function ProductPageClient({ product, crossSells }: Props) {
   const [selectedQty, setSelectedQty] = useState<1 | 2 | 3>(2);
   const { addBundle, openCart } = useCartStore();
@@ -167,12 +174,6 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Text Content */}
             <div className="text-right min-w-0">
-              <div className="mb-4">
-                <Link href="/collections" className="inline-flex items-center gap-2 px-3 py-1 bg-[#155235]/10 text-[#155235] rounded-full text-sm font-bold hover:bg-[#155235]/20 transition-colors">
-                  <span>←</span> عُدْ إلى رفّ المجموعة
-                </Link>
-              </div>
-
               <h1 className={`text-3xl md:text-5xl font-extrabold mb-4 leading-tight ${product.slug === "fertility-tea" ? "text-[#FF0A74]" : "text-[#005727]"}`}>
                 {product.headlineAr}
               </h1>
@@ -180,10 +181,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 {product.subheadlineAr}
               </p>
 
-              <div className="flex items-center gap-3 mb-8 py-3 px-4 rounded-2xl bg-[#F5F3EE] border border-[#E8E2D8]">
-                <div className="flex text-[#C99A45] text-lg">★★★★★</div>
-                <span className="text-sm font-bold text-[#567063]">
-                  +10,000 عميل يثقون بنا
+              <div className="flex items-center gap-3 mb-8 py-3 px-4 rounded-2xl bg-[#FFF8E7] border border-[#E8D8C3]">
+                <span className="text-lg">🔥</span>
+                <span className="text-sm font-bold text-[#8B5E00]">
+                  +{getProductOrderCount(product.slug).toLocaleString()} شخص طلبوا — الشحنة الحالية تنفد قريباً
                 </span>
               </div>
 

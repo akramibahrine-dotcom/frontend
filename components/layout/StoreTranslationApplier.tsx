@@ -1,63 +1,76 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { usePathname } from "next/navigation";
 import { getApiBase } from "@/lib/api-base";
+import { getSortedArToEnPairs } from "@/lib/build-ar-to-en-map";
+import { applyStoreTranslation, restoreStoreTranslation } from "@/lib/store-i18n";
 import { useLanguageStore } from "@/store/language-store";
-
-function applyTranslations(translations: Record<string, string>) {
-  const entries = Object.entries(translations).filter(([key, value]) => key.trim() && value.trim());
-  if (!entries.length) return;
-
-  const walker = document.createTreeWalker(
-    document.body,
-    NodeFilter.SHOW_TEXT,
-    {
-      acceptNode(node) {
-        const parent = node.parentElement;
-        if (!parent) return NodeFilter.FILTER_REJECT;
-        if (["SCRIPT", "STYLE", "NOSCRIPT", "TEXTAREA", "INPUT"].includes(parent.tagName)) {
-          return NodeFilter.FILTER_REJECT;
-        }
-        return node.textContent?.trim() ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
-      },
-    }
-  );
-
-  const nodes: Text[] = [];
-  let node = walker.nextNode();
-  while (node) {
-    nodes.push(node as Text);
-    node = walker.nextNode();
-  }
-
-  for (const textNode of nodes) {
-    const original = textNode.textContent || "";
-    const trimmed = original.trim();
-    const replacement = translations[trimmed];
-    if (!replacement) continue;
-    textNode.textContent = original.replace(trimmed, replacement);
-  }
-}
 
 export function StoreTranslationApplier() {
   const pathname = usePathname();
   const lang = useLanguageStore((s) => s.lang);
   const hydrated = useLanguageStore((s) => s.hydrated);
+  const observerRef = useRef<MutationObserver | null>(null);
+  const pairsRef = useRef<[string, string][]>(getSortedArToEnPairs());
 
   useEffect(() => {
     if (pathname.startsWith("/admin") || !hydrated) return;
+
     let cancelled = false;
-    fetch(`${getApiBase()}/api/v1/store/translations?locale=${lang}`, { cache: "no-store" })
+
+    function applyCurrentLanguage(apiOverrides: Record<string, string> = {}) {
+      if (cancelled) return;
+      if (lang === "ar") {
+        restoreStoreTranslation();
+        return;
+      }
+      pairsRef.current = getSortedArToEnPairs(apiOverrides);
+      applyStoreTranslation(pairsRef.current);
+    }
+
+    if (lang === "ar") {
+      restoreStoreTranslation();
+      return;
+    }
+
+    applyCurrentLanguage();
+
+    fetch(`${getApiBase()}/api/v1/store/translations?locale=en`, { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : {}))
-      .then((translations) => {
-        if (!cancelled) applyTranslations(translations);
+      .then((apiOverrides) => {
+        applyCurrentLanguage(apiOverrides as Record<string, string>);
       })
       .catch(() => {
-        // Translation overrides are optional; never break the storefront.
+        // Optional admin overrides — storefront must work without them.
       });
+
     return () => {
       cancelled = true;
+    };
+  }, [pathname, lang, hydrated]);
+
+  useEffect(() => {
+    if (pathname.startsWith("/admin") || !hydrated || lang !== "en") {
+      observerRef.current?.disconnect();
+      observerRef.current = null;
+      return;
+    }
+
+    let timer: ReturnType<typeof setTimeout> | null = null;
+    const observer = new MutationObserver(() => {
+      if (timer) clearTimeout(timer);
+      timer = setTimeout(() => {
+        applyStoreTranslation(pairsRef.current);
+      }, 80);
+    });
+
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+    observerRef.current = observer;
+
+    return () => {
+      if (timer) clearTimeout(timer);
+      observer.disconnect();
     };
   }, [pathname, lang, hydrated]);
 
