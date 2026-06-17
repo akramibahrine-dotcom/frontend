@@ -220,9 +220,7 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
 function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   const { addBundle } = useCartStore();
   const { format } = useCurrencyStore();
-  const startingPrice =
-    getProductBundleOffers(product).find((o) => o.quantity === 1)?.priceSar ??
-    getCatalogBundlePriceSar(1);
+  const CROSS_SELL_PRICE_SAR = 129;
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
@@ -236,7 +234,7 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
       <div className="flex-1 min-w-0">
         <p className="text-xs font-bold text-white line-clamp-1">{product.nameAr}</p>
         <p className="text-xs text-[#C99A45] font-bold mt-0.5">
-          تبدأ من <FormattedAmount>{format(startingPrice)}</FormattedAmount>
+          <FormattedAmount>{format(CROSS_SELL_PRICE_SAR)}</FormattedAmount>
         </p>
       </div>
       <button
