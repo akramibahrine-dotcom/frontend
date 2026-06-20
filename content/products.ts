@@ -1,7 +1,7 @@
-export type ImageTheme = "weight" | "colon" | "hemorrhoid" | "liver" | "lung" | "prostate" | "womens-health" | "herbal-skin";
+export type ImageTheme = "weight" | "colon" | "hemorrhoid" | "liver" | "lung" | "prostate" | "womens-health" | "herbal-skin" | "scar-gel";
 
 export type BundleOffer = {
-  quantity: 1 | 2 | 3;
+  quantity: number;
   priceSar: number;
   badgeAr: string;
   labelAr: string;
@@ -452,6 +452,70 @@ export const PRODUCTS: Product[] = [
         question: "متى تظهر النتائج؟",
         answer: "تختلف النتائج من شخص لآخر، ولكن معظم المستخدمين يلاحظون تحسناً في توحيد لون البشرة خلال أسابيع من الاستخدام المنتظم.",
       }
+    ],
+  },
+  {
+    id: "scar-gel",
+    slug: "scar-gel",
+    sku: "BAYT-SCG-002",
+    nameAr: "جل السيليكون الأمريكي لعلاج الندوب والحروق",
+    shortNameAr: "جل علاج الندوب",
+    headlineAr: "ندوب سنوات ستختفي بنسبة 95% — الحل الأمريكي المثبت طبياً",
+    subheadlineAr:
+      "جل السيليكون المتقدم بالريتينول والألانتوين — يخفف الندوب القديمة والجديدة، الحروق، وآثار العمليات خلال أسابيع قليلة. سهل الاستخدام ومناسب لجميع أنواع البشرة.",
+    concernAr: "علاج الندوب والحروق وآثار العمليات",
+    painAwareAr:
+      "الندوب ليست مجرد أثر على الجلد — إنها تؤثر على ثقتك بنفسك وراحتك اليومية. جل السيليكون الأمريكي صُمم ليعيد لبشرتك نعومتها الطبيعية بلطف وفعالية، بدون ألم وبدون آثار جانبية.",
+    imageTheme: "scar-gel",
+    images: [
+      "/products/scar-gel/1.jpg",
+      "/products/scar-gel/2.jpg",
+      "/products/scar-gel/3.jpg",
+    ],
+    imageSection2: "/products/scar-gel/2.jpg",
+    imageSection4: "/products/scar-gel/11.jpg",
+    imagePromisePackaging: "/products/scar-gel/7.jpg",
+    imagePromiseDelivery: "/products/scar-gel/9.jpg",
+    imagePromiseCod: "/products/scar-gel/8.jpg",
+    imageRitual: "/products/scar-gel/10.jpg",
+    imageCertificates: "/products/scar-gel/5.jpg",
+    offerImages: {
+      1: "/products/scar-gel/3.jpg",
+      3: "/products/scar-gel/3.jpg",
+      5: "/products/scar-gel/3.jpg",
+    },
+    upsellProductId: "axis-y-serum",
+    crossSellProductIds: ["axis-y-serum", "fertility-tea"],
+    bundleOffers: [
+      { quantity: 5, priceSar: 249, badgeAr: "قيمة حصرية", labelAr: "خمس عبوات" },
+      { quantity: 3, priceSar: 199, badgeAr: "الأكثر طلباً", labelAr: "ثلاث عبوات" },
+      { quantity: 1, priceSar: 179, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
+    ],
+    ritualAr:
+      "ضع كمية صغيرة على الندبة مرة واحدة يومياً مساءً، ثم دلّك بلطف بحركات دائرية لمدة 1 إلى 2 دقيقة حتى يمتص الجل تماماً. انتظر 3 إلى 5 دقائق قبل وضع الملابس أو المستحضرات الأخرى.",
+    whyBaytsehaPoints: [
+      "تركيبة أمريكية متقدمة بالسيليكون والريتينول والألانتوين",
+      "مناسب لجميع أنواع الندوب: الحروق، العمليات، حب الشباب، الجروح",
+      "نتائج مرئية خلال 3 أسابيع مع الاستخدام المنتظم",
+      "آمن على جميع أنواع البشرة ولطيف بدون آثار جانبية"
+    ],
+    faq: [
+      {
+        question: "هل الجل يناسب الندوب القديمة؟",
+        answer: "نعم، الجل مصمم للندوب القديمة (8 أسابيع فأكثر) والندوب الجديدة (3-6 أشهر). كلما بدأت مبكراً كانت النتائج أسرع.",
+      },
+      {
+        question: "هل يناسب جميع أنواع البشرة؟",
+        answer: "نعم، تركيبته اللطيفة بالسيليكون والألانتوين مناسبة لجميع أنواع البشرة بما فيها البشرة الحساسة.",
+      },
+      {
+        question: "متى تظهر النتائج؟",
+        answer: "تبدأ النتائج بالظهور خلال 3 أسابيع من الاستخدام المنتظم. للندوب العميقة والقديمة قد تحتاج 8-12 أسبوعاً للنتائج المثلى.",
+      },
+      {
+        question: "هل يمكن استخدامه على الوجه؟",
+        answer: "نعم، الجل آمن للاستخدام على الوجه والجسم. تجنّب ملامسة العينين والأغشية المخاطية.",
+      },
     ],
   },
 ];

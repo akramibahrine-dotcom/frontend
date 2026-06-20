@@ -9,7 +9,7 @@ export type CartItem = {
   productId: string;
   slug: string;
   nameAr: string;
-  quantity: 1 | 2 | 3;
+  quantity: number;
   bundlePriceSar: number;
   imageTheme: string;
   source: CartItemSource;
@@ -24,12 +24,12 @@ type CartState = {
     productId: string,
     slug: string,
     nameAr: string,
-    quantity: 1 | 2 | 3,
+    quantity: number,
     imageTheme: string,
     source?: CartItemSource
   ) => void;
   removeLine: (lineId: string) => void;
-  updateBundle: (lineId: string, quantity: 1 | 2 | 3) => void;
+  updateBundle: (lineId: string, quantity: number) => void;
   clearCart: () => void;
   openCart: () => void;
   closeCart: () => void;
@@ -40,7 +40,7 @@ type CartState = {
   getItemCount: () => number;
 };
 
-function getBundlePrice(quantity: 1 | 2 | 3, productId?: string): number {
+function getBundlePrice(quantity: number, productId?: string): number {
   const product = productId ? PRODUCTS.find((p) => p.id === productId) : undefined;
   return getPayableBundlePriceSar(quantity, product?.bundleOffers ?? BUNDLE_OFFERS);
 }

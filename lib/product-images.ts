@@ -9,6 +9,7 @@ const THEME_EMOJI: Record<ImageTheme, string> = {
   prostate: "🌱",
   "womens-health": "🌸",
   "herbal-skin": "✨",
+  "scar-gel": "💧",
 };
 
 export function getProductThemeEmoji(theme: ImageTheme): string {

@@ -1,5 +1,7 @@
 import type { Product } from "@/content/products";
 import { COPY } from "@/content/copy";
+import type { Language } from "@/store/language-store";
+import { TEA_SECTIONS_EN, SKINCARE_SECTIONS_EN } from "@/content/product-page-en";
 
 type SectionPoint = { title: string; desc: string };
 
@@ -11,7 +13,7 @@ export type ProductPageSections = {
   disclaimer: string;
 };
 
-const TEA_SECTIONS: ProductPageSections = {
+export const TEA_SECTIONS: ProductPageSections = {
   empathy: {
     imageAlt: "رشاقتك بفنجان",
     heading: "يومٌ مزدحمٌ يستحق كوبًا يلطّف حدّته",
@@ -65,7 +67,7 @@ const TEA_SECTIONS: ProductPageSections = {
   disclaimer: COPY.disclaimer,
 };
 
-const SKINCARE_SECTIONS: ProductPageSections = {
+export const SKINCARE_SECTIONS: ProductPageSections = {
   empathy: {
     imageAlt: "عناية يومية بالبشرة",
     heading: "يومٌ مزدحمٌ يستحق لحظةً تعيد لبشرتكِ هدوءها",
@@ -120,6 +122,67 @@ const SKINCARE_SECTIONS: ProductPageSections = {
     "منتجات بيت الصحة للعناية بالبشرة تدعم روتينكِ اليومي، وليست أدوية ولا بديلاً عن استشارة طبيب الجلد. إن كنتِ تتناولين علاجاً أو لديكِ حالة جلدية مزمنة، اسألي مختصّك قبل الاستخدام.",
 };
 
-export function getProductPageSections(product: Product): ProductPageSections {
-  return product.imageTheme === "herbal-skin" ? SKINCARE_SECTIONS : TEA_SECTIONS;
+export const SCAR_GEL_SECTIONS: ProductPageSections = {
+  empathy: {
+    imageAlt: "جل السيليكون لعلاج الندوب",
+    heading: "ندوبٌ قديمة؟ حروق؟ آثار عمليات؟ — حان وقت التغيير",
+    closing:
+      "في بيت الصحة نوفّر لك حلاً أمريكياً متقدماً بتركيبة السيليكون الطبي — مثبت علمياً لتخفيف الندوب بمختلف أنواعها. ما نعدك به هو تجربةٌ فعّالة من أول استخدام حتى النتيجة النهائية.",
+  },
+  quality: {
+    intro:
+      "جل السيليكون الأمريكي يعتمد على تركيبة طبية متقدمة تضم الريتينول والألانتوين وفيتامين E — مكوّنات أثبتت فعاليتها في تخفيف الندوب وترميم البشرة.",
+    points: [
+      {
+        title: "تركيبة أمريكية مثبتة طبياً",
+        desc: "مكوّنات فعّالة مدروسة علمياً لتسريع شفاء الندوب وتحسين ملمس ولون البشرة المتضررة.",
+      },
+      {
+        title: "يناسب جميع أنواع الندوب",
+        desc: "فعّال مع ندوب الحروق، العمليات الجراحية، حب الشباب، الجروح، والندوب القديمة والجديدة.",
+      },
+      {
+        title: "آمن ولطيف على البشرة",
+        desc: "خالٍ من المواد القاسية، يرطّب ويغذّي البشرة أثناء العلاج بدون أي آثار جانبية.",
+      },
+    ],
+    cardTagline: "شعارُنا «بشرتك تستحق فرصة ثانية» — جلسة علاج بعد جلسة.",
+  },
+  ingredients: {
+    title: "مكوّنات فعّالة مثبتة علمياً",
+    intro:
+      "كل مكوّن في جل السيليكون الأمريكي مختار بعناية لدوره في ترميم البشرة وتخفيف الندوب بفعالية وأمان.",
+    imageAlt: "تركيبة جل السيليكون للندوب",
+    points: [
+      {
+        title: "الألانتوين — حماية وترميم",
+        desc: "يساعد في تقليل مظهر الندوب وحماية البشرة المتضررة، ويسرّع عملية التعافي الطبيعية للجلد.",
+      },
+      {
+        title: "الريتينول — تجديد الخلايا",
+        desc: "ينعّم البشرة ويرطّبها ويحفّز تجديد خلايا الجلد، مما يساعد في تلاشي الندوب القديمة والجديدة.",
+      },
+      {
+        title: "فيتامين E — مضاد أكسدة قوي",
+        desc: "يفتّح لون البشرة المتضررة ويوحّد لونها، ويحميها من الأكسدة التي تبطئ عملية الشفاء.",
+      },
+    ],
+  },
+  ritual: {
+    title: "كيف تستخدم الجل للحصول على أفضل النتائج؟",
+    tip: "نصيحة بيت الصحة: ضع الجل مساءً قبل النوم على بشرة نظيفة وجافة. الانتظام اليومي هو مفتاح النتائج — لا تتوقف حتى لو رأيت تحسناً مبكراً.",
+    imageAlt: "خطوات استخدام جل الندوب",
+  },
+  disclaimer:
+    "جل السيليكون الأمريكي من بيت الصحة مصمم لتخفيف مظهر الندوب والحروق، وليس بديلاً عن العلاج الطبي المتخصص. في حالة الندوب الشديدة أو الحروق الحديثة، استشر طبيبك قبل الاستخدام.",
+};
+
+export function getProductPageSections(product: Product, lang: Language = "ar"): ProductPageSections {
+  const isSkin = product.imageTheme === "herbal-skin";
+  const isScarGel = product.imageTheme === "scar-gel";
+  if (lang === "en") {
+    return isSkin ? SKINCARE_SECTIONS_EN : TEA_SECTIONS_EN;
+  }
+  if (isScarGel) return SCAR_GEL_SECTIONS;
+  return isSkin ? SKINCARE_SECTIONS : TEA_SECTIONS;
 }

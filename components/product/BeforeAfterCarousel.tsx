@@ -441,6 +441,20 @@ const REVIEWS_MAP: Record<string, ProductReview[]> = {
     { id: 5, nameAr: "أسماء الشمري", cityAr: "🇸🇦 حائل", age: 34, quoteAr: "شكراً بيت الصحة على توفير المنتج الأصلي. سعره ممتاز والنتيجة مضمونة.", rating: 5, badge: "📦 منتج أصلي" },
     { id: 6, nameAr: "مها البوسعيدي", cityAr: "🇴🇲 مسقط", age: 28, quoteAr: "توصيل سريع وخدمة راقية. السيروم وحد لون وجهي وأخفى الكلف الخفيف.", rating: 4, badge: "🌿 توحيد اللون" },
   ],
+  "scar-gel": [
+    { id: 1, nameAr: "عبدالله الشهري", cityAr: "🇸🇦 الرياض", age: 34, quoteAr: "ندبة عملية الزائدة عمرها 3 سنوات. بعد شهر ونص من الجل اختفت تقريباً! زوجتي ما صدقت الفرق.", rating: 5, badge: "✅ ندبة قديمة اختفت" },
+    { id: 2, nameAr: "نورة الدوسري", cityAr: "🇸🇦 جدة", age: 28, quoteAr: "تعرضت لحرق زيت بالمطبخ قبل سنتين. الأثر كان واضح على يدي والحين بعد شهرين من الجل خفّ بنسبة 90%. منتج عجيب!", rating: 5, badge: "🔥 آثار حروق اختفت" },
+    { id: 3, nameAr: "خالد المنصوري", cityAr: "🇦🇪 أبوظبي", age: 40, quoteAr: "عندي أثر عملية جراحية بالبطن من 7 سنوات. ما كنت أتوقع شي يساعد بس الجل هذا فعلاً فرّق. الندبة صارت بالكاد تنشاف.", rating: 5, badge: "💪 ندبة 7 سنوات" },
+    { id: 4, nameAr: "حمد الكواري", cityAr: "🇶🇦 الدوحة", age: 31, quoteAr: "عانيت من ندوب حب الشباب على وجهي سنوات. بعد 3 أسابيع فقط من الجل، الملمس صار ناعم والندوب خفّت بشكل واضح.", rating: 5, badge: "💎 وجه صافي" },
+    { id: 5, nameAr: "فاطمة البلوشي", cityAr: "🇴🇲 مسقط", age: 25, quoteAr: "أثر جرح على ذراعي من حادث سيارة. الدكتور قال ما راح يروح. بعد شهرين من الجل صار شبه مختفي! شكراً بيت الصحة.", rating: 5, badge: "🌟 نتيجة مذهلة" },
+    { id: 6, nameAr: "سعود العتيبي", cityAr: "🇸🇦 الدمام", age: 37, quoteAr: "حرق قديم على رقبتي من أيام الطفولة. استخدمت الجل 6 أسابيع والفرق كبير جداً. اللون تقارب مع بشرتي والملمس تحسّن.", rating: 5, badge: "🎯 فرق واضح" },
+    { id: 7, nameAr: "مريم الشامسي", cityAr: "🇦🇪 دبي", age: 29, quoteAr: "بعد العملية القيصرية كان عندي ندبة كبيرة. الجل خلّاها تقريباً مو موجودة بعد شهرين. خفيف على البشرة وما يهيّج.", rating: 5, badge: "🤱 بعد القيصرية" },
+    { id: 8, nameAr: "ناصر الحربي", cityAr: "🇸🇦 مكة", age: 45, quoteAr: "عندي ندوب من عملية قلب مفتوح. بديت أستخدم الجل من 3 أشهر والتحسّن ملحوظ جداً. الندوب خفّت وبشرتي صارت ناعمة.", rating: 5, badge: "❤️ بعد عملية القلب" },
+    { id: 9, nameAr: "هند السبيعي", cityAr: "🇰🇼 الكويت", age: 33, quoteAr: "آثار ليزر فاشل على وجهي سبب لي ندوب. الجل ساعد يخففها بشكل كبير والحمدلله. أنصح فيه كل اللي عندهم نفس المشكلة.", rating: 5, badge: "✨ إصلاح البشرة" },
+    { id: 10, nameAr: "محمد الزعابي", cityAr: "🇦🇪 الشارقة", age: 26, quoteAr: "كنت أخجل من ندبة على وجهي من حادث قديم. بعد 5 أسابيع من الاستخدام اليومي، الندبة خفّت 85%. ثقتي بنفسي رجعت!", rating: 5, badge: "😊 ثقة بالنفس" },
+    { id: 11, nameAr: "سارة المالكي", cityAr: "🇸🇦 الطائف", age: 30, quoteAr: "ابني تعرض لحرق ماء حار وبقى أثر. استخدمنا الجل بانتظام وبعد شهرين الأثر تقريباً راح. منتج ممتاز وآمن.", rating: 5, badge: "👶 آمن للعائلة" },
+    { id: 12, nameAr: "جاسم الأنصاري", cityAr: "🇧🇭 المنامة", age: 38, quoteAr: "ندبة في الوجه من 10 سنوات. جربت كل شي بدون فايدة. هالجل أول منتج يعطي نتيجة حقيقية. والله يستاهل كل ريال.", rating: 4, badge: "🏆 أخيراً نتيجة" },
+  ],
 };
 
 const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string; accentColor: string; bgFrom: string; bgTo: string }> = {
@@ -451,6 +465,7 @@ const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: s
   "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "🍀", title: "شاي دعم الرئة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
   "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "🌱", title: "شاي البروستات", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
   "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✨", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "💧", title: "جل علاج الندوب", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
 };
 
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {

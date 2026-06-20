@@ -49,6 +49,11 @@ const THEME_CONFIG: Record<ImageTheme, { gradient: string; emoji: string; labelA
     emoji: "✨",
     labelAr: "عناية عشبية بالبشرة",
   },
+  "scar-gel": {
+    gradient: "from-cyan-50 via-teal-50 to-sky-50",
+    emoji: "💧",
+    labelAr: "جل علاج الندوب والحروق",
+  },
 };
 
 export function ProductPlaceholderImage({ theme, className, aspectRatio = "product", alt }: Props) {

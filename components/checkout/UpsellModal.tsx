@@ -5,8 +5,9 @@ import { useCartStore, type CartItem } from "@/store/cart-store";
 import { useCurrencyStore } from "@/store/currency-store";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { ProductImage } from "@/components/product/ProductImage";
-import { COPY } from "@/content/copy";
 import { getUpsellProduct, PRODUCTS } from "@/content/products";
+import { useCopy } from "@/hooks/useCopy";
+import { getLocalizedProduct } from "@/lib/get-localized-product";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import {
   getPayableBundlePriceSar,
@@ -39,6 +40,7 @@ export function UpsellModal({
   const { clearCart } = useCartStore();
   const format = useCurrencyStore((s) => s.format);
   const welcomePromo = useWelcomePromoStore((s) => s.active);
+  const { upsell: upsellCopy, checkout, lang } = useCopy();
   const [countdown, setCountdown] = useState(UPSELL_DURATION_SECONDS);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -190,13 +192,13 @@ export function UpsellModal({
       orderSubmittedRef.current = false;
       const e = err as Error & { code?: string };
       if (e.code === "order_rejected") {
-        setError(e.message || COPY.checkout.geoErrorAr);
+        setError(e.message || checkout.geoError);
       } else if (e.code === "invalid_price") {
-        setError(e.message || "سعر الباقة غير متطابق. حدّث الصفحة وحاول مرة أخرى.");
+        setError(e.message || upsellCopy.priceMismatch);
       } else if (e.message) {
         setError(e.message);
       } else {
-        setError(COPY.checkout.networkErrorAr);
+        setError(checkout.networkError);
       }
       setIsSubmitting(false);
     }
@@ -230,12 +232,12 @@ export function UpsellModal({
           <div className="p-6 space-y-4">
             <div className="flex items-center justify-between">
               <h2 id="upsell-title" className="font-bold text-white text-lg">
-                {COPY.upsell.titleAr}
+                {upsellCopy.title}
               </h2>
               <span className="text-sm text-[#FFFFFF]/60">
-                {COPY.upsell.countdownPrefixAr}{" "}
+                {upsellCopy.countdownPrefix}{" "}
                 <FormattedAmount>{countdown}</FormattedAmount>{" "}
-                {COPY.upsell.countdownSuffixAr}
+                {upsellCopy.countdownSuffix}
               </span>
             </div>
 
@@ -244,13 +246,13 @@ export function UpsellModal({
                 <ProductImage
                   product={upsellProduct}
                   quantity={1}
-                  alt={upsellProduct.nameAr}
+                  alt={getLocalizedProduct(upsellProduct, lang).name}
                   className="w-24 h-24 object-contain"
-                  fallbackEmoji={upsellProduct.imageTheme === "herbal-skin" ? "✨" : "🌿"}
+                  fallbackEmoji={upsellProduct.imageTheme === "herbal-skin" ? "✨" : upsellProduct.imageTheme === "scar-gel" ? "💧" : "🌿"}
                 />
               </div>
               <div>
-                <p className="font-bold text-white text-sm">{upsellProduct.nameAr}</p>
+                <p className="font-bold text-white text-sm">{getLocalizedProduct(upsellProduct, lang).name}</p>
                 <div className="flex items-center gap-2 mt-1" dir="ltr">
                   <FormattedAmount className="text-2xl font-extrabold text-[#C99A45]">{format(upsellDisplayPrice)}</FormattedAmount>
                   {shouldShowWelcomeReferencePricing(welcomePromo) && (
@@ -259,12 +261,12 @@ export function UpsellModal({
                     </FormattedAmount>
                   )}
                 </div>
-                <p className="text-xs text-[#C99A45] font-bold mt-0.5">{COPY.upsell.priceAr(format(upsellDisplayPrice))}</p>
+                <p className="text-xs text-[#C99A45] font-bold mt-0.5">{upsellCopy.price(format(upsellDisplayPrice))}</p>
               </div>
             </div>
 
             <p className="text-xs text-[#FFFFFF]/60 bg-[#155235]/30 border border-[#155235]/40 rounded-xl px-3 py-2 text-center">
-              {COPY.upsell.trustAr}
+              {upsellCopy.trust}
             </p>
 
             {error && (
@@ -278,7 +280,7 @@ export function UpsellModal({
               disabled={isSubmitting}
               className="btn-gold w-full py-4 rounded-full font-bold text-base disabled:opacity-60"
             >
-              {isSubmitting ? "جاري التأكيد..." : COPY.upsell.ctaAr(format(upsellDisplayPrice))}
+              {isSubmitting ? upsellCopy.confirming : upsellCopy.cta(format(upsellDisplayPrice))}
             </button>
 
             <button
@@ -286,14 +288,14 @@ export function UpsellModal({
               disabled={isSubmitting}
               className="w-full text-sm text-[#FFFFFF]/50 underline text-center hover:text-[#C99A45] transition-colors py-1 disabled:opacity-60"
             >
-              {COPY.upsell.skipAr}
+              {upsellCopy.skip}
             </button>
           </div>
         )}
 
         {!upsellProduct && (
           <div className="p-6 space-y-4">
-            <p className="text-center text-[#FFFFFF]/70">جاري تأكيد طلبك...</p>
+            <p className="text-center text-[#FFFFFF]/70">{upsellCopy.confirmingOrder}</p>
             {error && (
               <p className="text-red-400 text-sm text-center">{error}</p>
             )}
@@ -302,7 +304,7 @@ export function UpsellModal({
               disabled={isSubmitting}
               className="btn-luxury w-full py-4 rounded-full font-bold text-base disabled:opacity-60"
             >
-              {isSubmitting ? "جاري التأكيد..." : "تأكيد الطلب"}
+              {isSubmitting ? upsellCopy.confirming : upsellCopy.confirmOrder}
             </button>
           </div>
         )}

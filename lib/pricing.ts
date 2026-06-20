@@ -14,13 +14,13 @@ export function shouldShowWelcomeReferencePricing(promoAccepted: boolean = false
 /** Shown as strikethrough «السعر المرجعي» before the visitor accepts the welcome promo (display only). */
 export const WELCOME_REFERENCE_MARKUP_PERCENT = 10;
 
-export function getCatalogBundlePriceSar(quantity: 1 | 2 | 3, productBundleOffers?: readonly BundleOffer[]): number {
+export function getCatalogBundlePriceSar(quantity: number, productBundleOffers?: readonly BundleOffer[]): number {
   const offers = productBundleOffers ?? BUNDLE_OFFERS;
   return offers.find((o) => o.quantity === quantity)?.priceSar ?? BUNDLE_OFFERS.find((o) => o.quantity === quantity)!.priceSar;
 }
 
 /** Reference price for marketing (catalog + markup); not charged. */
-export function getWelcomeReferenceBundlePriceSar(quantity: 1 | 2 | 3, productBundleOffers?: readonly BundleOffer[]): number {
+export function getWelcomeReferenceBundlePriceSar(quantity: number, productBundleOffers?: readonly BundleOffer[]): number {
   const base = getCatalogBundlePriceSar(quantity, productBundleOffers);
   return Math.round((base * (100 + WELCOME_REFERENCE_MARKUP_PERCENT)) / 100);
 }
@@ -30,7 +30,7 @@ export function getWelcomeReferenceUpsellPriceSar(): number {
 }
 
 /** Amount sent to checkout / API — always catalog bundle SAR. */
-export function getPayableBundlePriceSar(quantity: 1 | 2 | 3, productBundleOffers?: readonly BundleOffer[]): number {
+export function getPayableBundlePriceSar(quantity: number, productBundleOffers?: readonly BundleOffer[]): number {
   return getCatalogBundlePriceSar(quantity, productBundleOffers);
 }
 

@@ -31,7 +31,7 @@ export type CreateOrderPayload = {
   promo_code?: string | null;
   items: Array<{
     productId: string;
-    quantity: 1 | 2 | 3;
+    quantity: number;
     bundlePriceSar: number;
     source: string;
   }>;

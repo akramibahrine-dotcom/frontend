@@ -98,7 +98,7 @@ export const CATEGORIES: Category[] = [
       "مجموعة من المنتجات الطبيعية والعشبية المصممة بعناية لتحسين صحة ومظهر البشرة وتصحيح البقع.",
     imageTheme: "herbal-skin",
     image: "/categories/cat-herbal-skin.jpg",
-    productSlugs: ["axis-y-serum"],
+    productSlugs: ["axis-y-serum", "scar-gel"],
   },
 ];
 

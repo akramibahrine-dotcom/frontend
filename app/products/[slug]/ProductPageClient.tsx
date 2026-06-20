@@ -8,7 +8,6 @@ import { ProductCard } from "@/components/product/ProductCard";
 import { ProductImage } from "@/components/product/ProductImage";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
 import { TrustBadgeRow } from "@/components/ui/TrustBadge";
-import { COPY } from "@/content/copy";
 import type { Product } from "@/content/products";
 import { getProductBundleOffers, getProductSavings } from "@/content/products";
 import { getProductImageCandidates } from "@/lib/product-images";
@@ -18,6 +17,8 @@ import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
 import { getProductPageSections } from "@/lib/product-page-copy";
+import { getLocalizedProduct } from "@/lib/get-localized-product";
+import { useCopy } from "@/hooks/useCopy";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { MiniTestimonialStrip } from "@/components/product/MiniTestimonialStrip";
 
@@ -35,12 +36,24 @@ type Props = {
   crossSells: Product[];
 };
 
-function HeroCarousel({ product }: { product: Product }) {
+function HeroCarousel({
+  product,
+  localizedName,
+  localizedConcern,
+  imageLabel,
+}: {
+  product: Product;
+  localizedName: string;
+  localizedConcern: string;
+  imageLabel: (n: number) => string;
+}) {
   const [current, setCurrent] = useState(0);
   const images = useMemo(() => {
     if (product.images.length > 0) return product.images;
     return getProductImageCandidates(product).slice(0, 3);
   }, [product]);
+
+  const isMarketingCarousel = product.imageTheme === "scar-gel";
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -56,7 +69,7 @@ function HeroCarousel({ product }: { product: Product }) {
         <div className="relative bg-white rounded-[3rem] p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
           <ProductImage
             product={product}
-            alt={product.nameAr}
+            alt={localizedName}
             className="w-full aspect-square rounded-3xl object-contain"
           />
         </div>
@@ -68,20 +81,20 @@ function HeroCarousel({ product }: { product: Product }) {
     <div className="order-first md:order-last relative w-full min-w-0 max-w-[400px] mx-auto md:max-w-none">
       <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[2rem] sm:rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0 pointer-events-none" />
       <div className="relative w-full bg-white rounded-[2rem] sm:rounded-[3rem] p-3 sm:p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
-        <div className="relative w-full aspect-square rounded-2xl sm:rounded-3xl overflow-hidden bg-[#F5F3EE]">
+        <div className={`relative w-full aspect-square rounded-2xl sm:rounded-3xl overflow-hidden ${isMarketingCarousel ? "bg-white" : "bg-[#F5F3EE]"}`}>
           {images.map((src, i) => (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               key={src}
               src={src}
-              alt={`${product.nameAr} - صورة ${i + 1}`}
+              alt={`${localizedName} - ${imageLabel(i + 1)}`}
               // @ts-expect-error fetchPriority not in React types yet
               fetchpriority={i === 0 ? "high" : "low"}
               loading={i === 0 ? "eager" : "lazy"}
               decoding={i === 0 ? "sync" : "async"}
-              className={`absolute inset-0 w-full h-full object-contain mix-blend-multiply transition-opacity duration-700 ease-in-out ${
-                i === current ? "opacity-100" : "opacity-0"
-              }`}
+              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
+                isMarketingCarousel ? "object-cover" : "object-contain mix-blend-multiply"
+              } ${i === current ? "opacity-100" : "opacity-0"}`}
             />
           ))}
         </div>
@@ -93,7 +106,7 @@ function HeroCarousel({ product }: { product: Product }) {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                aria-label={`صورة ${i + 1}`}
+                aria-label={imageLabel(i + 1)}
                 className={`w-2.5 h-2.5 rounded-full transition-all duration-300 ${
                   i === current ? "bg-[#155235] scale-125 shadow-md" : "bg-[#155235]/40 hover:bg-[#155235]/60"
                 }`}
@@ -104,8 +117,8 @@ function HeroCarousel({ product }: { product: Product }) {
 
         {/* Floating Badge */}
         <div className="absolute top-3 end-3 sm:top-6 sm:end-4 bg-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-1.5 sm:gap-2 z-10 max-w-[70%]">
-          <span className="text-base sm:text-xl shrink-0">{product.imageTheme === "herbal-skin" ? "✨" : "🌿"}</span>
-          <span className="text-[10px] sm:text-sm font-bold text-[#155235] truncate">{product.concernAr}</span>
+          <span className="text-base sm:text-xl shrink-0">{product.imageTheme === "herbal-skin" ? "✨" : product.imageTheme === "scar-gel" ? "💧" : "🌿"}</span>
+          <span className="text-[10px] sm:text-sm font-bold text-[#155235] truncate">{localizedConcern}</span>
         </div>
       </div>
     </div>
@@ -121,14 +134,22 @@ function getProductOrderCount(slug: string): number {
 }
 
 export function ProductPageClient({ product, crossSells }: Props) {
-  const [selectedQty, setSelectedQty] = useState<1 | 2 | 3>(2);
+  const defaultQty = product.bundleOffers?.find((o) => o.badgeAr === "الأكثر طلباً")?.quantity
+    ?? product.bundleOffers?.[0]?.quantity
+    ?? 2;
+  const [selectedQty, setSelectedQty] = useState(defaultQty);
   const { addBundle, openCart } = useCartStore();
   const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
-
+  const { lang, brand, bundle, productPage, homeMarquee, productPageEmpathyEyebrow } = useCopy();
+  const lp = getLocalizedProduct(product, lang);
+  const sections = getProductPageSections(product, lang);
   const productOffers = getProductBundleOffers(product);
   const productSavings = getProductSavings(product);
-  const sections = getProductPageSections(product);
+  const isScarGelMarketing = product.imageTheme === "scar-gel";
+  const promiseImgClass = isScarGelMarketing
+    ? "w-full h-full object-cover"
+    : "w-full h-full object-contain mix-blend-multiply";
   const payableOfferSar = getPayableBundlePriceSar(selectedQty, productOffers);
   const referenceOfferSar = getWelcomeReferenceBundlePriceSar(selectedQty, productOffers);
 
@@ -160,7 +181,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               key={dup}
               className="flex gap-16 px-8 text-[#C99A45] font-extrabold text-base md:text-lg items-center"
             >
-              {COPY.homeMarquee.map((line) => (
+              {homeMarquee.map((line) => (
                 <span key={`${dup}-${line}`}>{line}</span>
               ))}
             </div>
@@ -175,16 +196,16 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {/* Text Content */}
             <div className="text-right min-w-0">
               <h1 className={`text-3xl md:text-5xl font-extrabold mb-4 leading-tight ${product.slug === "fertility-tea" ? "text-[#FF0A74]" : "text-[#005727]"}`}>
-                {product.headlineAr}
+                {lp.headline}
               </h1>
               <p className="text-[#6E675F] text-lg mb-6 leading-relaxed">
-                {product.subheadlineAr}
+                {lp.subheadline}
               </p>
 
               <div className="flex items-center gap-3 mb-8 py-3 px-4 rounded-2xl bg-[#FFF8E7] border border-[#E8D8C3]">
                 <span className="text-lg">🔥</span>
                 <span className="text-sm font-bold text-[#8B5E00]">
-                  +{getProductOrderCount(product.slug).toLocaleString()} شخص طلبوا — الشحنة الحالية تنفد قريباً
+                  {productPage.socialProof(getProductOrderCount(product.slug).toLocaleString())}
                 </span>
               </div>
 
@@ -195,7 +216,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="bg-white p-6 rounded-3xl shadow-sm border border-[#E8D8C3] mb-6">
                 <p className="text-base font-extrabold text-[#0F1A14] mb-4 flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-[#C99A45] animate-pulse"></span>
-                  اختر العرض المناسب لك:
+                  {productPage.chooseOffer}
                 </p>
                 <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
               </div>
@@ -206,7 +227,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               >
                 <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
                 <span className="relative z-10 flex items-center justify-center gap-2 flex-wrap">
-                  {COPY.bundleBadges.addToCart}
+                  {bundle.addToCart}
                   <span className="inline-flex items-center gap-1.5" dir="ltr">
                     {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar && (
                       <FormattedAmount className="text-white/55 line-through text-base">
@@ -219,14 +240,19 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </button>
               
               <div className="flex justify-center items-center gap-4 text-xs font-bold text-[#6E675F]">
-                <span className="flex items-center gap-1">💳 الدفع عند الاستلام</span>
+                <span className="flex items-center gap-1">{productPage.codShort}</span>
                 <span className="w-1 h-1 rounded-full bg-[#D1C6B4]" />
-                <span className="flex items-center gap-1">شامل للتوصيل</span>
+                <span className="flex items-center gap-1">{productPage.shippingIncluded}</span>
               </div>
             </div>
 
             {/* Hero Image Carousel */}
-            <HeroCarousel product={product} />
+            <HeroCarousel
+              product={product}
+              localizedName={lp.name}
+              localizedConcern={lp.concern}
+              imageLabel={productPage.imageN}
+            />
           </div>
         </div>
       </section>
@@ -255,18 +281,15 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {/* Text (Left in RTL) */}
             <div className="order-last text-right">
               <span className="inline-block px-4 py-1.5 bg-[#155235]/10 text-[#155235] rounded-full text-sm font-bold mb-4">
-                {COPY.productPageEmpathyEyebrowAr}
+                {productPageEmpathyEyebrow}
               </span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-6 leading-tight">
                 {sections.empathy.heading}
               </h2>
               <div className="space-y-4 text-lg text-[#6E675F] leading-relaxed">
-                <p>
-                  الضغط والقلق على الأكل والوقت الضائع… كلّها تجعل «العناية بنفسك» تبدو كمالًا، وهي ليست كمالًا —
-                  هي بقاءٌ في رحمةِ يومك.
-                </p>
+                <p>{productPage.painIntro}</p>
                 <p className="font-medium text-[#155235] bg-[#155235]/5 p-4 rounded-xl border-r-4 border-[#155235]">
-                  {product.painAwareAr}
+                  {lp.painAware}
                 </p>
                 <p>
                   {sections.empathy.closing}
@@ -279,7 +302,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={product.imageCertificates || "/product-galery/certificates.png?v=3"}
-              alt="شهادات الجودة والاعتماد"
+              alt={productPage.certAlt}
               className="w-full max-w-4xl rounded-3xl shadow-sm object-contain border border-[#E8D8C3]"
             />
           </div>
@@ -293,10 +316,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="text-right min-w-0">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6 border border-white/20">
                 <span className="text-[#C99A45]">🌿</span>
-                <span className="text-sm font-bold tracking-wide">ذوق بيت الصحة</span>
+                <span className="text-sm font-bold tracking-wide">{productPage.qualityBadge}</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">
-                نحترم ذكاءك: لا أرقام تفتيش وهمية، ولا أختامٌ لا نملك أصلها
+                {productPage.qualityHeadline}
               </h2>
               <p className="text-gray-300 text-lg mb-8 leading-relaxed">
                 {sections.quality.intro}
@@ -323,15 +346,15 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="relative bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-[3rem] max-w-sm w-full text-center">
                 <div className="w-32 h-32 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-green-900/50 overflow-hidden">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.jpg" alt="بيت الصحة" className="w-full h-full object-cover" />
+                  <img src="/logo.jpg" alt={brand.name} className="w-full h-full object-cover" />
                 </div>
-                <h3 className="text-2xl font-extrabold mb-2 text-white">البيت أولاً</h3>
+                <h3 className="text-2xl font-extrabold mb-2 text-white">{productPage.homeFirst}</h3>
                 <p className="text-gray-300 text-sm mb-6">
                   {sections.quality.cardTagline}
                 </p>
                 <div className="h-px w-1/2 mx-auto bg-white/20 mb-6" />
                 <p className="text-xs text-gray-400 leading-relaxed">
-                  أي تسجيلٍ رسميٍّ أو شهادةٍ تظهر لاحقًا ستُذكر هنا حرفيًا، من غير زيادةٍ في التسويق.
+                  {productPage.certNote}
                 </p>
               </div>
             </div>
@@ -385,32 +408,26 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
               <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt="تغليف فاخر" className="w-full h-full object-contain mix-blend-multiply" />
+                <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt={productPage.promisePackagingAlt} className={promiseImgClass} />
               </div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">تغليف فاخر يليق بك</h3>
-              <p className="text-sm text-[#6E675F]">
-                كل طرد يصلك بتغليف أنيق يعكس جودة المنتج — لأن التجربة تبدأ قبل الفتح.
-              </p>
+              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{productPage.promisePackagingTitle}</h3>
+              <p className="text-sm text-[#6E675F]">{productPage.promisePackagingDesc}</p>
             </div>
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
               <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt="توصيل سريع" className="w-full h-full object-contain mix-blend-multiply" />
+                <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt={productPage.promiseDeliveryAlt} className={promiseImgClass} />
               </div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">توصيل سريع لباب بيتك</h3>
-              <p className="text-sm text-[#6E675F]">
-                نوصّل داخل المملكة العربية السعودية — الدفع عند الاستلام.
-              </p>
+              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{productPage.promiseDeliveryTitle}</h3>
+              <p className="text-sm text-[#6E675F]">{productPage.promiseDeliveryDesc}</p>
             </div>
             <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
               <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt="الدفع عند الاستلام" className="w-full h-full object-contain mix-blend-multiply" />
+                <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt={productPage.promiseCodAlt} className={promiseImgClass} />
               </div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">الدفع عند الاستلام</h3>
-              <p className="text-sm text-[#6E675F]">
-                لا تدفع ولا ريال قبل ما يوصلك المنتج — ثقة كاملة من البداية.
-              </p>
+              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{productPage.promiseCodTitle}</h3>
+              <p className="text-sm text-[#6E675F]">{productPage.promiseCodDesc}</p>
             </div>
           </div>
         </div>
@@ -421,14 +438,14 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="order-last text-right min-w-0">
-              <span className="text-[#155235] font-bold text-sm tracking-widest uppercase mb-2 block">خطوات بسيطة</span>
+              <span className="text-[#155235] font-bold text-sm tracking-widest uppercase mb-2 block">{productPage.simpleSteps}</span>
               <h2 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-6">{sections.ritual.title}</h2>
               <div className="bg-white p-8 rounded-3xl shadow-sm border border-[#E8D8C3] mb-6 relative">
                 <div className="absolute top-0 right-8 -translate-y-1/2 bg-[#C99A45] text-white px-4 py-1 rounded-full text-sm font-bold shadow-md">
-                  الروتين اليومي
+                  {productPage.dailyRoutine}
                 </div>
                 <p className="text-[#6E675F] leading-relaxed text-lg mt-2">
-                  {product.ritualAr}
+                  {lp.ritual}
                 </p>
               </div>
               <div className="flex items-start gap-3 p-4 bg-[#155235]/5 rounded-xl border border-[#155235]/20">
@@ -461,20 +478,20 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
         <div className="max-w-[1000px] mx-auto px-4 text-center relative z-10">
           <h2 className="text-3xl md:text-5xl font-extrabold mb-6">
-            إن رضيتَ عن القراءة، فالخطوة التالية من باب بيت الصحة
+            {productPage.closingHeadline}
           </h2>
           <p className="text-gray-300 text-lg mb-10 max-w-2xl mx-auto leading-relaxed">
-            اختر باقتك أدناه؛ سنؤكد معك الطلب قبل الشحن. الدفع لا يُستحق إلا عندما يقف المندوب أمامك.
+            {productPage.closingSub}
           </p>
 
           <div className="bg-white text-black p-8 rounded-3xl max-w-2xl mx-auto shadow-2xl mb-8">
-            <h3 className="text-xl font-extrabold text-[#0F1A14] mb-6">الباقة (الدفع عند الاستلام)</h3>
+            <h3 className="text-xl font-extrabold text-[#0F1A14] mb-6">{productPage.bundleTitle}</h3>
             <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
             <button
               onClick={handleAddToCart}
               className="w-full mt-6 bg-[#C99A45] hover:bg-[#b3883b] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] shadow-lg shadow-[#C99A45]/30"
             >
-              أضِف إلى سلّتي{" "}
+              {productPage.addToCart}{" "}
               <span className="inline-flex items-center gap-1.5" dir="ltr">
                 {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar ? (
                   <>
@@ -499,10 +516,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
       <section className="py-16 bg-[#F8F1E7]">
         <div className="max-w-[800px] mx-auto px-4">
           <div className="text-center mb-10">
-            <h2 className="text-3xl font-extrabold text-[#0F1A14] mb-4">سألت… وأجاب بيت الصحة</h2>
-            <p className="text-[#6E675F]">جمعنا أسئلةً تتكرر، بلسانٍ واضحٍ بلا تزيينٍ في المعنى</p>
+            <h2 className="text-3xl font-extrabold text-[#0F1A14] mb-4">{productPage.faqHeadline}</h2>
+            <p className="text-[#6E675F]">{productPage.faqSub}</p>
           </div>
-          <FAQAccordion items={product.faq} />
+          <FAQAccordion items={lp.faq} />
         </div>
       </section>
 
@@ -511,7 +528,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <section className="py-16 bg-white border-t border-[#E8D8C3]">
           <div className="max-w-[1200px] mx-auto px-4">
             <h2 className="text-2xl font-extrabold text-[#0F1A14] text-center mb-10">
-              قد يهمّك من أرصفة بيت الصحة الأخرى
+              {productPage.relatedHeadline}
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-2xl mx-auto">
               {crossSells.map((p) => (
