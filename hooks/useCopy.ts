@@ -1,6 +1,7 @@
 import { useLanguageStore } from "@/store/language-store";
 import { COPY } from "@/content/copy";
 import { BRAND, COPY_EN } from "@/content/store-en";
+import { PRODUCT_PAGE_UI, PAGE_UI } from "@/content/product-page-en";
 import { localizeText } from "@/lib/store-i18n";
 
 export function useCopy() {
@@ -106,9 +107,38 @@ export function useCopy() {
         },
     packLabel: (quantity: number) => {
       if (isEn) {
-        return quantity === 1 ? "1 pack" : quantity === 2 ? "2 packs" : "3 packs";
+        return quantity === 1 ? "1 pack" : quantity === 5 ? "5 packs" : `${quantity} packs`;
       }
-      return quantity === 1 ? "عبوة واحدة" : quantity === 2 ? "عبوتان" : "3 عبوات";
+      return quantity === 1 ? "عبوة واحدة" : quantity === 5 ? "5 عبوات" : `${quantity} عبوات`;
     },
+    productPage: isEn ? PRODUCT_PAGE_UI.en : PRODUCT_PAGE_UI.ar,
+    page: isEn ? PAGE_UI.en : PAGE_UI.ar,
+    homeMarquee: isEn ? COPY_EN.homeMarquee : [...COPY.homeMarquee],
+    collection: isEn
+      ? COPY_EN.collection
+      : { headline: COPY.collection.headlineAr, subheadline: COPY.collection.subheadlineAr },
+    faqGlobal: isEn ? COPY_EN.faqGlobal : COPY.faqGlobal,
+    about: isEn
+      ? COPY_EN.about
+      : {
+          headline: COPY.about.headlineAr,
+          story: COPY.about.storyAr,
+          promiseTitle: COPY.about.promiseTitle,
+          beliefPoints: COPY.about.beliefPoints,
+        },
+    disclaimer: isEn ? COPY_EN.disclaimer : COPY.disclaimer,
+    productPageEmpathyEyebrow: isEn ? COPY_EN.productPageEmpathyEyebrow : COPY.productPageEmpathyEyebrowAr,
+    reviewsTitle: isEn ? COPY_EN.reviewsPlaceholderTitle : COPY.reviewsPlaceholderTitleAr,
+    thankYou: isEn
+      ? COPY_EN.thankYou
+      : {
+          headline: COPY.thankYou.headlineAr,
+          orderNumberPrefix: COPY.thankYou.orderNumberPrefixAr,
+          sub: COPY.thankYou.subAr,
+          deliveryNote: COPY.thankYou.deliveryNoteAr,
+          codBadge: COPY.thankYou.codBadgeAr,
+          upsellBadge: COPY.thankYou.upsellBadgeAr,
+          continueCTA: COPY.thankYou.continueCTAAr,
+        },
   };
 }
