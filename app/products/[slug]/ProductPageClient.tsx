@@ -39,13 +39,13 @@ type Props = {
 function HeroCarousel({
   product,
   localizedName,
-  localizedConcern,
   imageLabel,
+  socialProofShort,
 }: {
   product: Product;
   localizedName: string;
-  localizedConcern: string;
   imageLabel: (n: number) => string;
+  socialProofShort: string;
 }) {
   const [current, setCurrent] = useState(0);
   const images = useMemo(() => {
@@ -118,7 +118,7 @@ function HeroCarousel({
         {/* Floating Badge */}
         <div className="absolute top-3 end-3 sm:top-6 sm:end-4 bg-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-1.5 sm:gap-2 z-10 max-w-[70%]">
           <span className="text-base sm:text-xl shrink-0">{product.imageTheme === "herbal-skin" ? "✨" : product.imageTheme === "scar-gel" ? "💧" : "🌿"}</span>
-          <span className="text-[10px] sm:text-sm font-bold text-[#155235] truncate">{localizedConcern}</span>
+          <span className="text-[10px] sm:text-sm font-bold text-[#155235] truncate">{socialProofShort}</span>
         </div>
       </div>
     </div>
@@ -250,8 +250,8 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <HeroCarousel
               product={product}
               localizedName={lp.name}
-              localizedConcern={lp.concern}
               imageLabel={productPage.imageN}
+              socialProofShort={productPage.socialProofShort(getProductOrderCount(product.slug).toLocaleString())}
             />
           </div>
         </div>

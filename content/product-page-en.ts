@@ -114,6 +114,7 @@ export const PRODUCT_PAGE_UI = {
   ar: {
     chooseOffer: "اختر العرض المناسب لك:",
     socialProof: (count: string) => `+${count} شخص طلبوا — الشحنة الحالية تنفد قريباً`,
+    socialProofShort: (count: string) => `+${count} شخص طلبوا`,
     codShort: "💳 الدفع عند الاستلام",
     shippingIncluded: "شامل للتوصيل",
     painIntro:
@@ -150,6 +151,7 @@ export const PRODUCT_PAGE_UI = {
   en: {
     chooseOffer: "Choose the offer that fits you:",
     socialProof: (count: string) => `+${count} people ordered — current batch selling out soon`,
+    socialProofShort: (count: string) => `+${count} people ordered`,
     codShort: "💳 Cash on Delivery",
     shippingIncluded: "Shipping included",
     painIntro:
