@@ -16,7 +16,6 @@ docker-compose*.yml
 **/*.jpg.jpg
 **/__pycache__
 **/*.pyc
-scripts
 *.py
 update_*.py
 clean_admin*.py
