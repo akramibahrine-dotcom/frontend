@@ -459,7 +459,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "scar-gel",
     slug: "scar-gel",
-    sku: "BAYT-SCG-002",
+    sku: "CopAkramGeL!",
     nameAr: "جل السيليكون الأمريكي لعلاج الندوب والحروق",
     shortNameAr: "جل علاج الندوب",
     headlineAr: "جيل سيليكون الأمريكي لعلاج الندوب و الحروق",
