@@ -2,14 +2,11 @@ import translations from "@/content/translations";
 import { COPY } from "@/content/copy";
 import { PRODUCTS, BUNDLE_OFFERS } from "@/content/products";
 import { CATEGORIES } from "@/content/categories";
-import {
-  BRAND,
-  COPY_EN,
-  CATEGORY_EN,
-  PRODUCT_EN,
-  UI_PAIRS,
-  type ProductEn,
-} from "@/content/store-en";
+import { BRAND, COPY_EN, CATEGORY_EN, PRODUCT_EN, UI_PAIRS, type ProductEn } from "@/content/store-en";
+import { REVIEWS_EN } from "@/content/reviews-en";
+import { CUSTOMER_REVIEWS } from "@/content/customer-reviews";
+import { TEA_SECTIONS, SKINCARE_SECTIONS, type ProductPageSections } from "@/lib/product-page-copy";
+import { TEA_SECTIONS_EN, SKINCARE_SECTIONS_EN, PRODUCT_PAGE_UI, PAGE_UI } from "@/content/product-page-en";
 import type { Product } from "@/content/products";
 
 function addPair(map: Map<string, string>, ar: string | undefined, en: string | undefined) {
@@ -129,6 +126,52 @@ function collectCopyPairs(map: Map<string, string>) {
   addPair(map, COPY.productPageEmpathyEyebrowAr, COPY_EN.productPageEmpathyEyebrow);
 }
 
+function collectSectionPairs(map: Map<string, string>, ar: ProductPageSections, en: ProductPageSections) {
+  addPair(map, ar.empathy.imageAlt, en.empathy.imageAlt);
+  addPair(map, ar.empathy.heading, en.empathy.heading);
+  addPair(map, ar.empathy.closing, en.empathy.closing);
+  addPair(map, ar.quality.intro, en.quality.intro);
+  addPair(map, ar.quality.cardTagline, en.quality.cardTagline);
+  ar.quality.points.forEach((point, i) => {
+    addPair(map, point.title, en.quality.points[i]?.title);
+    addPair(map, point.desc, en.quality.points[i]?.desc);
+  });
+  addPair(map, ar.ingredients.title, en.ingredients.title);
+  addPair(map, ar.ingredients.intro, en.ingredients.intro);
+  addPair(map, ar.ingredients.imageAlt, en.ingredients.imageAlt);
+  ar.ingredients.points.forEach((point, i) => {
+    addPair(map, point.title, en.ingredients.points[i]?.title);
+    addPair(map, point.desc, en.ingredients.points[i]?.desc);
+  });
+  addPair(map, ar.ritual.title, en.ritual.title);
+  addPair(map, ar.ritual.tip, en.ritual.tip);
+  addPair(map, ar.ritual.imageAlt, en.ritual.imageAlt);
+  addPair(map, ar.disclaimer, en.disclaimer);
+}
+
+function collectUiRecordPairs(
+  map: Map<string, string>,
+  ar: Record<string, unknown>,
+  en: Record<string, unknown>
+) {
+  for (const key of Object.keys(ar)) {
+    const a = ar[key];
+    const e = en[key];
+    if (typeof a === "string" && typeof e === "string") addPair(map, a, e);
+  }
+}
+
+function collectReviewPairs(map: Map<string, string>) {
+  for (const review of CUSTOMER_REVIEWS) {
+    const en = REVIEWS_EN[review.id];
+    if (!en) continue;
+    addPair(map, review.nameAr, en.name);
+    addPair(map, review.countryAr, en.country);
+    addPair(map, review.sceneLabelAr, en.sceneLabel);
+    addPair(map, review.quoteAr, en.quote);
+  }
+}
+
 function mergeApiOverrides(map: Map<string, string>, api: Record<string, string>) {
   for (const [key, value] of Object.entries(api)) {
     if (/[\u0600-\u06FF]/.test(key)) {
@@ -171,6 +214,12 @@ export function buildArToEnMap(apiOverrides: Record<string, string> = {}): Map<s
   for (const [ar, en] of UI_PAIRS) {
     addPair(map, ar, en);
   }
+
+  collectSectionPairs(map, TEA_SECTIONS, TEA_SECTIONS_EN);
+  collectSectionPairs(map, SKINCARE_SECTIONS, SKINCARE_SECTIONS_EN);
+  collectUiRecordPairs(map, PRODUCT_PAGE_UI.ar as Record<string, unknown>, PRODUCT_PAGE_UI.en as Record<string, unknown>);
+  collectUiRecordPairs(map, PAGE_UI.ar as Record<string, unknown>, PAGE_UI.en as Record<string, unknown>);
+  collectReviewPairs(map);
 
   mergeApiOverrides(map, apiOverrides);
 

@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { WELCOME_PROMO_ENABLED } from "@/lib/pricing";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
+import { useCopy } from "@/hooks/useCopy";
 
 const MODAL_SEEN_KEY = "bsh_welcome_modal_seen";
 
@@ -10,6 +11,20 @@ export function WelcomePromoModal() {
   const [open, setOpen] = useState(false);
   const hydrate = useWelcomePromoStore((s) => s.hydrate);
   const setActive = useWelcomePromoStore((s) => s.setActive);
+  const { isEn } = useCopy();
+  const copy = isEn
+    ? {
+        title: "10% off — because you deserve a start",
+        sub: "Limited offer on your first order",
+        cta: "Get the discount",
+        skip: "No thanks",
+      }
+    : {
+        title: "خصم 10% — لأنك تستحق البداية",
+        sub: "عرض محدود على طلبك الأول",
+        cta: "احصل على الخصم",
+        skip: "لا شكرًا",
+      };
 
   useEffect(() => {
     hydrate();
@@ -68,11 +83,11 @@ export function WelcomePromoModal() {
             id="welcome-promo-title"
             className="text-2xl md:text-3xl font-extrabold text-[#C99A45] mb-3 leading-tight"
           >
-            خصم 10% — لأنك تستحق البداية
+            {copy.title}
           </h2>
 
           <p className="text-white/70 text-sm mb-8">
-            عرض محدود على طلبك الأول
+            {copy.sub}
           </p>
 
           <button
@@ -80,7 +95,7 @@ export function WelcomePromoModal() {
             onClick={acceptPromo}
             className="w-full py-3.5 rounded-full bg-[#C99A45] text-[#071C12] font-extrabold text-lg hover:bg-[#d4a94f] active:scale-[0.98] transition-all"
           >
-            احصل على الخصم
+            {copy.cta}
           </button>
 
           <button
@@ -88,7 +103,7 @@ export function WelcomePromoModal() {
             onClick={dismissSeen}
             className="mt-4 text-white/40 text-sm hover:text-white/60 transition-colors"
           >
-            لا شكرًا
+            {copy.skip}
           </button>
         </div>
       </div>

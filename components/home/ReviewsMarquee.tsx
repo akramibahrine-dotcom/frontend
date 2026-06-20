@@ -2,8 +2,12 @@
 
 import Image from "next/image";
 import { CUSTOMER_REVIEWS } from "@/content/customer-reviews";
+import { useCopy } from "@/hooks/useCopy";
+import { getLocalizedReview } from "@/lib/get-localized-product";
 
 function ReviewCard({ review }: { review: (typeof CUSTOMER_REVIEWS)[0] }) {
+  const { lang } = useCopy();
+  const localized = getLocalizedReview(review, lang);
   const src = review.portraitFile;
 
   return (
@@ -16,7 +20,7 @@ function ReviewCard({ review }: { review: (typeof CUSTOMER_REVIEWS)[0] }) {
           <div className="w-16 h-16 rounded-full border-3 border-white shadow-lg overflow-hidden bg-[#E8D8C3]">
             <Image
               src={src}
-              alt={review.nameAr}
+              alt={localized.name}
               width={64}
               height={64}
               className="object-cover w-full h-full"
@@ -28,17 +32,17 @@ function ReviewCard({ review }: { review: (typeof CUSTOMER_REVIEWS)[0] }) {
       <div className="p-4 pt-12 flex-1 flex flex-col">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <p className="font-extrabold text-[#0F1A14] text-sm">{review.nameAr}</p>
-            <p className="text-[#567063] text-xs">{review.countryAr}</p>
+            <p className="font-extrabold text-[#0F1A14] text-sm">{localized.name}</p>
+            <p className="text-[#567063] text-xs">{localized.country}</p>
           </div>
           <div className="text-[#C99A45] text-sm" aria-hidden>
             {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
           </div>
         </div>
-        <p className="text-[#567063] text-sm leading-relaxed line-clamp-4 flex-1">{review.quoteAr}</p>
+        <p className="text-[#567063] text-sm leading-relaxed line-clamp-4 flex-1">{localized.quote}</p>
         <div className="mt-3 flex items-center gap-1.5">
           <span className="text-xs bg-[#F5F3EE] text-[#567063] px-2 py-0.5 rounded-full border border-[#E8E2D8]">
-            {review.sceneEmoji} {review.sceneLabelAr}
+            {review.sceneEmoji} {localized.sceneLabel}
           </span>
         </div>
       </div>
@@ -47,6 +51,8 @@ function ReviewCard({ review }: { review: (typeof CUSTOMER_REVIEWS)[0] }) {
 }
 
 export function ReviewsMarquee() {
+  const { reviewsTitle, page } = useCopy();
+
   if (CUSTOMER_REVIEWS.length === 0) return null;
 
   const doubled = [...CUSTOMER_REVIEWS, ...CUSTOMER_REVIEWS];
@@ -55,10 +61,10 @@ export function ReviewsMarquee() {
     <section className="py-12 md:py-16 bg-white overflow-hidden" aria-labelledby="reviews-marquee-title">
       <div className="max-w-[1200px] mx-auto px-4 mb-8 text-center">
         <h2 id="reviews-marquee-title" className="text-2xl md:text-3xl font-extrabold text-[#0F1A14] mb-2">
-          أصدقاء بيت الصحة
+          {reviewsTitle}
         </h2>
         <p className="text-[#567063] text-sm md:text-base max-w-2xl mx-auto">
-          لمحاتٌ من ناسٍ جرّبوا روتينًا عشبيًا هادئًا — كلماتهم عن التجربة، لا عن نتائجٍ طبيةٍ نعد بها.
+          {page.reviewsMarqueeSub}
         </p>
         <div className="divider-mint w-24 mx-auto mt-5" />
       </div>
