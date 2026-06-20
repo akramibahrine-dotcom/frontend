@@ -44,6 +44,7 @@ export type Product = {
   imagePromiseCod?: string;
   imageRitual?: string;
   imageCertificates?: string;
+  imageSecondaryCertificates?: string;
   offerImages?: Record<number, string>;
   bundleOffers?: readonly BundleOffer[];
 };
@@ -472,13 +473,14 @@ export const PRODUCTS: Product[] = [
       "/products/scar-gel/2.jpg",
       "/products/scar-gel/3.jpg",
     ],
-    imageSection2: "/products/scar-gel/2.jpg",
+    imageSection2: "/products/scar-gel/6.jpg",
     imageSection4: "/products/scar-gel/11.jpg",
     imagePromisePackaging: "/products/scar-gel/7.jpg",
     imagePromiseDelivery: "/products/scar-gel/9.jpg",
     imagePromiseCod: "/products/scar-gel/8.jpg",
     imageRitual: "/products/scar-gel/10.jpg",
     imageCertificates: "/products/scar-gel/5.jpg",
+    imageSecondaryCertificates: "/products/scar-gel/11.jpg",
     offerImages: {
       1: "/products/scar-gel/3.jpg",
       3: "/products/scar-gel/3.jpg",

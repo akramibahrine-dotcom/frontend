@@ -471,6 +471,22 @@ export function ProductPageClient({ product, crossSells }: Props) {
         </div>
       </section>
 
+      {/* 7. Secondary Certificates */}
+      {product.imageSecondaryCertificates && (
+        <section className="py-16 md:py-24 bg-white relative overflow-hidden">
+          <div className="max-w-[1200px] mx-auto px-4 relative z-10">
+            <div className="flex justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={product.imageSecondaryCertificates}
+                alt={productPage.certAlt}
+                className="w-full max-w-4xl rounded-3xl shadow-sm object-contain border border-[#E8D8C3]"
+              />
+            </div>
+          </div>
+        </section>
+      )}
+
 
 
       {/* 8. ختامٌ يدعوك بلطفِ بيتٍ */}
