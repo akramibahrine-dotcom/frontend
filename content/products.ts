@@ -475,7 +475,7 @@ export const PRODUCTS: Product[] = [
       "/products/scar-gel/3.jpg",
     ],
     imageSection2: "/products/scar-gel/6.jpg",
-    imageSection4: "/products/scar-gel/6-1.jpg",
+    imageSection4: "/products/scar-gel/14.jpg",
     imageIngredients: "/products/scar-gel/2.jpg",
     imagePromisePackaging: "/products/scar-gel/8.jpg",
     imagePromiseDelivery: "/products/scar-gel/9.jpg",
