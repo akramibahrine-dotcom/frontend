@@ -380,7 +380,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <div className="relative bg-gradient-to-br from-[#155235]/10 to-transparent p-4 rounded-[3rem] border border-white overflow-hidden">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={product.imageSection4 || "/product-galery/4.jpg"}
+                  src={product.imageIngredients || product.imageSection4 || "/product-galery/4.jpg"}
                   alt={sections.ingredients.imageAlt}
                   className="w-full h-full object-cover rounded-2xl"
                 />

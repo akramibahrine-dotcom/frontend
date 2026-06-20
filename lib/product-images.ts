@@ -35,6 +35,7 @@ export function getProductImageCandidates(
     product.imagePromisePackaging,
     product.imagePromiseDelivery,
     product.imagePromiseCod,
+    product.imageIngredients,
     product.imageSection4,
     product.imageCertificates,
   ]) {

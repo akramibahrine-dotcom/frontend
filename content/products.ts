@@ -39,6 +39,7 @@ export type Product = {
   images: string[];
   imageSection2?: string;
   imageSection4?: string;
+  imageIngredients?: string;
   imagePromisePackaging?: string;
   imagePromiseDelivery?: string;
   imagePromiseCod?: string;
@@ -474,7 +475,8 @@ export const PRODUCTS: Product[] = [
       "/products/scar-gel/3.jpg",
     ],
     imageSection2: "/products/scar-gel/6.jpg",
-    imageSection4: "/products/scar-gel/2.jpg",
+    imageSection4: "/products/scar-gel/6-1.jpg",
+    imageIngredients: "/products/scar-gel/2.jpg",
     imagePromisePackaging: "/products/scar-gel/8.jpg",
     imagePromiseDelivery: "/products/scar-gel/9.jpg",
     imagePromiseCod: "/products/scar-gel/10.jpg",
