@@ -493,6 +493,35 @@ export const PRODUCT_EN: Record<string, ProductEn> = {
       },
     ],
   },
+  "eelhoe-fresh-breath": {
+    name: "EELHOE Fresh Breath Essence",
+    shortName: "Fresh Breath Essence",
+    headline: "One breath... changes everything between you",
+    subheadline: "100% natural drops for fresh breath that lasts 24 hours from the first use.",
+    concern: "Bad breath treatment",
+    painAware: "How many times have you pulled away... without saying why? Bad breath builds an invisible wall between you and the one you love, stealing your best moments without anyone daring to tell you! The problem isn't in your mouth — it's the hidden bacteria.. and the solution is now here.",
+    ritual: "Apply a few drops in the mouth daily. 100% natural formula, completely safe, alcohol-free, and safe to use even while fasting.",
+    whyBaytsehaPoints: [
+      "100% natural drops that eliminate hidden bacteria",
+      "Fresh breath that lasts 24 hours from the first use",
+      "Alcohol-free, completely safe for fasting",
+      "The best-selling product in Europe and America, now in the UAE and Saudi Arabia"
+    ],
+    faq: [
+      {
+        question: "Is the product safe for daily use?",
+        answer: "Yes, its 100% natural formula is completely safe for daily use.",
+      },
+      {
+        question: "Does it contain alcohol?",
+        answer: "No, the product is completely alcohol-free and safe for fasting.",
+      },
+      {
+        question: "When does the product start working?",
+        answer: "It starts working from the first use, and the fresh breath lasts for 24 hours.",
+      },
+    ],
+  },
 };
 
 /** Extra UI strings not in COPY — homepage, cart, header, etc. */

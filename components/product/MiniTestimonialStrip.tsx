@@ -58,6 +58,12 @@ const MINI_REVIEWS: Record<string, MiniReview[]> = {
     { name: "حمد الكواري", flag: "🇶🇦", city: "الدوحة", age: 31, quote: "ندوب حب الشباب على وجهي خفّت 80% بعد شهرين. أفضل منتج جربته.", badge: "💎 بشرة صافية" },
     { name: "فاطمة البلوشي", flag: "🇦🇪", city: "أبوظبي", age: 25, quote: "أثر الجرح على يدي صار شبه مختفي. الجل خفيف وما يترك أثر دهني.", badge: "⭐ نتيجة مبهرة" },
   ],
+  "eelhoe-fresh-breath": [
+    { name: "سالم العتيبي", flag: "🇸🇦", city: "الرياض", age: 35, quote: "من أول استخدام حسيت بالفرق، النفس منعش طول اليوم.", badge: "✅ نفس منعش" },
+    { name: "أمل الشمري", flag: "🇸🇦", city: "جدة", age: 29, quote: "المنتج رهيب، رجع لي ثقتي بنفسي وما استغني عنه.", badge: "✨ ثقة عالية" },
+    { name: "عبدالرحمن المري", flag: "🇦🇪", city: "دبي", age: 40, quote: "ممتاز جداً للدوام والاجتماعات، أنصح فيه بشدة.", badge: "⭐ الأفضل" },
+    { name: "نورة القحطاني", flag: "🇸🇦", city: "الدمام", age: 32, quote: "سهل الاستخدام ومفعوله سريع ويدوم.", badge: "💎 مفعول سريع" },
+  ],
 };
 
 export function MiniTestimonialStrip({ productSlug }: { productSlug: string }) {

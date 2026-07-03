@@ -522,6 +522,62 @@ export const PRODUCTS: Product[] = [
       },
     ],
   },
+  {
+    id: "eelhoe-fresh-breath",
+    slug: "eelhoe-fresh-breath",
+    sku: "BAYT-EEL-001",
+    nameAr: "إكسير EELHOE لعلاج رائحة الفم الكريهة",
+    shortNameAr: "إكسير رائحة الفم",
+    headlineAr: "نفسٌ واحد... يغيّر كل شيء بينكما",
+    subheadlineAr: "قطرات طبيعية 100% لنفس منعش يدوم 24 ساعة من أول استخدام.",
+    concernAr: "علاج رائحة الفم الكريهة",
+    painAwareAr: "كم مرة ابتعدت... بدون ما تقول السبب؟ رائحة الفم تبني جداراً غير مرئي بينك وبين من تحب، تسرق أجمل لحظاتكم وما أحد يجرؤ يقولك! المشكلة ليست في فمك — المشكلة في البكتيريا المخفية.. والحل أصبح موجوداً.",
+    imageTheme: "herbal-skin",
+    images: [
+      "/products/eelhoe-fresh-breath/1.jpg",
+      "/products/eelhoe-fresh-breath/2.jpg",
+      "/products/eelhoe-fresh-breath/3.jpg",
+    ],
+    imageSection2: "/products/eelhoe-fresh-breath/2.jpg",
+    imageSection4: "/products/eelhoe-fresh-breath/3.jpg",
+    imagePromisePackaging: "/products/axis-y-serum/promise-pkg-serum.jpg",
+    imagePromiseDelivery: "/products/axis-y-serum/promise-del-serum.jpg",
+    imagePromiseCod: "/products/axis-y-serum/promise-cod-serum.jpg",
+    imageRitual: "/products/eelhoe-fresh-breath/1.jpg",
+    offerImages: {
+      1: "/products/eelhoe-fresh-breath/2.jpg",
+      2: "/products/eelhoe-fresh-breath/2.jpg",
+      3: "/products/eelhoe-fresh-breath/2.jpg",
+    },
+    upsellProductId: "axis-y-serum",
+    crossSellProductIds: ["axis-y-serum", "scar-gel"],
+    bundleOffers: [
+      { quantity: 3, priceSar: 249, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
+      { quantity: 2, priceSar: 199, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
+      { quantity: 1, priceSar: 129, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
+    ],
+    ritualAr: "ضع بضع قطرات في الفم يومياً. تركيبة طبيعية 100% وآمنة تماماً بدون كحول، وآمنة للاستخدام حتى أثناء الصيام.",
+    whyBaytsehaPoints: [
+      "قطرات طبيعية 100% تقضي على البكتيريا المخفية",
+      "نفس منعش يدوم 24 ساعة من أول استخدام",
+      "بدون كحول، وآمن تماماً للصيام",
+      "المنتج الأكثر مبيعاً في أوروبا وأمريكا، الآن في الإمارات والسعودية"
+    ],
+    faq: [
+      {
+        question: "هل المنتج آمن للاستخدام اليومي؟",
+        answer: "نعم، تركيبته طبيعية 100% وآمنة تماماً للاستخدام اليومي.",
+      },
+      {
+        question: "هل يحتوي على كحول؟",
+        answer: "لا، المنتج خالي تماماً من الكحول وآمن للصيام.",
+      },
+      {
+        question: "متى يبدأ مفعول المنتج؟",
+        answer: "يبدأ المفعول من أول استخدام، ويدوم النفس المنعش لمدة 24 ساعة.",
+      },
+    ],
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {

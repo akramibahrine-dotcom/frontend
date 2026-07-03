@@ -455,6 +455,14 @@ const REVIEWS_MAP: Record<string, ProductReview[]> = {
     { id: 11, nameAr: "سارة المالكي", cityAr: "🇸🇦 الطائف", age: 30, quoteAr: "ابني تعرض لحرق ماء حار وبقى أثر. استخدمنا الجل بانتظام وبعد شهرين الأثر تقريباً راح. منتج ممتاز وآمن.", rating: 5, badge: "👶 آمن للعائلة" },
     { id: 12, nameAr: "جاسم الأنصاري", cityAr: "🇧🇭 المنامة", age: 38, quoteAr: "ندبة في الوجه من 10 سنوات. جربت كل شي بدون فايدة. هالجل أول منتج يعطي نتيجة حقيقية. والله يستاهل كل ريال.", rating: 4, badge: "🏆 أخيراً نتيجة" },
   ],
+  "eelhoe-fresh-breath": [
+    { id: 1, nameAr: "سالم العتيبي", cityAr: "🇸🇦 الرياض", age: 35, quoteAr: "من أول استخدام حسيت بالفرق، النفس منعش طول اليوم وفعلاً يغير الثقة بالنفس.", rating: 5, badge: "✅ نفس منعش" },
+    { id: 2, nameAr: "أمل الشمري", cityAr: "🇸🇦 جدة", age: 29, quoteAr: "المنتج رهيب، رجع لي ثقتي بنفسي وما استغني عنه في الدوام والطلعات.", rating: 5, badge: "✨ ثقة عالية" },
+    { id: 3, nameAr: "عبدالرحمن المري", cityAr: "🇦🇪 دبي", age: 40, quoteAr: "ممتاز جداً للدوام والاجتماعات، أنصح فيه بشدة لكل شخص يبي حل سريع وفعال.", rating: 5, badge: "⭐ الأفضل" },
+    { id: 4, nameAr: "نورة القحطاني", cityAr: "🇸🇦 الدمام", age: 32, quoteAr: "سهل الاستخدام ومفعوله سريع ويدوم 24 ساعة فعلاً. طعمه مقبول وما يضايق.", rating: 5, badge: "💎 مفعول سريع" },
+    { id: 5, nameAr: "فهد الدوسري", cityAr: "🇰🇼 الكويت", age: 45, quoteAr: "شريته لي ولزوجتي، والحمدلله النتيجة ممتازة من أول يوم. يستاهل كل فلس.", rating: 5, badge: "🌿 طبيعي وآمن" },
+    { id: 6, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 27, quoteAr: "توصيل سريع وتغليف ممتاز. المنتج سحري ويغني عن العلك والحلاوة.", rating: 4, badge: "🚚 توصيل سريع" },
+  ],
 };
 
 const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string; accentColor: string; bgFrom: string; bgTo: string }> = {
@@ -466,6 +474,7 @@ const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: s
   "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "🌱", title: "شاي البروستات", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
   "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✨", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
   "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "💧", title: "جل علاج الندوب", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "eelhoe-fresh-breath": { badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200", borderColor: "border-emerald-200", emoji: "🌿", title: "إكسير رائحة الفم", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
 };
 
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
