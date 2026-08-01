@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
-import Image from "next/image";
 import Link from "next/link";
 import { ProductCard } from "@/components/product/ProductCard";
 import { FAQAccordion } from "@/components/ui/FAQAccordion";
@@ -29,89 +28,6 @@ export const metadata: Metadata = {
 export default function HomePage() {
   return (
     <>
-      {/* ═══ HERO — light background, dark green text ═══ */}
-      <section className="bg-[#F5F3EE] leaf-pattern relative overflow-hidden py-10 md:py-32">
-        {/* decorative corner glow */}
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -top-32 -right-32 w-[500px] h-[500px] rounded-full opacity-20"
-          style={{ background: "radial-gradient(circle, #C99A45 0%, transparent 70%)" }}
-        />
-        <div
-          aria-hidden
-          className="pointer-events-none absolute -bottom-24 -left-24 w-[350px] h-[350px] rounded-full opacity-10"
-          style={{ background: "radial-gradient(circle, #C99A45 0%, transparent 70%)" }}
-        />
-
-        <div className="relative max-w-[1200px] mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Hero visual — first on mobile so the image is visible above the fold */}
-            <div className="order-1 md:order-2 flex flex-col items-center justify-center relative w-full min-w-0">
-              <div className="w-full max-w-md relative rounded-3xl overflow-hidden shadow-2xl shadow-[#071C12]/40 group bg-[#071C12]">
-                <div className="relative w-full aspect-[3/2]">
-                  <Image
-                    src="/product-galery/hero-main.jpg"
-                    alt="منتجات بيت الصحة — أعشاب طبيعية فاخرة"
-                    fill
-                    priority
-                    sizes="(max-width: 768px) 100vw, 480px"
-                    className="object-contain object-center group-hover:scale-[1.02] transition-transform duration-700"
-                  />
-                </div>
-                <div className="absolute inset-0 bg-gradient-to-t from-[#071C12]/80 via-transparent to-transparent pointer-events-none" />
-                <div className="absolute bottom-0 inset-x-0 p-4 sm:p-6 text-center pointer-events-none">
-                  <p className="font-extrabold text-[#C99A45] text-lg sm:text-xl mb-2">بيت الصحة</p>
-                  <div className="flex flex-wrap justify-center gap-1.5 sm:gap-2">
-                    {["💳 الدفع عند الاستلام", "🚚 توصيل السعودية", "🌿 طبيعي 100%"].map((b) => (
-                      <span
-                        key={b}
-                        className="bg-white/10 backdrop-blur-sm border border-white/20 text-white text-[10px] py-1 px-2 rounded-full font-medium"
-                      >
-                        {b}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Text */}
-            <div className="order-2 md:order-1 text-right min-w-0 animate-float-up">
-              <span className="inline-block bg-[#071C12]/5 border border-[#071C12]/10 text-[#071C12] text-xs font-semibold px-4 py-1.5 rounded-full mb-5 tracking-widest">
-                🌿 {COPY.brand.taglineAr}
-              </span>
-              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold text-[#071C12] leading-tight mb-5">
-                {COPY.hero.headlineAr}
-              </h1>
-              <p className="text-[#071C12]/80 text-lg leading-relaxed mb-8">
-                {COPY.hero.subheadlineAr}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-3">
-                <Link
-                  href="/collections"
-                  className="btn-luxury inline-flex items-center justify-center px-8 py-4 rounded-full text-base font-bold transition-all text-white"
-                >
-                  {COPY.hero.ctaAr} ←
-                </Link>
-                <Link
-                  href="/collections"
-                  className="inline-flex items-center justify-center px-8 py-4 rounded-full border border-[#071C12]/20 text-[#071C12] font-semibold text-base hover:bg-[#071C12]/5 transition-colors"
-                >
-                  {COPY.hero.ctaSecondaryAr}
-                </Link>
-              </div>
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-4 gap-y-2 mt-5">
-                <span className="text-[#071C12]/70 text-xs font-bold">✓ دفع عند الاستلام</span>
-                <span className="w-1 h-1 rounded-full bg-[#071C12]/30" />
-                <span className="text-[#071C12]/70 text-xs font-bold">✓ بدون بطاقة</span>
-                <span className="w-1 h-1 rounded-full bg-[#071C12]/30" />
-                <span className="text-[#071C12]/70 text-xs font-bold">✓ توصيل السعودية</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ═══ HEALTH PROBLEMS / CATEGORIES STRIP ═══ */}
       <section className="bg-white border-y border-[#E8E2D8] py-8">
         <div className="max-w-[1200px] mx-auto px-4">
