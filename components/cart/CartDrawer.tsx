@@ -22,7 +22,7 @@ import { getProductBundleOffers } from "@/content/products";
 
 export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, getTotal, closeCheckout } = useCartStore();
-  const { format, currency, rates } = useCurrencyStore();
+  const { currency, rates } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const { cart } = useCopy();
   const total = getTotal();
