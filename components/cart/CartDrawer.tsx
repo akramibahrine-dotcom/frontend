@@ -6,7 +6,7 @@ import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { useCopy } from "@/hooks/useCopy";
-import { PRODUCTS, getCrossSellProducts, getProductBundleOffers, type Product } from "@/content/products";
+import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
@@ -20,7 +20,6 @@ import {
   shouldShowWelcomeReferencePricing,
 } from "@/lib/pricing";
 import { convertSarTo, formatPrice } from "@/lib/currency";
-import { useMemo } from "react";
 
 export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, closeCheckout } = useCartStore();
@@ -28,22 +27,6 @@ export function CartDrawer() {
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const { cart } = useCopy();
   const displayTotalLabel = formatDisplayCartTotal(items, currency, rates);
-
-  // Only suggest each cart product's own cross-sells — never random catalog items
-  const crossSells = useMemo(() => {
-    const inCart = new Set(items.map((i) => i.productId));
-    const seen = new Set<string>();
-    const result: Product[] = [];
-    for (const item of items) {
-      for (const p of getCrossSellProducts(item.productId)) {
-        if (inCart.has(p.id) || seen.has(p.id)) continue;
-        seen.add(p.id);
-        result.push(p);
-        if (result.length >= 2) return result;
-      }
-    }
-    return result;
-  }, [items]);
 
   return (
     <>
@@ -102,17 +85,6 @@ export function CartDrawer() {
               ))}
 
               <GiftProgressBanner items={items} />
-
-              {crossSells.length > 0 && (
-                <div className="pt-2">
-                  <p className="text-sm font-bold text-[#C99A45] mb-2">{cart.crossSellTitle}</p>
-                  <div className="space-y-2">
-                    {crossSells.map((product) => (
-                      <CrossSellCard key={product.id} product={product} />
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           )}
         </div>
@@ -248,41 +220,6 @@ function GiftProgressBanner({ items }: { items: CartItem[] }) {
           </p>
         </>
       )}
-    </div>
-  );
-}
-
-function CrossSellCard({ product }: { product: Product }) {
-  const { addBundle } = useCartStore();
-  const { currency, rates } = useCurrencyStore();
-  const { cart, localize, isEn } = useCopy();
-  const offers = getProductBundleOffers(product);
-  const crossSellPriceLabel = formatBundlePrice(1, currency, rates, offers);
-
-  return (
-    <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
-      <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
-        <ProductImage
-          product={product}
-          alt={product.nameAr}
-          className="w-12 h-12 object-contain"
-        />
-      </div>
-      <div className="flex-1 min-w-0">
-        <p className="text-xs font-bold text-white line-clamp-1">{localize(product.nameAr)}</p>
-        <p className="text-xs text-[#C99A45] font-bold mt-0.5">
-          <FormattedAmount>{crossSellPriceLabel}</FormattedAmount>
-        </p>
-      </div>
-      <button
-        onClick={() => {
-          addBundle(product.id, product.slug, product.nameAr, 1, product.imageTheme, "cart_cross_sell");
-        }}
-        className="flex-shrink-0 px-3 py-1.5 rounded-full bg-[#155235] text-[#C99A45] text-xs font-bold border border-[#C99A45]/20 hover:bg-[#1B6B45] transition-colors whitespace-nowrap"
-        aria-label={isEn ? `Add ${localize(product.nameAr)} to order` : `أضف ${product.nameAr} للطلب`}
-      >
-        {cart.add}
-      </button>
     </div>
   );
 }
