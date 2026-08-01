@@ -14,18 +14,19 @@ import { ProductImage } from "@/components/product/ProductImage";
 import {
   formatBundlePrice,
   formatDisplayCartTotal,
+  getDisplayCartTotal,
   getPayableBundlePriceSar,
   getWelcomeReferenceBundlePriceSar,
   shouldShowWelcomeReferencePricing,
 } from "@/lib/pricing";
+import { convertSarTo, formatPrice } from "@/lib/currency";
 import { getProductBundleOffers } from "@/content/products";
 
 export function CartDrawer() {
-  const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, getTotal, closeCheckout } = useCartStore();
+  const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, closeCheckout } = useCartStore();
   const { currency, rates } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const { cart } = useCopy();
-  const total = getTotal();
   const displayTotalLabel = formatDisplayCartTotal(items, currency, rates);
 
   const crossSells = PRODUCTS.filter(
@@ -88,7 +89,7 @@ export function CartDrawer() {
                 <CartLineRow key={item.lineId} item={item} welcomePromo={welcomePromo} />
               ))}
 
-              <GiftProgressBanner totalSar={total} />
+              <GiftProgressBanner items={items} />
 
               {crossSells.length > 0 && (
                 <div className="pt-2">
@@ -189,12 +190,23 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
 }
 
 const GIFT_THRESHOLD_SAR = 299;
+const GIFT_THRESHOLD_OVERRIDES: Record<string, number> = {
+  OMR: 30,
+};
 
-function GiftProgressBanner({ totalSar }: { totalSar: number }) {
-  const { format } = useCurrencyStore();
-  const reached = totalSar >= GIFT_THRESHOLD_SAR;
-  const remaining = GIFT_THRESHOLD_SAR - totalSar;
-  const progress = Math.min((totalSar / GIFT_THRESHOLD_SAR) * 100, 100);
+function getGiftThreshold(currency: string, rates: Record<string, number>): number {
+  const override = GIFT_THRESHOLD_OVERRIDES[currency];
+  if (override != null) return override;
+  return convertSarTo(GIFT_THRESHOLD_SAR, currency, rates);
+}
+
+function GiftProgressBanner({ items }: { items: CartItem[] }) {
+  const { currency, rates } = useCurrencyStore();
+  const threshold = getGiftThreshold(currency, rates);
+  const displayTotal = getDisplayCartTotal(items, currency, rates);
+  const reached = displayTotal >= threshold;
+  const remaining = Math.max(0, Math.round((threshold - displayTotal) * 100) / 100);
+  const progress = Math.min((displayTotal / threshold) * 100, 100);
 
   return (
     <div className="p-3 rounded-xl border border-[#C99A45]/30 bg-gradient-to-r from-[#1A3A28] to-[#0D2B1D]">
@@ -210,7 +222,7 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
           <div className="flex items-center gap-2 mb-2">
             <span className="text-lg">✧</span>
             <p className="text-xs font-bold text-white">
-              أضف <FormattedAmount className="text-[#C99A45] font-extrabold">{format(remaining)}</FormattedAmount> للحصول على هدية مجانية!
+              أضف <FormattedAmount className="text-[#C99A45] font-extrabold">{formatPrice(remaining, currency)}</FormattedAmount> للحصول على هدية مجانية!
             </p>
           </div>
           <div className="w-full h-2 bg-[#155235]/50 rounded-full overflow-hidden mb-1.5">
@@ -220,7 +232,7 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
             />
           </div>
           <p className="text-[10px] text-[#FFFFFF]/50 text-center">
-            عند الوصول لـ <FormattedAmount className="text-[#FFFFFF]/70">{format(GIFT_THRESHOLD_SAR)}</FormattedAmount> تحصل على هدية مفاجأة
+            عند الوصول لـ <FormattedAmount className="text-[#FFFFFF]/70">{formatPrice(threshold, currency)}</FormattedAmount> تحصل على هدية مفاجأة
           </p>
         </>
       )}
