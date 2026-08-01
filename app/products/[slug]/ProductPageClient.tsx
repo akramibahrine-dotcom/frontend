@@ -41,6 +41,84 @@ type Props = {
   crossSells: Product[];
 };
 
+type PromiseSlide = {
+  src: string;
+  alt: string;
+  title: string;
+  desc: string;
+};
+
+function PromisesCarousel({ slides, imgClass }: { slides: PromiseSlide[]; imgClass: string }) {
+  const [current, setCurrent] = useState(0);
+  const touchStartX = useMemo(() => ({ current: 0 }), []);
+
+  useEffect(() => {
+    if (slides.length <= 1) return;
+    const timer = setInterval(() => {
+      setCurrent((prev) => (prev + 1) % slides.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, [slides.length]);
+
+  return (
+    <section className="py-12 border-y border-[#E8D8C3] bg-white">
+      <div className="max-w-[520px] mx-auto px-4">
+        <div
+          className="relative"
+          onTouchStart={(e) => {
+            touchStartX.current = e.touches[0]?.clientX ?? 0;
+          }}
+          onTouchEnd={(e) => {
+            const endX = e.changedTouches[0]?.clientX ?? 0;
+            const delta = endX - touchStartX.current;
+            if (Math.abs(delta) < 40) return;
+            setCurrent((prev) =>
+              delta > 0
+                ? (prev - 1 + slides.length) % slides.length
+                : (prev + 1) % slides.length
+            );
+          }}
+        >
+          <div className="relative min-h-[1px]">
+            {slides.map((slide, i) => (
+              <div
+                key={slide.title}
+                className={`text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden transition-opacity duration-500 ${
+                  i === current ? "relative opacity-100" : "absolute inset-0 opacity-0 pointer-events-none"
+                }`}
+                aria-hidden={i !== current}
+              >
+                <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={slide.src} alt={slide.alt} className={imgClass} />
+                </div>
+                <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{slide.title}</h3>
+                <p className="text-sm text-[#6E675F]">{slide.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {slides.length > 1 && (
+          <div className="flex justify-center gap-2 mt-5">
+            {slides.map((slide, i) => (
+              <button
+                key={slide.title}
+                type="button"
+                onClick={() => setCurrent(i)}
+                aria-label={slide.title}
+                className={`h-2.5 rounded-full transition-all duration-300 ${
+                  i === current ? "w-7 bg-[#155235]" : "w-2.5 bg-[#155235]/30 hover:bg-[#155235]/50"
+                }`}
+              />
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function HeroCarousel({
   product,
   localizedName,
@@ -385,37 +463,30 @@ export function ProductPageClient({ product, crossSells }: Props) {
         </div>
       </section>
 
-      {/* 5. وعودٌ نقدر نفي بها */}
-      <section className="py-12 border-y border-[#E8D8C3] bg-white">
-        <div className="max-w-[1200px] mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromisePackaging || "/product-galery/promise-packaging.jpg"} alt={productPage.promisePackagingAlt} className={promiseImgClass} />
-              </div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{productPage.promisePackagingTitle}</h3>
-              <p className="text-sm text-[#6E675F]">{productPage.promisePackagingDesc}</p>
-            </div>
-            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg"} alt={productPage.promiseDeliveryAlt} className={promiseImgClass} />
-              </div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{productPage.promiseDeliveryTitle}</h3>
-              <p className="text-sm text-[#6E675F]">{productPage.promiseDeliveryDesc}</p>
-            </div>
-            <div className="text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden">
-              <div className="w-full aspect-square rounded-2xl overflow-hidden mb-4 bg-white/50">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={product.imagePromiseCod || "/product-galery/promise-cod.jpg"} alt={productPage.promiseCodAlt} className={promiseImgClass} />
-              </div>
-              <h3 className="text-xl font-extrabold text-[#0F1A14] mb-2">{productPage.promiseCodTitle}</h3>
-              <p className="text-sm text-[#6E675F]">{productPage.promiseCodDesc}</p>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* 5. وعودٌ نقدر نفي بها — carousel */}
+      <PromisesCarousel
+        slides={[
+          {
+            src: product.imagePromisePackaging || "/product-galery/promise-packaging.jpg",
+            alt: productPage.promisePackagingAlt,
+            title: productPage.promisePackagingTitle,
+            desc: productPage.promisePackagingDesc,
+          },
+          {
+            src: product.imagePromiseDelivery || "/product-galery/promise-delivery.jpg",
+            alt: productPage.promiseDeliveryAlt,
+            title: productPage.promiseDeliveryTitle,
+            desc: productPage.promiseDeliveryDesc,
+          },
+          {
+            src: product.imagePromiseCod || "/product-galery/promise-cod.jpg",
+            alt: productPage.promiseCodAlt,
+            title: productPage.promiseCodTitle,
+            desc: productPage.promiseCodDesc,
+          },
+        ]}
+        imgClass={promiseImgClass}
+      />
 
       {/* 6. Ritual (Image Left, Text Right) */}
       <section className="py-16 md:py-24 bg-[#F5F3EE]">
