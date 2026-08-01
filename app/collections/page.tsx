@@ -40,12 +40,12 @@ export default function CollectionsPage() {
       </section>
 
       {/* Help choosing */}
-      <section className="py-12 bg-[#FAFAF8]">
+      <section className="py-12 bg-[#F8F1E7]">
         <div className="max-w-[1200px] mx-auto px-4">
-          <h2 className="text-xl font-extrabold text-[#1C1C1E] text-center mb-2">
+          <h2 className="text-xl font-extrabold text-[#0F1A14] text-center mb-2">
             تصفّح حسب الحاجة الصحية
           </h2>
-          <p className="text-[#3D3D3D] text-center text-sm mb-8">
+          <p className="text-[#567063] text-center text-sm mb-8">
             اختر التصنيف الأقرب لاحتياجك، ثم تصفح المنتجات داخل كل تصنيف.
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 max-w-2xl mx-auto">
@@ -53,7 +53,7 @@ export default function CollectionsPage() {
               <Link
                 key={category.slug}
                 href={`/categories/${category.slug}`}
-                className="bg-white border border-[#E8E0D4] rounded-xl p-3 text-center text-sm font-medium text-[#1C1C1E] hover:border-[#1C1C1E] hover:text-[#1C1C1E] hover:bg-[#FAFAF8] transition-colors"
+                className="bg-white border border-[#E8E2D8] rounded-xl p-3 text-center text-sm font-medium text-[#0F1A14] hover:border-[#155235] hover:text-[#155235] hover:bg-[#F5F3EE] transition-colors"
               >
                 {category.nameAr}
               </Link>
@@ -62,7 +62,7 @@ export default function CollectionsPage() {
           <div className="text-center mt-6">
             <Link
               href="/categories"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#1C1C1E] text-white text-sm font-bold hover:bg-[#1C1C1E] transition-colors"
+              className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#155235] text-white text-sm font-bold hover:bg-[#0A3622] transition-colors"
             >
               عرض كل التصنيفات ←
             </Link>
@@ -73,15 +73,15 @@ export default function CollectionsPage() {
       {/* FAQ */}
       <section className="py-12 bg-white">
         <div className="max-w-[1200px] mx-auto px-4">
-          <h2 className="text-xl font-extrabold text-center text-[#1C1C1E] mb-6">أسئلة شائعة</h2>
+          <h2 className="text-xl font-extrabold text-center text-[#1D1D1B] mb-6">أسئلة شائعة</h2>
           <div className="max-w-2xl mx-auto">
             <FAQAccordion items={COPY.faqGlobal} />
           </div>
         </div>
       </section>
 
-      <div className="bg-[#FAFAF8] border-t border-[#E8E0D4] py-4 px-4 text-center">
-        <p className="text-xs text-[#3D3D3D] max-w-2xl mx-auto">{COPY.disclaimer}</p>
+      <div className="bg-[#F8F1E7] border-t border-[#E8D8C3] py-4 px-4 text-center">
+        <p className="text-xs text-[#6E675F] max-w-2xl mx-auto">{COPY.disclaimer}</p>
       </div>
     </>
   );

@@ -15,13 +15,13 @@ export function TrustStrip({ className }: { className?: string }) {
     <div
       className={cn(
         "flex flex-wrap items-center justify-center gap-x-6 gap-y-2 py-2.5 px-4",
-        "bg-[#1C1C1E] border-b border-[#1C1C1E]/50",
+        "bg-[#0D2B1D] border-b border-[#155235]/50",
         className
       )}
       aria-label={isEn ? "Store benefits" : "مزايا المتجر"}
     >
       {items.map((item) => (
-        <div key={item.text} className="flex items-center gap-1.5 text-xs text-[#C9A96E] font-medium whitespace-nowrap">
+        <div key={item.text} className="flex items-center gap-1.5 text-xs text-[#C99A45] font-medium whitespace-nowrap">
           <span aria-hidden="true">{item.icon}</span>
           <span>{item.text}</span>
         </div>
@@ -37,7 +37,7 @@ export function CODBadge({ className }: { className?: string }) {
     <span
       className={cn(
         "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold",
-        "bg-[#1C1C1E] text-[#C9A96E] border border-[#C9A96E]/20",
+        "bg-[#155235] text-[#C99A45] border border-[#C99A45]/20",
         className
       )}
     >
@@ -52,10 +52,10 @@ export function TrustBadgeRow({ className }: { className?: string }) {
   return (
     <div className={cn("flex flex-wrap gap-2", className)}>
       <CODBadge />
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#FAFAF8] text-[#1C1C1E] border border-[#E8E0D4]">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#F5F3EE] text-[#155235] border border-[#E8E2D8]">
         {cart.shippingIncluded}
       </span>
-      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#FAFAF8] text-[#1C1C1E] border border-[#E8E0D4]">
+      <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#F5F3EE] text-[#155235] border border-[#E8E2D8]">
         ✦ {footer.support}
       </span>
     </div>

@@ -34,7 +34,7 @@ export function CurrencySelector({ className }: { className?: string }) {
     <div ref={ref} className={cn("relative", className)}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold border border-[#1C1C1E]/50 bg-[#1C1C1E] hover:bg-[#1C1C1E]/40 transition-colors text-[#C9A96E]"
+        className="flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-bold border border-[#155235]/50 bg-[#0D2B1D] hover:bg-[#155235]/40 transition-colors text-[#C99A45]"
         aria-label="تغيير العملة"
         aria-expanded={open}
       >
@@ -46,7 +46,7 @@ export function CurrencySelector({ className }: { className?: string }) {
       </button>
 
       {open && (
-        <div className="absolute top-full left-0 mt-1 z-50 w-48 max-h-64 overflow-y-auto rounded-xl border border-[#1C1C1E]/60 bg-[#1C1C1E] shadow-2xl py-1 animate-fade-in">
+        <div className="absolute top-full left-0 mt-1 z-50 w-48 max-h-64 overflow-y-auto rounded-xl border border-[#155235]/60 bg-[#0D2B1D] shadow-2xl py-1 animate-fade-in">
           {available.map((code) => {
             const c = CURRENCY_CONFIG[code];
             if (!c) return null;
@@ -58,8 +58,8 @@ export function CurrencySelector({ className }: { className?: string }) {
                 className={cn(
                   "w-full flex items-center justify-between px-3 py-2 text-xs transition-colors",
                   isActive
-                    ? "bg-[#1C1C1E]/40 text-[#C9A96E] font-bold"
-                    : "text-white/80 hover:bg-[#1C1C1E]/20"
+                    ? "bg-[#155235]/40 text-[#C99A45] font-bold"
+                    : "text-white/80 hover:bg-[#155235]/20"
                 )}
               >
                 <span className="flex items-center gap-2">

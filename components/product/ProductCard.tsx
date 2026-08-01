@@ -48,7 +48,7 @@ export function ProductCard({ product, className }: Props) {
 
       className={cn(
 
-        "bg-white rounded-2xl border border-[#E8E0D4] overflow-hidden card-glow min-w-0",
+        "bg-white rounded-2xl border border-[#E8E2D8] overflow-hidden card-glow min-w-0",
 
         "shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col group",
 
@@ -97,7 +97,7 @@ export function ProductCard({ product, className }: Props) {
 
           <Link href={`/products/${product.slug}`}>
 
-            <h3 className="font-bold text-[#1C1C1E] text-sm leading-snug hover:text-[#1C1C1E] transition-colors">
+            <h3 className="font-bold text-[#0F1A14] text-sm leading-snug hover:text-[#155235] transition-colors">
 
               {localize(product.nameAr)}
 
@@ -105,7 +105,7 @@ export function ProductCard({ product, className }: Props) {
 
           </Link>
 
-          <p className="text-xs text-[#3D3D3D] mt-1 leading-relaxed line-clamp-2">
+          <p className="text-xs text-[#567063] mt-1 leading-relaxed line-clamp-2">
 
             {localize(product.headlineAr)}
 
@@ -121,9 +121,9 @@ export function ProductCard({ product, className }: Props) {
 
           <div className="flex items-center justify-between">
 
-            <span className="text-lg font-extrabold text-[#1C1C1E]">{format(startingPrice)}</span>
+            <span className="text-lg font-extrabold text-[#0F1A14]">{format(startingPrice)}</span>
 
-            <span className="text-xs text-[#1C1C1E] font-medium">
+            <span className="text-xs text-[#155235] font-medium">
 
               {isEn ? "Save with 2 or 3 packs" : "وفّر مع باقة 2 أو 3"}
 
@@ -143,9 +143,9 @@ export function ProductCard({ product, className }: Props) {
 
             "w-full py-3 rounded-full text-center text-sm font-bold",
 
-            "bg-[#1C1C1E] text-white",
+            "bg-[#155235] text-white",
 
-            "hover:bg-[#1C1C1E] transition-colors duration-150",
+            "hover:bg-[#0A3622] transition-colors duration-150",
 
             "active:scale-[0.98]"
 

@@ -32,21 +32,21 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
 
       <nav
         className={cn(
-          "fixed top-0 left-0 h-full w-72 z-50 bg-gradient-to-b from-[#FAFAF8] to-white shadow-2xl flex flex-col",
+          "fixed top-0 left-0 h-full w-72 z-50 bg-gradient-to-b from-[#F5F3EE] to-white shadow-2xl flex flex-col",
           "transition-transform duration-300 md:hidden",
           isOpen ? "translate-x-0" : "-translate-x-full"
         )}
         aria-label={isEn ? "Navigation menu" : "قائمة التنقل"}
         aria-hidden={!isOpen}
       >
-        <div className="bg-[#1C1C1E] px-4 py-3 flex items-center justify-center">
-          <span className="text-[#C9A96E] font-bold text-sm tracking-wide">{brand.homeLabel}</span>
+        <div className="bg-[#071C12] px-4 py-3 flex items-center justify-center">
+          <span className="text-[#C99A45] font-bold text-sm tracking-wide">{brand.homeLabel}</span>
         </div>
-        <div className="flex items-center justify-between p-4 border-b border-[#E8E0D4]">
+        <div className="flex items-center justify-between p-4 border-b border-[#E8D8C3]">
           <BrandLogo size="sm" />
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#FAFAF8] flex items-center justify-center hover:bg-[#E8E0D4] transition-colors"
+            className="w-8 h-8 rounded-full bg-[#F8F1E7] flex items-center justify-center hover:bg-[#E8D8C3] transition-colors"
             aria-label={isEn ? "Close menu" : "إغلاق القائمة"}
           >
             ✕
@@ -59,19 +59,19 @@ export function MobileMenu({ links, isOpen, onClose }: Props) {
               key={link.href}
               href={link.href}
               onClick={onClose}
-              className="px-4 py-3 rounded-xl text-[#1C1C1E] font-medium hover:bg-[#FAFAF8] hover:text-[#1C1C1E] transition-colors"
+              className="px-4 py-3 rounded-xl text-[#1D1D1B] font-medium hover:bg-[#F8F1E7] hover:text-[#1F6B4E] transition-colors"
             >
               {t(link.key)}
             </Link>
           ))}
         </div>
 
-        <div className="mt-auto p-4 border-t border-[#E8E0D4] space-y-3">
+        <div className="mt-auto p-4 border-t border-[#E8D8C3] space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-xs text-[#3D3D3D] font-medium">{isEn ? "Currency" : "العملة"}</span>
+            <span className="text-xs text-[#6E675F] font-medium">{isEn ? "Currency" : "العملة"}</span>
             <CurrencySelector />
           </div>
-          <p className="text-xs text-[#3D3D3D] leading-relaxed text-center">
+          <p className="text-xs text-[#6E675F] leading-relaxed text-center">
             {isEn ? "Daily wellness herbal tea products" : "منتجات شاي عشبية داعمة للعافية اليومية"}
           </p>
         </div>

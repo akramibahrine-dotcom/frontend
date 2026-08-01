@@ -315,7 +315,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
 function TransformationCard({ t }: { t: Transformation }) {
   return (
     <article
-      className="relative shrink-0 w-[min(90vw,320px)] md:w-[340px] rounded-2xl overflow-hidden bg-white border border-[#E8E0D4] shadow-lg"
+      className="relative shrink-0 w-[min(90vw,320px)] md:w-[340px] rounded-2xl overflow-hidden bg-white border border-[#E8D8C3] shadow-lg"
       dir="rtl"
     >
       <div className="relative aspect-[4/3] overflow-hidden">
@@ -328,11 +328,11 @@ function TransformationCard({ t }: { t: Transformation }) {
         <div className="absolute top-3 left-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded-full">
           قبل
         </div>
-        <div className="absolute top-3 right-3 bg-[#1C1C1E] text-white text-[10px] font-bold px-2 py-1 rounded-full">
+        <div className="absolute top-3 right-3 bg-[#155235] text-white text-[10px] font-bold px-2 py-1 rounded-full">
           بعد
         </div>
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full flex items-center gap-2">
-          <span className="text-[#C9A96E] font-extrabold text-sm">-{t.lostKg} كغ</span>
+          <span className="text-[#C99A45] font-extrabold text-sm">-{t.lostKg} كغ</span>
           <span className="text-white/60 text-xs">في {t.durationAr}</span>
         </div>
       </div>
@@ -340,19 +340,19 @@ function TransformationCard({ t }: { t: Transformation }) {
       <div className="p-4">
         <div className="flex items-center justify-between mb-2">
           <div>
-            <p className="font-extrabold text-[#1C1C1E] text-sm">{t.nameAr}</p>
-            <p className="text-[#3D3D3D] text-xs">{t.cityAr} · {t.age} سنة</p>
+            <p className="font-extrabold text-[#0F1A14] text-sm">{t.nameAr}</p>
+            <p className="text-[#567063] text-xs">{t.cityAr} · {t.age} سنة</p>
           </div>
-          <div className="text-[#C9A96E] text-sm" aria-hidden="true">★★★★★</div>
+          <div className="text-[#C99A45] text-sm" aria-hidden="true">★★★★★</div>
         </div>
-        <p className="text-[#3D3D3D] text-sm leading-relaxed line-clamp-3">
+        <p className="text-[#567063] text-sm leading-relaxed line-clamp-3">
           &ldquo;{t.quoteAr}&rdquo;
         </p>
         <div className="mt-3 flex items-center gap-2">
           <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 font-bold">
             ✅ نتيجة حقيقية
           </span>
-          <span className="text-[10px] bg-[#FAFAF8] text-[#3D3D3D] px-2 py-0.5 rounded-full border border-[#E8E0D4]">
+          <span className="text-[10px] bg-[#F5F3EE] text-[#567063] px-2 py-0.5 rounded-full border border-[#E8E2D8]">
             🍵 شاي التخسيس
           </span>
         </div>
@@ -370,19 +370,19 @@ function ProductReviewCard({ r, productName, badgeColor, borderColor }: { r: Pro
       <div className="p-5">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <p className="font-extrabold text-[#1C1C1E] text-sm">{r.nameAr}</p>
-            <p className="text-[#3D3D3D] text-xs">{r.cityAr} · {r.age} سنة</p>
+            <p className="font-extrabold text-[#0F1A14] text-sm">{r.nameAr}</p>
+            <p className="text-[#567063] text-xs">{r.cityAr} · {r.age} سنة</p>
           </div>
-          <div className="text-[#C9A96E] text-sm" aria-hidden="true">★★★★★</div>
+          <div className="text-[#C99A45] text-sm" aria-hidden="true">★★★★★</div>
         </div>
-        <p className="text-[#3D3D3D] text-sm leading-relaxed mb-3">
+        <p className="text-[#567063] text-sm leading-relaxed mb-3">
           &ldquo;{r.quoteAr}&rdquo;
         </p>
         <div className="flex items-center gap-2">
           <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${badgeColor}`}>
             {r.badge}
           </span>
-          <span className="text-[10px] bg-[#FAFAF8] text-[#3D3D3D] px-2 py-0.5 rounded-full border border-[#E8E0D4]">
+          <span className="text-[10px] bg-[#F5F3EE] text-[#567063] px-2 py-0.5 rounded-full border border-[#E8E2D8]">
             {productName}
           </span>
         </div>
@@ -478,16 +478,16 @@ const REVIEWS_MAP: Record<string, ProductReview[]> = {
 };
 
 const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string; accentColor: string; bgFrom: string; bgTo: string }> = {
-  "fertility-tea": { badgeColor: "bg-pink-50 text-pink-700 border-pink-200", borderColor: "border-pink-200", emoji: "✧", title: "شاي Fertility", accentColor: "text-pink-400", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "colon-comfort-tea": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "◈", title: "شاي راحة القولون", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "hemorrhoid-comfort-tea": { badgeColor: "bg-rose-50 text-rose-700 border-rose-200", borderColor: "border-rose-200", emoji: "✧", title: "شاي دعم الراحة", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "liver-wellness-tea": { badgeColor: "bg-teal-50 text-teal-700 border-teal-200", borderColor: "border-teal-200", emoji: "◈", title: "شاي دعم الكبد", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "◇", title: "شاي دعم الرئة", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "◆", title: "شاي البروستات", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✦", title: "عناية البشرة", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "◆", title: "جل علاج الندوب", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "eelhoe-fresh-breath": { badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200", borderColor: "border-emerald-200", emoji: "◈", title: "إكسير رائحة الفم", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
-  "c60-fullerene-serum": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "✦", title: "كبسولات C60 الذهبية", accentColor: "text-[#C9A96E]", bgFrom: "#1C1C1E", bgTo: "#141414" },
+  "fertility-tea": { badgeColor: "bg-pink-50 text-pink-700 border-pink-200", borderColor: "border-pink-200", emoji: "✧", title: "شاي Fertility", accentColor: "text-pink-400", bgFrom: "#2D0A1B", bgTo: "#1A0511" },
+  "colon-comfort-tea": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "◈", title: "شاي راحة القولون", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "hemorrhoid-comfort-tea": { badgeColor: "bg-rose-50 text-rose-700 border-rose-200", borderColor: "border-rose-200", emoji: "✧", title: "شاي دعم الراحة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "liver-wellness-tea": { badgeColor: "bg-teal-50 text-teal-700 border-teal-200", borderColor: "border-teal-200", emoji: "◈", title: "شاي دعم الكبد", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "◇", title: "شاي دعم الرئة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "◆", title: "شاي البروستات", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✦", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "◆", title: "جل علاج الندوب", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "eelhoe-fresh-breath": { badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200", borderColor: "border-emerald-200", emoji: "◈", title: "إكسير رائحة الفم", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "c60-fullerene-serum": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "✦", title: "كبسولات C60 الذهبية", accentColor: "text-[#C99A45]", bgFrom: "#1A1200", bgTo: "#0D0900" },
 };
 
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
@@ -496,10 +496,10 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
   if (productSlug === "weight-support-tea") {
     const doubled = [...TRANSFORMATIONS, ...TRANSFORMATIONS];
     return (
-      <section className="py-12 md:py-16 bg-gradient-to-b from-[#1C1C1E] to-[#1C1C1E] overflow-hidden" aria-labelledby="ba-carousel-title">
+      <section className="py-12 md:py-16 bg-gradient-to-b from-[#0F1A14] to-[#071C12] overflow-hidden" aria-labelledby="ba-carousel-title">
         <div className="max-w-[1200px] mx-auto px-4 mb-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4 border border-white/20">
-            <span className="text-[#C9A96E]">✦</span>
+            <span className="text-[#C99A45]">✦</span>
             <span className="text-sm font-bold text-white tracking-wide">نتائج حقيقية</span>
           </div>
           <h2 id="ba-carousel-title" className="text-2xl md:text-4xl font-extrabold text-white mb-3">
@@ -508,12 +508,12 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
           <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
             نتائج حقيقية من عملاء استخدموا شاي بيت الصحة لمدة 3 أشهر مع نمط حياة صحي
           </p>
-          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#C9A96E] to-transparent mx-auto mt-5" />
+          <div className="w-24 h-0.5 bg-gradient-to-r from-transparent via-[#C99A45] to-transparent mx-auto mt-5" />
         </div>
 
         <div className="relative mb-5" dir="ltr">
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 z-10 bg-gradient-to-r from-[#1C1C1E] to-transparent" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 z-10 bg-gradient-to-l from-[#1C1C1E] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-16 md:w-24 z-10 bg-gradient-to-r from-[#0F1A14] to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-16 md:w-24 z-10 bg-gradient-to-l from-[#0F1A14] to-transparent" />
           <div className="flex gap-5 animate-marquee-ba py-2">
             {doubled.map((t, i) => (
               <TransformationCard key={`r1-${t.id}-${i}`} t={t} />
@@ -531,7 +531,7 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
             ].map((stat) => (
               <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
                 <span className="text-2xl block mb-1">{stat.icon}</span>
-                <span className="text-xl md:text-2xl font-extrabold text-[#C9A96E] block">{stat.value}</span>
+                <span className="text-xl md:text-2xl font-extrabold text-[#C99A45] block">{stat.value}</span>
                 <span className="text-xs text-gray-400">{stat.label}</span>
               </div>
             ))}
@@ -561,7 +561,7 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
         <p className="text-gray-400 text-sm md:text-base max-w-2xl mx-auto">
           تجارب حقيقية من عملاء في الخليج والوطن العربي استخدموا {theme.title} من بيت الصحة
         </p>
-        <div className="w-24 h-0.5 mx-auto mt-5" style={{ background: `linear-gradient(to right, transparent, ${theme.bgFrom === "#1C1C1E" ? "#f472b6" : "#C9A96E"}, transparent)` }} />
+        <div className="w-24 h-0.5 mx-auto mt-5" style={{ background: `linear-gradient(to right, transparent, ${theme.bgFrom === "#2D0A1B" ? "#f472b6" : "#C99A45"}, transparent)` }} />
       </div>
 
       <div className="relative mb-5" dir="ltr">

@@ -41,9 +41,9 @@ export function StoreAccessGate() {
   if (!blocked) return null;
 
   return (
-    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#1C1C1E] px-4 text-white">
+    <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-[#071C12] px-4 text-white">
       <div className="max-w-md rounded-[2rem] border border-white/10 bg-white/10 p-8 text-center shadow-2xl backdrop-blur">
-        <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-[#C9A96E]">Baytseha</p>
+        <p className="mb-3 text-sm font-bold uppercase tracking-[0.3em] text-[#C99A45]">Baytseha</p>
         <h2 className="text-2xl font-black">المتجر غير متاح مؤقتًا لهذا الزائر</h2>
         <p className="mt-3 text-sm text-white/70">
           تم تطبيق قاعدة دخول من لوحة التحكم: {blocked.reason} ({blocked.ruleType}).

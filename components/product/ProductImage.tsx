@@ -34,7 +34,7 @@ export function ProductImage({
   if (!src || allFailed) {
     return (
       <div
-        className={cn("flex items-center justify-center bg-[#1C1C1E]/10", className)}
+        className={cn("flex items-center justify-center bg-[#155235]/10", className)}
         role="img"
         aria-label={alt}
       >

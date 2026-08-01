@@ -86,34 +86,34 @@ export default async function NewsArticlePage({ params }: Props) {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <TrustStrip />
-      <article className="bg-[#FAFAF8] min-h-screen pb-20">
+      <article className="bg-[#F5F3EE] min-h-screen pb-20">
         <div className="max-w-[760px] mx-auto px-4 pt-10 pb-6">
-          <nav className="text-sm text-[#3D3D3D] mb-8" aria-label="مسار التصفح">
+          <nav className="text-sm text-[#567063] mb-8" aria-label="مسار التصفح">
             <ol className="flex flex-wrap items-center gap-2">
               <li>
-                <Link href="/" className="hover:text-[#1C1C1E] transition-colors">
+                <Link href="/" className="hover:text-[#155235] transition-colors">
                   الرئيسية
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
               <li>
-                <Link href="/news" className="hover:text-[#1C1C1E] transition-colors">
+                <Link href="/news" className="hover:text-[#155235] transition-colors">
                   الأخبار والمقالات
                 </Link>
               </li>
               <li aria-hidden="true">/</li>
-              <li className="text-[#1C1C1E] font-medium line-clamp-1">{article.title}</li>
+              <li className="text-[#0F1A14] font-medium line-clamp-1">{article.title}</li>
             </ol>
           </nav>
 
           <header className="mb-10">
             <div className="flex flex-wrap gap-2 mb-4">
-              <span className="text-xs font-bold text-[#1C1C1E] bg-[#1C1C1E]/10 px-2.5 py-0.5 rounded-full">
+              <span className="text-xs font-bold text-[#155235] bg-[#155235]/10 px-2.5 py-0.5 rounded-full">
                 {article.categoryAr}
               </span>
               <time
                 dateTime={article.publishedAt}
-                className="text-xs text-[#C9A96E] font-bold"
+                className="text-xs text-[#C99A45] font-bold"
               >
                 {new Date(article.publishedAt).toLocaleDateString("ar-SA", {
                   year: "numeric",
@@ -122,21 +122,21 @@ export default async function NewsArticlePage({ params }: Props) {
                 })}
               </time>
             </div>
-            <h1 className="text-3xl md:text-4xl font-extrabold text-[#1C1C1E] leading-tight mb-4">
+            <h1 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] leading-tight mb-4">
               {article.title}
             </h1>
-            <p className="text-lg text-[#3D3D3D] leading-relaxed">{article.excerpt}</p>
+            <p className="text-lg text-[#567063] leading-relaxed">{article.excerpt}</p>
           </header>
 
-          <div className="prose-news bg-white rounded-3xl border border-[#E8E0D4] p-8 md:p-10 shadow-sm">
+          <div className="prose-news bg-white rounded-3xl border border-[#E8D8C3] p-8 md:p-10 shadow-sm">
             {article.sections.map((section, i) => (
               <section key={i} className={i > 0 ? "mt-10" : ""}>
                 {section.heading ? (
-                  <h2 className="text-xl font-extrabold text-[#1C1C1E] mb-4">
+                  <h2 className="text-xl font-extrabold text-[#0F1A14] mb-4">
                     {section.heading}
                   </h2>
                 ) : null}
-                <div className="space-y-4 text-[#3D3D3D] leading-relaxed text-base">
+                <div className="space-y-4 text-[#567063] leading-relaxed text-base">
                   {section.paragraphs.map((p, j) => (
                     <p key={j}>{p}</p>
                   ))}
@@ -144,8 +144,8 @@ export default async function NewsArticlePage({ params }: Props) {
               </section>
             ))}
 
-            <aside className="mt-10 pt-8 border-t border-[#E8E0D4]">
-              <p className="text-xs text-[#3D3D3D] leading-relaxed">
+            <aside className="mt-10 pt-8 border-t border-[#E8D8C3]">
+              <p className="text-xs text-[#567063] leading-relaxed">
                 المعلومات في هذا المقال للتوعية العامة ولا تُعد تشخيصًا أو علاجًا طبيًا. استشر مختصًا عند الحاجة، خاصة مع الحمل أو الرضاعة أو الأدوية المزمنة.
               </p>
             </aside>
@@ -154,14 +154,14 @@ export default async function NewsArticlePage({ params }: Props) {
           <div className="mt-12 flex flex-col sm:flex-row gap-4 justify-between items-start sm:items-center">
             <Link
               href="/news"
-              className="inline-flex items-center gap-2 text-[#1C1C1E] font-bold hover:text-[#C9A96E] transition-colors"
+              className="inline-flex items-center gap-2 text-[#155235] font-bold hover:text-[#C99A45] transition-colors"
             >
               <span aria-hidden="true">→</span>
               <span>جميع المقالات</span>
             </Link>
             <Link
               href="/collections"
-              className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#1C1C1E] text-white font-bold hover:bg-[#C9A96E] transition-colors"
+              className="inline-flex items-center justify-center px-8 py-3 rounded-full bg-[#1F6B4E] text-white font-bold hover:bg-[#124332] transition-colors"
             >
               تصفّح المنتجات
             </Link>
@@ -169,7 +169,7 @@ export default async function NewsArticlePage({ params }: Props) {
 
           {NEWS_ARTICLES.filter((a) => a.slug !== article.slug).length > 0 ? (
             <section className="mt-16">
-              <h2 className="text-lg font-extrabold text-[#1C1C1E] mb-6">مقالات قد تعجبك</h2>
+              <h2 className="text-lg font-extrabold text-[#0F1A14] mb-6">مقالات قد تعجبك</h2>
               <ul className="grid gap-4 sm:grid-cols-2">
                 {NEWS_ARTICLES.filter((a) => a.slug !== article.slug)
                   .slice(0, 2)
@@ -177,15 +177,15 @@ export default async function NewsArticlePage({ params }: Props) {
                     <li key={related.slug}>
                       <Link
                         href={`/news/${related.slug}`}
-                        className="block bg-white rounded-2xl border border-[#E8E0D4] p-5 hover:shadow-md transition-shadow"
+                        className="block bg-white rounded-2xl border border-[#E8D8C3] p-5 hover:shadow-md transition-shadow"
                       >
-                        <span className="text-xs text-[#C9A96E] font-bold">
+                        <span className="text-xs text-[#C99A45] font-bold">
                           {new Date(related.publishedAt).toLocaleDateString("ar-SA", {
                             month: "short",
                             day: "numeric",
                           })}
                         </span>
-                        <p className="font-bold text-[#1C1C1E] mt-2 line-clamp-2">{related.title}</p>
+                        <p className="font-bold text-[#0F1A14] mt-2 line-clamp-2">{related.title}</p>
                       </Link>
                     </li>
                   ))}

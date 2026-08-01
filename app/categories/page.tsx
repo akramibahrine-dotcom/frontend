@@ -27,14 +27,14 @@ export default function CategoriesPage() {
         </div>
       </section>
 
-      <section className="py-12 bg-[#FAFAF8]">
+      <section className="py-12 bg-[#F5F3EE]">
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
             {CATEGORIES.map((category) => (
               <Link
                 key={category.slug}
                 href={`/categories/${category.slug}`}
-                className="group bg-white rounded-2xl border border-[#E8E0D4] overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col"
+                className="group bg-white rounded-2xl border border-[#E8E2D8] overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col"
               >
                 <div className="aspect-square overflow-hidden rounded-b-none">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -45,13 +45,13 @@ export default function CategoriesPage() {
                   />
                 </div>
                 <div className="p-5 flex flex-col gap-2 flex-1">
-                  <h2 className="font-extrabold text-[#1C1C1E] text-lg group-hover:text-[#1C1C1E] transition-colors">
+                  <h2 className="font-extrabold text-[#0F1A14] text-lg group-hover:text-[#155235] transition-colors">
                     {category.nameAr}
                   </h2>
-                  <p className="text-sm text-[#3D3D3D] leading-relaxed line-clamp-3">
+                  <p className="text-sm text-[#567063] leading-relaxed line-clamp-3">
                     {category.descriptionAr}
                   </p>
-                  <span className="mt-auto text-[#1C1C1E] text-sm font-bold pt-2">
+                  <span className="mt-auto text-[#155235] text-sm font-bold pt-2">
                     تصفح التصنيف ←
                   </span>
                 </div>

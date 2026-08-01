@@ -39,18 +39,18 @@ export function CartDrawer() {
         className={cn(
           "fixed top-0 right-0 h-full w-full max-w-md z-50 shadow-2xl",
           "flex flex-col transition-transform duration-300",
-          "bg-[#1C1C1E]",
+          "bg-[#071C12]",
           isOpen ? "translate-x-0" : "translate-x-full"
         )}
         role="dialog"
         aria-modal="true"
         aria-label={cart.title}
       >
-        <div className="flex items-center justify-between p-4 border-b border-[#1C1C1E]/50">
+        <div className="flex items-center justify-between p-4 border-b border-[#155235]/50">
           <h2 className="font-bold text-lg text-white">{cart.title}</h2>
           <button
             onClick={closeCart}
-            className="w-8 h-8 rounded-full bg-[#1C1C1E]/50 flex items-center justify-center hover:bg-[#1C1C1E] transition-colors text-[#C9A96E]"
+            className="w-8 h-8 rounded-full bg-[#155235]/50 flex items-center justify-center hover:bg-[#155235] transition-colors text-[#C99A45]"
             aria-label={cart.close}
           >
             ✕
@@ -61,12 +61,12 @@ export function CartDrawer() {
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
               <span className="text-5xl">◇</span>
-              <p className="text-[#C9A96E] font-medium">{cart.empty}</p>
+              <p className="text-[#C99A45] font-medium">{cart.empty}</p>
               <p className="text-sm text-[#FFFFFF]/60">{cart.emptySub}</p>
               <Link
                 href="/collections"
                 onClick={closeCart}
-                className="px-6 py-2.5 rounded-full bg-[#C9A96E] text-[#1C1C1E] text-sm font-bold hover:bg-[#C9A96E] transition-colors"
+                className="px-6 py-2.5 rounded-full bg-[#C99A45] text-[#071C12] text-sm font-bold hover:bg-[#B8893A] transition-colors"
               >
                 {cart.chooseProduct}
               </Link>
@@ -85,7 +85,7 @@ export function CartDrawer() {
 
               {crossSells.length > 0 && (
                 <div className="pt-2">
-                  <p className="text-sm font-bold text-[#C9A96E] mb-2">{cart.crossSellTitle}</p>
+                  <p className="text-sm font-bold text-[#C99A45] mb-2">{cart.crossSellTitle}</p>
                   <div className="space-y-2">
                     {crossSells.map((product) => (
                       <CrossSellCard key={product.id} product={product} />
@@ -98,7 +98,7 @@ export function CartDrawer() {
         </div>
 
         {items.length > 0 && (
-          <div className="p-4 border-t border-[#1C1C1E]/50 space-y-3 bg-[#1C1C1E]">
+          <div className="p-4 border-t border-[#155235]/50 space-y-3 bg-[#0A2616]">
             <div className="flex justify-between items-center">
               <span className="text-[#FFFFFF]/60 text-sm">{cart.total}</span>
               <FormattedAmount className="font-extrabold text-xl text-white">{format(total)}</FormattedAmount>
@@ -142,8 +142,8 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
   const reference = getWelcomeReferenceBundlePriceSar(item.quantity, prod?.bundleOffers);
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-[#1C1C1E] border border-[#1C1C1E]/40 rounded-xl">
-      <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#1C1C1E]/20">
+    <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
+      <div className="w-14 h-14 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
         {prod ? (
           <ProductImage
             product={prod}
@@ -162,16 +162,16 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
           {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable ? (
             <>
               <FormattedAmount className="text-xs text-[#FFFFFF]/45 line-through">{format(reference)}</FormattedAmount>
-              <FormattedAmount className="text-sm font-extrabold text-[#C9A96E]">{format(payable)}</FormattedAmount>
+              <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(payable)}</FormattedAmount>
             </>
           ) : (
-            <FormattedAmount className="text-sm font-extrabold text-[#C9A96E]">{format(catalog)}</FormattedAmount>
+            <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(catalog)}</FormattedAmount>
           )}
         </div>
       </div>
       <button
         onClick={() => removeLine(item.lineId)}
-        className="flex-shrink-0 w-7 h-7 rounded-full bg-[#1C1C1E]/40 text-[#FFFFFF] hover:bg-red-900/40 hover:text-red-400 flex items-center justify-center text-xs transition-colors"
+        className="flex-shrink-0 w-7 h-7 rounded-full bg-[#155235]/40 text-[#FFFFFF] hover:bg-red-900/40 hover:text-red-400 flex items-center justify-center text-xs transition-colors"
         aria-label={isEn ? `Remove ${localize(item.nameAr)}` : `حذف ${item.nameAr}`}
       >
         ✕
@@ -189,11 +189,11 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
   const progress = Math.min((totalSar / GIFT_THRESHOLD_SAR) * 100, 100);
 
   return (
-    <div className="p-3 rounded-xl border border-[#C9A96E]/30 bg-gradient-to-r from-[#1C1C1E] to-[#1C1C1E]">
+    <div className="p-3 rounded-xl border border-[#C99A45]/30 bg-gradient-to-r from-[#1A3A28] to-[#0D2B1D]">
       {reached ? (
         <div className="flex items-center gap-2 text-center justify-center">
           <span className="text-2xl">✧</span>
-          <p className="text-sm font-bold text-[#C9A96E]">
+          <p className="text-sm font-bold text-[#C99A45]">
             تهانينا! ستحصل على هدية مفاجأة مجانية مع طلبك!
           </p>
         </div>
@@ -202,12 +202,12 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
           <div className="flex items-center gap-2 mb-2">
             <span className="text-lg">✧</span>
             <p className="text-xs font-bold text-white">
-              أضف <FormattedAmount className="text-[#C9A96E] font-extrabold">{format(remaining)}</FormattedAmount> للحصول على هدية مجانية!
+              أضف <FormattedAmount className="text-[#C99A45] font-extrabold">{format(remaining)}</FormattedAmount> للحصول على هدية مجانية!
             </p>
           </div>
-          <div className="w-full h-2 bg-[#1C1C1E]/50 rounded-full overflow-hidden mb-1.5">
+          <div className="w-full h-2 bg-[#155235]/50 rounded-full overflow-hidden mb-1.5">
             <div
-              className="h-full bg-gradient-to-r from-[#C9A96E] to-[#C9A96E] rounded-full transition-all duration-500"
+              className="h-full bg-gradient-to-r from-[#C99A45] to-[#E8C068] rounded-full transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
           </div>
@@ -228,8 +228,8 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   const crossSellPrice = getCatalogBundlePriceSar(1, offers);
 
   return (
-    <div className="flex items-center gap-3 p-3 bg-[#1C1C1E] border border-[#1C1C1E]/40 rounded-xl">
-      <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-[#1C1C1E]/20">
+    <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
+      <div className="w-12 h-12 flex-shrink-0 rounded-lg overflow-hidden bg-[#155235]/20">
         <ProductImage
           product={product}
           alt={product.nameAr}
@@ -238,7 +238,7 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
       </div>
       <div className="flex-1 min-w-0">
         <p className="text-xs font-bold text-white line-clamp-1">{localize(product.nameAr)}</p>
-        <p className="text-xs text-[#C9A96E] font-bold mt-0.5">
+        <p className="text-xs text-[#C99A45] font-bold mt-0.5">
           <FormattedAmount>{format(crossSellPrice)}</FormattedAmount>
         </p>
       </div>
@@ -246,7 +246,7 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
         onClick={() => {
           addBundle(product.id, product.slug, product.nameAr, 1, product.imageTheme, "cart_cross_sell");
         }}
-        className="flex-shrink-0 px-3 py-1.5 rounded-full bg-[#1C1C1E] text-[#C9A96E] text-xs font-bold border border-[#C9A96E]/20 hover:bg-[#1C1C1E] transition-colors whitespace-nowrap"
+        className="flex-shrink-0 px-3 py-1.5 rounded-full bg-[#155235] text-[#C99A45] text-xs font-bold border border-[#C99A45]/20 hover:bg-[#1B6B45] transition-colors whitespace-nowrap"
         aria-label={isEn ? `Add ${localize(product.nameAr)} to order` : `أضف ${product.nameAr} للطلب`}
       >
         {cart.add}

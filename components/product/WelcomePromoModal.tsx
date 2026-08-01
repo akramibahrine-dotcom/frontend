@@ -63,15 +63,15 @@ export function WelcomePromoModal() {
       aria-modal="true"
       aria-labelledby="welcome-promo-title"
     >
-      <div className="w-full max-w-sm rounded-2xl bg-[#1C1C1E] shadow-2xl p-8 text-center relative overflow-hidden animate-scale-in border border-[#C9A96E]/30">
+      <div className="w-full max-w-sm rounded-2xl bg-[#071C12] shadow-2xl p-8 text-center relative overflow-hidden animate-scale-in border border-[#C99A45]/30">
         {/* Decorative gold ring */}
         <div
           aria-hidden
-          className="absolute -top-20 -left-20 w-40 h-40 rounded-full border-[3px] border-[#C9A96E]/20"
+          className="absolute -top-20 -left-20 w-40 h-40 rounded-full border-[3px] border-[#C99A45]/20"
         />
         <div
           aria-hidden
-          className="absolute -bottom-16 -right-16 w-36 h-36 rounded-full border-[3px] border-[#C9A96E]/10"
+          className="absolute -bottom-16 -right-16 w-36 h-36 rounded-full border-[3px] border-[#C99A45]/10"
         />
 
         <div className="relative">
@@ -81,7 +81,7 @@ export function WelcomePromoModal() {
 
           <h2
             id="welcome-promo-title"
-            className="text-2xl md:text-3xl font-extrabold text-[#C9A96E] mb-3 leading-tight"
+            className="text-2xl md:text-3xl font-extrabold text-[#C99A45] mb-3 leading-tight"
           >
             {copy.title}
           </h2>
@@ -93,7 +93,7 @@ export function WelcomePromoModal() {
           <button
             type="button"
             onClick={acceptPromo}
-            className="w-full py-3.5 rounded-full bg-[#C9A96E] text-[#1C1C1E] font-extrabold text-lg hover:bg-[#d4a94f] active:scale-[0.98] transition-all"
+            className="w-full py-3.5 rounded-full bg-[#C99A45] text-[#071C12] font-extrabold text-lg hover:bg-[#d4a94f] active:scale-[0.98] transition-all"
           >
             {copy.cta}
           </button>

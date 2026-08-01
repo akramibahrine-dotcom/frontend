@@ -213,17 +213,17 @@ export function UpsellModal({
   const upsellDisplayPrice = getPayableUpsellPriceSar();
 
   return (
-    <div className="fixed inset-0 z-[60] bg-[#1C1C1E]/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
+    <div className="fixed inset-0 z-[60] bg-[#071C12]/80 backdrop-blur-sm flex items-end sm:items-center justify-center p-0 sm:p-4 animate-fade-in">
       <div
-        className="w-full sm:max-w-md bg-[#1C1C1E] border border-[#1C1C1E]/60 rounded-t-3xl sm:rounded-2xl overflow-hidden animate-scale-in shadow-2xl"
+        className="w-full sm:max-w-md bg-[#0D2B1D] border border-[#155235]/60 rounded-t-3xl sm:rounded-2xl overflow-hidden animate-scale-in shadow-2xl"
         role="dialog"
         aria-modal="true"
         aria-labelledby="upsell-title"
       >
         {/* Progress bar */}
-        <div className="h-1 bg-[#1C1C1E]/40">
+        <div className="h-1 bg-[#155235]/40">
           <div
-            className="h-full bg-[#C9A96E] transition-all duration-1000"
+            className="h-full bg-[#C99A45] transition-all duration-1000"
             style={{ width: `${progressPercent}%` }}
           />
         </div>
@@ -242,7 +242,7 @@ export function UpsellModal({
             </div>
 
             <div className="flex gap-4 items-center">
-              <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-[#1C1C1E]/20">
+              <div className="w-24 h-24 flex-shrink-0 rounded-xl overflow-hidden bg-[#155235]/20">
                 <ProductImage
                   product={upsellProduct}
                   quantity={1}
@@ -254,18 +254,18 @@ export function UpsellModal({
               <div>
                 <p className="font-bold text-white text-sm">{getLocalizedProduct(upsellProduct, lang).name}</p>
                 <div className="flex items-center gap-2 mt-1" dir="ltr">
-                  <FormattedAmount className="text-2xl font-extrabold text-[#C9A96E]">{format(upsellDisplayPrice)}</FormattedAmount>
+                  <FormattedAmount className="text-2xl font-extrabold text-[#C99A45]">{format(upsellDisplayPrice)}</FormattedAmount>
                   {shouldShowWelcomeReferencePricing(welcomePromo) && (
                     <FormattedAmount className="text-sm text-[#FFFFFF]/50 line-through">
                       {format(getWelcomeReferenceUpsellPriceSar())}
                     </FormattedAmount>
                   )}
                 </div>
-                <p className="text-xs text-[#C9A96E] font-bold mt-0.5">{upsellCopy.price(format(upsellDisplayPrice))}</p>
+                <p className="text-xs text-[#C99A45] font-bold mt-0.5">{upsellCopy.price(format(upsellDisplayPrice))}</p>
               </div>
             </div>
 
-            <p className="text-xs text-[#FFFFFF]/60 bg-[#1C1C1E]/30 border border-[#1C1C1E]/40 rounded-xl px-3 py-2 text-center">
+            <p className="text-xs text-[#FFFFFF]/60 bg-[#155235]/30 border border-[#155235]/40 rounded-xl px-3 py-2 text-center">
               {upsellCopy.trust}
             </p>
 
@@ -286,7 +286,7 @@ export function UpsellModal({
             <button
               onClick={handleSkip}
               disabled={isSubmitting}
-              className="w-full text-sm text-[#FFFFFF]/50 underline text-center hover:text-[#C9A96E] transition-colors py-1 disabled:opacity-60"
+              className="w-full text-sm text-[#FFFFFF]/50 underline text-center hover:text-[#C99A45] transition-colors py-1 disabled:opacity-60"
             >
               {upsellCopy.skip}
             </button>

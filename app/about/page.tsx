@@ -12,21 +12,21 @@ export default function AboutPage() {
   return (
     <div className="max-w-[1200px] mx-auto px-4 py-16">
       <section className="text-center mb-16">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-[#1C1C1E] mb-4">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-[#1D1D1B] mb-4">
           {COPY.about.headlineAr}
         </h1>
-        <p className="text-[#3D3D3D] text-lg max-w-xl mx-auto leading-relaxed">
+        <p className="text-[#6E675F] text-lg max-w-xl mx-auto leading-relaxed">
           {COPY.about.storyAr}
         </p>
       </section>
 
       <section className="grid md:grid-cols-2 gap-12 mb-16">
         <div className="text-right">
-          <h2 className="text-2xl font-extrabold text-[#1C1C1E] mb-4">قصتنا</h2>
-          <p className="text-[#3D3D3D] leading-relaxed mb-4">
+          <h2 className="text-2xl font-extrabold text-[#1D1D1B] mb-4">قصتنا</h2>
+          <p className="text-[#6E675F] leading-relaxed mb-4">
             {COPY.about.storyAr}
           </p>
-          <p className="text-[#3D3D3D] leading-relaxed">
+          <p className="text-[#6E675F] leading-relaxed">
             التجربة مو مجرد شاي. هي وضوح بالمكونات، شرح للاستخدام، تغليف مرتب، ودعم قبل وبعد الطلب.
           </p>
         </div>
@@ -42,35 +42,35 @@ export default function AboutPage() {
         </div>
       </section>
 
-      <section className="bg-[#FAFAF8] rounded-3xl p-8 md:p-12 mb-16">
-        <h2 className="text-2xl font-extrabold text-[#1C1C1E] mb-8 text-center">
+      <section className="bg-[#F8F1E7] rounded-3xl p-8 md:p-12 mb-16">
+        <h2 className="text-2xl font-extrabold text-[#1D1D1B] mb-8 text-center">
           {COPY.about.promiseTitle}
         </h2>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {COPY.about.beliefPoints.map((point, i) => (
             <div
               key={i}
-              className="bg-white rounded-2xl p-5 text-center border border-[#E8E0D4]"
+              className="bg-white rounded-2xl p-5 text-center border border-[#E8D8C3]"
             >
-              <div className="w-10 h-10 rounded-full bg-[#1C1C1E] text-white flex items-center justify-center font-bold text-lg mx-auto mb-3">
+              <div className="w-10 h-10 rounded-full bg-[#1F6B4E] text-white flex items-center justify-center font-bold text-lg mx-auto mb-3">
                 ✓
               </div>
-              <p className="text-sm font-bold text-[#1C1C1E]">{point}</p>
+              <p className="text-sm font-bold text-[#1D1D1B]">{point}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="bg-white rounded-3xl border border-[#E8E0D4] p-8 mb-16">
-        <h2 className="text-xl font-extrabold text-[#1C1C1E] mb-4 text-center">وعدنا بالجودة</h2>
-        <div className="grid md:grid-cols-2 gap-4 text-sm text-[#3D3D3D] leading-relaxed">
+      <section className="bg-white rounded-3xl border border-[#E8D8C3] p-8 mb-16">
+        <h2 className="text-xl font-extrabold text-[#1D1D1B] mb-4 text-center">وعدنا بالجودة</h2>
+        <div className="grid md:grid-cols-2 gap-4 text-sm text-[#6E675F] leading-relaxed">
           <p>✓ نتحقق من الموردين قبل تبنّي أي منتج.</p>
           <p>✓ نراجع التغليف والمواصفات بشكل دوري.</p>
           <p>✓ نستمع لملاحظات العملاء ونُحسّن المنتجات باستمرار.</p>
           <p>✓ لا ندّعي تأثيرات طبية غير مؤكدة أو غير موثقة.</p>
         </div>
-        <div className="mt-6 p-4 bg-[#FAFAF8] rounded-xl">
-          <p className="text-xs text-[#3D3D3D] text-center">
+        <div className="mt-6 p-4 bg-[#F8F1E7] rounded-xl">
+          <p className="text-xs text-[#6E675F] text-center">
             {COPY.disclaimer}
           </p>
         </div>
@@ -79,7 +79,7 @@ export default function AboutPage() {
       <div className="text-center">
         <Link
           href="/collections"
-          className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-[#1C1C1E] text-white font-bold text-lg hover:bg-[#C9A96E] transition-colors"
+          className="inline-flex items-center justify-center px-10 py-4 rounded-full bg-[#1F6B4E] text-white font-bold text-lg hover:bg-[#124332] transition-colors"
         >
           اكتشف المجموعة
         </Link>

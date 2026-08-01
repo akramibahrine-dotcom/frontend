@@ -72,8 +72,8 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
             className={cn(
               "w-full flex items-center justify-between px-4 py-3.5 rounded-xl border-2 transition-all duration-150 text-right",
               isSelected
-                ? "border-[#1C1C1E] bg-[#1C1C1E]/8 shadow-sm"
-                : "border-[#E8E0D4] bg-white hover:border-[#1C1C1E]/50"
+                ? "border-[#155235] bg-[#155235]/8 shadow-sm"
+                : "border-[#E8E2D8] bg-white hover:border-[#155235]/50"
             )}
             aria-pressed={isSelected}
           >
@@ -81,7 +81,7 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               <div
                 className={cn(
                   "w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 transition-colors",
-                  isSelected ? "border-[#1C1C1E] bg-[#1C1C1E]" : "border-[#E8E0D4]"
+                  isSelected ? "border-[#155235] bg-[#155235]" : "border-[#E8E2D8]"
                 )}
                 aria-hidden="true"
               >
@@ -115,9 +115,9 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                 )}
               </div>
               <div>
-                <span className="font-bold text-[#1C1C1E] text-sm">{localized.label}</span>
+                <span className="font-bold text-[#0F1A14] text-sm">{localized.label}</span>
                 {savings && (
-                  <p className="text-xs text-[#1C1C1E] mt-0.5 font-medium">{productPage.save} {formatSavings(offers, offer.quantity, savings)}</p>
+                  <p className="text-xs text-[#155235] mt-0.5 font-medium">{productPage.save} {formatSavings(offers, offer.quantity, savings)}</p>
                 )}
               </div>
             </div>
@@ -126,19 +126,19 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                 className={cn(
                   "text-[10px] px-2 py-0.5 rounded-full font-bold whitespace-nowrap",
                   isBestValue
-                    ? "bg-[#C9A96E] text-white"
+                    ? "bg-[#C99A45] text-white"
                     : isMostPopular
-                    ? "bg-[#1C1C1E] text-[#C9A96E]"
-                    : "bg-[#E8E0D4] text-[#3D3D3D]"
+                    ? "bg-[#155235] text-[#C99A45]"
+                    : "bg-[#E8E2D8] text-[#567063]"
                 )}
               >
                 {localized.badge}
               </span>
               <div className="flex flex-col items-end gap-0">
                 {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable && (
-                  <span className="text-[10px] text-[#3D3D3D] line-through leading-none">{format(reference)}</span>
+                  <span className="text-[10px] text-[#567063] line-through leading-none">{format(reference)}</span>
                 )}
-                <span className="font-extrabold text-[#1C1C1E] text-base leading-none mt-0.5">{formatOffer(offer, payable)}</span>
+                <span className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">{formatOffer(offer, payable)}</span>
               </div>
             </div>
           </button>

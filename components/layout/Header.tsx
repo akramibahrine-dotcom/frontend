@@ -44,8 +44,8 @@ export function Header() {
         className={cn(
           "sticky top-0 z-30 w-full transition-all duration-300",
           scrolled
-            ? "bg-[#1C1C1E] shadow-lg shadow-black/30 border-b border-[#1C1C1E]/40"
-            : "bg-[#1C1C1E] border-b border-transparent"
+            ? "bg-[#071C12] shadow-lg shadow-black/30 border-b border-[#155235]/40"
+            : "bg-[#071C12] border-b border-transparent"
         )}
       >
         <div className="max-w-[1200px] mx-auto px-4 min-h-[4.5rem] py-2.5 flex items-center justify-between gap-4">
@@ -56,7 +56,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm font-medium text-[#FFFFFF]/80 hover:text-[#C9A96E] transition-colors"
+                className="text-sm font-medium text-[#FFFFFF]/80 hover:text-[#C99A45] transition-colors"
               >
                 {t(link.key)}
               </Link>
@@ -68,17 +68,17 @@ export function Header() {
             <CurrencySelector />
             <button
               onClick={openCart}
-              className="relative p-2 rounded-full hover:bg-[#1C1C1E]/50 transition-colors"
+              className="relative p-2 rounded-full hover:bg-[#155235]/50 transition-colors"
               aria-label={isEn ? `Shopping cart — ${itemCount} items` : `سلة التسوق - ${itemCount} منتج`}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#C9A96E]">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#C99A45]">
                 <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z" />
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <path d="M16 10a4 4 0 01-8 0" />
               </svg>
               {itemCount > 0 && (
                 <FormattedAmount
-                  className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-[#C9A96E] text-[#1C1C1E] text-xs font-bold flex items-center justify-center"
+                  className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-[#C99A45] text-[#071C12] text-xs font-bold flex items-center justify-center"
                   aria-hidden="true"
                 >
                   {itemCount > 9 ? "9+" : formatInteger(itemCount)}
@@ -88,10 +88,10 @@ export function Header() {
 
             <button
               onClick={() => setMenuOpen(true)}
-              className="md:hidden p-2 rounded-full hover:bg-[#1C1C1E]/50 transition-colors"
+              className="md:hidden p-2 rounded-full hover:bg-[#155235]/50 transition-colors"
               aria-label={isEn ? "Open menu" : "فتح القائمة"}
             >
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#C9A96E]">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[#C99A45]">
                 <line x1="3" y1="6" x2="21" y2="6" />
                 <line x1="3" y1="12" x2="21" y2="12" />
                 <line x1="3" y1="18" x2="21" y2="18" />
