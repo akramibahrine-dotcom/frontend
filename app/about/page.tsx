@@ -31,11 +31,12 @@ export default function AboutPage() {
           </p>
         </div>
         <div className="flex items-center justify-center">
-          <div className="w-full max-w-sm bg-gradient-to-br from-green-100 to-emerald-50 rounded-3xl aspect-square flex items-center justify-center">
-            <div className="text-center">
-              <div className="text-8xl mb-3">🌿</div>
-              <p className="text-sm text-[#6E675F] px-4">صورة توضيحية</p>
-            </div>
+          <div className="w-full max-w-sm rounded-3xl aspect-square overflow-hidden">
+            <img
+              src="/product-galery/about.jpg"
+              alt="بيت الصحة — من نحن"
+              className="w-full h-full object-cover rounded-3xl"
+            />
           </div>
         </div>
       </section>
