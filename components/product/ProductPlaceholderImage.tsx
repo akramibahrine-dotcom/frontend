@@ -11,52 +11,52 @@ type Props = {
 const THEME_CONFIG: Record<ImageTheme, { gradient: string; emoji: string; labelAr: string }> = {
   weight: {
     gradient: "from-green-100 via-emerald-50 to-lime-100",
-    emoji: "🍃",
+    emoji: "◈",
     labelAr: "شاي دعم إدارة الوزن",
   },
   colon: {
     gradient: "from-amber-50 via-yellow-50 to-orange-50",
-    emoji: "🌼",
+    emoji: "◈",
     labelAr: "شاي راحة القولون",
   },
   hemorrhoid: {
     gradient: "from-rose-50 via-pink-50 to-red-50",
-    emoji: "🌸",
+    emoji: "✧",
     labelAr: "شاي دعم الراحة",
   },
   liver: {
     gradient: "from-teal-50 via-cyan-50 to-green-50",
-    emoji: "🌿",
+    emoji: "◈",
     labelAr: "شاي دعم الكبد",
   },
   lung: {
     gradient: "from-sky-50 via-blue-50 to-indigo-50",
-    emoji: "🍀",
+    emoji: "◇",
     labelAr: "شاي دعم الرئة",
   },
   prostate: {
     gradient: "from-violet-50 via-purple-50 to-indigo-50",
-    emoji: "🌱",
+    emoji: "◆",
     labelAr: "شاي دعم البروستات",
   },
   "womens-health": {
     gradient: "from-pink-50 via-fuchsia-50 to-rose-50",
-    emoji: "🌸",
+    emoji: "✧",
     labelAr: "شاي دعم صحة الأنثى",
   },
   "herbal-skin": {
     gradient: "from-orange-50 via-amber-50 to-yellow-50",
-    emoji: "✨",
+    emoji: "✦",
     labelAr: "عناية عشبية بالبشرة",
   },
   "scar-gel": {
     gradient: "from-cyan-50 via-teal-50 to-sky-50",
-    emoji: "💧",
+    emoji: "◆",
     labelAr: "جل علاج الندوب والحروق",
   },
   "c60-fullerene": {
     gradient: "from-yellow-50 via-amber-50 to-gold-50",
-    emoji: "✨",
+    emoji: "✦",
     labelAr: "كبسولات C60 الذهبية",
   },
 };

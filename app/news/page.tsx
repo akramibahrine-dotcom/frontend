@@ -34,12 +34,12 @@ export const metadata: Metadata = {
 /* ─── Data ─── */
 
 const CATEGORIES = [
-  { label: "الوزن الزائد", icon: "⚖️", color: "#155235" },
-  { label: "القولون والهضم", icon: "🫁", color: "#2D7A4F" },
-  { label: "البواسير", icon: "🩺", color: "#8B5E3C" },
-  { label: "الكبد", icon: "🫀", color: "#A0522D" },
-  { label: "التدخين والرئة", icon: "🚭", color: "#4A6741" },
-  { label: "البروستات", icon: "🏥", color: "#6B4423" },
+  { label: "الوزن الزائد", icon: "◈", color: "#155235" },
+  { label: "القولون والهضم", icon: "◆", color: "#2D7A4F" },
+  { label: "البواسير", icon: "✧", color: "#8B5E3C" },
+  { label: "الكبد", icon: "◇", color: "#A0522D" },
+  { label: "التدخين والرئة", icon: "◆", color: "#4A6741" },
+  { label: "البروستات", icon: "✦", color: "#6B4423" },
 ];
 
 const WEEKS = [
@@ -242,7 +242,7 @@ export default function NewsPage() {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-12">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-[#155235]/10 rounded-full mb-4 border border-[#155235]/20">
-              <span className="text-[#155235]">🍵</span>
+              <span className="text-[#155235]">◈</span>
               <span className="text-sm font-bold text-[#155235]">برنامج حصري</span>
             </span>
             <h2 className="text-2xl md:text-4xl font-extrabold text-[#0F1A14] mb-4">
@@ -296,13 +296,13 @@ export default function NewsPage() {
 
                     {/* Tea routine */}
                     <div className="bg-[#155235]/5 rounded-xl p-4 mb-4">
-                      <p className="text-sm font-bold text-[#155235] mb-1">🍵 روتين الشاي</p>
+                      <p className="text-sm font-bold text-[#155235] mb-1">◈ روتين الشاي</p>
                       <p className="text-[#567063] text-sm">{week.routine}</p>
                     </div>
 
                     {/* Meals */}
                     <div className="mb-4">
-                      <p className="text-sm font-bold text-[#0F1A14] mb-2">🍽️ الوجبات المقترحة</p>
+                      <p className="text-sm font-bold text-[#0F1A14] mb-2">✧ الوجبات المقترحة</p>
                       <ul className="space-y-1.5">
                         {week.meals.map((meal) => (
                           <li key={meal} className="text-sm text-[#567063] flex items-start gap-2">
@@ -315,13 +315,13 @@ export default function NewsPage() {
 
                     {/* Exercise */}
                     <div className="bg-[#C99A45]/10 rounded-xl p-4 mb-4">
-                      <p className="text-sm font-bold text-[#8B6914] mb-1">🏃 التمارين</p>
+                      <p className="text-sm font-bold text-[#8B6914] mb-1">◆ التمارين</p>
                       <p className="text-[#567063] text-sm">{week.exercise}</p>
                     </div>
 
                     {/* Tips */}
                     <div>
-                      <p className="text-sm font-bold text-[#0F1A14] mb-2">💡 نصائح الأسبوع</p>
+                      <p className="text-sm font-bold text-[#0F1A14] mb-2">✦ نصائح الأسبوع</p>
                       <ul className="space-y-1.5">
                         {week.tips.map((tip) => (
                           <li key={tip} className="text-sm text-[#567063] flex items-start gap-2">
@@ -366,7 +366,7 @@ export default function NewsPage() {
         <div className="max-w-[900px] mx-auto px-4">
           <div className="text-center mb-10">
             <span className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4 border border-white/20">
-              <span>🌿</span>
+              <span>◈</span>
               <span className="text-sm font-bold text-[#C99A45]">فلسفة غذائية</span>
             </span>
             <h2 className="text-2xl md:text-4xl font-extrabold text-white mb-4">
@@ -398,22 +398,22 @@ export default function NewsPage() {
                   {
                     title: "الأصالة والطبيعية",
                     desc: "تناول الأطعمة بحالتها الطبيعية قدر الإمكان — بدون إضافات صناعية أو مواد حافظة أو ألوان مصنّعة.",
-                    icon: "🌱",
+                    icon: "◈",
                   },
                   {
                     title: "القصد والاعتدال",
                     desc: "﴿وَكُلُوا وَاشْرَبُوا وَلَا تُسْرِفُوا﴾ — الاعتدال في الأكل وعدم الإسراف من أهم مبادئ الطيبات.",
-                    icon: "⚖️",
+                    icon: "◈",
                   },
                   {
                     title: "الموسمية والمحلية",
                     desc: "تفضيل المنتجات المحلية والموسمية التي تنمو في بيئتنا لأنها أنسب لأجسامنا وأكثر بركة.",
-                    icon: "🌾",
+                    icon: "✧",
                   },
                   {
                     title: "الابتعاد عن المصنّع",
                     desc: "تجنّب الأغذية فائقة التصنيع والوجبات السريعة والمشروبات الغازية والسكر المكرر قدر الإمكان.",
-                    icon: "🚫",
+                    icon: "◆",
                   },
                 ].map((p) => (
                   <div key={p.title} className="bg-white/5 rounded-2xl p-5 border border-white/10">

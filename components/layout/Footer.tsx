@@ -104,9 +104,9 @@ export function Footer() {
         {/* Trust & Socials */}
         <FooterSection title={footer.trustTitle}>
           <ul className="space-y-3 text-sm text-[#FFFFFF]/70 mb-6">
-            <li className="flex items-center gap-2"><span>💳</span> {footer.cod}</li>
-            <li className="flex items-center gap-2"><span>🚚</span> {footer.deliveryGcc}</li>
-            <li className="flex items-center gap-2"><span>💬</span> {footer.support}</li>
+            <li className="flex items-center gap-2"><span>◆</span> {footer.cod}</li>
+            <li className="flex items-center gap-2"><span>❖</span> {footer.deliveryGcc}</li>
+            <li className="flex items-center gap-2"><span>✦</span> {footer.support}</li>
           </ul>
           
           <div>

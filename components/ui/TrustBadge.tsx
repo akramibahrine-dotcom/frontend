@@ -41,7 +41,7 @@ export function CODBadge({ className }: { className?: string }) {
         className
       )}
     >
-      💳 {footer.cod}
+      ◆ {footer.cod}
     </span>
   );
 }
@@ -56,7 +56,7 @@ export function TrustBadgeRow({ className }: { className?: string }) {
         {cart.shippingIncluded}
       </span>
       <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium bg-[#F5F3EE] text-[#155235] border border-[#E8E2D8]">
-        💬 {footer.support}
+        ✦ {footer.support}
       </span>
     </div>
   );

@@ -1,20 +1,20 @@
 import type { ImageTheme, Product } from "@/content/products";
 
 const THEME_EMOJI: Record<ImageTheme, string> = {
-  weight: "🍃",
-  colon: "🌼",
-  hemorrhoid: "🌸",
-  liver: "🌿",
-  lung: "🍀",
-  prostate: "🌱",
-  "womens-health": "🌸",
-  "herbal-skin": "✨",
-  "scar-gel": "💧",
-  "c60-fullerene": "✨",
+  weight: "◈",
+  colon: "◈",
+  hemorrhoid: "✧",
+  liver: "◈",
+  lung: "◇",
+  prostate: "◆",
+  "womens-health": "✧",
+  "herbal-skin": "✦",
+  "scar-gel": "◆",
+  "c60-fullerene": "✦",
 };
 
 export function getProductThemeEmoji(theme: ImageTheme): string {
-  return THEME_EMOJI[theme] ?? "🌿";
+  return THEME_EMOJI[theme] ?? "◈";
 }
 
 /** Ordered image URLs to try for a product thumbnail (first match wins). */

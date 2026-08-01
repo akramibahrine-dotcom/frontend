@@ -65,7 +65,7 @@ export default async function CategoryPage({
         <div className="max-w-[1200px] mx-auto px-4">
           {products.length === 0 ? (
             <div className="max-w-xl mx-auto text-center py-16">
-              <p className="text-5xl mb-4">🌿</p>
+              <p className="text-5xl mb-4">◈</p>
               <h2 className="text-xl font-extrabold text-[#0F1A14] mb-2">
                 منتجات هذا التصنيف قريبًا
               </h2>

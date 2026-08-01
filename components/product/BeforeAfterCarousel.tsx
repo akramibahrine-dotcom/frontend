@@ -182,7 +182,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 29,
     quoteAr: "بعد سنتين محاولات، بديت أشرب الشاي بانتظام وحسّيت بتغيّر في دورتي وانتظامها. الحمدلله أنا الحين حامل في الشهر الثالث!",
     rating: 5,
-    badge: "🌸 نتيجة مباركة",
+    badge: "✧ نتيجة مباركة",
   },
   {
     id: 2,
@@ -191,7 +191,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 31,
     quoteAr: "كنت أعاني من عدم انتظام الدورة، وبعد شهرين من الشاي صارت منتظمة. طعمه لذيذ وأحس بفرق واضح في طاقتي.",
     rating: 5,
-    badge: "✅ دورة منتظمة",
+    badge: "✓ دورة منتظمة",
   },
   {
     id: 3,
@@ -200,7 +200,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 27,
     quoteAr: "دكتورتي نصحتني بأعشاب طبيعية مع العلاج، وهالشاي كان الخيار المثالي. أحس براحة نفسية وجسدية مع كل كوب.",
     rating: 5,
-    badge: "💆‍♀️ راحة يومية",
+    badge: "✧ راحة يومية",
   },
   {
     id: 4,
@@ -209,7 +209,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 34,
     quoteAr: "أختي جرّبته قبلي وحملت بعد 4 أشهر. أنا بديت أشربه وألاحظ تحسّن بالدورة والمزاج. منتج طبيعي 100%.",
     rating: 5,
-    badge: "🌿 طبيعي وآمن",
+    badge: "◈ طبيعي وآمن",
   },
   {
     id: 5,
@@ -227,7 +227,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 30,
     quoteAr: "طلبته لعُمان ووصلني بأسبوع. طعمه خفيف وأحبه مع العسل. دورتي تحسّنت وآلامها خفّت كثير.",
     rating: 5,
-    badge: "🚚 وصل بسرعة",
+    badge: "❖ وصل بسرعة",
   },
   {
     id: 7,
@@ -236,7 +236,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 33,
     quoteAr: "كنت أعاني من تكيّس المبايض وبديت أشرب الشاي كمكمّل طبيعي. الحمدلله أحس بتحسّن ملحوظ في كل شيء.",
     rating: 5,
-    badge: "💪 تحسّن ملحوظ",
+    badge: "◆ تحسّن ملحوظ",
   },
   {
     id: 8,
@@ -245,7 +245,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 28,
     quoteAr: "جرّبت أشياء كثيرة وهذا أول منتج حسّيت بفرق حقيقي معه. دورتي انتظمت والتقلّبات المزاجية خفّت!",
     rating: 5,
-    badge: "🎯 فرق حقيقي",
+    badge: "◆ فرق حقيقي",
   },
   {
     id: 9,
@@ -254,7 +254,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 35,
     quoteAr: "الشاي صار جزء من روتيني اليومي. أحس بهدوء نفسي وراحة، وأنا وزوجي نخطط ونثق أن الله يرزقنا.",
     rating: 5,
-    badge: "☕ روتين يومي",
+    badge: "✧ روتين يومي",
   },
   {
     id: 10,
@@ -263,7 +263,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 32,
     quoteAr: "زوجي هو اللي طلبه لي كهدية. صراحة أحسن هدية! بشرتي تحسّنت ودورتي صارت منتظمة.",
     rating: 5,
-    badge: "🎁 هدية مثالية",
+    badge: "✧ هدية مثالية",
   },
   {
     id: 11,
@@ -272,7 +272,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 29,
     quoteAr: "طلبته من لبنان ووصلني. طعمه ناعم ولذيذ وأحس إنه ساعدني على الاسترخاء وتنظيم هرموناتي.",
     rating: 5,
-    badge: "🌸 استرخاء وعناية",
+    badge: "✧ استرخاء وعناية",
   },
   {
     id: 12,
@@ -281,7 +281,7 @@ const FERTILITY_REVIEWS: ProductReview[] = [
     age: 27,
     quoteAr: "أعشاب طبيعية ومفعولها واضح. بعد شهر ونص دورتي انتظمت وآلام البطن اختفت تقريبًا.",
     rating: 5,
-    badge: "✅ نتيجة سريعة",
+    badge: "✓ نتيجة سريعة",
   },
   {
     id: 13,
@@ -394,100 +394,100 @@ function ProductReviewCard({ r, productName, badgeColor, borderColor }: { r: Pro
 const REVIEWS_MAP: Record<string, ProductReview[]> = {
   "fertility-tea": FERTILITY_REVIEWS,
   "colon-comfort-tea": [
-    { id: 1, nameAr: "فيصل الشمري", cityAr: "🇸🇦 الرياض", age: 34, quoteAr: "سنوات من الانتفاخ بعد الأكل راحت مع هالشاي. كوب واحد بعد العشا والقولون هادي تماماً.", rating: 5, badge: "🌼 قولون مرتاح" },
-    { id: 2, nameAr: "منى العتيبي", cityAr: "🇸🇦 جدة", age: 28, quoteAr: "الغازات كانت تحرجني بالدوام. جربت الشاي هذا والحمدلله النتيجة رهيبة ومريحة.", rating: 5, badge: "✅ بدون غازات" },
-    { id: 3, nameAr: "سالم الظاهري", cityAr: "🇦🇪 دبي", age: 41, quoteAr: "طعم الشاي ممتاز وما فيه مرارة. خفف عني أعراض القولون العصبي بشكل واضح.", rating: 4, badge: "☕ طعم لذيذ" },
-    { id: 4, nameAr: "أماني الكندري", cityAr: "🇰🇼 الكويت", age: 31, quoteAr: "من أفضل المنتجات للقولون. أقدر آكل براحتي بدون الخوف من المغص والنفخة.", rating: 5, badge: "🎯 نتيجة مبهرة" },
-    { id: 5, nameAr: "عبدالله الهاجري", cityAr: "🇶🇦 الدوحة", age: 38, quoteAr: "المنتج طبيعي ومريح للمعدة. أنصح فيه بشدة لكل من يعاني من مشاكل الهضم.", rating: 5, badge: "🌿 راحة طبيعية" },
-    { id: 6, nameAr: "عالية البلوشي", cityAr: "🇴🇲 مسقط", age: 45, quoteAr: "وصلني بسرعة وبديت أستخدمه. الفرق واضح من أول أسبوع وتخلصت من الثقل بعد الأكل.", rating: 5, badge: "🚚 توصيل سريع" },
+    { id: 1, nameAr: "فيصل الشمري", cityAr: "🇸🇦 الرياض", age: 34, quoteAr: "سنوات من الانتفاخ بعد الأكل راحت مع هالشاي. كوب واحد بعد العشا والقولون هادي تماماً.", rating: 5, badge: "◈ قولون مرتاح" },
+    { id: 2, nameAr: "منى العتيبي", cityAr: "🇸🇦 جدة", age: 28, quoteAr: "الغازات كانت تحرجني بالدوام. جربت الشاي هذا والحمدلله النتيجة رهيبة ومريحة.", rating: 5, badge: "✓ بدون غازات" },
+    { id: 3, nameAr: "سالم الظاهري", cityAr: "🇦🇪 دبي", age: 41, quoteAr: "طعم الشاي ممتاز وما فيه مرارة. خفف عني أعراض القولون العصبي بشكل واضح.", rating: 4, badge: "✧ طعم لذيذ" },
+    { id: 4, nameAr: "أماني الكندري", cityAr: "🇰🇼 الكويت", age: 31, quoteAr: "من أفضل المنتجات للقولون. أقدر آكل براحتي بدون الخوف من المغص والنفخة.", rating: 5, badge: "◆ نتيجة مبهرة" },
+    { id: 5, nameAr: "عبدالله الهاجري", cityAr: "🇶🇦 الدوحة", age: 38, quoteAr: "المنتج طبيعي ومريح للمعدة. أنصح فيه بشدة لكل من يعاني من مشاكل الهضم.", rating: 5, badge: "◈ راحة طبيعية" },
+    { id: 6, nameAr: "عالية البلوشي", cityAr: "🇴🇲 مسقط", age: 45, quoteAr: "وصلني بسرعة وبديت أستخدمه. الفرق واضح من أول أسبوع وتخلصت من الثقل بعد الأكل.", rating: 5, badge: "❖ توصيل سريع" },
   ],
   "hemorrhoid-comfort-tea": [
-    { id: 1, nameAr: "خالد الحربي", cityAr: "🇸🇦 الدمام", age: 39, quoteAr: "المنتج ساعدني أرجع لحياتي الطبيعية. العناية بالبواسير صارت أسهل وأكثر راحة بفضل هالشاي.", rating: 5, badge: "🌸 راحة يومية" },
-    { id: 2, nameAr: "فاطمة الدوسري", cityAr: "🇸🇦 الرياض", age: 32, quoteAr: "الخصوصية في الطلب والتغليف مريحة جداً، والنتيجة كانت ممتازة. الشاي خفف الألم بشكل ملحوظ.", rating: 5, badge: "📦 تغليف سري" },
-    { id: 3, nameAr: "سعيد النيادي", cityAr: "🇦🇪 أبوظبي", age: 44, quoteAr: "كنت متردد بس الحمدلله جربته. ساعد في تخفيف الاحتقان وأقدر أجلس وأتحرك بدون ألم.", rating: 5, badge: "✅ نتيجة حقيقية" },
-    { id: 4, nameAr: "نورة المطيري", cityAr: "🇰🇼 الأحمدي", age: 29, quoteAr: "منتج محترم جداً، الألم خف بنسبة 80% في أول أسبوع. شاي مريح ومهدئ.", rating: 5, badge: "💆‍♀️ تأثير مهدئ" },
-    { id: 5, nameAr: "يوسف القحطاني", cityAr: "🇸🇦 أبها", age: 47, quoteAr: "عانيت سنوات من البواسير. هالشاي مع النظام الغذائي ريحني ووفر علي التعب.", rating: 4, badge: "🌿 طبيعي 100%" },
-    { id: 6, nameAr: "هدى جاسم", cityAr: "🇧🇭 المنامة", age: 36, quoteAr: "شكراً بيت الصحة. الدفع عند الاستلام ريحني، والمنتج نتيجته أسرع من المتوقع.", rating: 5, badge: "💳 دفع مريح" },
+    { id: 1, nameAr: "خالد الحربي", cityAr: "🇸🇦 الدمام", age: 39, quoteAr: "المنتج ساعدني أرجع لحياتي الطبيعية. العناية بالبواسير صارت أسهل وأكثر راحة بفضل هالشاي.", rating: 5, badge: "✧ راحة يومية" },
+    { id: 2, nameAr: "فاطمة الدوسري", cityAr: "🇸🇦 الرياض", age: 32, quoteAr: "الخصوصية في الطلب والتغليف مريحة جداً، والنتيجة كانت ممتازة. الشاي خفف الألم بشكل ملحوظ.", rating: 5, badge: "◆ تغليف سري" },
+    { id: 3, nameAr: "سعيد النيادي", cityAr: "🇦🇪 أبوظبي", age: 44, quoteAr: "كنت متردد بس الحمدلله جربته. ساعد في تخفيف الاحتقان وأقدر أجلس وأتحرك بدون ألم.", rating: 5, badge: "✓ نتيجة حقيقية" },
+    { id: 4, nameAr: "نورة المطيري", cityAr: "🇰🇼 الأحمدي", age: 29, quoteAr: "منتج محترم جداً، الألم خف بنسبة 80% في أول أسبوع. شاي مريح ومهدئ.", rating: 5, badge: "✧ تأثير مهدئ" },
+    { id: 5, nameAr: "يوسف القحطاني", cityAr: "🇸🇦 أبها", age: 47, quoteAr: "عانيت سنوات من البواسير. هالشاي مع النظام الغذائي ريحني ووفر علي التعب.", rating: 4, badge: "◈ طبيعي 100%" },
+    { id: 6, nameAr: "هدى جاسم", cityAr: "🇧🇭 المنامة", age: 36, quoteAr: "شكراً بيت الصحة. الدفع عند الاستلام ريحني، والمنتج نتيجته أسرع من المتوقع.", rating: 5, badge: "◆ دفع مريح" },
   ],
   "liver-wellness-tea": [
-    { id: 1, nameAr: "عمر السبيعي", cityAr: "🇸🇦 الرياض", age: 42, quoteAr: "الشاي نظف جسمي وحسيت بطاقة جديدة. تحسنت تحاليلي ونشاطي زاد.", rating: 5, badge: "🌿 تنظيف السموم" },
-    { id: 2, nameAr: "ريم الزهراني", cityAr: "🇸🇦 جدة", age: 35, quoteAr: "طعم الشاي خفيف ويساعد في الاسترخاء. استخدمه من شهر ونتيجته واضحة على بشرتي وطاقتي.", rating: 5, badge: "✨ نضارة وصحة" },
-    { id: 3, nameAr: "حمد المري", cityAr: "🇶🇦 الدوحة", age: 50, quoteAr: "أفضل ديتوكس طبيعي جربته للكبد. مريح للمعدة وما يسبب أي مغص.", rating: 5, badge: "✅ ديتوكس طبيعي" },
-    { id: 4, nameAr: "سعاد البوسعيدي", cityAr: "🇴🇲 صلالة", age: 39, quoteAr: "نصحني فيه طبيبي كعامل مساعد. الحمدلله الشاي مهدئ وصحتي العامة في تحسن مستمر.", rating: 5, badge: "💪 صحة أفضل" },
-    { id: 5, nameAr: "عبدالعزيز الغامدي", cityAr: "🇸🇦 مكة", age: 48, quoteAr: "منتج رائع وخدمة عملاء راقية. التغليف ممتاز والتأثير إيجابي جداً على نشاطي الصباحي.", rating: 5, badge: "☕ روتين يومي" },
-    { id: 6, nameAr: "نواف الشامسي", cityAr: "🇦🇪 الشارقة", age: 41, quoteAr: "بديت أحس بخفة في جسمي بعد أسبوعين. أنصح كل مهتم بصحته يدخله في نظامه.", rating: 4, badge: "🎯 فرق ملموس" },
+    { id: 1, nameAr: "عمر السبيعي", cityAr: "🇸🇦 الرياض", age: 42, quoteAr: "الشاي نظف جسمي وحسيت بطاقة جديدة. تحسنت تحاليلي ونشاطي زاد.", rating: 5, badge: "◈ تنظيف السموم" },
+    { id: 2, nameAr: "ريم الزهراني", cityAr: "🇸🇦 جدة", age: 35, quoteAr: "طعم الشاي خفيف ويساعد في الاسترخاء. استخدمه من شهر ونتيجته واضحة على بشرتي وطاقتي.", rating: 5, badge: "✦ نضارة وصحة" },
+    { id: 3, nameAr: "حمد المري", cityAr: "🇶🇦 الدوحة", age: 50, quoteAr: "أفضل ديتوكس طبيعي جربته للكبد. مريح للمعدة وما يسبب أي مغص.", rating: 5, badge: "✓ ديتوكس طبيعي" },
+    { id: 4, nameAr: "سعاد البوسعيدي", cityAr: "🇴🇲 صلالة", age: 39, quoteAr: "نصحني فيه طبيبي كعامل مساعد. الحمدلله الشاي مهدئ وصحتي العامة في تحسن مستمر.", rating: 5, badge: "◆ صحة أفضل" },
+    { id: 5, nameAr: "عبدالعزيز الغامدي", cityAr: "🇸🇦 مكة", age: 48, quoteAr: "منتج رائع وخدمة عملاء راقية. التغليف ممتاز والتأثير إيجابي جداً على نشاطي الصباحي.", rating: 5, badge: "✧ روتين يومي" },
+    { id: 6, nameAr: "نواف الشامسي", cityAr: "🇦🇪 الشارقة", age: 41, quoteAr: "بديت أحس بخفة في جسمي بعد أسبوعين. أنصح كل مهتم بصحته يدخله في نظامه.", rating: 4, badge: "◆ فرق ملموس" },
   ],
   "lung-smoking-support-tea": [
-    { id: 1, nameAr: "ماجد المطيري", cityAr: "🇸🇦 بريدة", age: 38, quoteAr: "أنا مدخن من 15 سنة. الشاي هذا ريح صدري كثير، وخفف عني الكحة الصباحية بشكل كبير.", rating: 5, badge: "🍀 تنفس أسهل" },
-    { id: 2, nameAr: "أحمد العتيبي", cityAr: "🇸🇦 الرياض", age: 45, quoteAr: "ممتاز جداً للي يحاول يخفف تدخين. يعطيك هدوء ويخفف الرغبة بالسجائر.", rating: 5, badge: "✅ يخفف الرغبة" },
-    { id: 3, nameAr: "سلطان النعيمي", cityAr: "🇦🇪 دبي", age: 33, quoteAr: "فرق واضح في النفس وقت الرياضة! الشاي نظف الرئة وصرت أتنفس براحة أكثر.", rating: 5, badge: "🏃‍♂️ نشاط رياضي" },
-    { id: 4, nameAr: "تركي الدوسري", cityAr: "🇸🇦 الخبر", age: 41, quoteAr: "طعمه مريح ودافي. ساعدني أتخلص من البلغم المتراكم بصراحة منتج يستاهل.", rating: 5, badge: "🌿 طرد البلغم" },
-    { id: 5, nameAr: "وليد العنزي", cityAr: "🇰🇼 الفروانية", age: 36, quoteAr: "أنصح فيه كل مدخن أو مدخن سابق. ينظف الصدر ويعطيك شعور بالانتعاش.", rating: 4, badge: "✨ انتعاش" },
-    { id: 6, nameAr: "محمد الشمري", cityAr: "🇸🇦 تبوك", age: 50, quoteAr: "شكراً بيت الصحة. المنتج ساعدني كثير في تقليل التدخين، وصدري صار أصفى بكثير.", rating: 5, badge: "🎯 نتيجة فعالة" },
+    { id: 1, nameAr: "ماجد المطيري", cityAr: "🇸🇦 بريدة", age: 38, quoteAr: "أنا مدخن من 15 سنة. الشاي هذا ريح صدري كثير، وخفف عني الكحة الصباحية بشكل كبير.", rating: 5, badge: "◇ تنفس أسهل" },
+    { id: 2, nameAr: "أحمد العتيبي", cityAr: "🇸🇦 الرياض", age: 45, quoteAr: "ممتاز جداً للي يحاول يخفف تدخين. يعطيك هدوء ويخفف الرغبة بالسجائر.", rating: 5, badge: "✓ يخفف الرغبة" },
+    { id: 3, nameAr: "سلطان النعيمي", cityAr: "🇦🇪 دبي", age: 33, quoteAr: "فرق واضح في النفس وقت الرياضة! الشاي نظف الرئة وصرت أتنفس براحة أكثر.", rating: 5, badge: "◆ نشاط رياضي" },
+    { id: 4, nameAr: "تركي الدوسري", cityAr: "🇸🇦 الخبر", age: 41, quoteAr: "طعمه مريح ودافي. ساعدني أتخلص من البلغم المتراكم بصراحة منتج يستاهل.", rating: 5, badge: "◈ طرد البلغم" },
+    { id: 5, nameAr: "وليد العنزي", cityAr: "🇰🇼 الفروانية", age: 36, quoteAr: "أنصح فيه كل مدخن أو مدخن سابق. ينظف الصدر ويعطيك شعور بالانتعاش.", rating: 4, badge: "✦ انتعاش" },
+    { id: 6, nameAr: "محمد الشمري", cityAr: "🇸🇦 تبوك", age: 50, quoteAr: "شكراً بيت الصحة. المنتج ساعدني كثير في تقليل التدخين، وصدري صار أصفى بكثير.", rating: 5, badge: "◆ نتيجة فعالة" },
   ],
   "prostate-wellness-tea": [
-    { id: 1, nameAr: "صالح الغامدي", cityAr: "🇸🇦 جدة", age: 55, quoteAr: "الشاي خفف عني التردد على دورة المياه بالليل. قدرت أنام براحة أخيراً.", rating: 5, badge: "🌙 نوم مريح" },
-    { id: 2, nameAr: "عبدالرحمن السديري", cityAr: "🇸🇦 الرياض", age: 60, quoteAr: "منتج محترم يحترم خصوصية الرجل. ساعدني في تخفيف الاحتقان وأعراض التضخم.", rating: 5, badge: "🌱 راحة طبيعية" },
-    { id: 3, nameAr: "حسن المناعي", cityAr: "🇦🇪 عجمان", age: 52, quoteAr: "أعشاب ممتازة ومدروسة. لاحظت تحسن في تدفق البول بعد استخدام أسبوعين.", rating: 5, badge: "✅ تحسن ملحوظ" },
-    { id: 4, nameAr: "ابراهيم العبدالله", cityAr: "🇶🇦 الدوحة", age: 58, quoteAr: "الشراء آمن والتوصيل سريع. الشاي له تأثير مهدئ ومفيد جداً لصحة البروستات.", rating: 5, badge: "📦 ثقة وأمان" },
-    { id: 5, nameAr: "سعد الشهري", cityAr: "🇸🇦 نجران", age: 62, quoteAr: "طلبته بناءً على نصيحة صديق. فعال جداً ومريح، وما حسيت بأي أعراض جانبية.", rating: 5, badge: "💪 صحة وعافية" },
-    { id: 6, nameAr: "مبارك الرشيدي", cityAr: "🇰🇼 الجهراء", age: 54, quoteAr: "شكراً لكم. المنتج يستحق كل ريال. ريحني كثير وأصبح جزء من يومي.", rating: 4, badge: "☕ جزء من يومي" },
+    { id: 1, nameAr: "صالح الغامدي", cityAr: "🇸🇦 جدة", age: 55, quoteAr: "الشاي خفف عني التردد على دورة المياه بالليل. قدرت أنام براحة أخيراً.", rating: 5, badge: "✧ نوم مريح" },
+    { id: 2, nameAr: "عبدالرحمن السديري", cityAr: "🇸🇦 الرياض", age: 60, quoteAr: "منتج محترم يحترم خصوصية الرجل. ساعدني في تخفيف الاحتقان وأعراض التضخم.", rating: 5, badge: "◈ راحة طبيعية" },
+    { id: 3, nameAr: "حسن المناعي", cityAr: "🇦🇪 عجمان", age: 52, quoteAr: "أعشاب ممتازة ومدروسة. لاحظت تحسن في تدفق البول بعد استخدام أسبوعين.", rating: 5, badge: "✓ تحسن ملحوظ" },
+    { id: 4, nameAr: "ابراهيم العبدالله", cityAr: "🇶🇦 الدوحة", age: 58, quoteAr: "الشراء آمن والتوصيل سريع. الشاي له تأثير مهدئ ومفيد جداً لصحة البروستات.", rating: 5, badge: "◆ ثقة وأمان" },
+    { id: 5, nameAr: "سعد الشهري", cityAr: "🇸🇦 نجران", age: 62, quoteAr: "طلبته بناءً على نصيحة صديق. فعال جداً ومريح، وما حسيت بأي أعراض جانبية.", rating: 5, badge: "◆ صحة وعافية" },
+    { id: 6, nameAr: "مبارك الرشيدي", cityAr: "🇰🇼 الجهراء", age: 54, quoteAr: "شكراً لكم. المنتج يستحق كل ريال. ريحني كثير وأصبح جزء من يومي.", rating: 4, badge: "✧ جزء من يومي" },
   ],
   "axis-y-serum": [
-    { id: 1, nameAr: "سارة الحمد", cityAr: "🇸🇦 الرياض", age: 26, quoteAr: "السيروم سحر! آثار الحبوب اختفت بنسبة 70% في ثلاث أسابيع بس. بشرتي صارت تلمع.", rating: 5, badge: "✨ لمعان ملحوظ" },
-    { id: 2, nameAr: "ليلى العامري", cityAr: "🇦🇪 دبي", age: 31, quoteAr: "خفيف على البشرة الحساسة وما يهيجها أبداً. وحد لون بشرتي بشكل واضح.", rating: 5, badge: "🌸 لطيف ومريح" },
-    { id: 3, nameAr: "شهد القحطاني", cityAr: "🇸🇦 الدمام", age: 24, quoteAr: "أفضل منتج كوري استخدمته لتصحيح البقع. يعطي نضارة فورية وتأثيره يطول.", rating: 5, badge: "🎯 تصحيح البقع" },
-    { id: 4, nameAr: "نوف العازمي", cityAr: "🇰🇼 العاصمة", age: 29, quoteAr: "يمتص بسرعة وممتاز تحت المكياج. التصبغات خفت كثير ومستمرة عليه.", rating: 5, badge: "✅ امتصاص سريع" },
-    { id: 5, nameAr: "أسماء الشمري", cityAr: "🇸🇦 حائل", age: 34, quoteAr: "شكراً بيت الصحة على توفير المنتج الأصلي. سعره ممتاز والنتيجة مضمونة.", rating: 5, badge: "📦 منتج أصلي" },
-    { id: 6, nameAr: "مها البوسعيدي", cityAr: "🇴🇲 مسقط", age: 28, quoteAr: "توصيل سريع وخدمة راقية. السيروم وحد لون وجهي وأخفى الكلف الخفيف.", rating: 4, badge: "🌿 توحيد اللون" },
+    { id: 1, nameAr: "سارة الحمد", cityAr: "🇸🇦 الرياض", age: 26, quoteAr: "السيروم سحر! آثار الحبوب اختفت بنسبة 70% في ثلاث أسابيع بس. بشرتي صارت تلمع.", rating: 5, badge: "✦ لمعان ملحوظ" },
+    { id: 2, nameAr: "ليلى العامري", cityAr: "🇦🇪 دبي", age: 31, quoteAr: "خفيف على البشرة الحساسة وما يهيجها أبداً. وحد لون بشرتي بشكل واضح.", rating: 5, badge: "✧ لطيف ومريح" },
+    { id: 3, nameAr: "شهد القحطاني", cityAr: "🇸🇦 الدمام", age: 24, quoteAr: "أفضل منتج كوري استخدمته لتصحيح البقع. يعطي نضارة فورية وتأثيره يطول.", rating: 5, badge: "◆ تصحيح البقع" },
+    { id: 4, nameAr: "نوف العازمي", cityAr: "🇰🇼 العاصمة", age: 29, quoteAr: "يمتص بسرعة وممتاز تحت المكياج. التصبغات خفت كثير ومستمرة عليه.", rating: 5, badge: "✓ امتصاص سريع" },
+    { id: 5, nameAr: "أسماء الشمري", cityAr: "🇸🇦 حائل", age: 34, quoteAr: "شكراً بيت الصحة على توفير المنتج الأصلي. سعره ممتاز والنتيجة مضمونة.", rating: 5, badge: "◆ منتج أصلي" },
+    { id: 6, nameAr: "مها البوسعيدي", cityAr: "🇴🇲 مسقط", age: 28, quoteAr: "توصيل سريع وخدمة راقية. السيروم وحد لون وجهي وأخفى الكلف الخفيف.", rating: 4, badge: "◈ توحيد اللون" },
   ],
   "scar-gel": [
-    { id: 1, nameAr: "عبدالله الشهري", cityAr: "🇸🇦 الرياض", age: 34, quoteAr: "ندبة عملية الزائدة عمرها 3 سنوات. بعد شهر ونص من الجل اختفت تقريباً! زوجتي ما صدقت الفرق.", rating: 5, badge: "✅ ندبة قديمة اختفت" },
-    { id: 2, nameAr: "نورة الدوسري", cityAr: "🇸🇦 جدة", age: 28, quoteAr: "تعرضت لحرق زيت بالمطبخ قبل سنتين. الأثر كان واضح على يدي والحين بعد شهرين من الجل خفّ بنسبة 90%. منتج عجيب!", rating: 5, badge: "🔥 آثار حروق اختفت" },
-    { id: 3, nameAr: "خالد المنصوري", cityAr: "🇦🇪 أبوظبي", age: 40, quoteAr: "عندي أثر عملية جراحية بالبطن من 7 سنوات. ما كنت أتوقع شي يساعد بس الجل هذا فعلاً فرّق. الندبة صارت بالكاد تنشاف.", rating: 5, badge: "💪 ندبة 7 سنوات" },
-    { id: 4, nameAr: "حمد الكواري", cityAr: "🇶🇦 الدوحة", age: 31, quoteAr: "عانيت من ندوب حب الشباب على وجهي سنوات. بعد 3 أسابيع فقط من الجل، الملمس صار ناعم والندوب خفّت بشكل واضح.", rating: 5, badge: "💎 وجه صافي" },
-    { id: 5, nameAr: "فاطمة البلوشي", cityAr: "🇴🇲 مسقط", age: 25, quoteAr: "أثر جرح على ذراعي من حادث سيارة. الدكتور قال ما راح يروح. بعد شهرين من الجل صار شبه مختفي! شكراً بيت الصحة.", rating: 5, badge: "🌟 نتيجة مذهلة" },
-    { id: 6, nameAr: "سعود العتيبي", cityAr: "🇸🇦 الدمام", age: 37, quoteAr: "حرق قديم على رقبتي من أيام الطفولة. استخدمت الجل 6 أسابيع والفرق كبير جداً. اللون تقارب مع بشرتي والملمس تحسّن.", rating: 5, badge: "🎯 فرق واضح" },
-    { id: 7, nameAr: "مريم الشامسي", cityAr: "🇦🇪 دبي", age: 29, quoteAr: "بعد العملية القيصرية كان عندي ندبة كبيرة. الجل خلّاها تقريباً مو موجودة بعد شهرين. خفيف على البشرة وما يهيّج.", rating: 5, badge: "🤱 بعد القيصرية" },
-    { id: 8, nameAr: "ناصر الحربي", cityAr: "🇸🇦 مكة", age: 45, quoteAr: "عندي ندوب من عملية قلب مفتوح. بديت أستخدم الجل من 3 أشهر والتحسّن ملحوظ جداً. الندوب خفّت وبشرتي صارت ناعمة.", rating: 5, badge: "❤️ بعد عملية القلب" },
-    { id: 9, nameAr: "هند السبيعي", cityAr: "🇰🇼 الكويت", age: 33, quoteAr: "آثار ليزر فاشل على وجهي سبب لي ندوب. الجل ساعد يخففها بشكل كبير والحمدلله. أنصح فيه كل اللي عندهم نفس المشكلة.", rating: 5, badge: "✨ إصلاح البشرة" },
-    { id: 10, nameAr: "محمد الزعابي", cityAr: "🇦🇪 الشارقة", age: 26, quoteAr: "كنت أخجل من ندبة على وجهي من حادث قديم. بعد 5 أسابيع من الاستخدام اليومي، الندبة خفّت 85%. ثقتي بنفسي رجعت!", rating: 5, badge: "😊 ثقة بالنفس" },
-    { id: 11, nameAr: "سارة المالكي", cityAr: "🇸🇦 الطائف", age: 30, quoteAr: "ابني تعرض لحرق ماء حار وبقى أثر. استخدمنا الجل بانتظام وبعد شهرين الأثر تقريباً راح. منتج ممتاز وآمن.", rating: 5, badge: "👶 آمن للعائلة" },
-    { id: 12, nameAr: "جاسم الأنصاري", cityAr: "🇧🇭 المنامة", age: 38, quoteAr: "ندبة في الوجه من 10 سنوات. جربت كل شي بدون فايدة. هالجل أول منتج يعطي نتيجة حقيقية. والله يستاهل كل ريال.", rating: 4, badge: "🏆 أخيراً نتيجة" },
+    { id: 1, nameAr: "عبدالله الشهري", cityAr: "🇸🇦 الرياض", age: 34, quoteAr: "ندبة عملية الزائدة عمرها 3 سنوات. بعد شهر ونص من الجل اختفت تقريباً! زوجتي ما صدقت الفرق.", rating: 5, badge: "✓ ندبة قديمة اختفت" },
+    { id: 2, nameAr: "نورة الدوسري", cityAr: "🇸🇦 جدة", age: 28, quoteAr: "تعرضت لحرق زيت بالمطبخ قبل سنتين. الأثر كان واضح على يدي والحين بعد شهرين من الجل خفّ بنسبة 90%. منتج عجيب!", rating: 5, badge: "✦ آثار حروق اختفت" },
+    { id: 3, nameAr: "خالد المنصوري", cityAr: "🇦🇪 أبوظبي", age: 40, quoteAr: "عندي أثر عملية جراحية بالبطن من 7 سنوات. ما كنت أتوقع شي يساعد بس الجل هذا فعلاً فرّق. الندبة صارت بالكاد تنشاف.", rating: 5, badge: "◆ ندبة 7 سنوات" },
+    { id: 4, nameAr: "حمد الكواري", cityAr: "🇶🇦 الدوحة", age: 31, quoteAr: "عانيت من ندوب حب الشباب على وجهي سنوات. بعد 3 أسابيع فقط من الجل، الملمس صار ناعم والندوب خفّت بشكل واضح.", rating: 5, badge: "◇ وجه صافي" },
+    { id: 5, nameAr: "فاطمة البلوشي", cityAr: "🇴🇲 مسقط", age: 25, quoteAr: "أثر جرح على ذراعي من حادث سيارة. الدكتور قال ما راح يروح. بعد شهرين من الجل صار شبه مختفي! شكراً بيت الصحة.", rating: 5, badge: "★ نتيجة مذهلة" },
+    { id: 6, nameAr: "سعود العتيبي", cityAr: "🇸🇦 الدمام", age: 37, quoteAr: "حرق قديم على رقبتي من أيام الطفولة. استخدمت الجل 6 أسابيع والفرق كبير جداً. اللون تقارب مع بشرتي والملمس تحسّن.", rating: 5, badge: "◆ فرق واضح" },
+    { id: 7, nameAr: "مريم الشامسي", cityAr: "🇦🇪 دبي", age: 29, quoteAr: "بعد العملية القيصرية كان عندي ندبة كبيرة. الجل خلّاها تقريباً مو موجودة بعد شهرين. خفيف على البشرة وما يهيّج.", rating: 5, badge: "✧ بعد القيصرية" },
+    { id: 8, nameAr: "ناصر الحربي", cityAr: "🇸🇦 مكة", age: 45, quoteAr: "عندي ندوب من عملية قلب مفتوح. بديت أستخدم الجل من 3 أشهر والتحسّن ملحوظ جداً. الندوب خفّت وبشرتي صارت ناعمة.", rating: 5, badge: "♥ بعد عملية القلب" },
+    { id: 9, nameAr: "هند السبيعي", cityAr: "🇰🇼 الكويت", age: 33, quoteAr: "آثار ليزر فاشل على وجهي سبب لي ندوب. الجل ساعد يخففها بشكل كبير والحمدلله. أنصح فيه كل اللي عندهم نفس المشكلة.", rating: 5, badge: "✦ إصلاح البشرة" },
+    { id: 10, nameAr: "محمد الزعابي", cityAr: "🇦🇪 الشارقة", age: 26, quoteAr: "كنت أخجل من ندبة على وجهي من حادث قديم. بعد 5 أسابيع من الاستخدام اليومي، الندبة خفّت 85%. ثقتي بنفسي رجعت!", rating: 5, badge: "★ ثقة بالنفس" },
+    { id: 11, nameAr: "سارة المالكي", cityAr: "🇸🇦 الطائف", age: 30, quoteAr: "ابني تعرض لحرق ماء حار وبقى أثر. استخدمنا الجل بانتظام وبعد شهرين الأثر تقريباً راح. منتج ممتاز وآمن.", rating: 5, badge: "✧ آمن للعائلة" },
+    { id: 12, nameAr: "جاسم الأنصاري", cityAr: "🇧🇭 المنامة", age: 38, quoteAr: "ندبة في الوجه من 10 سنوات. جربت كل شي بدون فايدة. هالجل أول منتج يعطي نتيجة حقيقية. والله يستاهل كل ريال.", rating: 4, badge: "★ أخيراً نتيجة" },
   ],
   "eelhoe-fresh-breath": [
-    { id: 1, nameAr: "سالم العتيبي", cityAr: "🇸🇦 الرياض", age: 35, quoteAr: "من أول استخدام حسيت بالفرق، النفس منعش طول اليوم وفعلاً يغير الثقة بالنفس.", rating: 5, badge: "✅ نفس منعش" },
-    { id: 2, nameAr: "أمل الشمري", cityAr: "🇸🇦 جدة", age: 29, quoteAr: "المنتج رهيب، رجع لي ثقتي بنفسي وما استغني عنه في الدوام والطلعات.", rating: 5, badge: "✨ ثقة عالية" },
-    { id: 3, nameAr: "عبدالرحمن المري", cityAr: "🇦🇪 دبي", age: 40, quoteAr: "ممتاز جداً للدوام والاجتماعات، أنصح فيه بشدة لكل شخص يبي حل سريع وفعال.", rating: 5, badge: "⭐ الأفضل" },
-    { id: 4, nameAr: "نورة القحطاني", cityAr: "🇸🇦 الدمام", age: 32, quoteAr: "سهل الاستخدام ومفعوله سريع ويدوم 24 ساعة فعلاً. طعمه مقبول وما يضايق.", rating: 5, badge: "💎 مفعول سريع" },
-    { id: 5, nameAr: "فهد الدوسري", cityAr: "🇰🇼 الكويت", age: 45, quoteAr: "شريته لي ولزوجتي، والحمدلله النتيجة ممتازة من أول يوم. يستاهل كل فلس.", rating: 5, badge: "🌿 طبيعي وآمن" },
-    { id: 6, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 27, quoteAr: "توصيل سريع وتغليف ممتاز. المنتج سحري ويغني عن العلك والحلاوة.", rating: 4, badge: "🚚 توصيل سريع" },
+    { id: 1, nameAr: "سالم العتيبي", cityAr: "🇸🇦 الرياض", age: 35, quoteAr: "من أول استخدام حسيت بالفرق، النفس منعش طول اليوم وفعلاً يغير الثقة بالنفس.", rating: 5, badge: "✓ نفس منعش" },
+    { id: 2, nameAr: "أمل الشمري", cityAr: "🇸🇦 جدة", age: 29, quoteAr: "المنتج رهيب، رجع لي ثقتي بنفسي وما استغني عنه في الدوام والطلعات.", rating: 5, badge: "✦ ثقة عالية" },
+    { id: 3, nameAr: "عبدالرحمن المري", cityAr: "🇦🇪 دبي", age: 40, quoteAr: "ممتاز جداً للدوام والاجتماعات، أنصح فيه بشدة لكل شخص يبي حل سريع وفعال.", rating: 5, badge: "★ الأفضل" },
+    { id: 4, nameAr: "نورة القحطاني", cityAr: "🇸🇦 الدمام", age: 32, quoteAr: "سهل الاستخدام ومفعوله سريع ويدوم 24 ساعة فعلاً. طعمه مقبول وما يضايق.", rating: 5, badge: "◇ مفعول سريع" },
+    { id: 5, nameAr: "فهد الدوسري", cityAr: "🇰🇼 الكويت", age: 45, quoteAr: "شريته لي ولزوجتي، والحمدلله النتيجة ممتازة من أول يوم. يستاهل كل فلس.", rating: 5, badge: "◈ طبيعي وآمن" },
+    { id: 6, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 27, quoteAr: "توصيل سريع وتغليف ممتاز. المنتج سحري ويغني عن العلك والحلاوة.", rating: 4, badge: "❖ توصيل سريع" },
   ],
   "c60-fullerene-serum": [
-    { id: 1, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 34, quoteAr: "صراحة كنت متخوفة من الكبسولات بس جربتها وبعد أسبوعين بشرتي صارت ألين وأنعم. الخطوط اللي حول العين خفّت بشكل ملحوظ والحمدلله.", rating: 5, badge: "✨ نعومة واضحة" },
-    { id: 2, nameAr: "سعيد الحارثي", cityAr: "🇴🇲 صلالة", age: 41, quoteAr: "زوجتي طلبتهم وأنا كنت مستغرب شو هالكبسولات. بعد شهر قالتلي جاراتها سألوها شو مسوية لبشرتها. يعني النتيجة واضحة للناس مو بس لها.", rating: 5, badge: "👀 الكل لاحظ" },
-    { id: 3, nameAr: "فاطمة الراشدي", cityAr: "🇴🇲 نزوى", age: 29, quoteAr: "أستخدمها قبل النوم كل يوم. بشرتي كانت تعبانة من الشمس والجفاف والحين الترطيب ثابت ولوني صار أوضح. مو معجزة بس تحسّن حقيقي.", rating: 5, badge: "💧 ترطيب عميق" },
-    { id: 4, nameAr: "خالد المعمري", cityAr: "🇴🇲 صحار", age: 37, quoteAr: "شريتهم لأمي عمرها 58 والله إنها فرحت. تقول بشرتها رجعت حيوية وخطوط الجبهة خفّت. الكبسولة سهلة وما تحتاج شي ثاني معها.", rating: 5, badge: "🎁 هدية للأم" },
-    { id: 5, nameAr: "شيخة السيابي", cityAr: "🇴🇲 مسقط", age: 26, quoteAr: "بشرتي دهنية وكنت خايفة يسكّر المسام. بالعكس خفيف ويمتص بسرعة. البقع الغامقة خفّت بعد 3 أسابيع تقريباً.", rating: 4, badge: "🌸 مناسب للدهنية" },
-    { id: 6, nameAr: "حمد الكندي", cityAr: "🇴🇲 البريمي", age: 45, quoteAr: "أشتغل تحت الشمس وبشرتي متعبة. بعد شهر من الكبسولات لاحظت فرق في الملمس والحيوية. مو شي خيالي بس تحسّن واضح ومستمر.", rating: 5, badge: "☀️ حماية من الشمس" },
-    { id: 7, nameAr: "نورة الهنائي", cityAr: "🇴🇲 عبري", age: 32, quoteAr: "كنت أستخدم كريمات غالية وما شفت نتيجة. الكبسولات هذي فرقت معي أكثر. بشرتي صارت مشدودة أكثر وإشراقة الصبح واضحة.", rating: 5, badge: "💎 أفضل من الكريمات" },
-    { id: 8, nameAr: "يوسف البوسعيدي", cityAr: "🇴🇲 مسقط", age: 50, quoteAr: "عمري خمسين وبديت أحس بشرتي مترهلة. بعد 6 أسابيع من الكبسولات صارت أحسن بوايد. مو رجعت شباب بس الفرق ملموس والحمدلله.", rating: 4, badge: "💪 تحسّن ملموس" },
-    { id: 9, nameAr: "آمنة المقبالي", cityAr: "🇴🇲 صور", age: 38, quoteAr: "أحب إن الكبسولة معقمة ونظيفة مو مثل الكريم اللي يتأكسد. بشرتي حساسة وما تهيّجت أبداً. الخطوط الدقيقة حول الفم خفّت.", rating: 5, badge: "✅ آمن للحساسة" },
-    { id: 10, nameAr: "ناصر الشكيلي", cityAr: "🇴🇲 إبراء", age: 43, quoteAr: "طلبتهم بعد ما قريت عن تقنية C60 وجائزة نوبل. النتيجة بعد شهر: بشرة أنظف وأصفى، والتجاعيد الخفيفة بدت تروح. أنصح فيهم.", rating: 5, badge: "🏆 تقنية نوبل" },
+    { id: 1, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 34, quoteAr: "صراحة كنت متخوفة من الكبسولات بس جربتها وبعد أسبوعين بشرتي صارت ألين وأنعم. الخطوط اللي حول العين خفّت بشكل ملحوظ والحمدلله.", rating: 5, badge: "✦ نعومة واضحة" },
+    { id: 2, nameAr: "سعيد الحارثي", cityAr: "🇴🇲 صلالة", age: 41, quoteAr: "زوجتي طلبتهم وأنا كنت مستغرب شو هالكبسولات. بعد شهر قالتلي جاراتها سألوها شو مسوية لبشرتها. يعني النتيجة واضحة للناس مو بس لها.", rating: 5, badge: "★ الكل لاحظ" },
+    { id: 3, nameAr: "فاطمة الراشدي", cityAr: "🇴🇲 نزوى", age: 29, quoteAr: "أستخدمها قبل النوم كل يوم. بشرتي كانت تعبانة من الشمس والجفاف والحين الترطيب ثابت ولوني صار أوضح. مو معجزة بس تحسّن حقيقي.", rating: 5, badge: "◇ ترطيب عميق" },
+    { id: 4, nameAr: "خالد المعمري", cityAr: "🇴🇲 صحار", age: 37, quoteAr: "شريتهم لأمي عمرها 58 والله إنها فرحت. تقول بشرتها رجعت حيوية وخطوط الجبهة خفّت. الكبسولة سهلة وما تحتاج شي ثاني معها.", rating: 5, badge: "✧ هدية للأم" },
+    { id: 5, nameAr: "شيخة السيابي", cityAr: "🇴🇲 مسقط", age: 26, quoteAr: "بشرتي دهنية وكنت خايفة يسكّر المسام. بالعكس خفيف ويمتص بسرعة. البقع الغامقة خفّت بعد 3 أسابيع تقريباً.", rating: 4, badge: "✧ مناسب للدهنية" },
+    { id: 6, nameAr: "حمد الكندي", cityAr: "🇴🇲 البريمي", age: 45, quoteAr: "أشتغل تحت الشمس وبشرتي متعبة. بعد شهر من الكبسولات لاحظت فرق في الملمس والحيوية. مو شي خيالي بس تحسّن واضح ومستمر.", rating: 5, badge: "◆ حماية من الشمس" },
+    { id: 7, nameAr: "نورة الهنائي", cityAr: "🇴🇲 عبري", age: 32, quoteAr: "كنت أستخدم كريمات غالية وما شفت نتيجة. الكبسولات هذي فرقت معي أكثر. بشرتي صارت مشدودة أكثر وإشراقة الصبح واضحة.", rating: 5, badge: "◇ أفضل من الكريمات" },
+    { id: 8, nameAr: "يوسف البوسعيدي", cityAr: "🇴🇲 مسقط", age: 50, quoteAr: "عمري خمسين وبديت أحس بشرتي مترهلة. بعد 6 أسابيع من الكبسولات صارت أحسن بوايد. مو رجعت شباب بس الفرق ملموس والحمدلله.", rating: 4, badge: "◆ تحسّن ملموس" },
+    { id: 9, nameAr: "آمنة المقبالي", cityAr: "🇴🇲 صور", age: 38, quoteAr: "أحب إن الكبسولة معقمة ونظيفة مو مثل الكريم اللي يتأكسد. بشرتي حساسة وما تهيّجت أبداً. الخطوط الدقيقة حول الفم خفّت.", rating: 5, badge: "✓ آمن للحساسة" },
+    { id: 10, nameAr: "ناصر الشكيلي", cityAr: "🇴🇲 إبراء", age: 43, quoteAr: "طلبتهم بعد ما قريت عن تقنية C60 وجائزة نوبل. النتيجة بعد شهر: بشرة أنظف وأصفى، والتجاعيد الخفيفة بدت تروح. أنصح فيهم.", rating: 5, badge: "★ تقنية نوبل" },
   ],
 };
 
 const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string; accentColor: string; bgFrom: string; bgTo: string }> = {
-  "fertility-tea": { badgeColor: "bg-pink-50 text-pink-700 border-pink-200", borderColor: "border-pink-200", emoji: "🌸", title: "شاي Fertility", accentColor: "text-pink-400", bgFrom: "#2D0A1B", bgTo: "#1A0511" },
-  "colon-comfort-tea": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "🌼", title: "شاي راحة القولون", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "hemorrhoid-comfort-tea": { badgeColor: "bg-rose-50 text-rose-700 border-rose-200", borderColor: "border-rose-200", emoji: "🌸", title: "شاي دعم الراحة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "liver-wellness-tea": { badgeColor: "bg-teal-50 text-teal-700 border-teal-200", borderColor: "border-teal-200", emoji: "🌿", title: "شاي دعم الكبد", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "🍀", title: "شاي دعم الرئة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "🌱", title: "شاي البروستات", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✨", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "💧", title: "جل علاج الندوب", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "eelhoe-fresh-breath": { badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200", borderColor: "border-emerald-200", emoji: "🌿", title: "إكسير رائحة الفم", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
-  "c60-fullerene-serum": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "💛", title: "كبسولات C60 الذهبية", accentColor: "text-[#C99A45]", bgFrom: "#1A1200", bgTo: "#0D0900" },
+  "fertility-tea": { badgeColor: "bg-pink-50 text-pink-700 border-pink-200", borderColor: "border-pink-200", emoji: "✧", title: "شاي Fertility", accentColor: "text-pink-400", bgFrom: "#2D0A1B", bgTo: "#1A0511" },
+  "colon-comfort-tea": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "◈", title: "شاي راحة القولون", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "hemorrhoid-comfort-tea": { badgeColor: "bg-rose-50 text-rose-700 border-rose-200", borderColor: "border-rose-200", emoji: "✧", title: "شاي دعم الراحة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "liver-wellness-tea": { badgeColor: "bg-teal-50 text-teal-700 border-teal-200", borderColor: "border-teal-200", emoji: "◈", title: "شاي دعم الكبد", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "lung-smoking-support-tea": { badgeColor: "bg-sky-50 text-sky-700 border-sky-200", borderColor: "border-sky-200", emoji: "◇", title: "شاي دعم الرئة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "prostate-wellness-tea": { badgeColor: "bg-violet-50 text-violet-700 border-violet-200", borderColor: "border-violet-200", emoji: "◆", title: "شاي البروستات", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✦", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "◆", title: "جل علاج الندوب", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "eelhoe-fresh-breath": { badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200", borderColor: "border-emerald-200", emoji: "◈", title: "إكسير رائحة الفم", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "c60-fullerene-serum": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "✦", title: "كبسولات C60 الذهبية", accentColor: "text-[#C99A45]", bgFrom: "#1A1200", bgTo: "#0D0900" },
 };
 
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
@@ -499,7 +499,7 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
       <section className="py-12 md:py-16 bg-gradient-to-b from-[#0F1A14] to-[#071C12] overflow-hidden" aria-labelledby="ba-carousel-title">
         <div className="max-w-[1200px] mx-auto px-4 mb-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-4 border border-white/20">
-            <span className="text-[#C99A45]">📸</span>
+            <span className="text-[#C99A45]">✦</span>
             <span className="text-sm font-bold text-white tracking-wide">نتائج حقيقية</span>
           </div>
           <h2 id="ba-carousel-title" className="text-2xl md:text-4xl font-extrabold text-white mb-3">
@@ -524,10 +524,10 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
         <div className="max-w-[1200px] mx-auto px-4 mt-10">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { value: "+15,000", label: "عميل سعيد", icon: "👥" },
-              { value: "-12 كغ", label: "معدل النزول في 3 أشهر", icon: "⚖️" },
-              { value: "98%", label: "نسبة رضا العملاء", icon: "⭐" },
-              { value: "6 دول", label: "توصيل خليجي", icon: "🚚" },
+              { value: "+15,000", label: "عميل سعيد", icon: "✦" },
+              { value: "-12 كغ", label: "معدل النزول في 3 أشهر", icon: "◈" },
+              { value: "98%", label: "نسبة رضا العملاء", icon: "★" },
+              { value: "6 دول", label: "توصيل خليجي", icon: "❖" },
             ].map((stat) => (
               <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
                 <span className="text-2xl block mb-1">{stat.icon}</span>
@@ -583,10 +583,10 @@ export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
       <div className="max-w-[1200px] mx-auto px-4 mt-10">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { value: "+1,240", label: "عميل راضٍ", icon: "👥" },
-            { value: "4.9/5", label: "تقييم المنتج", icon: "⭐" },
-            { value: "97%", label: "نسبة رضا العملاء", icon: "💕" },
-            { value: "9 دول", label: "توصيل عربي", icon: "🚚" },
+            { value: "+1,240", label: "عميل راضٍ", icon: "✦" },
+            { value: "4.9/5", label: "تقييم المنتج", icon: "★" },
+            { value: "97%", label: "نسبة رضا العملاء", icon: "♥" },
+            { value: "9 دول", label: "توصيل عربي", icon: "❖" },
           ].map((stat) => (
             <div key={stat.label} className="text-center p-4 rounded-2xl bg-white/5 border border-white/10">
               <span className="text-2xl block mb-1">{stat.icon}</span>

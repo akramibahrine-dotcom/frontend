@@ -64,10 +64,10 @@ export default function AboutPage() {
       <section className="bg-white rounded-3xl border border-[#E8D8C3] p-8 mb-16">
         <h2 className="text-xl font-extrabold text-[#1D1D1B] mb-4 text-center">وعدنا بالجودة</h2>
         <div className="grid md:grid-cols-2 gap-4 text-sm text-[#6E675F] leading-relaxed">
-          <p>✅ نتحقق من الموردين قبل تبنّي أي منتج.</p>
-          <p>✅ نراجع التغليف والمواصفات بشكل دوري.</p>
-          <p>✅ نستمع لملاحظات العملاء ونُحسّن المنتجات باستمرار.</p>
-          <p>✅ لا ندّعي تأثيرات طبية غير مؤكدة أو غير موثقة.</p>
+          <p>✓ نتحقق من الموردين قبل تبنّي أي منتج.</p>
+          <p>✓ نراجع التغليف والمواصفات بشكل دوري.</p>
+          <p>✓ نستمع لملاحظات العملاء ونُحسّن المنتجات باستمرار.</p>
+          <p>✓ لا ندّعي تأثيرات طبية غير مؤكدة أو غير موثقة.</p>
         </div>
         <div className="mt-6 p-4 bg-[#F8F1E7] rounded-xl">
           <p className="text-xs text-[#6E675F] text-center">

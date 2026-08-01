@@ -186,7 +186,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
         </div>
 
         <div className="flex items-center justify-center gap-3 bg-[#C99A45]/10 border border-[#C99A45]/20 p-4 rounded-2xl mb-6">
-          <span className="text-[#C99A45] text-xl">⚡</span>
+          <span className="text-[#C99A45] text-xl">✦</span>
           <span className="text-sm font-bold text-[#0F1A14]">{thankYou.deliveryNote}</span>
         </div>
 
@@ -205,15 +205,15 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
 
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
           <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
-            <span className="text-2xl mb-2 block">🚚</span>
+            <span className="text-2xl mb-2 block">❖</span>
             <span className="text-xs font-bold text-[#0F1A14]">{page.thankYouDeliveryKsa}</span>
           </div>
           <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
-            <span className="text-2xl mb-2 block">🛡️</span>
+            <span className="text-2xl mb-2 block">◆</span>
             <span className="text-xs font-bold text-[#0F1A14]">{page.thankYouReturn}</span>
           </div>
           <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
-            <span className="text-2xl mb-2 block">💬</span>
+            <span className="text-2xl mb-2 block">✦</span>
             <span className="text-xs font-bold text-[#0F1A14]">{page.thankYouArabicTeam}</span>
           </div>
         </div>

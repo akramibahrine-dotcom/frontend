@@ -153,7 +153,7 @@ export function CheckoutModal({ onClose }: Props) {
             </p>
           )}
           <p className="text-xs text-center text-[#FFFFFF]/50 flex items-center justify-center gap-1">
-            <span className="text-[#C99A45]">🛡️</span> 
+            <span className="text-[#C99A45]">◆</span> 
             {checkout.returnGuarantee}
           </p>
         </div>

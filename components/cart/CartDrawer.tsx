@@ -60,7 +60,7 @@ export function CartDrawer() {
         <div className="flex-1 overflow-y-auto herb-backdrop">
           {items.length === 0 ? (
             <div className="flex flex-col items-center justify-center h-full gap-4 p-8 text-center">
-              <span className="text-5xl">🛒</span>
+              <span className="text-5xl">◇</span>
               <p className="text-[#C99A45] font-medium">{cart.empty}</p>
               <p className="text-sm text-[#FFFFFF]/60">{cart.emptySub}</p>
               <Link
@@ -192,7 +192,7 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
     <div className="p-3 rounded-xl border border-[#C99A45]/30 bg-gradient-to-r from-[#1A3A28] to-[#0D2B1D]">
       {reached ? (
         <div className="flex items-center gap-2 text-center justify-center">
-          <span className="text-2xl">🎁</span>
+          <span className="text-2xl">✧</span>
           <p className="text-sm font-bold text-[#C99A45]">
             تهانينا! ستحصل على هدية مفاجأة مجانية مع طلبك!
           </p>
@@ -200,7 +200,7 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
       ) : (
         <>
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-lg">🎁</span>
+            <span className="text-lg">✧</span>
             <p className="text-xs font-bold text-white">
               أضف <FormattedAmount className="text-[#C99A45] font-extrabold">{format(remaining)}</FormattedAmount> للحصول على هدية مجانية!
             </p>

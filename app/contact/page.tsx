@@ -19,7 +19,7 @@ export default function ContactPage() {
 
         <div className="grid gap-4 mb-10">
           <div className="bg-[#F8F1E7] border border-[#E8D8C3] rounded-2xl p-6 flex items-start gap-4">
-            <span className="text-3xl">💬</span>
+            <span className="text-3xl">✦</span>
             <div>
               <h3 className="font-bold text-[#1D1D1B] mb-1">واتساب</h3>
               <p className="text-sm text-[#6E675F] mb-2" dir="ltr" style={{ textAlign: "right" }}>
@@ -30,7 +30,7 @@ export default function ContactPage() {
           </div>
 
           <div className="bg-[#F8F1E7] border border-[#E8D8C3] rounded-2xl p-6 flex items-start gap-4">
-            <span className="text-3xl">📧</span>
+            <span className="text-3xl">◆</span>
             <div>
               <h3 className="font-bold text-[#1D1D1B] mb-1">البريد الإلكتروني</h3>
               <p className="text-sm text-[#6E675F]">

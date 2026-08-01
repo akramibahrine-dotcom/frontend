@@ -76,7 +76,7 @@ export function WelcomePromoModal() {
 
         <div className="relative">
           <div className="text-5xl mb-4" aria-hidden>
-            🎁
+            ✧
           </div>
 
           <h2

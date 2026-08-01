@@ -117,7 +117,7 @@ function HeroCarousel({
 
         {/* Floating Badge */}
         <div className="absolute top-3 end-3 sm:top-6 sm:end-4 bg-white px-2.5 sm:px-4 py-1.5 sm:py-2 rounded-full shadow-lg border border-[#E8D8C3] flex items-center gap-1.5 sm:gap-2 z-10 max-w-[70%]">
-          <span className="text-base sm:text-xl shrink-0">{product.imageTheme === "herbal-skin" ? "✨" : product.imageTheme === "scar-gel" ? "💧" : "🌿"}</span>
+          <span className="text-base sm:text-xl shrink-0">{product.imageTheme === "herbal-skin" ? "✦" : product.imageTheme === "scar-gel" ? "◆" : "◈"}</span>
           <span className="text-[10px] sm:text-sm font-bold text-[#155235] truncate">{socialProofShort}</span>
         </div>
       </div>
@@ -203,7 +203,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
               </p>
 
               <div className="flex items-center gap-3 mb-8 py-3 px-4 rounded-2xl bg-[#FFF8E7] border border-[#E8D8C3]">
-                <span className="text-lg">🔥</span>
+                <span className="text-lg">✦</span>
                 <span className="text-sm font-bold text-[#8B5E00]">
                   {productPage.socialProof(getProductOrderCount(product.slug).toLocaleString())}
                 </span>
@@ -314,7 +314,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
         <div className="max-w-[1200px] mx-auto px-4">
           <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6 border border-white/20">
-                <span className="text-[#C99A45]">🌿</span>
+                <span className="text-[#C99A45]">◈</span>
                 <span className="text-sm font-bold tracking-wide">{productPage.qualityBadge}</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">
@@ -428,7 +428,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 </p>
               </div>
               <div className="flex items-start gap-3 p-4 bg-[#155235]/5 rounded-xl border border-[#155235]/20">
-                <span className="text-[#155235] mt-1">💡</span>
+                <span className="text-[#155235] mt-1">✦</span>
                 <p className="text-sm text-[#6E675F]">
                   {sections.ritual.tip}
                 </p>

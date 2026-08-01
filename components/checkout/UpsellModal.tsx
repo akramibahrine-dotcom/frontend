@@ -248,7 +248,7 @@ export function UpsellModal({
                   quantity={1}
                   alt={getLocalizedProduct(upsellProduct, lang).name}
                   className="w-24 h-24 object-contain"
-                  fallbackEmoji={upsellProduct.imageTheme === "herbal-skin" ? "✨" : upsellProduct.imageTheme === "scar-gel" ? "💧" : "🌿"}
+                  fallbackEmoji={upsellProduct.imageTheme === "herbal-skin" ? "✦" : upsellProduct.imageTheme === "scar-gel" ? "◇" : "◈"}
                 />
               </div>
               <div>
