@@ -56,7 +56,7 @@ function PromisesCarousel({ slides, imgClass }: { slides: PromiseSlide[]; imgCla
     if (slides.length <= 1) return;
     const timer = setInterval(() => {
       setCurrent((prev) => (prev + 1) % slides.length);
-    }, 4000);
+    }, 1800);
     return () => clearInterval(timer);
   }, [slides.length]);
 
@@ -83,7 +83,7 @@ function PromisesCarousel({ slides, imgClass }: { slides: PromiseSlide[]; imgCla
             {slides.map((slide, i) => (
               <div
                 key={slide.title}
-                className={`text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden transition-opacity duration-500 ${
+                className={`text-center p-6 bg-[#F8F1E7]/50 rounded-3xl overflow-hidden transition-opacity duration-300 ${
                   i === current ? "relative opacity-100" : "absolute inset-0 opacity-0 pointer-events-none"
                 }`}
                 aria-hidden={i !== current}
