@@ -5,6 +5,7 @@ export type BundleOffer = {
   priceSar: number;
   badgeAr: string;
   labelAr: string;
+  priceOverrides?: Partial<Record<string, number>>;
 };
 
 export const BUNDLE_OFFERS: readonly BundleOffer[] = [
@@ -619,9 +620,9 @@ export const PRODUCTS: Product[] = [
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "scar-gel"],
     bundleOffers: [
-      { quantity: 3, priceSar: 349, badgeAr: "عبوة العائلة", labelAr: "3 عبوات + 3 مجاناً" },
-      { quantity: 2, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "2 عبوة + 2 مجاناً" },
-      { quantity: 1, priceSar: 199, badgeAr: "ابدئي بثقة", labelAr: "1 عبوة + 1 مجاناً" },
+      { quantity: 3, priceSar: 349, badgeAr: "عبوة العائلة", labelAr: "3 عبوات + 3 مجاناً", priceOverrides: { OMR: 39 } },
+      { quantity: 2, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "2 عبوة + 2 مجاناً", priceOverrides: { OMR: 29 } },
+      { quantity: 1, priceSar: 199, badgeAr: "ابدئي بثقة", labelAr: "1 عبوة + 1 مجاناً", priceOverrides: { OMR: 21 } },
     ],
     ritualAr:
       "قبل النوم: نظفي وجهك، اكسري كبسولة واحدة، دلكي السيروم لمدة 60 ثانية، ثم نامي. بين الساعة 11 ليلاً و2 صباحاً هرمون النمو في ذروته — خلاياك تصلح نفسها والكبسولة تعطيها الوقود.",
