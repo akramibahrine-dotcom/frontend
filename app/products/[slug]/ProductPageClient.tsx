@@ -293,7 +293,6 @@ export function ProductPageClient({ product, crossSells }: Props) {
                 {sections.empathy.heading}
               </h2>
               <div className="space-y-4 text-lg text-[#6E675F] leading-relaxed">
-                <p>{productPage.painIntro}</p>
                 <p className="font-medium text-[#155235] bg-[#155235]/5 p-4 rounded-xl border-r-4 border-[#155235]">
                   {lp.painAware}
                 </p>
