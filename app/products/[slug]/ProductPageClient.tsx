@@ -49,7 +49,7 @@ function HeroCarousel({
 }) {
   const [current, setCurrent] = useState(0);
   const images = useMemo(() => {
-    if (product.images.length > 0) return product.images;
+    if (product.images.length > 0) return product.images.slice(0, 3);
     return getProductImageCandidates(product).slice(0, 3);
   }, [product]);
 
@@ -78,7 +78,7 @@ function HeroCarousel({
   }
 
   return (
-    <div className="order-first md:order-last relative w-full min-w-0 max-w-[400px] mx-auto md:max-w-none">
+    <div className="order-first md:order-last relative w-full min-w-0 max-w-[520px] mx-auto md:max-w-none">
       <div className="absolute inset-0 bg-gradient-to-tr from-[#155235]/5 to-transparent rounded-[2rem] sm:rounded-[3rem] -rotate-3 scale-105 transition-transform duration-500 hover:rotate-0 pointer-events-none" />
       <div className="relative w-full bg-white rounded-[2rem] sm:rounded-[3rem] p-3 sm:p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
         <div className={`relative w-full aspect-square rounded-2xl sm:rounded-3xl overflow-hidden ${isMarketingCarousel ? "bg-white" : "bg-[#F5F3EE]"}`}>
