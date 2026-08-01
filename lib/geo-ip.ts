@@ -43,16 +43,17 @@ const COUNTRY_FALLBACK: Record<string, CurrencyCode> = {
  */
 export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCode | null> {
   if (typeof window === "undefined") return null;
-  const ctrl = new AbortController();
-  const t = window.setTimeout(() => ctrl.abort(), timeoutMs);
+
+  function fetchWithTimeout(url: string, perRequestMs = timeoutMs): Promise<Response> {
+    const ctrl = new AbortController();
+    const t = window.setTimeout(() => ctrl.abort(), perRequestMs);
+    return fetch(url, { signal: ctrl.signal, cache: "no-store" }).finally(() => clearTimeout(t));
+  }
 
   // 1. Try our own backend GeoIP endpoint (which reads CF-IPCountry or falls back to IPAPI)
   try {
     const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "https://api.Baytseha.shop";
-    const res = await fetch(`${apiBase}/api/v1/currency/geo`, {
-      signal: ctrl.signal,
-      cache: "no-store",
-    });
+    const res = await fetchWithTimeout(`${apiBase}/api/v1/currency/geo`);
     if (res.ok) {
       const data = await res.json();
       if (data && data.country_code) {
@@ -66,10 +67,7 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
 
   // 2. Try Cloudflare trace (Bulletproof, unblocked by adblockers, very fast)
   try {
-    const res = await fetch("https://cloudflare.com/cdn-cgi/trace", {
-      signal: ctrl.signal,
-      cache: "no-store",
-    });
+    const res = await fetchWithTimeout("https://cloudflare.com/cdn-cgi/trace");
     if (res.ok) {
       const text = await res.text();
       const match = text.match(/loc=([A-Z]{2})/);
@@ -82,12 +80,9 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
     // Ignore and fallback
   }
   
-  // 2. Try freeipapi.com
+  // 3. Try freeipapi.com
   try {
-    const res = await fetch("https://freeipapi.com/api/json", {
-      signal: ctrl.signal,
-      cache: "no-store",
-    });
+    const res = await fetchWithTimeout("https://freeipapi.com/api/json");
     if (res.ok) {
       const data = await res.json();
       if (data && data.currencies && data.currencies.length > 0) {
@@ -101,12 +96,9 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
     // Ignore and fallback
   }
 
-  // 2. Try ipwho.is
+  // 4. Try ipwho.is
   try {
-    const res = await fetch("https://ipwho.is/", {
-      signal: ctrl.signal,
-      cache: "no-store",
-    });
+    const res = await fetchWithTimeout("https://ipwho.is/");
     if (res.ok) {
       const data = await res.json();
       if (data.success) {
@@ -121,12 +113,9 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
     // Ignore and fallback
   }
 
-  // 3. Fallback API
+  // 5. Fallback API
   try {
-    const res = await fetch("https://api.country.is/", {
-      signal: ctrl.signal,
-      cache: "no-store",
-    });
+    const res = await fetchWithTimeout("https://api.country.is/");
     if (res.ok) {
       const data = await res.json();
       if (data && data.country) {
@@ -135,8 +124,6 @@ export async function fetchCurrencyFromGeo(timeoutMs = 4500): Promise<CurrencyCo
     }
   } catch {
     // Ignore and return null
-  } finally {
-    clearTimeout(t);
   }
 
   return null;

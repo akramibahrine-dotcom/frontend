@@ -195,7 +195,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
           <div className="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Text Content */}
             <div className="text-right min-w-0">
-              <h1 className={`text-3xl md:text-5xl font-extrabold mb-4 leading-tight ${product.slug === "fertility-tea" ? "text-[#FF0A74]" : "text-[#005727]"}`}>
+              <h1 className={`whitespace-pre-line text-3xl md:text-5xl font-extrabold mb-4 leading-tight ${product.slug === "fertility-tea" ? "text-[#FF0A74]" : "text-[#005727]"}`}>
                 {lp.headline}
               </h1>
               <p className="text-[#6E675F] text-lg mb-6 leading-relaxed">

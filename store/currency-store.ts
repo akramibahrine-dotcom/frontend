@@ -83,8 +83,7 @@ export const useCurrencyStore = create<CurrencyState>((set, get) => ({
 
       set({ currency: picked, rates, isLoaded: true });
     } catch {
-      const fallback = manual && saved ? saved : detectCurrencyFromTimezone();
-      set({ currency: fallback, rates: { SAR: 1 }, isLoaded: true });
+      set({ currency: "SAR", rates: { SAR: 1 }, isLoaded: true });
     }
   },
 

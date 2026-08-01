@@ -71,7 +71,7 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                 )}
               </div>
               <div className="flex-shrink-0 w-12 h-10 flex items-center justify-center relative">
-                {offerImages ? (
+                {offerImages && offerImages[offer.quantity] ? (
                   /* eslint-disable-next-line @next/next/no-img-element */
                   <img src={offerImages[offer.quantity]} alt={productPage.packAlt(offer.quantity)} className="w-10 h-10 object-contain" />
                 ) : productImage ? (

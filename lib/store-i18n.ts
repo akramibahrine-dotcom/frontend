@@ -69,7 +69,10 @@ export function applyStoreTranslation(pairs: [string, string][], root: Node = do
       originalTextNodes.set(textNode, textNode.textContent || "");
     }
     const original = originalTextNodes.get(textNode)!;
-    textNode.textContent = replaceWithPairs(original, pairs);
+    const translated = replaceWithPairs(original, pairs);
+    if (textNode.textContent !== translated) {
+      textNode.textContent = translated;
+    }
   }
   translateAttributes(root, pairs, false);
 }

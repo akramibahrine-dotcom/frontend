@@ -12,20 +12,26 @@ export function StoreAccessGate() {
   const [blocked, setBlocked] = useState<{ reason: string; ruleType: string } | null>(null);
 
   useEffect(() => {
-    if (pathname.startsWith("/admin")) return;
+    if (pathname.startsWith("/admin")) {
+      setBlocked(null);
+      return;
+    }
     let cancelled = false;
     fetch(`${API_BASE}/api/v1/store/access`, { cache: "no-store" })
       .then((res) => (res.ok ? res.json() : { allowed: true }))
       .then((data) => {
-        if (!cancelled && data.allowed === false) {
+        if (cancelled) return;
+        if (data.allowed === false) {
           setBlocked({
             reason: data.reason || "access_control",
             ruleType: data.rule_type || "rule",
           });
+        } else {
+          setBlocked(null);
         }
       })
       .catch(() => {
-        // Keep the store open if the access-control check is unavailable.
+        setBlocked(null);
       });
     return () => {
       cancelled = true;

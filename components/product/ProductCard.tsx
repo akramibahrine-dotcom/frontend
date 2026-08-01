@@ -61,11 +61,8 @@ export function ProductCard({ product, className }: Props) {
       <Link href={`/products/${product.slug}`} className="block overflow-hidden rounded-t-2xl">
 
         {product.images && product.images.length > 0 ? (
-
           // eslint-disable-next-line @next/next/no-img-element
-
           <img
-
             src={product.images[0]}
 
             alt={localize(product.nameAr)}

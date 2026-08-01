@@ -72,7 +72,7 @@ async function compressImage(filePath) {
 async function main() {
   console.log("🔍 Scanning for images...");
   const images = await getAllImages(PUBLIC_DIR);
-  console.log(`📸 Found ${images.length} images (${(images.reduce((sum, f) => sum, 0))} files)`);
+  console.log(`📸 Found ${images.length} images`);
 
   let totalOriginal = 0;
   let totalNew = 0;

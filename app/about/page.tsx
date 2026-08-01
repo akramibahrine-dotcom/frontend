@@ -32,6 +32,7 @@ export default function AboutPage() {
         </div>
         <div className="flex items-center justify-center">
           <div className="w-full max-w-sm rounded-3xl aspect-square overflow-hidden">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src="/product-galery/about.jpg"
               alt="بيت الصحة — من نحن"

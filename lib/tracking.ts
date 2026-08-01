@@ -175,12 +175,16 @@ export function trackPurchase(
   eventId: string
 ) {
   if (typeof window !== "undefined") {
-    const dedupKey = `baytseha_purchase_fired_${eventId}`;
-    if (sessionStorage.getItem(dedupKey)) {
-      log("purchase skipped duplicate browser fire", eventId);
-      return;
+    try {
+      const dedupKey = `baytseha_purchase_fired_${eventId}`;
+      if (sessionStorage.getItem(dedupKey)) {
+        log("purchase skipped duplicate browser fire", eventId);
+        return;
+      }
+      sessionStorage.setItem(dedupKey, "1");
+    } catch {
+      // Storage may be blocked in private/restricted browsers — continue safely
     }
-    sessionStorage.setItem(dedupKey, "1");
   }
 
   const metaContents = contents.map((c) => ({
@@ -257,12 +261,16 @@ async function sendServerAnalyticsEvent(
 
 function getAnalyticsSessionId(): string {
   const key = "baytseha_admin_analytics_session";
-  const existing = sessionStorage.getItem(key);
-  if (existing) return existing;
-  const next =
-    typeof crypto !== "undefined" && crypto.randomUUID
-      ? crypto.randomUUID()
-      : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  sessionStorage.setItem(key, next);
-  return next;
+  try {
+    const existing = sessionStorage.getItem(key);
+    if (existing) return existing;
+    const next =
+      typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    sessionStorage.setItem(key, next);
+    return next;
+  } catch {
+    return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
 }

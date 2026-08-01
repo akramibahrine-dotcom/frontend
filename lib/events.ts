@@ -51,43 +51,47 @@ function buildFbc(): string | null {
 
 export function captureUtmAndClickIds(): void {
   if (typeof window === "undefined") return;
-  const params = new URLSearchParams(window.location.search);
-  const keys: Record<string, string> = {
-    utm_source: "utm_source",
-    utm_medium: "utm_medium",
-    utm_campaign: "utm_campaign",
-    utm_content: "utm_content",
-    utm_term: "utm_term",
-    ttclid: "ttclid",
-    ScCid: "ScCid",
-    fbclid: "fbclid",
-  };
-  for (const [param, storageKey] of Object.entries(keys)) {
-    const val = params.get(param);
-    if (val) {
-      sessionStorage.setItem(storageKey, val);
-      if (param === "fbclid" && !sessionStorage.getItem("fbclid_ts")) {
-        sessionStorage.setItem("fbclid_ts", String(Date.now()));
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const keys: Record<string, string> = {
+      utm_source: "utm_source",
+      utm_medium: "utm_medium",
+      utm_campaign: "utm_campaign",
+      utm_content: "utm_content",
+      utm_term: "utm_term",
+      ttclid: "ttclid",
+      ScCid: "ScCid",
+      fbclid: "fbclid",
+    };
+    for (const [param, storageKey] of Object.entries(keys)) {
+      const val = params.get(param);
+      if (val) {
+        sessionStorage.setItem(storageKey, val);
+        if (param === "fbclid" && !sessionStorage.getItem("fbclid_ts")) {
+          sessionStorage.setItem("fbclid_ts", String(Date.now()));
+        }
       }
     }
-  }
 
-  // Infer platform when ads send click IDs but no UTMs
-  if (!sessionStorage.getItem("utm_source")) {
-    if (params.get("ttclid") || sessionStorage.getItem("ttclid")) {
-      sessionStorage.setItem("utm_source", "tiktok");
-      sessionStorage.setItem("utm_medium", "paid_social");
-    } else if (params.get("fbclid") || sessionStorage.getItem("fbclid") || getCookie("_fbc")) {
-      sessionStorage.setItem("utm_source", "facebook");
-      sessionStorage.setItem("utm_medium", "paid_social");
-    } else if (params.get("ScCid") || sessionStorage.getItem("ScCid") || getCookie("_scid")) {
-      sessionStorage.setItem("utm_source", "snapchat");
-      sessionStorage.setItem("utm_medium", "paid_social");
+    // Infer platform when ads send click IDs but no UTMs
+    if (!sessionStorage.getItem("utm_source")) {
+      if (params.get("ttclid") || sessionStorage.getItem("ttclid")) {
+        sessionStorage.setItem("utm_source", "tiktok");
+        sessionStorage.setItem("utm_medium", "paid_social");
+      } else if (params.get("fbclid") || sessionStorage.getItem("fbclid") || getCookie("_fbc")) {
+        sessionStorage.setItem("utm_source", "facebook");
+        sessionStorage.setItem("utm_medium", "paid_social");
+      } else if (params.get("ScCid") || sessionStorage.getItem("ScCid") || getCookie("_scid")) {
+        sessionStorage.setItem("utm_source", "snapchat");
+        sessionStorage.setItem("utm_medium", "paid_social");
+      }
     }
-  }
 
-  if (!sessionStorage.getItem("landingPageUrl")) {
-    sessionStorage.setItem("landingPageUrl", window.location.href);
+    if (!sessionStorage.getItem("landingPageUrl")) {
+      sessionStorage.setItem("landingPageUrl", window.location.href);
+    }
+  } catch {
+    // Storage may be blocked in private/restricted browsers — continue safely
   }
 }
 

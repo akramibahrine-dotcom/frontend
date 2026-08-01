@@ -212,9 +212,8 @@ export function AdminDashboardClient() {
   async function login(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const token = btoa(`${username}:${password}`);
-    setAuth(token);
     try { await adminFetch("/api/v1/admin/session", { method: "POST" }, token); } catch { /* loadData handles it */ }
-    void loadData(token);
+    setAuth(token);
   }
 
   useEffect(() => { if (auth) void loadData(); }, [auth, loadData]);
@@ -348,7 +347,7 @@ function CommandTab({ metrics: m }: { metrics: Metrics }) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <ChartCard title="TOTAL VIEWS" value={m.clicks} trend="+19.3%" data={chartData} dataKey="views" color="#1473ff" />
           <ChartCard title="TOTAL ORDERS" value={m.orders} trend="+130.6%" data={chartData} dataKey="orders" color="#1473ff" />
-          <ChartCard title="TOTAL SALES" value={`${compact(m.revenue_sar)} MAD`} trend="+144.2%" data={chartData} dataKey="sales" color="#1473ff" />
+          <ChartCard title="TOTAL SALES" value={`${compact(m.revenue_sar)} SAR`} trend="+144.2%" data={chartData} dataKey="sales" color="#1473ff" />
           <ChartCard title="CONVERSION RATE" value={`${m.conversion_rate.toFixed(2)} %`} trend="+93.3%" data={chartData} dataKey="conversion" color="#1473ff" />
         </div>
         
@@ -356,7 +355,7 @@ function CommandTab({ metrics: m }: { metrics: Metrics }) {
           <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
             <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">AVERAGE ORDER VALUE</h3>
             <div className="flex items-center gap-3 mb-6">
-              <span className="text-2xl font-bold">{m.average_order_value_sar.toFixed(2)} MAD</span>
+              <span className="text-2xl font-bold">{m.average_order_value_sar.toFixed(2)} SAR</span>
               <span className="text-xs font-medium text-emerald-400 bg-emerald-400/10 px-2 py-0.5 rounded-full flex items-center gap-1">↑ 5.9%</span>
             </div>
             <div className="h-[140px] w-full">
@@ -460,7 +459,7 @@ function CommandTab({ metrics: m }: { metrics: Metrics }) {
               <div key={d.device} className="flex flex-col items-center">
                 <div className="flex items-center gap-1 mb-1">
                   <span className="text-[#1473ff]"><Eye size={16} /></span>
-                  <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">{((d.clicks / m.clicks) * 100).toFixed(1)}%</span>
+                  <span className="text-[10px] text-[#1473ff] bg-[#1473ff]/10 px-1.5 rounded">{m.clicks > 0 ? ((d.clicks / m.clicks) * 100).toFixed(1) : "0.0"}%</span>
                 </div>
                 <span className="text-[10px] text-white/50 uppercase">{d.device} VIEWS</span>
               </div>
@@ -486,7 +485,7 @@ function CommandTab({ metrics: m }: { metrics: Metrics }) {
         <div className="rounded-xl border border-white/10 bg-[#252525] p-5">
           <h3 className="text-[10px] font-bold text-white/50 uppercase mb-4 tracking-wider">PRODUCTS Top selling</h3>
           <div className="space-y-4">
-            {m.products.sort((a,b) => b.orders - a.orders).slice(0, 6).map(p => (
+            {[...m.products].sort((a,b) => b.orders - a.orders).slice(0, 6).map(p => (
               <div key={p.id} className="flex items-center justify-between text-sm">
                 <span className="text-[#1473ff] truncate pr-4">{p.name_ar}</span>
                 <div className="flex gap-4 shrink-0 text-white/70">
@@ -504,7 +503,7 @@ function CommandTab({ metrics: m }: { metrics: Metrics }) {
             {m.traffic_sources.map(s => (
               <div key={s.source} className="flex items-center justify-between text-sm">
                 <span>{s.source}</span>
-                <span className="font-bold">{compact(s.clicks)} MAD</span>
+                <span className="font-bold">{compact(s.clicks)}</span>
               </div>
             ))}
           </div>
@@ -854,15 +853,25 @@ function TranslationsTab({ headers, translations, reload }: { headers: Record<st
   const [value, setValue] = useState("");
   const [saving, setSaving] = useState(false);
 
+  const [saveError, setSaveError] = useState<string | null>(null);
+
   async function save() {
     if (!key.trim() || !value.trim()) return;
     setSaving(true);
+    setSaveError(null);
     try {
-      await fetch(`${API_BASE}/api/v1/admin/translations`, {
+      const res = await fetch(`${API_BASE}/api/v1/admin/translations`, {
         method: "POST", headers,
         body: JSON.stringify({ locale, translation_key: key.trim(), value: value.trim(), enabled: true }),
       });
+      if (!res.ok) {
+        const errText = await res.text().catch(() => "Unknown error");
+        setSaveError(`Failed to save: ${errText}`);
+        return;
+      }
       setKey(""); setValue(""); reload();
+    } catch (err) {
+      setSaveError(`Network error: ${err instanceof Error ? err.message : "could not reach server"}`);
     } finally { setSaving(false); }
   }
 
@@ -893,6 +902,7 @@ function TranslationsTab({ headers, translations, reload }: { headers: Record<st
           <button onClick={save} disabled={saving || !key.trim() || !value.trim()} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
             {saving ? "Saving..." : "Save Translation"}
           </button>
+          {saveError && <p className="mt-2 rounded-xl bg-red-500/10 p-3 text-sm font-bold text-red-400">{saveError}</p>}
         </div>
       </Card>
 
