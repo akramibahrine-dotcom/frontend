@@ -605,6 +605,7 @@ export const PRODUCTS: Product[] = [
     ],
     imageSection2: "/products/c60-fullerene-serum/2.jpg",
     imageSection4: "/products/c60-fullerene-serum/3.jpg",
+    imageCertificates: "/products/c60-fullerene-serum/problem.jpg",
     imageIngredients: "/products/c60-fullerene-serum/6.jpg",
     imagePromisePackaging: "/products/c60-fullerene-serum/7.jpg",
     imagePromiseDelivery: "/products/c60-fullerene-serum/8.jpg",

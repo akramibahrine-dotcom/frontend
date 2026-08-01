@@ -312,8 +312,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
       {/* 3. جودة ووعود تناسب بيت الصحة */}
       <section className="py-16 md:py-24 bg-[#0F1A14] text-white">
         <div className="max-w-[1200px] mx-auto px-4">
-          <div className="grid md:grid-cols-2 gap-12 items-center">
-            <div className="text-right min-w-0">
+          <div className="text-center mb-10">
               <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full mb-6 border border-white/20">
                 <span className="text-[#C99A45]">🌿</span>
                 <span className="text-sm font-bold tracking-wide">{productPage.qualityBadge}</span>
@@ -321,43 +320,23 @@ export function ProductPageClient({ product, crossSells }: Props) {
               <h2 className="text-3xl md:text-4xl font-extrabold mb-6 leading-tight">
                 {productPage.qualityHeadline}
               </h2>
-              <p className="text-gray-300 text-lg mb-8 leading-relaxed">
+              <p className="text-gray-300 text-lg leading-relaxed max-w-2xl mx-auto">
                 {sections.quality.intro}
               </p>
+          </div>
 
-              <ul className="space-y-4 mb-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 max-w-4xl mx-auto">
                 {sections.quality.points.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-4 p-4 rounded-2xl bg-white/5 border border-white/10">
+                  <div key={idx} className="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10">
                     <div className="w-10 h-10 rounded-full bg-[#155235]/40 flex items-center justify-center shrink-0">
                       <span className="text-[#C99A45] font-bold">✓</span>
                     </div>
-                    <div>
+                    <div className="text-right">
                       <h4 className="font-extrabold text-white mb-1">{item.title}</h4>
                       <p className="text-sm text-gray-400">{item.desc}</p>
                     </div>
-                  </li>
+                  </div>
                 ))}
-              </ul>
-            </div>
-
-            <div className="order-first md:order-last relative flex justify-center">
-              <div className="absolute inset-0 bg-gradient-to-br from-[#155235] to-[#0a291a] rounded-full blur-2xl opacity-40 animate-pulse" />
-
-              <div className="relative bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-[3rem] max-w-sm w-full text-center">
-                <div className="w-32 h-32 mx-auto bg-white rounded-full flex items-center justify-center mb-6 shadow-2xl shadow-green-900/50 overflow-hidden">
-                  {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img src="/logo.jpg" alt={brand.name} className="w-full h-full object-cover" />
-                </div>
-                <h3 className="text-2xl font-extrabold mb-2 text-white">{productPage.homeFirst}</h3>
-                <p className="text-gray-300 text-sm mb-6">
-                  {sections.quality.cardTagline}
-                </p>
-                <div className="h-px w-1/2 mx-auto bg-white/20 mb-6" />
-                <p className="text-xs text-gray-400 leading-relaxed">
-                  {productPage.certNote}
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -457,7 +436,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             </div>
             
             <div className="order-first flex justify-center">
-              <div className="w-full max-w-sm relative">
+              <div className="w-full max-w-lg relative">
                 <div className="absolute inset-0 border-2 border-dashed border-[#C99A45]/30 rounded-3xl animate-spin-slow pointer-events-none" />
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
