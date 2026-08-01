@@ -463,6 +463,18 @@ const REVIEWS_MAP: Record<string, ProductReview[]> = {
     { id: 5, nameAr: "فهد الدوسري", cityAr: "🇰🇼 الكويت", age: 45, quoteAr: "شريته لي ولزوجتي، والحمدلله النتيجة ممتازة من أول يوم. يستاهل كل فلس.", rating: 5, badge: "🌿 طبيعي وآمن" },
     { id: 6, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 27, quoteAr: "توصيل سريع وتغليف ممتاز. المنتج سحري ويغني عن العلك والحلاوة.", rating: 4, badge: "🚚 توصيل سريع" },
   ],
+  "c60-fullerene-serum": [
+    { id: 1, nameAr: "مريم البلوشي", cityAr: "🇴🇲 مسقط", age: 34, quoteAr: "صراحة كنت متخوفة من الكبسولات بس جربتها وبعد أسبوعين بشرتي صارت ألين وأنعم. الخطوط اللي حول العين خفّت بشكل ملحوظ والحمدلله.", rating: 5, badge: "✨ نعومة واضحة" },
+    { id: 2, nameAr: "سعيد الحارثي", cityAr: "🇴🇲 صلالة", age: 41, quoteAr: "زوجتي طلبتهم وأنا كنت مستغرب شو هالكبسولات. بعد شهر قالتلي جاراتها سألوها شو مسوية لبشرتها. يعني النتيجة واضحة للناس مو بس لها.", rating: 5, badge: "👀 الكل لاحظ" },
+    { id: 3, nameAr: "فاطمة الراشدي", cityAr: "🇴🇲 نزوى", age: 29, quoteAr: "أستخدمها قبل النوم كل يوم. بشرتي كانت تعبانة من الشمس والجفاف والحين الترطيب ثابت ولوني صار أوضح. مو معجزة بس تحسّن حقيقي.", rating: 5, badge: "💧 ترطيب عميق" },
+    { id: 4, nameAr: "خالد المعمري", cityAr: "🇴🇲 صحار", age: 37, quoteAr: "شريتهم لأمي عمرها 58 والله إنها فرحت. تقول بشرتها رجعت حيوية وخطوط الجبهة خفّت. الكبسولة سهلة وما تحتاج شي ثاني معها.", rating: 5, badge: "🎁 هدية للأم" },
+    { id: 5, nameAr: "شيخة السيابي", cityAr: "🇴🇲 مسقط", age: 26, quoteAr: "بشرتي دهنية وكنت خايفة يسكّر المسام. بالعكس خفيف ويمتص بسرعة. البقع الغامقة خفّت بعد 3 أسابيع تقريباً.", rating: 4, badge: "🌸 مناسب للدهنية" },
+    { id: 6, nameAr: "حمد الكندي", cityAr: "🇴🇲 البريمي", age: 45, quoteAr: "أشتغل تحت الشمس وبشرتي متعبة. بعد شهر من الكبسولات لاحظت فرق في الملمس والحيوية. مو شي خيالي بس تحسّن واضح ومستمر.", rating: 5, badge: "☀️ حماية من الشمس" },
+    { id: 7, nameAr: "نورة الهنائي", cityAr: "🇴🇲 عبري", age: 32, quoteAr: "كنت أستخدم كريمات غالية وما شفت نتيجة. الكبسولات هذي فرقت معي أكثر. بشرتي صارت مشدودة أكثر وإشراقة الصبح واضحة.", rating: 5, badge: "💎 أفضل من الكريمات" },
+    { id: 8, nameAr: "يوسف البوسعيدي", cityAr: "🇴🇲 مسقط", age: 50, quoteAr: "عمري خمسين وبديت أحس بشرتي مترهلة. بعد 6 أسابيع من الكبسولات صارت أحسن بوايد. مو رجعت شباب بس الفرق ملموس والحمدلله.", rating: 4, badge: "💪 تحسّن ملموس" },
+    { id: 9, nameAr: "آمنة المقبالي", cityAr: "🇴🇲 صور", age: 38, quoteAr: "أحب إن الكبسولة معقمة ونظيفة مو مثل الكريم اللي يتأكسد. بشرتي حساسة وما تهيّجت أبداً. الخطوط الدقيقة حول الفم خفّت.", rating: 5, badge: "✅ آمن للحساسة" },
+    { id: 10, nameAr: "ناصر الشكيلي", cityAr: "🇴🇲 إبراء", age: 43, quoteAr: "طلبتهم بعد ما قريت عن تقنية C60 وجائزة نوبل. النتيجة بعد شهر: بشرة أنظف وأصفى، والتجاعيد الخفيفة بدت تروح. أنصح فيهم.", rating: 5, badge: "🏆 تقنية نوبل" },
+  ],
 };
 
 const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: string; title: string; accentColor: string; bgFrom: string; bgTo: string }> = {
@@ -475,6 +487,7 @@ const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: s
   "axis-y-serum": { badgeColor: "bg-orange-50 text-orange-700 border-orange-200", borderColor: "border-orange-200", emoji: "✨", title: "عناية البشرة", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
   "scar-gel": { badgeColor: "bg-cyan-50 text-cyan-700 border-cyan-200", borderColor: "border-cyan-200", emoji: "💧", title: "جل علاج الندوب", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
   "eelhoe-fresh-breath": { badgeColor: "bg-emerald-50 text-emerald-700 border-emerald-200", borderColor: "border-emerald-200", emoji: "🌿", title: "إكسير رائحة الفم", accentColor: "text-[#C99A45]", bgFrom: "#0F1A14", bgTo: "#071C12" },
+  "c60-fullerene-serum": { badgeColor: "bg-amber-50 text-amber-700 border-amber-200", borderColor: "border-amber-200", emoji: "💛", title: "كبسولات C60 الذهبية", accentColor: "text-[#C99A45]", bgFrom: "#1A1200", bgTo: "#0D0900" },
 };
 
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
