@@ -141,7 +141,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
   const { addBundle, openCart } = useCartStore();
   const { format } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
-  const { lang, brand, bundle, productPage, homeMarquee, productPageEmpathyEyebrow } = useCopy();
+  const { lang, bundle, productPage, homeMarquee, productPageEmpathyEyebrow } = useCopy();
   const lp = getLocalizedProduct(product, lang);
   const sections = getProductPageSections(product, lang);
   const productOffers = getProductBundleOffers(product);
