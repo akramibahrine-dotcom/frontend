@@ -3,11 +3,16 @@
 import { cn } from "@/lib/utils";
 import { useCurrencyStore } from "@/store/currency-store";
 import { BUNDLE_OFFERS, SAVINGS_MAP, type BundleOffer } from "@/content/products";
-import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
+import {
+  formatBundlePrice,
+  formatBundleSavings,
+  getPayableBundlePriceSar,
+  getWelcomeReferenceBundlePriceSar,
+  shouldShowWelcomeReferencePricing,
+} from "@/lib/pricing";
 import { useLanguageStore } from "@/store/language-store";
 import { getLocalizedBundleOffer } from "@/lib/get-localized-product";
 import { useCopy } from "@/hooks/useCopy";
-import { formatPrice } from "@/lib/currency";
 
 const OFFER_IMAGES: Record<number, string> = {
   1: "/offers/1box.png",
@@ -29,36 +34,21 @@ type Props = {
 export function OfferSelector({ selectedQuantity, onChange, className, welcomePromo = false, offerImages, productImage, bundleOffers, savingsMap }: Props) {
   const format = useCurrencyStore((s) => s.format);
   const currency = useCurrencyStore((s) => s.currency);
+  const rates = useCurrencyStore((s) => s.rates);
   const lang = useLanguageStore((s) => s.lang);
   const { productPage } = useCopy();
   const offers = bundleOffers ?? BUNDLE_OFFERS;
   const savings_map = savingsMap ?? SAVINGS_MAP;
-
-  function formatOffer(offer: BundleOffer, amountSar: number): string {
-    const override = offer.priceOverrides?.[currency];
-    if (override != null) return formatPrice(override, currency);
-    return format(amountSar);
-  }
-
-  function formatSavings(offers: readonly BundleOffer[], qty: number, savingsInSar: number): string {
-    const singleOffer = offers.find((o) => o.quantity === 1);
-    const thisOffer = offers.find((o) => o.quantity === qty);
-    const singleOverride = singleOffer?.priceOverrides?.[currency];
-    const thisOverride = thisOffer?.priceOverrides?.[currency];
-    if (singleOverride != null && thisOverride != null) {
-      return formatPrice(singleOverride * qty - thisOverride, currency);
-    }
-    return format(savingsInSar);
-  }
 
   return (
     <div className={cn("space-y-2", className)} role="group" aria-label={productPage.chooseBundle}>
       {offers.map((offer) => {
         const isSelected = offer.quantity === selectedQuantity;
         const savings = savings_map[offer.quantity];
-        const payable = getPayableBundlePriceSar(offer.quantity, bundleOffers);
-        const reference = getWelcomeReferenceBundlePriceSar(offer.quantity, bundleOffers);
+        const payable = getPayableBundlePriceSar(offer.quantity, offers);
+        const reference = getWelcomeReferenceBundlePriceSar(offer.quantity, offers);
         const localized = getLocalizedBundleOffer(offer, lang);
+        const displayPrice = formatBundlePrice(offer.quantity, currency, rates, offers);
 
         const isBestValue =
           offer.badgeAr === "الأكثر توفيراً" || offer.badgeAr === "قيمة حصرية";
@@ -116,9 +106,12 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
               </div>
               <div>
                 <span className="font-bold text-[#0F1A14] text-sm">{localized.label}</span>
-                {savings && (
-                  <p className="text-xs text-[#155235] mt-0.5 font-medium">{productPage.save} {formatSavings(offers, offer.quantity, savings)}</p>
-                )}
+                {savings ? (
+                  <p className="text-xs text-[#155235] mt-0.5 font-medium">
+                    {productPage.save}{" "}
+                    {formatBundleSavings(offer.quantity, currency, rates, offers, savings)}
+                  </p>
+                ) : null}
               </div>
             </div>
             <div className="flex flex-col items-end gap-1 flex-shrink-0">
@@ -138,7 +131,7 @@ export function OfferSelector({ selectedQuantity, onChange, className, welcomePr
                 {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable && (
                   <span className="text-[10px] text-[#567063] line-through leading-none">{format(reference)}</span>
                 )}
-                <span className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">{formatOffer(offer, payable)}</span>
+                <span className="font-extrabold text-[#0F1A14] text-base leading-none mt-0.5">{displayPrice}</span>
               </div>
             </div>
           </button>

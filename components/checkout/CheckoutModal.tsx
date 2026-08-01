@@ -15,7 +15,7 @@ import { generateEventId } from "@/lib/events";
 import { trackInitiateCheckout } from "@/lib/tracking";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { ProductImage } from "@/components/product/ProductImage";
-import { getPayableBundlePriceSar } from "@/lib/pricing";
+import { formatBundlePrice, formatDisplayCartTotal } from "@/lib/pricing";
 import { PRODUCTS } from "@/content/products";
 import { cn } from "@/lib/utils";
 
@@ -46,8 +46,9 @@ export function CheckoutModal({ onClose }: Props) {
     [checkout]
   );
   const { items, getTotal } = useCartStore();
-  const { format } = useCurrencyStore();
+  const { currency, rates } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
+  const displayTotalLabel = formatDisplayCartTotal(items, currency, rates);
   const [showUpsell, setShowUpsell] = useState(false);
   const [formData, setFormData] = useState<FormValues | null>(null);
   const [initiateCheckoutEventId, setInitiateCheckoutEventId] = useState<string | null>(null);
@@ -119,7 +120,7 @@ export function CheckoutModal({ onClose }: Props) {
           <div className="space-y-2 border-b border-[#155235]/50 pb-3 mb-3">
             {items.map((item) => {
               const prod = PRODUCTS.find((p) => p.id === item.productId);
-              const itemPrice = getPayableBundlePriceSar(item.quantity, prod?.bundleOffers);
+              const itemPriceLabel = formatBundlePrice(item.quantity, currency, rates, prod?.bundleOffers);
               return (
                 <div key={item.lineId} className="flex gap-3 items-center">
                   <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#155235] bg-[#071C12]">
@@ -138,14 +139,14 @@ export function CheckoutModal({ onClose }: Props) {
                       {packLabel(item.quantity)}
                     </p>
                   </div>
-                  <FormattedAmount className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</FormattedAmount>
+                  <FormattedAmount className="font-bold text-[#C99A45] text-sm shrink-0">{itemPriceLabel}</FormattedAmount>
                 </div>
               );
             })}
           </div>
           <div className="flex justify-between font-medium mb-2">
             <span className="text-[#FFFFFF]/70">{checkout.orderTotal}</span>
-            <FormattedAmount className="font-extrabold text-[#C99A45] text-lg">{format(total)}</FormattedAmount>
+            <FormattedAmount className="font-extrabold text-[#C99A45] text-lg">{displayTotalLabel}</FormattedAmount>
           </div>
           {WELCOME_PROMO_ENABLED && welcomePromo && (
             <p className="text-[11px] text-center text-[#C99A45] font-bold mb-1">

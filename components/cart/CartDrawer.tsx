@@ -11,15 +11,22 @@ import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { ProductImage } from "@/components/product/ProductImage";
-import { getCatalogBundlePriceSar, getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
+import {
+  formatBundlePrice,
+  formatDisplayCartTotal,
+  getPayableBundlePriceSar,
+  getWelcomeReferenceBundlePriceSar,
+  shouldShowWelcomeReferencePricing,
+} from "@/lib/pricing";
 import { getProductBundleOffers } from "@/content/products";
 
 export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, getTotal, closeCheckout } = useCartStore();
-  const { format } = useCurrencyStore();
+  const { format, currency, rates } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const { cart } = useCopy();
   const total = getTotal();
+  const displayTotalLabel = formatDisplayCartTotal(items, currency, rates);
 
   const crossSells = PRODUCTS.filter(
     (p) => !items.some((item) => item.productId === p.id)
@@ -101,7 +108,7 @@ export function CartDrawer() {
           <div className="p-4 border-t border-[#155235]/50 space-y-3 bg-[#0A2616]">
             <div className="flex justify-between items-center">
               <span className="text-[#FFFFFF]/60 text-sm">{cart.total}</span>
-              <FormattedAmount className="font-extrabold text-xl text-white">{format(total)}</FormattedAmount>
+              <FormattedAmount className="font-extrabold text-xl text-white">{displayTotalLabel}</FormattedAmount>
             </div>
 
             <div className="flex gap-2 flex-wrap justify-center">
@@ -133,13 +140,14 @@ export function CartDrawer() {
 }
 
 function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boolean }) {
-  const { format } = useCurrencyStore();
+  const { format, currency, rates } = useCurrencyStore();
   const { packLabel, localize, isEn } = useCopy();
   const removeLine = useCartStore((s) => s.removeLine);
   const prod = PRODUCTS.find((p) => p.id === item.productId);
-  const catalog = getCatalogBundlePriceSar(item.quantity, prod?.bundleOffers);
-  const payable = getPayableBundlePriceSar(item.quantity, prod?.bundleOffers);
-  const reference = getWelcomeReferenceBundlePriceSar(item.quantity, prod?.bundleOffers);
+  const offers = prod?.bundleOffers;
+  const payable = getPayableBundlePriceSar(item.quantity, offers);
+  const reference = getWelcomeReferenceBundlePriceSar(item.quantity, offers);
+  const linePriceLabel = formatBundlePrice(item.quantity, currency, rates, offers);
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
@@ -162,10 +170,10 @@ function CartLineRow({ item, welcomePromo }: { item: CartItem; welcomePromo: boo
           {shouldShowWelcomeReferencePricing(welcomePromo) && reference > payable ? (
             <>
               <FormattedAmount className="text-xs text-[#FFFFFF]/45 line-through">{format(reference)}</FormattedAmount>
-              <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(payable)}</FormattedAmount>
+              <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{linePriceLabel}</FormattedAmount>
             </>
           ) : (
-            <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{format(catalog)}</FormattedAmount>
+            <FormattedAmount className="text-sm font-extrabold text-[#C99A45]">{linePriceLabel}</FormattedAmount>
           )}
         </div>
       </div>
@@ -222,10 +230,10 @@ function GiftProgressBanner({ totalSar }: { totalSar: number }) {
 
 function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
   const { addBundle } = useCartStore();
-  const { format } = useCurrencyStore();
+  const { currency, rates } = useCurrencyStore();
   const { cart, localize, isEn } = useCopy();
   const offers = getProductBundleOffers(product);
-  const crossSellPrice = getCatalogBundlePriceSar(1, offers);
+  const crossSellPriceLabel = formatBundlePrice(1, currency, rates, offers);
 
   return (
     <div className="flex items-center gap-3 p-3 bg-[#0D2B1D] border border-[#155235]/40 rounded-xl">
@@ -239,7 +247,7 @@ function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
       <div className="flex-1 min-w-0">
         <p className="text-xs font-bold text-white line-clamp-1">{localize(product.nameAr)}</p>
         <p className="text-xs text-[#C99A45] font-bold mt-0.5">
-          <FormattedAmount>{format(crossSellPrice)}</FormattedAmount>
+          <FormattedAmount>{crossSellPriceLabel}</FormattedAmount>
         </p>
       </div>
       <button

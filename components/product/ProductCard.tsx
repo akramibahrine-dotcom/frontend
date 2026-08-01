@@ -14,7 +14,7 @@ import { useCopy } from "@/hooks/useCopy";
 
 import { cn } from "@/lib/utils";
 
-import { getCatalogBundlePriceSar } from "@/lib/pricing";
+import { formatBundlePrice } from "@/lib/pricing";
 
 import { getProductBundleOffers, type Product } from "@/content/products";
 
@@ -32,13 +32,15 @@ type Props = {
 
 export function ProductCard({ product, className }: Props) {
 
-  const format = useCurrencyStore((s) => s.format);
+  const currency = useCurrencyStore((s) => s.currency);
+
+  const rates = useCurrencyStore((s) => s.rates);
 
   const { localize, isEn } = useCopy();
 
   const offers = getProductBundleOffers(product);
 
-  const startingPrice = getCatalogBundlePriceSar(1, offers);
+  const startingPriceLabel = formatBundlePrice(1, currency, rates, offers);
 
 
 
@@ -121,7 +123,7 @@ export function ProductCard({ product, className }: Props) {
 
           <div className="flex items-center justify-between">
 
-            <span className="text-lg font-extrabold text-[#0F1A14]">{format(startingPrice)}</span>
+            <span className="text-lg font-extrabold text-[#0F1A14]">{startingPriceLabel}</span>
 
             <span className="text-xs text-[#155235] font-medium">
 

@@ -15,7 +15,12 @@ import { useCurrencyStore } from "@/store/currency-store";
 import { generateEventId } from "@/lib/events";
 import { trackViewContent, trackAddToCart } from "@/lib/tracking";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
-import { getPayableBundlePriceSar, getWelcomeReferenceBundlePriceSar, shouldShowWelcomeReferencePricing } from "@/lib/pricing";
+import {
+  formatBundlePrice,
+  getPayableBundlePriceSar,
+  getWelcomeReferenceBundlePriceSar,
+  shouldShowWelcomeReferencePricing,
+} from "@/lib/pricing";
 import { getProductPageSections } from "@/lib/product-page-copy";
 import { getLocalizedProduct } from "@/lib/get-localized-product";
 import { useCopy } from "@/hooks/useCopy";
@@ -139,7 +144,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
     ?? 2;
   const [selectedQty, setSelectedQty] = useState(defaultQty);
   const { addBundle, openCart } = useCartStore();
-  const { format } = useCurrencyStore();
+  const { format, currency, rates } = useCurrencyStore();
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const { lang, bundle, productPage, homeMarquee, productPageEmpathyEyebrow } = useCopy();
   const lp = getLocalizedProduct(product, lang);
@@ -152,6 +157,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
     : "w-full h-full object-contain mix-blend-multiply";
   const payableOfferSar = getPayableBundlePriceSar(selectedQty, productOffers);
   const referenceOfferSar = getWelcomeReferenceBundlePriceSar(selectedQty, productOffers);
+  const payableOfferLabel = formatBundlePrice(selectedQty, currency, rates, productOffers);
 
   useEffect(() => {
     const eventId = generateEventId();
@@ -234,7 +240,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
                         {format(referenceOfferSar)}
                       </FormattedAmount>
                     )}
-                    <FormattedAmount>{format(payableOfferSar)}</FormattedAmount>
+                    <FormattedAmount>{payableOfferLabel}</FormattedAmount>
                   </span>
                 </span>
               </button>
@@ -493,10 +499,10 @@ export function ProductPageClient({ product, crossSells }: Props) {
                     <FormattedAmount className="line-through text-white/50 text-lg">
                       {format(referenceOfferSar)}
                     </FormattedAmount>
-                    <FormattedAmount>{format(payableOfferSar)}</FormattedAmount>
+                    <FormattedAmount>{payableOfferLabel}</FormattedAmount>
                   </>
                 ) : (
-                  <FormattedAmount>{format(payableOfferSar)}</FormattedAmount>
+                  <FormattedAmount>{payableOfferLabel}</FormattedAmount>
                 )}
               </span>
             </button>
