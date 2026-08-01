@@ -6,7 +6,7 @@ import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import { CheckoutModal } from "@/components/checkout/CheckoutModal";
 import { CODBadge } from "@/components/ui/TrustBadge";
 import { useCopy } from "@/hooks/useCopy";
-import { PRODUCTS } from "@/content/products";
+import { PRODUCTS, getCrossSellProducts, getProductBundleOffers, type Product } from "@/content/products";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
@@ -20,7 +20,7 @@ import {
   shouldShowWelcomeReferencePricing,
 } from "@/lib/pricing";
 import { convertSarTo, formatPrice } from "@/lib/currency";
-import { getProductBundleOffers } from "@/content/products";
+import { useMemo } from "react";
 
 export function CartDrawer() {
   const { items, isOpen, isCheckoutOpen, closeCart, openCheckout, closeCheckout } = useCartStore();
@@ -29,9 +29,21 @@ export function CartDrawer() {
   const { cart } = useCopy();
   const displayTotalLabel = formatDisplayCartTotal(items, currency, rates);
 
-  const crossSells = PRODUCTS.filter(
-    (p) => !items.some((item) => item.productId === p.id)
-  ).slice(0, 2);
+  // Only suggest each cart product's own cross-sells — never random catalog items
+  const crossSells = useMemo(() => {
+    const inCart = new Set(items.map((i) => i.productId));
+    const seen = new Set<string>();
+    const result: Product[] = [];
+    for (const item of items) {
+      for (const p of getCrossSellProducts(item.productId)) {
+        if (inCart.has(p.id) || seen.has(p.id)) continue;
+        seen.add(p.id);
+        result.push(p);
+        if (result.length >= 2) return result;
+      }
+    }
+    return result;
+  }, [items]);
 
   return (
     <>
@@ -240,7 +252,7 @@ function GiftProgressBanner({ items }: { items: CartItem[] }) {
   );
 }
 
-function CrossSellCard({ product }: { product: (typeof PRODUCTS)[0] }) {
+function CrossSellCard({ product }: { product: Product }) {
   const { addBundle } = useCartStore();
   const { currency, rates } = useCurrencyStore();
   const { cart, localize, isEn } = useCopy();
