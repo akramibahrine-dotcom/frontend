@@ -73,21 +73,21 @@ export function MiniTestimonialStrip({ productSlug }: { productSlug: string }) {
   const doubled = [...reviews, ...reviews];
 
   return (
-    <div className="overflow-hidden py-3 mb-6 rounded-2xl bg-[#F8F1E7]/50 border border-[#E8D8C3]">
+    <div className="overflow-hidden py-3 mb-6 rounded-2xl bg-[#FAFAF8]/50 border border-[#E8E0D4]">
       <div className="relative" dir="ltr">
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-[#F8F1E7]/80 to-transparent" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-[#F8F1E7]/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-10 z-10 bg-gradient-to-r from-[#FAFAF8]/80 to-transparent" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-10 z-10 bg-gradient-to-l from-[#FAFAF8]/80 to-transparent" />
         <div className="flex gap-4 animate-marquee-mini whitespace-nowrap py-1">
           {doubled.map((r, i) => (
             <div
               key={`mini-${r.name}-${i}`}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-[#E8D8C3] shadow-sm shrink-0"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-[#E8E0D4] shadow-sm shrink-0"
             >
-              <span className="font-bold text-[#155235] text-xs">{r.name}</span>
+              <span className="font-bold text-[#1C1C1E] text-xs">{r.name}</span>
               <span className="text-xs">{r.flag} {r.city}</span>
-              <span className="text-[#C99A45] text-xs">★★★★★</span>
-              <span className="text-[#6E675F] text-xs max-w-[200px] truncate">&quot;{r.quote.slice(0, 50)}...&quot;</span>
-              <span className="text-[10px] px-2 py-0.5 bg-[#F8F1E7] rounded-full text-[#155235] font-bold">{r.badge}</span>
+              <span className="text-[#C9A96E] text-xs">★★★★★</span>
+              <span className="text-[#3D3D3D] text-xs max-w-[200px] truncate">&quot;{r.quote.slice(0, 50)}...&quot;</span>
+              <span className="text-[10px] px-2 py-0.5 bg-[#FAFAF8] rounded-full text-[#1C1C1E] font-bold">{r.badge}</span>
             </div>
           ))}
         </div>

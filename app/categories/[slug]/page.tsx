@@ -45,7 +45,7 @@ export default async function CategoryPage({
 
       <section className="hero-gradient py-14">
         <div className="max-w-[1200px] mx-auto px-4 text-center">
-          <p className="text-[#C99A45] text-xs font-semibold tracking-widest mb-3">
+          <p className="text-[#C9A96E] text-xs font-semibold tracking-widest mb-3">
             <Link href="/categories" className="hover:underline">
               التصنيفات
             </Link>{" "}
@@ -66,16 +66,16 @@ export default async function CategoryPage({
           {products.length === 0 ? (
             <div className="max-w-xl mx-auto text-center py-16">
               <p className="text-5xl mb-4">◈</p>
-              <h2 className="text-xl font-extrabold text-[#0F1A14] mb-2">
+              <h2 className="text-xl font-extrabold text-[#1C1C1E] mb-2">
                 منتجات هذا التصنيف قريبًا
               </h2>
-              <p className="text-[#567063] text-sm leading-relaxed mb-6">
+              <p className="text-[#3D3D3D] text-sm leading-relaxed mb-6">
                 نعمل على إضافة المنتجات إلى تصنيف &quot;{category.nameAr}&quot;.
                 تابعنا قريبًا، أو تصفّح بقية تصنيفات بيت الصحة.
               </p>
               <Link
                 href="/categories"
-                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#155235] text-white font-bold hover:bg-[#0A3622] transition-colors"
+                className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-[#1C1C1E] text-white font-bold hover:bg-[#1C1C1E] transition-colors"
               >
                 تصفّح كل التصنيفات
               </Link>
@@ -90,9 +90,9 @@ export default async function CategoryPage({
         </div>
       </section>
 
-      <section className="py-10 bg-[#F8F1E7]">
+      <section className="py-10 bg-[#FAFAF8]">
         <div className="max-w-[1200px] mx-auto px-4 text-center">
-          <h3 className="text-lg font-extrabold text-[#0F1A14] mb-4">
+          <h3 className="text-lg font-extrabold text-[#1C1C1E] mb-4">
             تصفح تصنيفات أخرى
           </h3>
           <div className="flex flex-wrap justify-center gap-2">
@@ -100,7 +100,7 @@ export default async function CategoryPage({
               <Link
                 key={c.slug}
                 href={`/categories/${c.slug}`}
-                className="bg-white border border-[#E8E2D8] rounded-full px-4 py-2 text-sm font-medium text-[#0F1A14] hover:border-[#155235] hover:text-[#155235] transition-colors"
+                className="bg-white border border-[#E8E0D4] rounded-full px-4 py-2 text-sm font-medium text-[#1C1C1E] hover:border-[#1C1C1E] hover:text-[#1C1C1E] transition-colors"
               >
                 {c.nameAr}
               </Link>

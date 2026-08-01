@@ -88,14 +88,14 @@ export function CheckoutModal({ onClose }: Props) {
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-[#071C12]/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 z-50 bg-[#1C1C1E]/80 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in"
       onClick={onClose}
     >
       <div
         className={cn(
           "w-full sm:max-w-md rounded-t-3xl sm:rounded-2xl p-6",
           "animate-scale-in shadow-2xl",
-          "bg-[#0D2B1D] border border-[#155235]/60"
+          "bg-[#1C1C1E] border border-[#1C1C1E]/60"
         )}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
@@ -108,21 +108,21 @@ export function CheckoutModal({ onClose }: Props) {
           </h2>
           <button
             onClick={onClose}
-            className="w-8 h-8 rounded-full bg-[#155235]/50 flex items-center justify-center hover:bg-[#155235] transition-colors text-[#C99A45]"
+            className="w-8 h-8 rounded-full bg-[#1C1C1E]/50 flex items-center justify-center hover:bg-[#1C1C1E] transition-colors text-[#C9A96E]"
             aria-label={checkout.close}
           >
             ✕
           </button>
         </div>
 
-        <div className="mb-5 p-3 bg-[#155235]/30 border border-[#155235]/50 rounded-xl text-sm">
-          <div className="space-y-2 border-b border-[#155235]/50 pb-3 mb-3">
+        <div className="mb-5 p-3 bg-[#1C1C1E]/30 border border-[#1C1C1E]/50 rounded-xl text-sm">
+          <div className="space-y-2 border-b border-[#1C1C1E]/50 pb-3 mb-3">
             {items.map((item) => {
               const prod = PRODUCTS.find((p) => p.id === item.productId);
               const itemPrice = getPayableBundlePriceSar(item.quantity, prod?.bundleOffers);
               return (
                 <div key={item.lineId} className="flex gap-3 items-center">
-                  <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#155235] bg-[#071C12]">
+                  <div className="w-14 h-14 shrink-0 rounded-lg overflow-hidden border border-[#1C1C1E] bg-[#1C1C1E]">
                     {prod ? (
                       <ProductImage
                         product={prod}
@@ -138,22 +138,22 @@ export function CheckoutModal({ onClose }: Props) {
                       {packLabel(item.quantity)}
                     </p>
                   </div>
-                  <FormattedAmount className="font-bold text-[#C99A45] text-sm shrink-0">{format(itemPrice)}</FormattedAmount>
+                  <FormattedAmount className="font-bold text-[#C9A96E] text-sm shrink-0">{format(itemPrice)}</FormattedAmount>
                 </div>
               );
             })}
           </div>
           <div className="flex justify-between font-medium mb-2">
             <span className="text-[#FFFFFF]/70">{checkout.orderTotal}</span>
-            <FormattedAmount className="font-extrabold text-[#C99A45] text-lg">{format(total)}</FormattedAmount>
+            <FormattedAmount className="font-extrabold text-[#C9A96E] text-lg">{format(total)}</FormattedAmount>
           </div>
           {WELCOME_PROMO_ENABLED && welcomePromo && (
-            <p className="text-[11px] text-center text-[#C99A45] font-bold mb-1">
+            <p className="text-[11px] text-center text-[#C9A96E] font-bold mb-1">
               {checkout.welcomePromo}
             </p>
           )}
           <p className="text-xs text-center text-[#FFFFFF]/50 flex items-center justify-center gap-1">
-            <span className="text-[#C99A45]">◆</span> 
+            <span className="text-[#C9A96E]">◆</span> 
             {checkout.returnGuarantee}
           </p>
         </div>
@@ -170,10 +170,10 @@ export function CheckoutModal({ onClose }: Props) {
               placeholder={checkout.namePlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
-                "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
+                "bg-[#1C1C1E] placeholder:text-[#3D3D3D] focus:outline-none transition-colors",
                 errors.name
                   ? "border-[#B42318] focus:border-[#B42318]"
-                  : "border-[#155235] focus:border-[#C99A45]"
+                  : "border-[#1C1C1E] focus:border-[#C9A96E]"
               )}
               {...register("name")}
               aria-invalid={!!errors.name}
@@ -199,10 +199,10 @@ export function CheckoutModal({ onClose }: Props) {
               placeholder={checkout.phonePlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
-                "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
+                "bg-[#1C1C1E] placeholder:text-[#3D3D3D] focus:outline-none transition-colors",
                 errors.phone
                   ? "border-[#B42318] focus:border-[#B42318]"
-                  : "border-[#155235] focus:border-[#C99A45]"
+                  : "border-[#1C1C1E] focus:border-[#C9A96E]"
               )}
               {...register("phone")}
               aria-invalid={!!errors.phone}
@@ -228,10 +228,10 @@ export function CheckoutModal({ onClose }: Props) {
               placeholder={checkout.phoneConfirmPlaceholder}
               className={cn(
                 "w-full px-4 py-3 rounded-xl border-2 text-right text-white",
-                "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
+                "bg-[#1C1C1E] placeholder:text-[#3D3D3D] focus:outline-none transition-colors",
                 errors.phoneConfirm
                   ? "border-[#B42318] focus:border-[#B42318]"
-                  : "border-[#155235] focus:border-[#C99A45]"
+                  : "border-[#1C1C1E] focus:border-[#C9A96E]"
               )}
               {...register("phoneConfirm")}
               aria-invalid={!!errors.phoneConfirm}

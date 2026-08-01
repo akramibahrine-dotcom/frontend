@@ -8,11 +8,11 @@ export const metadata: Metadata = {
 export default function ReturnsPage() {
   return (
     <div className="max-w-3xl mx-auto px-4 py-16">
-      <h1 className="text-3xl font-extrabold text-[#1D1D1B] mb-8">سياسة الإرجاع والتوصيل</h1>
+      <h1 className="text-3xl font-extrabold text-[#1C1C1E] mb-8">سياسة الإرجاع والتوصيل</h1>
 
-      <div className="space-y-6 text-[#6E675F] leading-relaxed">
+      <div className="space-y-6 text-[#3D3D3D] leading-relaxed">
         <section>
-          <h2 className="text-lg font-bold text-[#1D1D1B] mb-2">التوصيل</h2>
+          <h2 className="text-lg font-bold text-[#1C1C1E] mb-2">التوصيل</h2>
           <ul className="list-disc list-inside space-y-1">
             <li>التوصيل داخل المملكة العربية السعودية فقط.</li>
             <li>سيتواصل فريقنا لتأكيد الطلب قبل التجهيز.</li>
@@ -22,7 +22,7 @@ export default function ReturnsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-[#1D1D1B] mb-2">الإرجاع</h2>
+          <h2 className="text-lg font-bold text-[#1C1C1E] mb-2">الإرجاع</h2>
           <p className="mb-2">
             {/* TODO: Define return window with business/legal counsel */}
             سياسة الإرجاع تحدد بالتنسيق مع المستشار القانوني قبل الإطلاق الرسمي.
@@ -35,24 +35,24 @@ export default function ReturnsPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-[#1D1D1B] mb-2">رفض الطلب عند التوصيل</h2>
+          <h2 className="text-lg font-bold text-[#1C1C1E] mb-2">رفض الطلب عند التوصيل</h2>
           <p>
             في حالة رفض الطلب عند التوصيل، قد تُطبق رسوم توصيل معادة. يُرجى التأكد من الرد على رسالة أو اتصال تأكيد الطلب لضمان سرعة التوصيل.
           </p>
         </section>
 
         <section>
-          <h2 className="text-lg font-bold text-[#1D1D1B] mb-2">التواصل لمشاكل الطلبات</h2>
+          <h2 className="text-lg font-bold text-[#1C1C1E] mb-2">التواصل لمشاكل الطلبات</h2>
           <p>
             للتواصل بشأن طلبك، استخدمي صفحة{" "}
-            <Link href="/contact" className="text-[#1F6B4E] underline">
+            <Link href="/contact" className="text-[#1C1C1E] underline">
               التواصل معنا
             </Link>
             .
           </p>
         </section>
 
-        <div className="bg-[#F8F1E7] border border-[#E8D8C3] rounded-xl p-4 text-sm">
+        <div className="bg-[#FAFAF8] border border-[#E8E0D4] rounded-xl p-4 text-sm">
           <p>
             منتجات بيت الصحة هي شاي عشبي داعم للعافية اليومية وليست أدوية. للاستفسارات، تواصلي معنا.
           </p>

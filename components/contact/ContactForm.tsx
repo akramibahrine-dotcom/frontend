@@ -47,7 +47,7 @@ export function ContactForm() {
   return (
     <form className="space-y-4" aria-label="نموذج التواصل" onSubmit={handleSubmit} noValidate>
       <div>
-        <label htmlFor="contact-name" className="block text-sm font-bold text-[#1D1D1B] mb-1.5">
+        <label htmlFor="contact-name" className="block text-sm font-bold text-[#1C1C1E] mb-1.5">
           الاسم
         </label>
         <input
@@ -57,11 +57,11 @@ export function ContactForm() {
           placeholder="اسمك الكامل"
           value={name}
           onChange={(e) => setName(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border-2 border-[#E8D8C3] focus:border-[#1F6B4E] focus:outline-none text-right text-[#1D1D1B]"
+          className="w-full px-4 py-3 rounded-xl border-2 border-[#E8E0D4] focus:border-[#1C1C1E] focus:outline-none text-right text-[#1C1C1E]"
         />
       </div>
       <div>
-        <label htmlFor="contact-phone" className="block text-sm font-bold text-[#1D1D1B] mb-1.5">
+        <label htmlFor="contact-phone" className="block text-sm font-bold text-[#1C1C1E] mb-1.5">
           رقم الجوال
         </label>
         <input
@@ -72,11 +72,11 @@ export function ContactForm() {
           placeholder="05XXXXXXXX"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border-2 border-[#E8D8C3] focus:border-[#1F6B4E] focus:outline-none text-left text-[#1D1D1B]"
+          className="w-full px-4 py-3 rounded-xl border-2 border-[#E8E0D4] focus:border-[#1C1C1E] focus:outline-none text-left text-[#1C1C1E]"
         />
       </div>
       <div>
-        <label htmlFor="contact-message" className="block text-sm font-bold text-[#1D1D1B] mb-1.5">
+        <label htmlFor="contact-message" className="block text-sm font-bold text-[#1C1C1E] mb-1.5">
           الرسالة
         </label>
         <textarea
@@ -85,7 +85,7 @@ export function ContactForm() {
           placeholder="ما الذي تودّ أن نسمعه منك؟"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
-          className="w-full px-4 py-3 rounded-xl border-2 border-[#E8D8C3] focus:border-[#1F6B4E] focus:outline-none text-right text-[#1D1D1B] resize-none"
+          className="w-full px-4 py-3 rounded-xl border-2 border-[#E8E0D4] focus:border-[#1C1C1E] focus:outline-none text-right text-[#1C1C1E] resize-none"
         />
       </div>
       {error && (
@@ -96,13 +96,13 @@ export function ContactForm() {
       <button
         type="submit"
         className={cn(
-          "w-full py-4 rounded-full bg-[#1F6B4E] text-white font-bold",
-          "hover:bg-[#124332] transition-colors active:scale-[0.98]"
+          "w-full py-4 rounded-full bg-[#1C1C1E] text-[#FAFAF8] font-bold",
+          "hover:bg-[#C9A96E] hover:text-[#1C1C1E] transition-colors active:scale-[0.98]"
         )}
       >
         إرسال عبر واتساب
       </button>
-      <p className="text-xs text-center text-[#6E675F]">
+      <p className="text-xs text-center text-[#3D3D3D]">
         سيفتح واتساب برسالتك جاهزة — نرد عليك في أقرب وقت.
       </p>
     </form>

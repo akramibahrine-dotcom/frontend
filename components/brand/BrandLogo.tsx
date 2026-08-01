@@ -66,7 +66,7 @@ export function BrandLogo({ className, size = "md", dark = false }: Props) {
 
             "font-bold leading-none whitespace-nowrap",
 
-            dark ? "text-white" : "text-[#0F1A14]"
+            dark ? "text-white" : "text-[#1C1C1E]"
 
           )}
 
@@ -84,7 +84,7 @@ export function BrandLogo({ className, size = "md", dark = false }: Props) {
 
             "font-normal tracking-wide leading-none whitespace-nowrap pb-0.5",
 
-            dark ? "text-[#D19900]" : "text-[#567063]"
+            dark ? "text-[#D19900]" : "text-[#3D3D3D]"
 
           )}
 

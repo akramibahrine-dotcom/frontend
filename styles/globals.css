@@ -1,28 +1,36 @@
 @import "tailwindcss";
 
+:root {
+  --color-primary: #1C1C1E;
+  --color-accent: #C9A96E;
+  --color-bg: #FAFAF8;
+  --color-text: #3D3D3D;
+  --color-surface: #E8E0D4;
+}
+
 @theme {
-  /* ─── Dark Green Luxury Palette ─── */
-  --color-forest:        #071C12;   /* hero deep bg */
-  --color-forest-mid:    #0D2B1D;   /* section backgrounds */
-  --color-primary:       #155235;   /* main brand green */
-  --color-primary-hover: #1B6B45;   /* button hover */
-  --color-primary-deep:  #0A3622;   /* deep accents */
-  --color-sage:          #2E7D5A;   /* secondary green */
-  --color-mint:          #C99A45;   /* Replaced with gold */
-  --color-mint-soft:     #FFFFFF;   /* Replaced with white */
-  --color-leaf:          #C99A45;   /* vivid accent replaced with gold */
+  /* ─── Premium Black & Gold Palette ─── */
+  --color-forest:        #1C1C1E;   /* hero deep bg */
+  --color-forest-mid:    #1C1C1E;   /* section backgrounds */
+  --color-primary:       #1C1C1E;   /* main brand black */
+  --color-primary-hover: #C9A96E;   /* button hover — gold */
+  --color-primary-deep:  #1C1C1E;   /* deep accents */
+  --color-sage:          #2A2A2C;   /* secondary dark */
+  --color-mint:          #C9A96E;   /* gold accent */
+  --color-mint-soft:     #FAFAF8;   /* off-white */
+  --color-leaf:          #C9A96E;   /* gold accent */
 
   /* ─── Neutral / Warmth ─── */
-  --color-cream:         #F5F3EE;   /* off-white bg */
-  --color-sand:          #E8E2D8;   /* light divider */
-  --color-white:         #FFFFFF;
-  --color-gold:          #C99A45;   /* premium accent */
-  --color-gold-light:    #E5C072;
+  --color-cream:         #FAFAF8;   /* off-white bg */
+  --color-sand:          #E8E0D4;   /* light divider */
+  --color-white:         #FAFAF8;
+  --color-gold:          #C9A96E;   /* premium accent */
+  --color-gold-light:    #D4BA85;
 
   /* ─── Type ─── */
-  --color-ink:           #0F1A14;
-  --color-muted:         #567063;
-  --color-muted-light:   #8BA898;
+  --color-ink:           #1C1C1E;
+  --color-muted:         #3D3D3D;
+  --color-muted-light:   #6B6B6B;
 
   /* ─── Semantic ─── */
   --color-success:       #16A34A;
@@ -76,12 +84,13 @@ body {
   background: var(--color-primary);
   color: var(--color-white);
   font-weight: 700;
-  box-shadow: 0 4px 15px rgba(21,82,53,0.4);
+  box-shadow: 0 4px 15px rgba(28,28,30,0.4);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 .btn-luxury:hover {
   background: var(--color-primary-hover);
-  box-shadow: 0 6px 20px rgba(21,82,53,0.5);
+  color: #1C1C1E;
+  box-shadow: 0 6px 20px rgba(201,169,110,0.5);
   transform: translateY(-1px);
 }
 
@@ -90,24 +99,24 @@ body {
   background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-light) 100%);
   color: var(--color-forest);
   font-weight: 700;
-  box-shadow: 0 4px 20px rgba(201,154,69,0.3);
+  box-shadow: 0 4px 20px rgba(201,169,110,0.3);
   transition: box-shadow 0.3s ease, transform 0.2s ease;
 }
 .btn-gold:hover {
-  box-shadow: 0 6px 28px rgba(201,154,69,0.45);
+  box-shadow: 0 6px 28px rgba(201,169,110,0.45);
   transform: translateY(-1px);
 }
 
 /* ─── Glass card effect on dark bg ─── */
 .glass-card {
   background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(201,154,69,0.15);
+  border: 1px solid rgba(201,169,110,0.15);
   backdrop-filter: blur(12px);
 }
 
 /* ─── Glowing border on product cards ─── */
 .card-glow:hover {
-  box-shadow: 0 0 0 2px var(--color-gold), 0 8px 32px rgba(21,82,53,0.25);
+  box-shadow: 0 0 0 2px var(--color-gold), 0 8px 32px rgba(28,28,30,0.25);
 }
 
 /* ─── Section divider line ─── */
@@ -119,13 +128,13 @@ body {
 /* ─── Drawer / Modal overlay ─── */
 .cart-drawer-overlay {
   backdrop-filter: blur(4px);
-  background: rgba(7,28,18,0.7);
+  background: rgba(28,28,30,0.7);
 }
 
 /* ─── Leaf decorative pattern ─── */
 .leaf-pattern {
-  background-image: radial-gradient(circle at 20% 80%, rgba(201,154,69,0.06) 0%, transparent 50%),
-                    radial-gradient(circle at 80% 20%, rgba(21,82,53,0.06) 0%, transparent 50%);
+  background-image: radial-gradient(circle at 20% 80%, rgba(201,169,110,0.06) 0%, transparent 50%),
+                    radial-gradient(circle at 80% 20%, rgba(28,28,30,0.06) 0%, transparent 50%);
 }
 
 /* ─── Scrollbar ─── */
@@ -155,8 +164,8 @@ body {
   100% { opacity: 1; transform: translateY(0); }
 }
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 8px 2px rgba(201,154,69,0.3); }
-  50%       { box-shadow: 0 0 22px 6px rgba(201,154,69,0.55); }
+  0%, 100% { box-shadow: 0 0 8px 2px rgba(201,169,110,0.3); }
+  50%       { box-shadow: 0 0 22px 6px rgba(201,169,110,0.55); }
 }
 @keyframes shimmer {
   0%   { background-position: -200% center; }
@@ -239,10 +248,10 @@ body {
     72% 86%;
   /* Inline SVG herb leaf, gold/sage tinted */
   background-image:
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23C99A45' opacity='0.25'/><path d='M32 8c-2 14 4 28 16 36' stroke='%23C99A45' stroke-width='1.5' opacity='0.15'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23155235' opacity='0.2'/><path d='M12 32c8-2 16-8 22-18' stroke='%23C99A45' stroke-width='1.5' opacity='0.15'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23155235' opacity='0.15'/></svg>"),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23C99A45' opacity='0.2'/></svg>");
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%23C9A96E' opacity='0.25'/><path d='M32 8c-2 14 4 28 16 36' stroke='%23C9A96E' stroke-width='1.5' opacity='0.15'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%231C1C1E' opacity='0.2'/><path d='M12 32c8-2 16-8 22-18' stroke='%23C9A96E' stroke-width='1.5' opacity='0.15'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M32 4C18 18 14 36 22 50c2 4 6 6 10 6 0-14 8-26 22-32C44 16 38 8 32 4z' fill='%231C1C1E' opacity='0.15'/></svg>"),
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64' fill='none'><path d='M10 32c0-14 12-24 26-24 0 14-12 24-26 24z' fill='%23C9A96E' opacity='0.2'/></svg>");
   animation: herb-drift 14s ease-in-out infinite alternate,
              herb-fade  6s  ease-in-out infinite;
   will-change: transform, opacity;

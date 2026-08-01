@@ -521,7 +521,7 @@ function ProductsTab({ products }: { products: ProductMetric[] }) {
         <div className="overflow-auto">
           <table className="w-full min-w-[900px] text-sm">
             <thead>
-              <tr className="border-b border-[#E8E2D8] text-left text-xs font-bold uppercase text-[#567063]">
+              <tr className="border-b border-[#E8E0D4] text-left text-xs font-bold uppercase text-[#3D3D3D]">
                 <th className="px-3 py-3">Product</th>
                 <th className="px-3 py-3">SKU</th>
                 <th className="px-3 py-3 text-center">1 pc</th>
@@ -539,10 +539,10 @@ function ProductsTab({ products }: { products: ProductMetric[] }) {
             </thead>
             <tbody>
               {products.map((p) => (
-                <tr key={p.id} className="border-b border-[#E8E2D8] hover:bg-[#F5F3EE]/60">
+                <tr key={p.id} className="border-b border-[#E8E0D4] hover:bg-[#FAFAF8]/60">
                   <td className="px-3 py-3">
                     <p className="font-bold">{p.name_ar}</p>
-                    <p className="text-xs text-[#567063]">{p.concern_ar}</p>
+                    <p className="text-xs text-[#3D3D3D]">{p.concern_ar}</p>
                   </td>
                   <td className="px-3 py-3 font-mono text-xs">{p.sku}</td>
                   <td className="px-3 py-3 text-center">{p.bundle_prices_sar[1]} SAR</td>
@@ -552,7 +552,7 @@ function ProductsTab({ products }: { products: ProductMetric[] }) {
                   <td className="px-3 py-3 text-center">{p.add_to_cart}</td>
                   <td className="px-3 py-3 text-center font-bold">{p.orders}</td>
                   <td className="px-3 py-3 text-center">{p.units}</td>
-                  <td className="px-3 py-3 text-right font-bold text-[#155235]">{sar(p.revenue_sar)}</td>
+                  <td className="px-3 py-3 text-right font-bold text-[#1C1C1E]">{sar(p.revenue_sar)}</td>
                   <td className="px-3 py-3 text-center"><Badge value={pct(p.conversion_rate)} good={p.conversion_rate > 2} /></td>
                   <td className="px-3 py-3 text-center">{p.cross_sell_units}</td>
                   <td className="px-3 py-3 text-center">{p.upsell_units}</td>
@@ -768,19 +768,19 @@ function AccessControlTab({ headers, rules, reload }: { headers: Record<string, 
       <Card title="Add Access Rule">
         <div className="space-y-4">
           <div className="flex gap-2">
-            <button onClick={() => setRuleType("device")} className={`rounded-full px-4 py-2 text-sm font-black ${ruleType === "device" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>Devices</button>
-            <button onClick={() => setRuleType("country")} className={`rounded-full px-4 py-2 text-sm font-black ${ruleType === "country" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>Countries</button>
+            <button onClick={() => setRuleType("device")} className={`rounded-full px-4 py-2 text-sm font-black ${ruleType === "device" ? "bg-[#1C1C1E] text-white" : "bg-[#FAFAF8] text-[#1C1C1E]"}`}>Devices</button>
+            <button onClick={() => setRuleType("country")} className={`rounded-full px-4 py-2 text-sm font-black ${ruleType === "country" ? "bg-[#1C1C1E] text-white" : "bg-[#FAFAF8] text-[#1C1C1E]"}`}>Countries</button>
           </div>
 
           <div className="flex gap-2">
-            <button onClick={() => setAction("block")} className={`rounded-full px-4 py-2 text-sm font-black ${action === "block" ? "bg-red-600 text-white" : "bg-[#F5F3EE] text-red-600"}`}>Block</button>
-            <button onClick={() => setAction("allow")} className={`rounded-full px-4 py-2 text-sm font-black ${action === "allow" ? "bg-emerald-600 text-white" : "bg-[#F5F3EE] text-emerald-600"}`}>Allow (Whitelist)</button>
+            <button onClick={() => setAction("block")} className={`rounded-full px-4 py-2 text-sm font-black ${action === "block" ? "bg-red-600 text-white" : "bg-[#FAFAF8] text-red-600"}`}>Block</button>
+            <button onClick={() => setAction("allow")} className={`rounded-full px-4 py-2 text-sm font-black ${action === "allow" ? "bg-emerald-600 text-white" : "bg-[#FAFAF8] text-emerald-600"}`}>Allow (Whitelist)</button>
           </div>
 
           {ruleType === "device" && (
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {DEVICE_OPTIONS.map((d) => (
-                <button key={d} onClick={() => toggleDevice(d)} className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition ${selectedDevices.includes(d) ? "border-[#155235] bg-[#155235]/5" : "border-[#E8E2D8] hover:border-[#155235]/30"}`}>
+                <button key={d} onClick={() => toggleDevice(d)} className={`flex flex-col items-center gap-2 rounded-2xl border-2 p-4 transition ${selectedDevices.includes(d) ? "border-[#1C1C1E] bg-[#1C1C1E]/5" : "border-[#E8E0D4] hover:border-[#1C1C1E]/30"}`}>
                   <span className="text-2xl">{d === "mobile" ? "📱" : d === "desktop" ? "💻" : d === "tablet" ? "📋" : "📺"}</span>
                   <span className="text-sm font-bold capitalize">{d}</span>
                 </button>
@@ -790,24 +790,24 @@ function AccessControlTab({ headers, rules, reload }: { headers: Record<string, 
 
           {ruleType === "country" && (
             <div>
-              <input className="mb-3 w-full rounded-xl border border-[#E8E2D8] px-4 py-2.5 text-sm" placeholder="Search countries..." value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} />
+              <input className="mb-3 w-full rounded-xl border border-[#E8E0D4] px-4 py-2.5 text-sm" placeholder="Search countries..." value={countrySearch} onChange={(e) => setCountrySearch(e.target.value)} />
               {selectedCountries.length > 0 && (
                 <div className="mb-3 flex flex-wrap gap-1.5">
                   {selectedCountries.map((code) => (
-                    <span key={code} className="inline-flex items-center gap-1 rounded-full bg-[#155235] px-3 py-1 text-xs font-bold text-white">
+                    <span key={code} className="inline-flex items-center gap-1 rounded-full bg-[#1C1C1E] px-3 py-1 text-xs font-bold text-white">
                       {countryName(code)}
                       <button onClick={() => toggleCountry(code)} className="ml-1 text-white/70 hover:text-white">&times;</button>
                     </span>
                   ))}
                 </div>
               )}
-              <div className="max-h-[280px] overflow-auto rounded-xl border border-[#E8E2D8]">
+              <div className="max-h-[280px] overflow-auto rounded-xl border border-[#E8E0D4]">
                 {filteredCountries.map((c) => (
-                  <button key={c.code} onClick={() => toggleCountry(c.code)} className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-[#F5F3EE] ${selectedCountries.includes(c.code) ? "bg-[#155235]/5 font-bold" : ""}`}>
-                    <span className={`inline-flex h-5 w-5 items-center justify-center rounded border text-xs ${selectedCountries.includes(c.code) ? "border-[#155235] bg-[#155235] text-white" : "border-[#E8E2D8]"}`}>
+                  <button key={c.code} onClick={() => toggleCountry(c.code)} className={`flex w-full items-center gap-3 px-4 py-2.5 text-left text-sm hover:bg-[#FAFAF8] ${selectedCountries.includes(c.code) ? "bg-[#1C1C1E]/5 font-bold" : ""}`}>
+                    <span className={`inline-flex h-5 w-5 items-center justify-center rounded border text-xs ${selectedCountries.includes(c.code) ? "border-[#1C1C1E] bg-[#1C1C1E] text-white" : "border-[#E8E0D4]"}`}>
                       {selectedCountries.includes(c.code) ? "✓" : ""}
                     </span>
-                    <span className="font-mono text-xs text-[#567063]">{c.code}</span>
+                    <span className="font-mono text-xs text-[#3D3D3D]">{c.code}</span>
                     <span>{c.name}</span>
                   </button>
                 ))}
@@ -815,7 +815,7 @@ function AccessControlTab({ headers, rules, reload }: { headers: Record<string, 
             </div>
           )}
 
-          <button type="button" onClick={() => void saveRules()} disabled={saving || (ruleType === "device" ? !selectedDevices.length : !selectedCountries.length)} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
+          <button type="button" onClick={() => void saveRules()} disabled={saving || (ruleType === "device" ? !selectedDevices.length : !selectedCountries.length)} className="rounded-xl bg-[#1C1C1E] px-6 py-3 font-black text-white disabled:opacity-40">
             {saving ? "Saving..." : `${action === "block" ? "Block" : "Whitelist"} ${ruleType === "device" ? selectedDevices.length : selectedCountries.length} selected`}
           </button>
           {feedback && <p className={`mt-2 rounded-xl p-3 text-sm font-bold ${feedback.includes("error") || feedback.includes("Failed") ? "bg-red-50 text-red-700" : "bg-emerald-50 text-emerald-700"}`}>{feedback}</p>}
@@ -824,14 +824,14 @@ function AccessControlTab({ headers, rules, reload }: { headers: Record<string, 
 
       <Card title="Active Rules">
         {rules.filter((r) => r.enabled).length === 0 ? (
-          <p className="text-sm text-[#567063]">No active rules. All visitors can access the store.</p>
+          <p className="text-sm text-[#3D3D3D]">No active rules. All visitors can access the store.</p>
         ) : (
           <div className="space-y-2">
             {rules.filter((r) => r.enabled).map((r) => (
               <div key={r.id} className={`flex items-center justify-between rounded-2xl border p-4 ${r.action === "block" ? "border-red-200 bg-red-50" : "border-emerald-200 bg-emerald-50"}`}>
                 <div>
                   <span className={`mr-2 inline-block rounded-full px-2.5 py-0.5 text-xs font-black ${r.action === "block" ? "bg-red-600 text-white" : "bg-emerald-600 text-white"}`}>{r.action.toUpperCase()}</span>
-                  <span className="mr-2 rounded-full bg-white px-2.5 py-0.5 text-xs font-bold text-[#567063]">{r.rule_type}</span>
+                  <span className="mr-2 rounded-full bg-white px-2.5 py-0.5 text-xs font-bold text-[#3D3D3D]">{r.rule_type}</span>
                   <span className="font-bold">{r.rule_type === "country" ? countryName(r.value) : r.value}</span>
                 </div>
                 <button onClick={() => deleteRule(r.id)} disabled={deleting === r.id} className="rounded-lg px-3 py-1.5 text-xs font-bold text-red-600 hover:bg-red-100 disabled:opacity-40">
@@ -881,25 +881,25 @@ function TranslationsTab({ headers, translations, reload }: { headers: Record<st
   return (
     <div className="space-y-6">
       <Card title="Site Translation">
-        <p className="mb-4 text-sm text-[#567063]">
+        <p className="mb-4 text-sm text-[#3D3D3D]">
           Change any visible text on the store. Use the exact current text as the &quot;Original text&quot; key, and write the replacement in &quot;New text&quot;. Choose the language you want to modify.
         </p>
 
         <div className="mb-4 flex gap-2">
-          <button onClick={() => setLocale("ar")} className={`rounded-full px-5 py-2 text-sm font-black ${locale === "ar" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>🇸🇦 Arabic</button>
-          <button onClick={() => setLocale("en")} className={`rounded-full px-5 py-2 text-sm font-black ${locale === "en" ? "bg-[#155235] text-white" : "bg-[#F5F3EE] text-[#155235]"}`}>🇬🇧 English</button>
+          <button onClick={() => setLocale("ar")} className={`rounded-full px-5 py-2 text-sm font-black ${locale === "ar" ? "bg-[#1C1C1E] text-white" : "bg-[#FAFAF8] text-[#1C1C1E]"}`}>🇸🇦 Arabic</button>
+          <button onClick={() => setLocale("en")} className={`rounded-full px-5 py-2 text-sm font-black ${locale === "en" ? "bg-[#1C1C1E] text-white" : "bg-[#FAFAF8] text-[#1C1C1E]"}`}>🇬🇧 English</button>
         </div>
 
         <div className="space-y-3">
           <div>
-            <label className="mb-1 block text-xs font-bold text-[#567063]">Original text (find on website)</label>
-            <input className="w-full rounded-xl border border-[#E8E2D8] px-4 py-2.5 text-sm" placeholder={locale === "ar" ? "الدفع عند الاستلام" : "Cash on Delivery"} value={key} onChange={(e) => setKey(e.target.value)} />
+            <label className="mb-1 block text-xs font-bold text-[#3D3D3D]">Original text (find on website)</label>
+            <input className="w-full rounded-xl border border-[#E8E0D4] px-4 py-2.5 text-sm" placeholder={locale === "ar" ? "الدفع عند الاستلام" : "Cash on Delivery"} value={key} onChange={(e) => setKey(e.target.value)} />
           </div>
           <div>
-            <label className="mb-1 block text-xs font-bold text-[#567063]">Replace with</label>
-            <textarea className="min-h-[80px] w-full rounded-xl border border-[#E8E2D8] px-4 py-2.5 text-sm" placeholder="New text..." value={value} onChange={(e) => setValue(e.target.value)} />
+            <label className="mb-1 block text-xs font-bold text-[#3D3D3D]">Replace with</label>
+            <textarea className="min-h-[80px] w-full rounded-xl border border-[#E8E0D4] px-4 py-2.5 text-sm" placeholder="New text..." value={value} onChange={(e) => setValue(e.target.value)} />
           </div>
-          <button onClick={save} disabled={saving || !key.trim() || !value.trim()} className="rounded-xl bg-[#155235] px-6 py-3 font-black text-white disabled:opacity-40">
+          <button onClick={save} disabled={saving || !key.trim() || !value.trim()} className="rounded-xl bg-[#1C1C1E] px-6 py-3 font-black text-white disabled:opacity-40">
             {saving ? "Saving..." : "Save Translation"}
           </button>
           {saveError && <p className="mt-2 rounded-xl bg-red-500/10 p-3 text-sm font-bold text-red-400">{saveError}</p>}
@@ -908,25 +908,25 @@ function TranslationsTab({ headers, translations, reload }: { headers: Record<st
 
       <div className="grid gap-6 xl:grid-cols-2">
         <Card title={`Arabic Overrides (${arTranslations.length})`}>
-          {arTranslations.length === 0 ? <p className="text-sm text-[#567063]">No Arabic overrides yet.</p> : (
+          {arTranslations.length === 0 ? <p className="text-sm text-[#3D3D3D]">No Arabic overrides yet.</p> : (
             <div className="space-y-2">{arTranslations.map((t) => (
-              <div key={t.id} className="rounded-xl border border-[#E8E2D8] p-3">
-                <p className="text-xs text-[#567063]">Original:</p>
+              <div key={t.id} className="rounded-xl border border-[#E8E0D4] p-3">
+                <p className="text-xs text-[#3D3D3D]">Original:</p>
                 <p className="mb-1 font-bold">{t.translation_key}</p>
-                <p className="text-xs text-[#567063]">Replaced with:</p>
-                <p className="text-[#155235]">{t.value}</p>
+                <p className="text-xs text-[#3D3D3D]">Replaced with:</p>
+                <p className="text-[#1C1C1E]">{t.value}</p>
               </div>
             ))}</div>
           )}
         </Card>
         <Card title={`English Overrides (${enTranslations.length})`}>
-          {enTranslations.length === 0 ? <p className="text-sm text-[#567063]">No English overrides yet.</p> : (
+          {enTranslations.length === 0 ? <p className="text-sm text-[#3D3D3D]">No English overrides yet.</p> : (
             <div className="space-y-2">{enTranslations.map((t) => (
-              <div key={t.id} className="rounded-xl border border-[#E8E2D8] p-3">
-                <p className="text-xs text-[#567063]">Original:</p>
+              <div key={t.id} className="rounded-xl border border-[#E8E0D4] p-3">
+                <p className="text-xs text-[#3D3D3D]">Original:</p>
                 <p className="mb-1 font-bold">{t.translation_key}</p>
-                <p className="text-xs text-[#567063]">Replaced with:</p>
-                <p className="text-[#155235]">{t.value}</p>
+                <p className="text-xs text-[#3D3D3D]">Replaced with:</p>
+                <p className="text-[#1C1C1E]">{t.value}</p>
               </div>
             ))}</div>
           )}

@@ -79,13 +79,13 @@ export function ProductPlaceholderImage({ theme, className, aspectRatio = "produ
         <span className="text-7xl opacity-70">{config.emoji}</span>
         <div className="flex flex-col items-center gap-1">
           <div className="h-16 w-32 rounded-xl bg-white/60 backdrop-blur-sm flex items-center justify-center border border-white/80">
-            <span className="text-xs text-[#1F6B4E] font-bold text-center px-2">
+            <span className="text-xs text-[#1C1C1E] font-bold text-center px-2">
               بيت الصحة
               <br />
-              <span className="font-normal text-[#6E675F]">Baytseha</span>
+              <span className="font-normal text-[#3D3D3D]">Baytseha</span>
             </span>
           </div>
-          <span className="text-xs text-[#6E675F] text-center px-4 mt-1">
+          <span className="text-xs text-[#3D3D3D] text-center px-4 mt-1">
             صورة توضيحية — تُستبدل بصورة المنتج الحقيقية
           </span>
         </div>

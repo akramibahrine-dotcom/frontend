@@ -30,19 +30,19 @@ export function StickyMobileCTA({
     <div
       className={cn(
         "fixed bottom-0 left-0 right-0 z-30",
-        "bg-white/95 backdrop-blur-sm border-t border-[#E8D8C3] p-3 safe-area-inset-bottom",
+        "bg-white/95 backdrop-blur-sm border-t border-[#E8E0D4] p-3 safe-area-inset-bottom",
         "transition-transform duration-300 shadow-[0_-4px_20px_rgba(0,0,0,0.05)] flex flex-col justify-center items-center",
         show ? "translate-y-0" : "translate-y-full"
       )}
     >
       <button
         onClick={onClick}
-        className="w-full max-w-md py-4 rounded-full bg-[#155235] text-white font-extrabold text-base flex items-center justify-center gap-2 hover:bg-[#0A3622] transition-colors active:scale-[0.98] shadow-lg shadow-[#155235]/30"
+        className="w-full max-w-md py-4 rounded-full bg-[#1C1C1E] text-white font-extrabold text-base flex items-center justify-center gap-2 hover:bg-[#1C1C1E] transition-colors active:scale-[0.98] shadow-lg shadow-[#1C1C1E]/30"
       >
         {price && <span>{format(price)} -</span>}
         <span>{label}</span>
       </button>
-      <p className="text-xs text-center text-[#6E675F] mt-1.5">{sublabel}</p>
+      <p className="text-xs text-center text-[#3D3D3D] mt-1.5">{sublabel}</p>
     </div>
   );
 }
