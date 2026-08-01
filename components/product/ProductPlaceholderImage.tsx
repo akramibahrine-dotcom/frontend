@@ -54,6 +54,11 @@ const THEME_CONFIG: Record<ImageTheme, { gradient: string; emoji: string; labelA
     emoji: "💧",
     labelAr: "جل علاج الندوب والحروق",
   },
+  "c60-fullerene": {
+    gradient: "from-yellow-50 via-amber-50 to-gold-50",
+    emoji: "✨",
+    labelAr: "كبسولات C60 الذهبية",
+  },
 };
 
 export function ProductPlaceholderImage({ theme, className, aspectRatio = "product", alt }: Props) {

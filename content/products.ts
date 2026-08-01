@@ -1,4 +1,4 @@
-export type ImageTheme = "weight" | "colon" | "hemorrhoid" | "liver" | "lung" | "prostate" | "womens-health" | "herbal-skin" | "scar-gel";
+export type ImageTheme = "weight" | "colon" | "hemorrhoid" | "liver" | "lung" | "prostate" | "womens-health" | "herbal-skin" | "scar-gel" | "c60-fullerene";
 
 export type BundleOffer = {
   quantity: number;
@@ -575,6 +575,74 @@ export const PRODUCTS: Product[] = [
       {
         question: "متى يبدأ مفعول المنتج؟",
         answer: "يبدأ المفعول من أول استخدام، ويدوم النفس المنعش لمدة 24 ساعة.",
+      },
+    ],
+  },
+  {
+    id: "c60-fullerene-serum",
+    slug: "c60-fullerene-serum",
+    sku: "BAYT-C60-001",
+    nameAr: "كبسولات سيروم فوليرين C60 متعددة المفعول",
+    shortNameAr: "كبسولات C60 الذهبية",
+    headlineAr: "اسحبي لتري ما تصنعه 30 يوماً",
+    subheadlineAr:
+      "كبسولات سيروم ذهبية بتقنية النانو — تحيّد الجذور الحرة بكفاءة أعلى 172 مرة من فيتامين C وتجدد ألياف الكولاجين من الداخل.",
+    concernAr: "تجديد البشرة ومكافحة التجاعيد والبقع الداكنة",
+    painAwareAr:
+      "شمس الخليج تأخذ من بشرتك كل يوم بصمت تام. بشرتك تفقد 1% من كولاجينها كل سنة بعد 25 — وكل يوم بدون حماية هو يوم يبعدك عن بشرة صحية ونضرة. هذا ليس قدراً. هذا كيمياء — ولها حل.",
+    imageTheme: "c60-fullerene",
+    images: [
+      "/products/c60-fullerene-serum/1.jpg.png",
+      "/products/c60-fullerene-serum/2.jpg.png",
+      "/products/c60-fullerene-serum/3.jpg.png",
+    ],
+    imageSection2: "/products/c60-fullerene-serum/2.jpg.png",
+    imageSection4: "/products/c60-fullerene-serum/3.jpg.png",
+    imagePromisePackaging: "/products/c60-fullerene-serum/5.jpg.png",
+    imagePromiseDelivery: "/products/c60-fullerene-serum/7.jpg.png",
+    imagePromiseCod: "/products/c60-fullerene-serum/4.jpg.png",
+    imageRitual: "/products/c60-fullerene-serum/9.jpg.png",
+    offerImages: {
+      1: "/products/c60-fullerene-serum/3.jpg.png",
+      2: "/products/c60-fullerene-serum/8.jpg.png",
+      3: "/products/c60-fullerene-serum/3.jpg.png",
+    },
+    upsellProductId: "axis-y-serum",
+    crossSellProductIds: ["axis-y-serum", "scar-gel"],
+    bundleOffers: [
+      { quantity: 3, priceSar: 349, badgeAr: "عبوة العائلة", labelAr: "3 عبوات + 3 مجاناً" },
+      { quantity: 2, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "2 عبوة + 2 مجاناً" },
+      { quantity: 1, priceSar: 199, badgeAr: "ابدئي بثقة", labelAr: "1 عبوة + 1 مجاناً" },
+    ],
+    ritualAr:
+      "قبل النوم: نظفي وجهك، اكسري كبسولة واحدة، دلكي السيروم لمدة 60 ثانية، ثم نامي. بين الساعة 11 ليلاً و2 صباحاً هرمون النمو في ذروته — خلاياك تصلح نفسها والكبسولة تعطيها الوقود.",
+    whyBaytsehaPoints: [
+      "Fullerene C60 يحيّد الجذور الحرة بكفاءة أعلى 172× من فيتامين C",
+      "تقنية تغليف معقم بالفراغ — كل كبسولة نقية 100% بدون تأكسد",
+      "5 مواد فعّالة مثبتة سريرياً في تركيبة واحدة متوازنة",
+      "نتائج مبنية على اختبارات سريرية: 73% تراجع الخطوط، 89% زيادة الترطيب",
+      "مناسب لجميع أنواع البشرة — مختبر معتمد ومكونات طبيعية"
+    ],
+    faq: [
+      {
+        question: "ما هو Fullerene C60 وكيف يعمل؟",
+        answer: "Fullerene C60 هو جزيء نانوي حائز على جائزة نوبل 1996، يلتقط الجذور الحرة قبل أن تُحدث ضررها بكفاءة أعلى 172 مرة من فيتامين C — وفقاً لمجلة Free Radical Biology and Medicine.",
+      },
+      {
+        question: "لماذا كبسولات وليس كريم عادي؟",
+        answer: "كل كريم فتحته بدأ يتدهور في تلك اللحظة. المواد الفعالة تتأكسد بمجرد تعرضها للهواء. كبسولة واحدة معقمة = جرعة نقية 100%. لا تلوث، لا تأكسد، لا فقدان للفعالية.",
+      },
+      {
+        question: "متى تظهر النتائج؟",
+        answer: "النتائج مبنية على اختبارات سريرية لمدة 30 يوماً: 73% تراجع الخطوط الدقيقة، 89% زيادة الترطيب العميق، 68% تحسن الإشراق، 61% تراجع البقع الداكنة.",
+      },
+      {
+        question: "هل يناسب جميع أنواع البشرة؟",
+        answer: "نعم، التركيبة مصممة لتناسب جميع أنواع البشرة بما فيها الحساسة. مختبر معتمد ومكونات طبيعية فعّالة.",
+      },
+      {
+        question: "ما هي المكونات الفعّالة؟",
+        answer: "5 مواد فعّالة: Fullerene C60 (الدرع الجزيئي)، مستخلص المشيمة النباتية (محرك التجديد)، فيتامين C الطبيعي (المؤخر والمفتح)، جل الصبار (المهدئ العميق)، ومستخلص الكرانبيري (الحماية البيئية).",
       },
     ],
   },
