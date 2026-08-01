@@ -86,7 +86,7 @@ export function formatBundlePrice(
   return formatPrice(getDisplayBundleAmount(quantity, currency, rates, productBundleOffers), currency);
 }
 
-/** Savings vs buying singles, respecting currency overrides when both sides have them. */
+/** Savings vs buying base packs, respecting currency overrides when both sides have them. */
 export function getDisplayBundleSavings(
   quantity: number,
   currency: CurrencyCode,
@@ -95,15 +95,33 @@ export function getDisplayBundleSavings(
   savingsInSar?: number
 ): number {
   const offers = productBundleOffers ?? BUNDLE_OFFERS;
-  const single = offers.find((o) => o.quantity === 1);
+  const base = [...offers].sort((a, b) => a.quantity - b.quantity)[0];
   const current = offers.find((o) => o.quantity === quantity);
-  const singleOverride = single?.priceOverrides?.[currency];
-  const currentOverride = current?.priceOverrides?.[currency];
-  if (singleOverride != null && currentOverride != null) {
-    return singleOverride * quantity - currentOverride;
+  if (!base || !current || current.quantity <= base.quantity) {
+    return convertSarTo(savingsInSar ?? 0, currency, rates);
   }
-  const sar = savingsInSar ?? (single && current ? single.priceSar * quantity - current.priceSar : 0);
-  return convertSarTo(sar, currency, rates);
+
+  const multiples = current.quantity / base.quantity;
+  const baseOverride = base.priceOverrides?.[currency];
+  const currentOverride = current.priceOverrides?.[currency];
+
+  if (Number.isInteger(multiples) && baseOverride != null && currentOverride != null) {
+    return baseOverride * multiples - currentOverride;
+  }
+
+  if (base.quantity === 1 && baseOverride != null && currentOverride != null) {
+    return baseOverride * quantity - currentOverride;
+  }
+
+  if (savingsInSar != null) return convertSarTo(savingsInSar, currency, rates);
+
+  if (Number.isInteger(multiples)) {
+    return convertSarTo(base.priceSar * multiples - current.priceSar, currency, rates);
+  }
+  if (base.quantity === 1) {
+    return convertSarTo(base.priceSar * quantity - current.priceSar, currency, rates);
+  }
+  return 0;
 }
 
 export function formatBundleSavings(

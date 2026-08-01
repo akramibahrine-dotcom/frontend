@@ -613,16 +613,17 @@ export const PRODUCTS: Product[] = [
     imagePromiseCod: "/products/c60-fullerene-serum/9.jpg",
     imageRitual: "/products/c60-fullerene-serum/10.jpg",
     offerImages: {
-      1: "/products/c60-fullerene-serum/3.jpg",
-      2: "/products/c60-fullerene-serum/4.jpg",
-      3: "/products/c60-fullerene-serum/5.jpg",
+      2: "/products/c60-fullerene-serum/3.jpg",
+      4: "/products/c60-fullerene-serum/4.jpg",
+      6: "/products/c60-fullerene-serum/5.jpg",
     },
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "scar-gel"],
+    // quantity = total boxes shipped (BOGO): 1+1 free → 2, 2+2 → 4, 3+3 → 6
     bundleOffers: [
-      { quantity: 3, priceSar: 349, badgeAr: "عبوة العائلة", labelAr: "3 عبوات + 3 مجاناً", priceOverrides: { OMR: 39 } },
-      { quantity: 2, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "2 عبوة + 2 مجاناً", priceOverrides: { OMR: 29 } },
-      { quantity: 1, priceSar: 199, badgeAr: "ابدئي بثقة", labelAr: "1 عبوة + 1 مجاناً", priceOverrides: { OMR: 21 } },
+      { quantity: 6, priceSar: 349, badgeAr: "عبوة العائلة", labelAr: "3 عبوات + 3 مجاناً", priceOverrides: { OMR: 39 } },
+      { quantity: 4, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "2 عبوة + 2 مجاناً", priceOverrides: { OMR: 29 } },
+      { quantity: 2, priceSar: 199, badgeAr: "ابدئي بثقة", labelAr: "1 عبوة + 1 مجاناً", priceOverrides: { OMR: 21 } },
     ],
     ritualAr:
       "قبل النوم: نظفي وجهك، اكسري كبسولة واحدة، دلكي السيروم لمدة 60 ثانية، ثم نامي. بين الساعة 11 ليلاً و2 صباحاً هرمون النمو في ذروته — خلاياك تصلح نفسها والكبسولة تعطيها الوقود.",
@@ -687,11 +688,18 @@ export function getProductBundleOffers(product: Product): readonly BundleOffer[]
 
 export function getProductSavings(product: Product): Record<number, number> {
   const offers = getProductBundleOffers(product);
-  const singlePrice = offers.find((o) => o.quantity === 1)?.priceSar ?? 199;
+  const base = [...offers].sort((a, b) => a.quantity - b.quantity)[0];
+  if (!base) return {};
   const result: Record<number, number> = {};
   for (const offer of offers) {
-    if (offer.quantity > 1) {
-      result[offer.quantity] = singlePrice * offer.quantity - offer.priceSar;
+    if (offer.quantity <= base.quantity) continue;
+    const multiples = offer.quantity / base.quantity;
+    if (Number.isInteger(multiples)) {
+      // BOGO packs (e.g. C60 2/4/6) or standard 1/2/3
+      result[offer.quantity] = base.priceSar * multiples - offer.priceSar;
+    } else if (base.quantity === 1) {
+      // Non-multiple ladders like scar-gel 1/3/5
+      result[offer.quantity] = base.priceSar * offer.quantity - offer.priceSar;
     }
   }
   return result;

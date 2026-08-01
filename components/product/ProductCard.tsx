@@ -40,7 +40,9 @@ export function ProductCard({ product, className }: Props) {
 
   const offers = getProductBundleOffers(product);
 
-  const startingPriceLabel = formatBundlePrice(1, currency, rates, offers);
+  const startingQty = Math.min(...offers.map((o) => o.quantity));
+
+  const startingPriceLabel = formatBundlePrice(startingQty, currency, rates, offers);
 
 
 
