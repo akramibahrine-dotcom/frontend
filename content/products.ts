@@ -614,10 +614,11 @@ export const PRODUCTS: Product[] = [
     imagePromiseDelivery: "/products/axis-y-serum/promise-del-serum.jpg",
     imagePromiseCod: "/products/axis-y-serum/promise-cod-serum.jpg",
     imageRitual: "/products/eelhoe-fresh-breath/1.jpg",
+    // Product bottle only (not lifestyle/promo creatives)
     offerImages: {
-      1: "/products/eelhoe-fresh-breath/2.jpg",
-      2: "/products/eelhoe-fresh-breath/2.jpg",
-      3: "/products/eelhoe-fresh-breath/2.jpg",
+      1: "/products/eelhoe-fresh-breath/4.jpg",
+      2: "/products/eelhoe-fresh-breath/4.jpg",
+      3: "/products/eelhoe-fresh-breath/4.jpg",
     },
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "scar-gel"],
