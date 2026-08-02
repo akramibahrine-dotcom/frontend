@@ -136,10 +136,11 @@ export const PRODUCTS: Product[] = [
     imagePromiseCod: "/products/bloom-coffee/9.jpg",
     imageRitual: "/products/bloom-coffee/10.jpg",
     imageCertificates: "/products/bloom-coffee/11.jpg",
+    // Same product pack shot for every offer row
     offerImages: {
       1: "/products/bloom-coffee/1.jpg",
-      2: "/products/bloom-coffee/2.jpg",
-      3: "/products/bloom-coffee/3.jpg",
+      2: "/products/bloom-coffee/1.jpg",
+      3: "/products/bloom-coffee/1.jpg",
     },
     bundleOffers: [
       { quantity: 3, priceSar: 349, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات", priceOverrides: { OMR: 29 } },
