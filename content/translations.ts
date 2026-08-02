@@ -58,11 +58,11 @@ const translations = {
   },
 
   // Thank you
-  "thankYou.headline": { ar: "بشراك أنّ طلبك وصلنا", en: "Your order has been received!" },
+  "thankYou.headline": { ar: "وصلنا طلبك — بقي تأكيد بسيط", en: "We've got your order — one quick confirmation left" },
   "thankYou.orderNumber": { ar: "رقم الطلب:", en: "Order Number:" },
   "thankYou.sub": {
-    ar: "فريق بيت الصحة سيطلب منك تأكيدًا سريعًا قبل التجهيز، لنسجّل عنوانك كما تحبّ ونكمّل مسار الشحن بسلاسة.",
-    en: "Our team will contact you for a quick confirmation before processing, to ensure your address is correct and shipping goes smoothly.",
+    ar: "سيكلّمك أحد مستشاري بيت الصحة قريبًا: يجيب على كل أسئلتك، ويساعدك تختار الأنسب لمشكلتك، ثم يؤكّد عنوانك لتصلك الشحنة بأمان.",
+    en: "A Baytseha advisor will call you soon: answer your questions, help you choose the best solution for your concern, then confirm your address so your order arrives safely.",
   },
   "thankYou.continueCTA": { ar: "عد إلى المجموعة", en: "Back to Collection" },
 

@@ -69,16 +69,18 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
     <div className="min-h-screen bg-gradient-to-b from-[#F5F3EE] to-white" dir="rtl">
       <div className="max-w-3xl mx-auto px-4 py-12 md:py-20">
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#155235]/10 mb-6">
-            <svg className="w-10 h-10 text-[#155235]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+          <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-[#071C12] border border-[#C99A45]/40 mb-5 shadow-[0_8px_24px_rgba(7,28,18,0.18)]">
+            <svg className="w-10 h-10 text-[#C99A45]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-
-          <h1 className="text-3xl md:text-4xl font-extrabold text-[#0F1A14] mb-3 leading-tight">
+          <p className="text-[#C99A45] text-xs font-bold tracking-[0.2em] uppercase mb-3">بيت الصحة</p>
+          <h1 className="text-3xl md:text-4xl font-extrabold text-[#071C12] mb-4 leading-tight">
             {thankYou.headline}
           </h1>
-          <p className="text-[#567063] text-lg leading-relaxed max-w-xl mx-auto">{thankYou.sub}</p>
+          <p className="text-[#3D4A42] text-base md:text-lg leading-relaxed max-w-xl mx-auto font-medium">
+            {thankYou.sub}
+          </p>
         </div>
 
         <div className="bg-white border border-[#E8D8C3]/80 shadow-lg rounded-3xl p-6 md:p-8 mb-8">

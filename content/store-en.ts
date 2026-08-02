@@ -105,10 +105,10 @@ export const COPY_EN = {
     priceMismatch: "Bundle price mismatch. Refresh the page and try again.",
   },
   thankYou: {
-    headline: "Your order has been received!",
+    headline: "We've got your order — one quick confirmation left",
     orderNumberPrefix: "Order Number:",
-    sub: "The Baytseha team will contact you for a quick confirmation before processing, to record your address correctly and ship smoothly.",
-    deliveryNote: "A quick reply to our call or message helps us deliver faster.",
+    sub: "A Baytseha advisor will call you soon: answer your questions, help you choose the best solution for your concern, then confirm your address so your order arrives safely.",
+    deliveryNote: "Answering our call quickly raises your successful-delivery chance and speeds up preparation.",
     codBadge: "Cash on Delivery",
     upsellBadge: "✧ Limited offer — attached to your order only",
     continueCTA: "Back to Collection",
