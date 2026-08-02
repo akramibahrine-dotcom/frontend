@@ -291,6 +291,44 @@ export const PRODUCT_EN: Record<string, ProductEn> = {
       },
     ],
   },
+  "bloom-coffee": {
+    name: "Bloom Coffee for Weight Loss & Digestive Health",
+    shortName: "Bloom Coffee",
+    headline: "A daily coffee that supports your weight… and calms digestion",
+    subheadline:
+      "Baytseha Bloom Coffee — rich taste and a simple routine to accompany weight management and digestive comfort within a balanced lifestyle.",
+    concern: "Weight loss and digestive health",
+    painAware:
+      "Sometimes post-meal heaviness and extra weight steal your comfort. Bloom Coffee is designed as a light daily moment that helps you stay consistent — without complexity or exaggerated promises.",
+    ritual:
+      "One cup in the morning or after a meal, at a moderate temperature. If you are caffeine-sensitive or on a treatment plan, ask your specialist before continuing.",
+    whyBaytsehaPoints: [
+      "Bloom Coffee with rich taste and an easy daily ritual",
+      "Supports weight management and digestive comfort together",
+      "Elegant packaging and shipping across the Gulf",
+      "Pay on delivery — no card needed",
+    ],
+    faq: [
+      {
+        question: "Is Bloom Coffee a substitute for diet and exercise?",
+        answer:
+          "No. Bloom Coffee accompanies your daily routine within balanced eating and suitable movement — not a treatment or a guarantee of results.",
+      },
+      {
+        question: "When should I drink it?",
+        answer: "One cup at a fixed time daily — preferably in the morning or after a meal, according to your caffeine tolerance.",
+      },
+      {
+        question: "Is it suitable for a sensitive stomach?",
+        answer:
+          "It is designed to gently support digestive comfort. If you have a diagnosed digestive condition, consult your doctor before use.",
+      },
+      {
+        question: "How does delivery work?",
+        answer: "We deliver across the Gulf — pay on delivery.",
+      },
+    ],
+  },
   "colon-comfort-tea": {
     name: "Baytseha Herbal Tea for Calmer Days with Stomach & Gas",
     shortName: "Stomach Comfort Tea",

@@ -110,6 +110,69 @@ export const PRODUCTS: Product[] = [
     ],
   },
   {
+    id: "bloom-coffee",
+    slug: "bloom-coffee",
+    sku: "BAYT-BLM-001",
+    nameAr: "قهوة بلوم لفقدان الوزن وصحة الجهاز الهضمي",
+    shortNameAr: "قهوة بلوم",
+    headlineAr: "قهوة يومية تدعم وزنك… وتهدّئ جهازك الهضمي",
+    subheadlineAr:
+      "خلطة قهوة بلوم من بيت الصحة — طعم غني وروتين بسيط يرافقك في إدارة الوزن ودعم الهضم ضمن نمط حياة متوازن.",
+    concernAr: "فقدان الوزن وصحة الجهاز الهضمي",
+    painAwareAr:
+      "أحيانًا الثقل بعد الأكل والوزن الزائد يسرقان راحتك. قهوة بلوم صُممت لتكون لحظة يومية خفيفة تساعدك تستمر — بدون تعقيد وبدون وعود مبالغ فيها.",
+    imageTheme: "weight",
+    // Carousel = first 3 only; packaging/shipping/COD = 7/8/9; other slots follow image numbers
+    images: [
+      "/products/bloom-coffee/1.jpg",
+      "/products/bloom-coffee/2.jpg",
+      "/products/bloom-coffee/3.jpg",
+    ],
+    imageSection2: "/products/bloom-coffee/4.jpg",
+    imageSection4: "/products/bloom-coffee/5.jpg",
+    imageIngredients: "/products/bloom-coffee/6.jpg",
+    imagePromisePackaging: "/products/bloom-coffee/7.jpg",
+    imagePromiseDelivery: "/products/bloom-coffee/8.jpg",
+    imagePromiseCod: "/products/bloom-coffee/9.jpg",
+    imageRitual: "/products/bloom-coffee/10.jpg",
+    imageCertificates: "/products/bloom-coffee/11.jpg",
+    offerImages: {
+      1: "/products/bloom-coffee/1.jpg",
+      2: "/products/bloom-coffee/2.jpg",
+      3: "/products/bloom-coffee/3.jpg",
+    },
+    upsellProductId: "weight-support-tea",
+    crossSellProductIds: ["weight-support-tea", "colon-comfort-tea"],
+    ritualAr:
+      "كوب واحد صباحًا أو بعد الوجبة، بحرارة معتدلة. إن كنت حساسًا للكافيين أو لديك خطة علاج، راجع مختصّك قبل الاستمرار.",
+    whyBaytsehaPoints: [
+      "قهوة بلوم بطعم غني وروتين يومي سهل الالتزام",
+      "تدعم إدارة الوزن وراحة الجهاز الهضمي معًا",
+      "تغليف أنيق وشحن لكل دول الخليج",
+      "ادفع عند الاستلام — بلا بطاقة",
+    ],
+    faq: [
+      {
+        question: "هل قهوة بلوم بديل عن الرجيم والرياضة؟",
+        answer:
+          "لا. قهوة بلوم مرافقة لروتينك اليومي ضمن أكل متوازن وحركة مناسبة — وليست علاجًا أو وعدًا بنتائج مضمونة.",
+      },
+      {
+        question: "متى أشربها؟",
+        answer: "كوب واحد في وقت ثابت يوميًا، ويفضّل صباحًا أو بعد الوجبة حسب تحملك للكافيين.",
+      },
+      {
+        question: "هل تناسب الجهاز الهضمي الحساس؟",
+        answer:
+          "صُممت لدعم راحة الهضم بشكل لطيف. إن كنت تعاني من حالة هضمية مشخصة، استشر طبيبك قبل الاستخدام.",
+      },
+      {
+        question: "كيف يصلني الطلب؟",
+        answer: "نوصّل لجميع دول الخليج — والدفع عند الاستلام.",
+      },
+    ],
+  },
+  {
     id: "colon-comfort-tea",
     slug: "colon-comfort-tea",
     sku: "BAYT-CCT-002",

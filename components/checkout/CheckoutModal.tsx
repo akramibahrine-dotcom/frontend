@@ -23,6 +23,7 @@ type FormValues = {
   name: string;
   phone: string;
   phoneConfirm: string;
+  address: string;
 };
 
 type Props = {
@@ -35,14 +36,24 @@ export function CheckoutModal({ onClose }: Props) {
     () =>
       z
         .object({
-          name: z.string().min(2, checkout.nameError).max(80, checkout.nameError),
+          // Fields: full name, phone, same phone, full address
+          // Only first phone required — name / confirm / address optional
+          name: z.string().max(80, checkout.nameError),
           phone: z.string().refine(isValidPhone, { message: checkout.phoneError }),
-          phoneConfirm: z.string().min(1, checkout.phoneConfirmError),
+          phoneConfirm: z.string().max(20),
+          address: z.string().max(500, checkout.addressError),
         })
-        .refine((data) => normalizePhoneDisplay(data.phone) === normalizePhoneDisplay(data.phoneConfirm), {
-          message: checkout.phoneMismatchError,
-          path: ["phoneConfirm"],
-        }),
+        .refine(
+          (data) => {
+            const confirm = (data.phoneConfirm || "").trim();
+            if (!confirm) return true;
+            return normalizePhoneDisplay(data.phone) === normalizePhoneDisplay(confirm);
+          },
+          {
+            message: checkout.phoneMismatchError,
+            path: ["phoneConfirm"],
+          }
+        ),
     [checkout]
   );
   const { items, getTotal } = useCartStore();
@@ -60,7 +71,7 @@ export function CheckoutModal({ onClose }: Props) {
     formState: { errors, isSubmitting },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { name: "", phone: "", phoneConfirm: "" },
+    defaultValues: { name: "", phone: "", phoneConfirm: "", address: "" },
   });
 
   const total = getTotal();
@@ -78,7 +89,11 @@ export function CheckoutModal({ onClose }: Props) {
   if (showUpsell && formData && purchaseEventId) {
     return (
       <UpsellModal
-        customer={{ name: formData.name, phone: formData.phone, address: "" }}
+        customer={{
+          name: (formData.name || "").trim(),
+          phone: formData.phone,
+          address: (formData.address || "").trim(),
+        }}
         onClose={onClose}
         cartItems={items}
         initiateCheckoutEventId={initiateCheckoutEventId}
@@ -163,6 +178,9 @@ export function CheckoutModal({ onClose }: Props) {
           <div>
             <label htmlFor="checkout-name" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
               {checkout.fullNameLabel}
+              <span className="font-normal text-[#FFFFFF]/45 mr-1">
+                {lang === "en" ? " (optional)" : " (اختياري)"}
+              </span>
             </label>
             <input
               id="checkout-name"
@@ -219,6 +237,9 @@ export function CheckoutModal({ onClose }: Props) {
           <div>
             <label htmlFor="checkout-phone-confirm" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
               {checkout.phoneConfirmLabel}
+              <span className="font-normal text-[#FFFFFF]/45 mr-1">
+                {lang === "en" ? " (optional)" : " (اختياري)"}
+              </span>
             </label>
             <input
               id="checkout-phone-confirm"
@@ -241,6 +262,36 @@ export function CheckoutModal({ onClose }: Props) {
             {errors.phoneConfirm && (
               <p id="phone-confirm-error" className="text-[#B42318] text-xs mt-1">
                 {errors.phoneConfirm.message}
+              </p>
+            )}
+          </div>
+
+          <div>
+            <label htmlFor="checkout-address" className="block text-sm font-bold text-[#FFFFFF] mb-1.5">
+              {checkout.addressLabel}
+              <span className="font-normal text-[#FFFFFF]/45 mr-1">
+                {lang === "en" ? " (optional)" : " (اختياري)"}
+              </span>
+            </label>
+            <textarea
+              id="checkout-address"
+              rows={3}
+              autoComplete="street-address"
+              placeholder={checkout.addressPlaceholder}
+              className={cn(
+                "w-full px-4 py-3 rounded-xl border-2 text-right text-white resize-none",
+                "bg-[#071C12] placeholder:text-[#567063] focus:outline-none transition-colors",
+                errors.address
+                  ? "border-[#B42318] focus:border-[#B42318]"
+                  : "border-[#155235] focus:border-[#C99A45]"
+              )}
+              {...register("address")}
+              aria-invalid={!!errors.address}
+              aria-describedby={errors.address ? "address-error" : undefined}
+            />
+            {errors.address && (
+              <p id="address-error" className="text-[#B42318] text-xs mt-1">
+                {errors.address.message}
               </p>
             )}
           </div>

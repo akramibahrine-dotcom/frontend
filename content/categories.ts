@@ -21,7 +21,7 @@ export const CATEGORIES: Category[] = [
       "مجموعة أعشاب يومية لمرافقتك في رحلة الوزن — تشرب بهدوء بين وجباتك وحركتك، ضمن نمطٍ متوازن.",
     imageTheme: "weight",
     image: "/categories/cat-weight.jpg",
-    productSlugs: ["weight-support-tea"],
+    productSlugs: ["weight-support-tea", "bloom-coffee"],
   },
   {
     slug: "colon-comfort",
