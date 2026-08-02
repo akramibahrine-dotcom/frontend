@@ -59,9 +59,21 @@ export function getPayableUpsellPriceSar(): number {
   return UPSELL_PRICE_SAR;
 }
 
+function getOfferCurrencyOverride(
+  offer: BundleOffer | undefined,
+  currency: CurrencyCode
+): number | undefined {
+  if (!offer?.priceOverrides) return undefined;
+  const direct = offer.priceOverrides[currency];
+  if (direct != null) return direct;
+  const code = String(currency || "").toUpperCase();
+  const key = Object.keys(offer.priceOverrides).find((k) => k.toUpperCase() === code);
+  return key != null ? offer.priceOverrides[key] : undefined;
+}
+
 /**
  * Display amount for a bundle in the shopper's currency.
- * Uses product-specific priceOverrides when present (e.g. C60 OMR),
+ * Uses product-specific priceOverrides when present (e.g. Bloom/C60 OMR),
  * otherwise converts that product's own SAR catalog price.
  */
 export function getDisplayBundleAmount(
@@ -71,7 +83,7 @@ export function getDisplayBundleAmount(
   productBundleOffers?: readonly BundleOffer[]
 ): number {
   const offer = getBundleOffer(quantity, productBundleOffers);
-  const override = offer?.priceOverrides?.[currency];
+  const override = getOfferCurrencyOverride(offer, currency);
   if (override != null) return override;
   const sar = getCatalogBundlePriceSar(quantity, productBundleOffers);
   return convertSarTo(sar, currency, rates);
@@ -102,8 +114,8 @@ export function getDisplayBundleSavings(
   }
 
   const multiples = current.quantity / base.quantity;
-  const baseOverride = base.priceOverrides?.[currency];
-  const currentOverride = current.priceOverrides?.[currency];
+  const baseOverride = getOfferCurrencyOverride(base, currency);
+  const currentOverride = getOfferCurrencyOverride(current, currency);
 
   if (Number.isInteger(multiples) && baseOverride != null && currentOverride != null) {
     return baseOverride * multiples - currentOverride;
