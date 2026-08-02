@@ -122,11 +122,11 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "أحيانًا الثقل بعد الأكل والوزن الزائد يسرقان راحتك. قهوة بلوم صُممت لتكون لحظة يومية خفيفة تساعدك تستمر — بدون تعقيد وبدون وعود مبالغ فيها.",
     imageTheme: "weight",
-    // Carousel = first 3 only; packaging/shipping/COD = 7/8/9; other slots follow image numbers
+    // Carousel = 3 images; 3.jpg first (hero), then 1, 2
     images: [
+      "/products/bloom-coffee/3.jpg",
       "/products/bloom-coffee/1.jpg",
       "/products/bloom-coffee/2.jpg",
-      "/products/bloom-coffee/3.jpg",
     ],
     imageSection2: "/products/bloom-coffee/4.jpg",
     imageSection4: "/products/bloom-coffee/5.jpg",
