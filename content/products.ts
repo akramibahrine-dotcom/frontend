@@ -47,6 +47,8 @@ export type Product = {
   imageRitual?: string;
   imageCertificates?: string;
   imageSecondaryCertificates?: string;
+  /** Image shown above the bottom/closing offer block */
+  imageClosingOffer?: string;
   offerImages?: Record<number, string>;
   bundleOffers?: readonly BundleOffer[];
 };
@@ -129,13 +131,14 @@ export const PRODUCTS: Product[] = [
       "/products/bloom-coffee/2.jpg",
     ],
     imageSection2: "/products/bloom-coffee/4.jpg",
-    imageSection4: "/products/bloom-coffee/5.jpg",
+    imageSection4: "/products/bloom-coffee/6.jpg",
     imageIngredients: "/products/bloom-coffee/6.jpg",
     imagePromisePackaging: "/products/bloom-coffee/7.jpg",
     imagePromiseDelivery: "/products/bloom-coffee/8.jpg",
     imagePromiseCod: "/products/bloom-coffee/9.jpg",
-    imageRitual: "/products/bloom-coffee/10.jpg",
+    imageRitual: "/products/bloom-coffee/5.jpg",
     imageCertificates: "/products/bloom-coffee/11.jpg",
+    imageClosingOffer: "/products/bloom-coffee/12.jpg",
     // Same product pack shot for every offer row
     offerImages: {
       1: "/products/bloom-coffee/1.jpg",

@@ -554,6 +554,17 @@ export function ProductPageClient({ product, crossSells }: Props) {
             {productPage.closingSub}
           </p>
 
+          {product.imageClosingOffer && (
+            <div className="mb-8 flex justify-center">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={product.imageClosingOffer}
+                alt={lp.name}
+                className="w-full max-w-2xl rounded-3xl shadow-2xl object-cover border border-white/10"
+              />
+            </div>
+          )}
+
           <div className="bg-white text-black p-8 rounded-3xl max-w-2xl mx-auto shadow-2xl mb-8">
             <h3 className="text-xl font-extrabold text-[#0F1A14] mb-6">{productPage.bundleTitle}</h3>
             <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
