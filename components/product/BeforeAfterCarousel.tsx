@@ -493,7 +493,8 @@ const THEMES: Record<string, { badgeColor: string; borderColor: string; emoji: s
 export function BeforeAfterCarousel({ productSlug }: { productSlug?: string }) {
   if (!productSlug) return null;
 
-  if (productSlug === "weight-support-tea") {
+  // Weight-support + Bloom Coffee share the same before/after transformation reviews
+  if (productSlug === "weight-support-tea" || productSlug === "bloom-coffee") {
     const doubled = [...TRANSFORMATIONS, ...TRANSFORMATIONS];
     return (
       <section className="py-12 md:py-16 bg-gradient-to-b from-[#0F1A14] to-[#071C12] overflow-hidden" aria-labelledby="ba-carousel-title">
