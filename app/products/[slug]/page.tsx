@@ -5,7 +5,12 @@ import { ProductPageClient } from "./ProductPageClient";
 
 type Props = { params: Promise<{ slug: string }> };
 
+// Allow on-demand rendering for any product slug
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
+  // Skip heavy product pre-render in Docker/standalone builds (avoids OOM on small VPS)
+  if (process.env.NEXT_OUTPUT_STANDALONE === "true") return [];
   return PRODUCTS.map((p) => ({ slug: p.slug }));
 }
 

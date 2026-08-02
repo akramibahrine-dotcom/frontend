@@ -8,7 +8,10 @@ import { TrustStrip } from "@/components/ui/TrustBadge";
 
 type Params = { slug: string };
 
+export const dynamicParams = true;
+
 export function generateStaticParams(): Params[] {
+  if (process.env.NEXT_OUTPUT_STANDALONE === "true") return [];
   return CATEGORIES.map((c) => ({ slug: c.slug }));
 }
 

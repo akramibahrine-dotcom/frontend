@@ -14,7 +14,10 @@ const siteUrl = getSiteOrigin();
 
 type Props = { params: Promise<{ slug: string }> };
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
+  if (process.env.NEXT_OUTPUT_STANDALONE === "true") return [];
   return getAllNewsSlugs().map((slug) => ({ slug }));
 }
 
