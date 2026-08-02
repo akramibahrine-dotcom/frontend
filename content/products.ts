@@ -582,7 +582,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "c60-fullerene-serum",
     slug: "c60-fullerene-serum",
-    sku: "BAYT-C60-001",
+    sku: "CopaffFullereneSerum",
     nameAr: "كبسولات سيروم فوليرين C60 متعددة المفعول",
     shortNameAr: "كبسولات C60 الذهبية",
     headlineAr: "وجهك يشيخ\nكل يوم تنتظرين فيه.",
