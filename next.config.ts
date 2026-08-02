@@ -15,6 +15,8 @@ const nextConfig: NextConfig = {
     cpus: 1,
     workerThreads: false,
     webpackMemoryOptimizations: true,
+    staticGenerationMaxConcurrency: 1,
+    staticGenerationMinPagesPerWorker: 1,
     optimizePackageImports: ["@radix-ui/react-accordion", "@radix-ui/react-dialog", "recharts", "lucide-react"],
   },
   staticPageGenerationTimeout: 180,

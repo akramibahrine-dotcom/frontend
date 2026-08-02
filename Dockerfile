@@ -53,11 +53,13 @@ ENV NEXT_PUBLIC_CLARITY_PROJECT_ID=$NEXT_PUBLIC_CLARITY_PROJECT_ID
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_OUTPUT_STANDALONE=true
 # Keep Node heap modest so Docker + OS still have RAM (OOM-killer cancels otherwise)
-ENV NODE_OPTIONS="--max-old-space-size=1024"
+ENV NODE_OPTIONS="--max-old-space-size=768"
 ENV NEXT_PRIVATE_WORKER_THREADS=false
-ENV UV_THREADPOOL_SIZE=2
+ENV UV_THREADPOOL_SIZE=1
 
-RUN npm run build
+# compile mode skips "Collecting page data" / SSG — that phase OOMs small VPS hosts.
+# Pages render on demand at runtime (standalone server).
+RUN npm run build -- --experimental-build-mode=compile
 
 
 

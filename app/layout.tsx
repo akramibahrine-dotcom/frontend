@@ -20,6 +20,9 @@ const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   variable: "--font-arabic",
 });
 
+// Avoid build-time SSG spikes on small Docker hosts; pages SSR at request time.
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: {
     template: "%s | بيت الصحة",
