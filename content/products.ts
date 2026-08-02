@@ -141,6 +141,11 @@ export const PRODUCTS: Product[] = [
       2: "/products/bloom-coffee/2.jpg",
       3: "/products/bloom-coffee/3.jpg",
     },
+    bundleOffers: [
+      { quantity: 3, priceSar: 349, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات", priceOverrides: { OMR: 29 } },
+      { quantity: 2, priceSar: 279, badgeAr: "الأكثر طلباً", labelAr: "عبوتان", priceOverrides: { OMR: 21 } },
+      { quantity: 1, priceSar: 199, badgeAr: "للتجربة", labelAr: "عبوة واحدة", priceOverrides: { OMR: 13 } },
+    ],
     upsellProductId: "weight-support-tea",
     crossSellProductIds: ["weight-support-tea", "colon-comfort-tea"],
     ritualAr:
