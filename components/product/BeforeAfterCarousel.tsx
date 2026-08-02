@@ -352,9 +352,6 @@ function TransformationCard({ t }: { t: Transformation }) {
           <span className="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded-full border border-emerald-200 font-bold">
             ✅ نتيجة حقيقية
           </span>
-          <span className="text-[10px] bg-[#F5F3EE] text-[#567063] px-2 py-0.5 rounded-full border border-[#E8E2D8]">
-            🍵 شاي التخسيس
-          </span>
         </div>
       </div>
     </article>
