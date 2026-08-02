@@ -25,3 +25,9 @@ button.cart-btn:hover {
 button.cart-btn:active {
   transform: scale(0.98);
 }
+
+.add-to-cart .text-white,
+.add-to-cart [class*="FormattedAmount"],
+.add-to-cart span[dir="ltr"] {
+  color: #ffffff !important;
+}

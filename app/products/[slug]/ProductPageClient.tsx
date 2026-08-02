@@ -311,13 +311,13 @@ export function ProductPageClient({ product, crossSells }: Props) {
               >
                 <span className="flex items-center justify-center gap-3 flex-wrap">
                   <span>{bundle.addToCart}</span>
-                  <span className="inline-flex items-center gap-1.5 text-[#C99A45] font-extrabold" dir="ltr">
+                  <span className="inline-flex items-center gap-1.5 text-white font-extrabold" dir="ltr">
                     {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar && (
-                      <FormattedAmount className="text-[#C99A45]/50 line-through text-base font-bold">
+                      <FormattedAmount className="text-white/70 line-through text-base font-bold">
                         {format(referenceOfferSar)}
                       </FormattedAmount>
                     )}
-                    <FormattedAmount>{payableOfferLabel}</FormattedAmount>
+                    <FormattedAmount className="text-white">{payableOfferLabel}</FormattedAmount>
                   </span>
                 </span>
               </button>
@@ -563,16 +563,16 @@ export function ProductPageClient({ product, crossSells }: Props) {
             >
               <span className="flex items-center justify-center gap-3 flex-wrap">
                 <span>{productPage.addToCart}</span>
-                <span className="inline-flex items-center gap-1.5 text-[#C99A45] font-extrabold" dir="ltr">
+                <span className="inline-flex items-center gap-1.5 text-white font-extrabold" dir="ltr">
                   {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar ? (
                     <>
-                      <FormattedAmount className="text-[#C99A45]/50 line-through text-base font-bold">
+                      <FormattedAmount className="text-white/70 line-through text-base font-bold">
                         {format(referenceOfferSar)}
                       </FormattedAmount>
-                      <FormattedAmount>{payableOfferLabel}</FormattedAmount>
+                      <FormattedAmount className="text-white">{payableOfferLabel}</FormattedAmount>
                     </>
                   ) : (
-                    <FormattedAmount>{payableOfferLabel}</FormattedAmount>
+                    <FormattedAmount className="text-white">{payableOfferLabel}</FormattedAmount>
                   )}
                 </span>
               </span>
