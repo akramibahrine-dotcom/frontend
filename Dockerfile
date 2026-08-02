@@ -52,9 +52,10 @@ ENV NEXT_PUBLIC_CLARITY_PROJECT_ID=$NEXT_PUBLIC_CLARITY_PROJECT_ID
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_OUTPUT_STANDALONE=true
-# Cap heap below typical 2GB VPS RAM so the kernel OOM-killer does not cancel the build
-ENV NODE_OPTIONS="--max-old-space-size=1536"
+# Keep Node heap modest so Docker + OS still have RAM (OOM-killer cancels otherwise)
+ENV NODE_OPTIONS="--max-old-space-size=1024"
 ENV NEXT_PRIVATE_WORKER_THREADS=false
+ENV UV_THREADPOOL_SIZE=2
 
 RUN npm run build
 

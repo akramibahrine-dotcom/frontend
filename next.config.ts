@@ -9,11 +9,13 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  productionBrowserSourceMaps: false,
   // One worker only — parallel static generation OOMs small VPS Docker hosts
   experimental: {
     cpus: 1,
     workerThreads: false,
-    optimizePackageImports: ["@radix-ui/react-accordion", "@radix-ui/react-dialog"],
+    webpackMemoryOptimizations: true,
+    optimizePackageImports: ["@radix-ui/react-accordion", "@radix-ui/react-dialog", "recharts", "lucide-react"],
   },
   staticPageGenerationTimeout: 180,
   images: {

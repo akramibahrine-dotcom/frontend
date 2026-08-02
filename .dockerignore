@@ -22,3 +22,12 @@ clean_admin*.py
 add_*.py
 ocr.js
 ara.traineddata
+# Huge local backups — never ship into Docker (was ~180MB of build context)
+public/_backup_originals
+**/_backup_originals
+**/*.psd
+**/*.ai
+**/*.zip
+**/*.rar
+agent-transcripts
+*.log
