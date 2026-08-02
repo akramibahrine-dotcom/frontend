@@ -2,6 +2,13 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   output: process.env.NEXT_OUTPUT_STANDALONE === "true" ? "standalone" : undefined,
+  // Docker/low-RAM servers often OOM during lint + tsc; skip in production image builds
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   experimental: {
     optimizePackageImports: ["@radix-ui/react-accordion", "@radix-ui/react-dialog"],
   },

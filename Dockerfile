@@ -52,6 +52,8 @@ ENV NEXT_PUBLIC_CLARITY_PROJECT_ID=$NEXT_PUBLIC_CLARITY_PROJECT_ID
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_OUTPUT_STANDALONE=true
+# Avoid OOM kills during Next.js production build on small VPS hosts
+ENV NODE_OPTIONS="--max-old-space-size=2048"
 
 RUN npm run build
 
