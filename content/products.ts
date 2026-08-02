@@ -622,9 +622,9 @@ export const PRODUCTS: Product[] = [
     upsellProductId: "axis-y-serum",
     crossSellProductIds: ["axis-y-serum", "scar-gel"],
     bundleOffers: [
-      { quantity: 3, priceSar: 249, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
-      { quantity: 2, priceSar: 199, badgeAr: "الأكثر طلباً", labelAr: "عبوتان" },
-      { quantity: 1, priceSar: 129, badgeAr: "للتجربة", labelAr: "عبوة واحدة" },
+      { quantity: 3, priceSar: 249, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات", priceOverrides: { OMR: 29 } },
+      { quantity: 2, priceSar: 199, badgeAr: "الأكثر طلباً", labelAr: "عبوتان", priceOverrides: { OMR: 21 } },
+      { quantity: 1, priceSar: 129, badgeAr: "للتجربة", labelAr: "عبوة واحدة", priceOverrides: { OMR: 13 } },
     ],
     ritualAr: "ضع بضع قطرات في الفم يومياً. تركيبة طبيعية 100% وآمنة تماماً بدون كحول، وآمنة للاستخدام حتى أثناء الصيام.",
     whyBaytsehaPoints: [
