@@ -307,7 +307,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
               <button
                 onClick={handleAddToCart}
-                className="w-full group bg-[#071C12] hover:bg-[#0A2616] text-white py-[1.15rem] rounded-full font-bold text-lg tracking-wide transition-colors duration-300 active:scale-[0.99] mb-3 border border-[#C99A45]/45 hover:border-[#C99A45] shadow-[0_10px_28px_rgba(7,28,18,0.22)]"
+                className="add-to-cart w-full group mb-3"
               >
                 <span className="flex items-center justify-center gap-3 flex-wrap">
                   <span>{bundle.addToCart}</span>
@@ -559,7 +559,7 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
             <button
               onClick={handleAddToCart}
-              className="w-full mt-6 group bg-[#071C12] hover:bg-[#0A2616] text-white py-[1.15rem] rounded-full font-bold text-lg tracking-wide transition-colors duration-300 active:scale-[0.99] border border-[#C99A45]/45 hover:border-[#C99A45] shadow-[0_10px_28px_rgba(7,28,18,0.22)]"
+              className="add-to-cart w-full mt-6 group"
             >
               <span className="flex items-center justify-center gap-3 flex-wrap">
                 <span>{productPage.addToCart}</span>

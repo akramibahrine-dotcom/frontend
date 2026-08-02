@@ -1,0 +1,27 @@
+.add-to-cart,
+button.cart-btn,
+[class*="add-to-cart"],
+[class*="btn-cart"] {
+  background-color: #D4A017;
+  color: #1C1C1E;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: none;
+  padding: 16px 36px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.add-to-cart:hover,
+button.cart-btn:hover {
+  background-color: #B8860B;
+  transform: scale(1.02);
+}
+
+.add-to-cart:active,
+button.cart-btn:active {
+  transform: scale(0.98);
+}
