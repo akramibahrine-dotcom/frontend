@@ -218,7 +218,7 @@ export const PAGE_UI = {
     thankYouStep3Desc: (cod: string) => `${cod} — ادفع فقط عند استلام الطرد`,
     thankYouContact:
       "مستشار بيت الصحة يتواصل معك بين 9 صباحًا و9 مساءً — اجب المكالمة لتأكيد الطلب ورفع نسبة وصول الشحنة بنجاح",
-    thankYouDeliveryKsa: "توصيل داخل المملكة",
+    thankYouDeliveryKsa: "توصيل لجميع دول الخليج",
     thankYouReturn: "ضمان استرجاع مجاني 7 أيام",
     thankYouArabicTeam: "مستشار يجيبك بالعربي",
     thankYouCrossSellBadge: "أكمل روتينك",
@@ -257,7 +257,7 @@ export const PAGE_UI = {
     thankYouStep3Desc: (cod: string) => `${cod} — pay only when you receive the parcel`,
     thankYouContact:
       "A Baytseha advisor will call between 9 AM and 9 PM — please answer to confirm your order and maximize successful delivery",
-    thankYouDeliveryKsa: "Delivery within the Kingdom",
+    thankYouDeliveryKsa: "Delivery across all GCC countries",
     thankYouReturn: "7-day free return guarantee",
     thankYouArabicTeam: "Advisor who answers in Arabic",
     thankYouCrossSellBadge: "Complete your routine",

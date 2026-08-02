@@ -210,18 +210,18 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
           <p className="text-sm font-bold text-[#0F1A14] leading-relaxed pt-1.5">{page.thankYouContact}</p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-14">
-          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
-            <span className="text-2xl mb-2 block">❖</span>
-            <span className="text-xs font-bold text-[#0F1A14]">{page.thankYouDeliveryKsa}</span>
+        <div className="grid grid-cols-3 gap-2 sm:gap-4 mb-14">
+          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-2.5 sm:p-4 text-center">
+            <span className="text-lg sm:text-2xl mb-1.5 sm:mb-2 block">❖</span>
+            <span className="text-[10px] sm:text-xs font-bold text-[#0F1A14] leading-snug">{page.thankYouDeliveryKsa}</span>
           </div>
-          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
-            <span className="text-2xl mb-2 block">◆</span>
-            <span className="text-xs font-bold text-[#0F1A14]">{page.thankYouReturn}</span>
+          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-2.5 sm:p-4 text-center">
+            <span className="text-lg sm:text-2xl mb-1.5 sm:mb-2 block">◆</span>
+            <span className="text-[10px] sm:text-xs font-bold text-[#0F1A14] leading-snug">{page.thankYouReturn}</span>
           </div>
-          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-4 text-center">
-            <span className="text-2xl mb-2 block">✦</span>
-            <span className="text-xs font-bold text-[#0F1A14]">{page.thankYouArabicTeam}</span>
+          <div className="bg-white border border-[#E8D8C3]/60 rounded-2xl p-2.5 sm:p-4 text-center">
+            <span className="text-lg sm:text-2xl mb-1.5 sm:mb-2 block">✦</span>
+            <span className="text-[10px] sm:text-xs font-bold text-[#0F1A14] leading-snug">{page.thankYouArabicTeam}</span>
           </div>
         </div>
 
