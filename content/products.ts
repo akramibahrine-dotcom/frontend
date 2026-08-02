@@ -687,7 +687,7 @@ export const PRODUCTS: Product[] = [
       6: "/products/c60-fullerene-serum/5.jpg",
     },
     upsellProductId: "axis-y-serum",
-    crossSellProductIds: ["axis-y-serum", "scar-gel"],
+    crossSellProductIds: ["bloom-coffee", "axis-y-serum"],
     // quantity = total boxes shipped (BOGO): 1+1 free → 2, 2+2 → 4, 3+3 → 6
     bundleOffers: [
       { quantity: 6, priceSar: 349, badgeAr: "عبوة العائلة", labelAr: "3 عبوات + 3 مجاناً", priceOverrides: { OMR: 39 } },
