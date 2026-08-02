@@ -112,7 +112,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "bloom-coffee",
     slug: "bloom-coffee",
-    sku: "BAYT-BLM-001",
+    sku: "CopAffCoffeeBloom",
     nameAr: "قهوة بلوم لفقدان الوزن وصحة الجهاز الهضمي",
     shortNameAr: "قهوة بلوم",
     headlineAr: "قهوة يومية تدعم وزنك… وتهدّئ جهازك الهضمي",
@@ -595,7 +595,7 @@ export const PRODUCTS: Product[] = [
   {
     id: "eelhoe-fresh-breath",
     slug: "eelhoe-fresh-breath",
-    sku: "BAYT-EEL-001",
+    sku: "CopAffFreshBreath",
     nameAr: "إكسير EELHOE لعلاج رائحة الفم الكريهة",
     shortNameAr: "إكسير رائحة الفم",
     headlineAr: "نفسٌ واحد... يغيّر كل شيء بينكما",
