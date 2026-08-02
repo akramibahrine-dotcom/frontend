@@ -61,9 +61,14 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
     }
   }, [orderId]);
 
-  const crossSellProducts = PRODUCTS.filter(
-    (p) => !order?.items.some((i) => i.productId === p.id) && p.id !== order?.upsell?.productId
-  ).slice(0, 2);
+  const THANK_YOU_CROSS_SELL_IDS = ["scar-gel", "eelhoe-fresh-breath"] as const;
+  const crossSellProducts = THANK_YOU_CROSS_SELL_IDS
+    .map((id) => PRODUCTS.find((p) => p.id === id))
+    .filter((p): p is NonNullable<typeof p> =>
+      !!p &&
+      !order?.items.some((i) => i.productId === p.id) &&
+      p.id !== order?.upsell?.productId
+    );
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#F5F3EE] to-white" dir="rtl">
