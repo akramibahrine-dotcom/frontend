@@ -307,14 +307,13 @@ export function ProductPageClient({ product, crossSells }: Props) {
 
               <button
                 onClick={handleAddToCart}
-                className="w-full relative overflow-hidden group bg-[#155235] hover:bg-[#1A6341] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] mb-3 shadow-xl shadow-[#155235]/20"
+                className="w-full group bg-[#071C12] hover:bg-[#0A2616] text-white py-[1.15rem] rounded-full font-bold text-lg tracking-wide transition-colors duration-300 active:scale-[0.99] mb-3 border border-[#C99A45]/45 hover:border-[#C99A45] shadow-[0_10px_28px_rgba(7,28,18,0.22)]"
               >
-                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-in-out"></div>
-                <span className="relative z-10 flex items-center justify-center gap-2 flex-wrap">
-                  {bundle.addToCart}
-                  <span className="inline-flex items-center gap-1.5" dir="ltr">
+                <span className="flex items-center justify-center gap-3 flex-wrap">
+                  <span>{bundle.addToCart}</span>
+                  <span className="inline-flex items-center gap-1.5 text-[#C99A45] font-extrabold" dir="ltr">
                     {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar && (
-                      <FormattedAmount className="text-white/55 line-through text-base">
+                      <FormattedAmount className="text-[#C99A45]/50 line-through text-base font-bold">
                         {format(referenceOfferSar)}
                       </FormattedAmount>
                     )}
@@ -560,20 +559,22 @@ export function ProductPageClient({ product, crossSells }: Props) {
             <OfferSelector selectedQuantity={selectedQty} onChange={setSelectedQty} welcomePromo={welcomePromo} offerImages={product.offerImages} productImage={product.images[0]} bundleOffers={productOffers} savingsMap={productSavings} />
             <button
               onClick={handleAddToCart}
-              className="w-full mt-6 bg-[#C99A45] hover:bg-[#b3883b] text-white py-5 rounded-full font-extrabold text-xl transition-all active:scale-[0.98] shadow-lg shadow-[#C99A45]/30"
+              className="w-full mt-6 group bg-[#071C12] hover:bg-[#0A2616] text-white py-[1.15rem] rounded-full font-bold text-lg tracking-wide transition-colors duration-300 active:scale-[0.99] border border-[#C99A45]/45 hover:border-[#C99A45] shadow-[0_10px_28px_rgba(7,28,18,0.22)]"
             >
-              {productPage.addToCart}{" "}
-              <span className="inline-flex items-center gap-1.5" dir="ltr">
-                {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar ? (
-                  <>
-                    <FormattedAmount className="line-through text-white/50 text-lg">
-                      {format(referenceOfferSar)}
-                    </FormattedAmount>
+              <span className="flex items-center justify-center gap-3 flex-wrap">
+                <span>{productPage.addToCart}</span>
+                <span className="inline-flex items-center gap-1.5 text-[#C99A45] font-extrabold" dir="ltr">
+                  {shouldShowWelcomeReferencePricing(welcomePromo) && referenceOfferSar > payableOfferSar ? (
+                    <>
+                      <FormattedAmount className="text-[#C99A45]/50 line-through text-base font-bold">
+                        {format(referenceOfferSar)}
+                      </FormattedAmount>
+                      <FormattedAmount>{payableOfferLabel}</FormattedAmount>
+                    </>
+                  ) : (
                     <FormattedAmount>{payableOfferLabel}</FormattedAmount>
-                  </>
-                ) : (
-                  <FormattedAmount>{payableOfferLabel}</FormattedAmount>
-                )}
+                  )}
+                </span>
               </span>
             </button>
             <p className="text-sm font-medium text-[#6E675F] mt-4 text-center">
