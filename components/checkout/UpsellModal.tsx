@@ -10,6 +10,8 @@ import { useCopy } from "@/hooks/useCopy";
 import { getLocalizedProduct } from "@/lib/get-localized-product";
 import { useWelcomePromoStore } from "@/store/welcome-promo-store";
 import {
+  getDisplayBundleAmount,
+  getDisplayCartTotal,
   getPayableBundlePriceSar,
   getPayableUpsellPriceSar,
   getWelcomeReferenceUpsellPriceSar,
@@ -39,6 +41,8 @@ export function UpsellModal({
 }: Props) {
   const { clearCart } = useCartStore();
   const format = useCurrencyStore((s) => s.format);
+  const currency = useCurrencyStore((s) => s.currency);
+  const rates = useCurrencyStore((s) => s.rates);
   const welcomePromo = useWelcomePromoStore((s) => s.active);
   const { upsell: upsellCopy, checkout, lang } = useCopy();
   const [countdown, setCountdown] = useState(UPSELL_DURATION_SECONDS);
@@ -120,6 +124,16 @@ export function UpsellModal({
     const upsellTotal = withUpsell && upsellProduct ? upsellPrice : 0;
     const totalSar = baseTotal + upsellTotal;
 
+    // What the shopper actually agreed to pay — SAR is only the internal catalog amount.
+    let displayTotal: number | null = null;
+    if (currency !== "SAR") {
+      displayTotal = getDisplayCartTotal(cartItems, currency, rates);
+      if (withUpsell && upsellProduct) {
+        displayTotal += getDisplayBundleAmount(1, currency, rates, upsellProduct.bundleOffers);
+      }
+      displayTotal = Math.round(displayTotal * 100) / 100;
+    }
+
     try {
       const response = await createOrder({
         customer: {
@@ -134,7 +148,8 @@ export function UpsellModal({
           subtotalSar: totalSar,
           shippingSar: 0,
           totalSar,
-          currency: "SAR",
+          currency,
+          displayTotal,
         },
         tracking: {
           purchaseEventId,
@@ -172,13 +187,29 @@ export function UpsellModal({
           publicOrderNumber: response.public_order_number,
           customerName: customer.name,
           totalSar,
-          items: finalItems.map((item) => ({
-            productId: item.productId,
-            quantity: item.quantity,
-            priceSar: item.bundlePriceSar,
-          })),
+          currency,
+          totalDisplay: displayTotal,
+          items: finalItems.map((item) => {
+            const prod = PRODUCTS.find((p) => p.id === item.productId);
+            return {
+              productId: item.productId,
+              quantity: item.quantity,
+              priceSar: item.bundlePriceSar,
+              priceDisplay:
+                currency === "SAR"
+                  ? null
+                  : getDisplayBundleAmount(item.quantity, currency, rates, prod?.bundleOffers),
+            };
+          }),
           upsell: withUpsell && upsellProduct
-            ? { productId: upsellProduct.id, priceSar: upsellPrice }
+            ? {
+                productId: upsellProduct.id,
+                priceSar: upsellPrice,
+                priceDisplay:
+                  currency === "SAR"
+                    ? null
+                    : getDisplayBundleAmount(1, currency, rates, upsellProduct.bundleOffers),
+              }
             : null,
           createdAt: new Date().toISOString(),
         };

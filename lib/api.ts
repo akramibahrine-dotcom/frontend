@@ -41,6 +41,8 @@ export type CreateOrderPayload = {
     shippingSar: number;
     totalSar: number;
     currency: string;
+    /** Total in the shopper's currency (fixed per-country prices, not FX of SAR). */
+    displayTotal?: number | null;
   };
   tracking: OrderTracking;
   idempotencyKey: string | null;
@@ -116,6 +118,7 @@ export async function createOrder(payload: CreateOrderPayload): Promise<CreateOr
       shipping_sar: payload.pricing.shippingSar,
       total_sar: payload.pricing.totalSar,
       currency: payload.pricing.currency,
+      display_total: payload.pricing.displayTotal ?? null,
     },
     tracking: {
       purchase_event_id: payload.tracking.purchaseEventId,

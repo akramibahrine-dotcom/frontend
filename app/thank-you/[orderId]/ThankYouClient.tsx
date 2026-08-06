@@ -8,11 +8,14 @@ import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import { useCurrencyStore } from "@/store/currency-store";
 import { useCopy } from "@/hooks/useCopy";
 import { getLocalizedProduct } from "@/lib/get-localized-product";
+import { formatPrice } from "@/lib/currency";
 
 type OrderItem = {
   productId: string;
   quantity: number;
   priceSar: number;
+  /** Amount the shopper agreed to, in their currency (fixed prices, not FX of SAR). */
+  priceDisplay?: number | null;
 };
 
 type OrderSummary = {
@@ -21,8 +24,9 @@ type OrderSummary = {
   customerName: string;
   totalSar: number;
   currency?: string;
+  totalDisplay?: number | null;
   items: OrderItem[];
-  upsell: { productId: string; priceSar: number } | null;
+  upsell: { productId: string; priceSar: number; priceDisplay?: number | null } | null;
   createdAt: string;
 };
 
@@ -37,7 +41,10 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
   const shortId = orderId.slice(-8).toUpperCase();
   const orderCurrency = order?.currency ?? "SAR";
 
-  function formatOrderAmount(amountSar: number): string {
+  function formatOrderAmount(amountSar: number, amountDisplay?: number | null): string {
+    if (amountDisplay != null && orderCurrency !== "SAR") {
+      return formatPrice(amountDisplay, orderCurrency);
+    }
     return formatInCurrency(amountSar, orderCurrency);
   }
 
@@ -118,7 +125,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                       <p className="text-xs text-[#567063]">{packLabel(item.quantity)}</p>
                     </div>
                     <FormattedAmount className="font-bold text-[#155235] text-sm">
-                      {formatOrderAmount(item.priceSar)}
+                      {formatOrderAmount(item.priceSar, item.priceDisplay)}
                     </FormattedAmount>
                   </div>
                 );
@@ -144,7 +151,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
                         <p className="text-xs text-[#C99A45] font-bold">{thankYou.upsellBadge}</p>
                       </div>
                       <FormattedAmount className="font-bold text-[#C99A45] text-sm">
-                        {formatOrderAmount(order.upsell.priceSar)}
+                        {formatOrderAmount(order.upsell.priceSar, order.upsell.priceDisplay)}
                       </FormattedAmount>
                     </div>
                   );
@@ -153,7 +160,7 @@ export function ThankYouClient({ orderId }: { orderId: string }) {
               <div className="flex items-center justify-between border-t border-[#E8D8C3] pt-4 mt-4">
                 <span className="font-bold text-[#0F1A14]">{page.thankYouTotal}</span>
                 <FormattedAmount className="font-extrabold text-[#155235] text-xl">
-                  {formatOrderAmount(order.totalSar)}
+                  {formatOrderAmount(order.totalSar, order.totalDisplay)}
                 </FormattedAmount>
               </div>
             </div>
