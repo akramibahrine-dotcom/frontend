@@ -447,7 +447,7 @@ export const PRODUCTS: Product[] = [
     imagePromiseCod: "/products/fertility-tea/promise-cod-fertility-v3.jpg",
     imageRitual: "/products/fertility-tea/ritual-new.png",
     imageCertificates: "/products/fertility-tea/certificates.png",
-    upsellProductId: "axis-y-serum",
+    upsellProductId: "",
     crossSellProductIds: ["axis-y-serum", "weight-support-tea"],
     bundleOffers: [
       { quantity: 3, priceSar: 449, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات" },
@@ -561,7 +561,7 @@ export const PRODUCTS: Product[] = [
       3: "/products/scar-gel/3.jpg",
       5: "/products/scar-gel/3.jpg",
     },
-    upsellProductId: "axis-y-serum",
+    upsellProductId: "",
     crossSellProductIds: ["axis-y-serum", "fertility-tea"],
     bundleOffers: [
       { quantity: 5, priceSar: 249, badgeAr: "قيمة حصرية", labelAr: "خمس عبوات" },
@@ -623,7 +623,7 @@ export const PRODUCTS: Product[] = [
       2: "/products/eelhoe-fresh-breath/4.jpg",
       3: "/products/eelhoe-fresh-breath/4.jpg",
     },
-    upsellProductId: "axis-y-serum",
+    upsellProductId: "",
     crossSellProductIds: ["axis-y-serum", "scar-gel"],
     bundleOffers: [
       { quantity: 3, priceSar: 249, badgeAr: "الأكثر توفيراً", labelAr: "ثلاث عبوات", priceOverrides: { OMR: 29 } },
@@ -690,7 +690,7 @@ export const PRODUCTS: Product[] = [
       4: "/products/c60-fullerene-serum/4.jpg",
       6: "/products/c60-fullerene-serum/5.jpg",
     },
-    upsellProductId: "axis-y-serum",
+    upsellProductId: "",
     crossSellProductIds: ["eelhoe-fresh-breath", "bloom-coffee"],
     // quantity = total boxes shipped (BOGO): 1+1 free → 2, 2+2 → 4, 3+3 → 6
     bundleOffers: [
