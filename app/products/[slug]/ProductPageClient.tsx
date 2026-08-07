@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useCartStore } from "@/store/cart-store";
 import { OfferSelector } from "@/components/product/OfferSelector";
 import { ProductCard } from "@/components/product/ProductCard";
@@ -132,11 +133,13 @@ function HeroCarousel({
 }) {
   const [current, setCurrent] = useState(0);
   const images = useMemo(() => {
+    if (product.heroImages?.length) return product.heroImages.slice(0, 3);
     if (product.images.length > 0) return product.images.slice(0, 3);
     return getProductImageCandidates(product).slice(0, 3);
   }, [product]);
 
-  const isMarketingCarousel = product.imageTheme === "scar-gel";
+  // Hero shots are full-bleed photos, so they skip the packshot multiply blend.
+  const isMarketingCarousel = product.imageTheme === "scar-gel" || Boolean(product.heroImages?.length);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -166,16 +169,16 @@ function HeroCarousel({
       <div className="relative w-full bg-white rounded-[2rem] sm:rounded-[3rem] p-3 sm:p-4 shadow-2xl shadow-[#155235]/10 border border-[#E8D8C3] overflow-hidden">
         <div className={`relative w-full aspect-square rounded-2xl sm:rounded-3xl overflow-hidden ${isMarketingCarousel ? "bg-white" : "bg-[#F5F3EE]"}`}>
           {images.map((src, i) => (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               key={src}
               src={src}
               alt={`${localizedName} - ${imageLabel(i + 1)}`}
-              // @ts-expect-error fetchPriority not in React types yet
-              fetchpriority={i === 0 ? "high" : "low"}
-              loading={i === 0 ? "eager" : "lazy"}
-              decoding={i === 0 ? "sync" : "async"}
-              className={`absolute inset-0 w-full h-full transition-opacity duration-700 ease-in-out ${
+              fill
+              sizes="(max-width: 768px) 92vw, 520px"
+              quality={75}
+              priority={i === 0}
+              {...(i === 0 ? {} : { loading: "lazy" as const })}
+              className={`transition-opacity duration-700 ease-in-out ${
                 isMarketingCarousel ? "object-cover" : "object-contain mix-blend-multiply"
               } ${i === current ? "opacity-100" : "opacity-0"}`}
             />

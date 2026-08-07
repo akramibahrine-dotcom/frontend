@@ -7,6 +7,8 @@ import { PRODUCTS } from "@/content/products";
 import { CATEGORIES } from "@/content/categories";
 import { COPY } from "@/content/copy";
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: "جميع المنتجات",
   description: "اختر الخلطة الأقرب لاحتياجك اليومي من مجموعة بيت الصحة من الشاي العشبي.",

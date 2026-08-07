@@ -1,11 +1,11 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { BrandLogo } from "@/components/brand/BrandLogo";
 import { MobileMenu } from "./MobileMenu";
 import { useCartStore } from "@/store/cart-store";
-import { CartDrawer } from "@/components/cart/CartDrawer";
 import { CurrencySelector } from "@/components/currency/CurrencySelector";
 import { LanguageSwitcher } from "@/components/language/LanguageSwitcher";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -14,6 +14,12 @@ import { cn } from "@/lib/utils";
 import { formatInteger } from "@/lib/format-number";
 import { FormattedAmount } from "@/components/currency/FormattedAmount";
 import type { TranslationKey } from "@/content/translations";
+
+// Cart UI is heavy (checkout form, cross-sells) — load only when opened.
+const CartDrawer = dynamic(
+  () => import("@/components/cart/CartDrawer").then((m) => m.CartDrawer),
+  { ssr: false }
+);
 
 const NAV_LINKS: Array<{ href: string; key: TranslationKey }> = [
   { href: "/", key: "nav.home" },
@@ -27,10 +33,16 @@ const NAV_LINKS: Array<{ href: string; key: TranslationKey }> = [
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
-  const { openCart, getItemCount } = useCartStore();
+  // Keep drawer mounted after first open so the close slide-out can finish.
+  const [cartMounted, setCartMounted] = useState(false);
+  const { openCart, getItemCount, isOpen, isCheckoutOpen } = useCartStore();
   const itemCount = getItemCount();
   const { t } = useTranslation();
   const { isEn } = useCopy();
+
+  useEffect(() => {
+    if (isOpen || isCheckoutOpen) setCartMounted(true);
+  }, [isOpen, isCheckoutOpen]);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -102,7 +114,7 @@ export function Header() {
       </header>
 
       <MobileMenu links={NAV_LINKS} isOpen={menuOpen} onClose={() => setMenuOpen(false)} />
-      <CartDrawer />
+      {cartMounted ? <CartDrawer /> : null}
     </>
   );
 }

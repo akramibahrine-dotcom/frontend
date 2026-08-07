@@ -17,6 +17,8 @@ const BrandGalleryMarquee = dynamic(
   { loading: () => <div className="h-64" /> }
 );
 
+export const revalidate = 3600;
+
 export const metadata: Metadata = {
   title: {
     absolute: "بيت الصحة — أعشاب تليق ببيتك، والدفع عند بابك",

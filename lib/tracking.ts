@@ -21,37 +21,112 @@ function log(...args: unknown[]) {
   if (DEBUG) console.log("[pixel]", ...args);
 }
 
-export function fireMetaEvent(eventName: string, data: object = {}, eventId?: string) {
-  if (typeof window === "undefined" || !window.fbq) return;
+/**
+ * Pixel scripts load after paint. Product ViewContent / AddToCart often fire first.
+ * Queue browser events until each SDK stub exists, then flush — otherwise they are dropped.
+ */
+type QueuedPixelCall =
+  | { kind: "meta"; eventName: string; data: object; eventId?: string }
+  | { kind: "tiktok"; eventName: string; data: object; eventId?: string }
+  | { kind: "tiktok-page" }
+  | { kind: "snap"; eventName: string; data: object; eventId?: string };
+
+const pixelQueue: QueuedPixelCall[] = [];
+const MAX_QUEUE = 40;
+
+function enqueue(call: QueuedPixelCall) {
+  if (pixelQueue.length >= MAX_QUEUE) {
+    pixelQueue.shift();
+  }
+  pixelQueue.push(call);
+  log("queued", call);
+}
+
+function dispatchMeta(eventName: string, data: object, eventId?: string) {
+  if (!window.fbq) return false;
   if (eventId) {
     window.fbq("track", eventName, data, { eventID: eventId });
   } else {
     window.fbq("track", eventName, data);
   }
   log("meta", eventName, eventId, data);
+  return true;
 }
 
-export function fireTikTokEvent(eventName: string, data: object = {}, eventId?: string) {
-  if (typeof window === "undefined" || !window.ttq) return;
+function dispatchTikTok(eventName: string, data: object, eventId?: string) {
+  if (!window.ttq?.track) return false;
   const options = eventId ? { event_id: eventId } : undefined;
   window.ttq.track(eventName, data, options);
   log("tiktok", eventName, eventId, data);
+  return true;
 }
 
-export function fireSnapEvent(eventName: string, data: object = {}, eventId?: string) {
-  if (typeof window === "undefined" || !window.snaptr) return;
+function dispatchTikTokPage() {
+  if (window.ttq?.page) {
+    window.ttq.page();
+    log("tiktok", "page");
+    return true;
+  }
+  if (window.ttq?.track) {
+    window.ttq.track("Pageview");
+    log("tiktok", "Pageview");
+    return true;
+  }
+  return false;
+}
+
+function dispatchSnap(eventName: string, data: object, eventId?: string) {
+  if (!window.snaptr) return false;
   const payload = eventId ? { ...data, client_deduplication_id: eventId } : data;
   window.snaptr("track", eventName, payload);
   log("snap", eventName, eventId, payload);
+  return true;
+}
+
+/** Flush any events that were fired before the pixel SDKs finished loading. */
+export function flushPixelQueue() {
+  if (typeof window === "undefined" || pixelQueue.length === 0) return;
+  const pending = pixelQueue.splice(0, pixelQueue.length);
+  for (const call of pending) {
+    let sent = false;
+    if (call.kind === "meta") {
+      sent = dispatchMeta(call.eventName, call.data, call.eventId);
+    } else if (call.kind === "tiktok") {
+      sent = dispatchTikTok(call.eventName, call.data, call.eventId);
+    } else if (call.kind === "tiktok-page") {
+      sent = dispatchTikTokPage();
+    } else if (call.kind === "snap") {
+      sent = dispatchSnap(call.eventName, call.data, call.eventId);
+    }
+    if (!sent) enqueue(call);
+  }
+}
+
+export function fireMetaEvent(eventName: string, data: object = {}, eventId?: string) {
+  if (typeof window === "undefined") return;
+  if (!dispatchMeta(eventName, data, eventId)) {
+    enqueue({ kind: "meta", eventName, data, eventId });
+  }
+}
+
+export function fireTikTokEvent(eventName: string, data: object = {}, eventId?: string) {
+  if (typeof window === "undefined") return;
+  if (!dispatchTikTok(eventName, data, eventId)) {
+    enqueue({ kind: "tiktok", eventName, data, eventId });
+  }
+}
+
+export function fireSnapEvent(eventName: string, data: object = {}, eventId?: string) {
+  if (typeof window === "undefined") return;
+  if (!dispatchSnap(eventName, data, eventId)) {
+    enqueue({ kind: "snap", eventName, data, eventId });
+  }
 }
 
 export function trackPageView() {
   fireMetaEvent("PageView");
-  if (typeof window !== "undefined" && window.ttq?.page) {
-    window.ttq.page();
-    log("tiktok", "page");
-  } else {
-    fireTikTokEvent("Pageview");
+  if (typeof window !== "undefined" && !dispatchTikTokPage()) {
+    enqueue({ kind: "tiktok-page" });
   }
   fireSnapEvent("PAGE_VIEW");
   void sendServerAnalyticsEvent("page_view");

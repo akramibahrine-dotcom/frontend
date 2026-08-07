@@ -24,9 +24,34 @@ const nextConfig: NextConfig = {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [640, 750, 828, 1080, 1200],
     imageSizes: [16, 32, 48, 64, 96, 128, 256],
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       { protocol: "https", hostname: "randomuser.me", pathname: "/api/portraits/**" },
     ],
+  },
+  // Long-cache static assets only — never HTML product routes (/products/[slug]).
+  async headers() {
+    return [
+      {
+        // Matches /products/c60-fullerene-serum/0.jpg, not /products/c60-fullerene-serum
+        source: "/products/:slug/:file",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/_next/static/:path*",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/_next/image",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=2592000, immutable" },
+        ],
+      },
+    ];
   },
 };
 

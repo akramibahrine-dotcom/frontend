@@ -15,13 +15,15 @@ import "@/styles/globals.css";
 
 const ibmPlexArabic = IBM_Plex_Sans_Arabic({
   subsets: ["arabic"],
-  weight: ["300", "400", "500", "600", "700"],
+  // Drop unused 300 — fewer font files = faster first paint / LCP
+  weight: ["400", "500", "600", "700"],
   display: "swap",
+  preload: true,
   variable: "--font-arabic",
 });
 
-// Avoid build-time SSG spikes on small Docker hosts; pages SSR at request time.
-export const dynamic = "force-dynamic";
+// Docker builds use --experimental-build-mode=compile (no SSG at build).
+// Do NOT force-dynamic here — that kills the Full Route Cache and inflates TTFB/LCP.
 
 export const metadata: Metadata = {
   title: {

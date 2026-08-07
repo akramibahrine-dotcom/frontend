@@ -38,6 +38,8 @@ export type Product = {
   ritualAr: string;
   whyBaytsehaPoints: string[];
   images: string[];
+  /** Overrides the top hero carousel only — cards and sections keep using `images`. */
+  heroImages?: string[];
   imageSection2?: string;
   imageSection4?: string;
   imageIngredients?: string;
@@ -665,6 +667,7 @@ export const PRODUCTS: Product[] = [
     painAwareAr:
       "شمس الخليج تأخذ من بشرتك كل يوم بصمت تام. بشرتك تفقد 1% من كولاجينها كل سنة بعد 25 — وكل يوم بدون حماية هو يوم يبعدك عن بشرة صحية ونضرة. هذا ليس قدراً. هذا كيمياء — ولها حل.",
     imageTheme: "c60-fullerene",
+    heroImages: ["/products/c60-fullerene-serum/0.jpg"],
     images: [
       "/products/c60-fullerene-serum/1.jpg",
       "/products/c60-fullerene-serum/2.jpg",
@@ -677,8 +680,8 @@ export const PRODUCTS: Product[] = [
       "/products/c60-fullerene-serum/9.jpg",
       "/products/c60-fullerene-serum/10.jpg",
     ],
-    imageSection2: "/products/c60-fullerene-serum/2.jpg",
-    imageSection4: "/products/c60-fullerene-serum/3.jpg",
+    imageSection2: "/products/c60-fullerene-serum/3.jpg",
+    imageSection4: "/products/c60-fullerene-serum/2.jpg",
     imageCertificates: "/products/c60-fullerene-serum/problem.jpg",
     imageIngredients: "/products/c60-fullerene-serum/6.jpg",
     imagePromisePackaging: "/products/c60-fullerene-serum/7.jpg",
